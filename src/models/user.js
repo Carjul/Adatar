@@ -10,7 +10,7 @@ module.exports=(sequelize)=>{
         },
         Avatar:{
             type:DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         Nombre:{
             type:DataTypes.STRING,
