@@ -19,12 +19,7 @@
   </script>
   <style>
   
-  
-  p {
-    font-size: 50px;
-    color: goldenrod;
-    font-family: 'Times New Roman', Times, serif;
-  }
+
   
 
   
