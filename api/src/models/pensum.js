@@ -6,12 +6,12 @@ module.exports=(sequelize)=>{
             type:DataTypes.STRING,
             primaryKey: true
         },
-        NombrePensum:{
+        Pensum:{
             type:DataTypes.STRING,
             allowNull: false
         },
-        Semestres:{
-            type:DataTypes.INTEGER,
+        Sesion:{
+            type:DataTypes.STRING,
             allowNull: false
         }
         

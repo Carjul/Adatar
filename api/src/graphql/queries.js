@@ -1,6 +1,6 @@
 const { GraphQLList } = require('graphql')
-const { Users,Facultades,Programas } = require('./../db');
-const { dataUser,facultades,programas } = require('./types');
+const { Users,Facultades,Programas,Pensums } = require('./../db');
+const { dataUser,facultades,programas,pensums } = require('./types');
 
 const peticion = {
     type: new GraphQLList(dataUser),
@@ -26,4 +26,12 @@ const peticion_programa = {
     }
 }
 
-module.exports = { peticion,peticion_facultad,peticion_programa }
+const peticion_pensum = {
+    type: new GraphQLList(pensums),
+    async resolve() {
+        const data = await Pensums.findAll()
+        return data
+    }
+}
+
+module.exports = { peticion,peticion_facultad,peticion_programa,peticion_pensum }
