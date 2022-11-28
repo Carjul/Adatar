@@ -13,7 +13,7 @@ module.exports=(sequelize)=>{
         },
         TipoMateria:{
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         }
         
     })

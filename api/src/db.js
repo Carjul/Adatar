@@ -69,9 +69,6 @@ Pensums.hasMany(Estudiantes)
 MateriaPorPensums.belongsTo(Pensums)
 Pensums.hasMany(MateriaPorPensums)
 
-MateriaPorPensums.belongsTo(Materias)
-Materias.hasMany(MateriaPorPensums)
-
 Programas.belongsTo(Facultades)
 Facultades.hasMany(Programas)
 

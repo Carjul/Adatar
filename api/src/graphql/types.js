@@ -46,4 +46,17 @@ const pensums =new GraphQLObjectType({
    }
 })
 
-module.exports={dataUser, facultades,programas,pensums}
+const materias = new GraphQLObjectType({
+   name:'materias',
+   description:'datos materias',
+   fields:{
+      id:{type:GraphQLID},
+      CodigoMateria:{type:GraphQLString}, 
+      NombreMateria:{type:GraphQLString},
+      Seme:{type:GraphQLString},
+      SemMateriaNum:{type:GraphQLString},
+      PensumPensumId:{type:GraphQLID},
+   }
+})
+
+module.exports={dataUser, facultades,programas,pensums,materias}
