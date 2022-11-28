@@ -8,12 +8,12 @@ module.exports = (sequelize) => {
       primaryKey: true
 
     },
-    Nombre: {
+    NombreFacultad: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    NombreCorto: {
-      type: DataTypes.INTEGER,
+    NombreCortoFacultad: {
+      type: DataTypes.STRING,
       allowNull: false,
     }
   });

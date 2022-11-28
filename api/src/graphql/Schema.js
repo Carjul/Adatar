@@ -1,12 +1,14 @@
 const {GraphQLSchema,GraphQLObjectType} = require('graphql')
-const {peticion}= require('./queries')
+const {peticion,peticion_facultad,peticion_programa}= require('./queries')
 const {register}= require('./mutatinos')
 
 const QueryType= new GraphQLObjectType({
 name:'QueryType',
 description:'la raiz de QueryType',
 fields:{
-    peticion
+    peticion,
+    peticion_facultad,
+    peticion_programa
 }
 })
 

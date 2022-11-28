@@ -2,21 +2,20 @@ const {DataTypes}= require('sequelize')
 
 module.exports=(sequelize)=>{
     sequelize.define('Programas', {
-        id:{
-            type:DataTypes.INTEGER,
-            autoIncrement: true,
+        Programa_id:{
+            type:DataTypes.STRING,
             primaryKey: true
         },
-        NombrePrograma:{
+        Programa:{
             type:DataTypes.STRING,
             allowNull: false
         },
-        Sede:{
-            type:DataTypes.INTEGER,
+        NombreCorto:{
+            type:DataTypes.STRING,
             allowNull: false
         },
-        Sesion:{
-            type:DataTypes.INTEGER,
+        NombreMuyCorto:{
+            type:DataTypes.STRING,
             allowNull: false
         }
         
