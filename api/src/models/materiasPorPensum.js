@@ -8,19 +8,7 @@ module.exports=(sequelize)=>{
             primaryKey: true
         },
         CodigoMateria:{
-            type:DataTypes.STRING,
-            allowNull: false
-        },
-        NombreMateria:{
-            type:DataTypes.STRING,
-            allowNull: false
-        },
-        Seme:{
-            type:DataTypes.STRING,
-            allowNull: false
-        },
-        SemMateriaNum:{
-            type:DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false
         }
     });

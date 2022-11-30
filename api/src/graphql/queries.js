@@ -1,5 +1,5 @@
 const { GraphQLList } = require('graphql')
-const { Users,Facultades,Programas,Pensums,MateriaPorPensums } = require('./../db');
+const { Users,Facultades,Programas,Pensums,Materias } = require('./../db');
 const { dataUser,facultades,programas,pensums,materias } = require('./types');
 
 const peticion = {
@@ -37,7 +37,7 @@ const peticion_pensum = {
 const peticion_materias = {
     type: new GraphQLList(materias),
     async resolve() {
-        const data = await MateriaPorPensums.findAll()
+        const data = await Materias.findAll()
         return data
     }
 }

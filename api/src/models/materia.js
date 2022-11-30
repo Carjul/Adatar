@@ -7,14 +7,21 @@ module.exports=(sequelize)=>{
             autoIncrement: true,
             primaryKey: true
         },
-        NombreMateria:{
-            type: DataTypes.STRING,
+        CodigoMateria:{
+            type:DataTypes.STRING,
             allowNull: false
         },
-        TipoMateria:{
-            type: DataTypes.STRING,
-            allowNull: true
-        }
-        
+        NombreMateria:{
+            type:DataTypes.STRING,
+            allowNull: false
+        },
+        Seme:{
+            type:DataTypes.STRING,
+            allowNull: false
+        },
+        SemMateriaNum:{
+            type:DataTypes.INTEGER,
+            allowNull: false
+        }      
     })
 }
