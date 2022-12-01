@@ -20,14 +20,6 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-    EstadoAlumnoPrograma: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-    Semestre: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     Direccion: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -55,10 +47,6 @@ module.exports = (sequelize) => {
       Genero:{
         type: DataTypes.STRING,
         allowNull: false,
-      },
-      SemNumero:{
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
+      }
   });
 };

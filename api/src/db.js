@@ -84,11 +84,6 @@ Facultades.hasMany(Programas)
 Pensums.belongsTo(Programas)
 Programas.hasMany(Pensums)
 
-Estudiantepensums.belongsTo(Estudiantes)
-Estudiantes.hasMany(Estudiantepensums)
-
-Estudiantepensums.belongsTo(Pensums)
-Pensums.hasMany(Estudiantepensums)
 
 module.exports = {
   ...sequelize.models, 

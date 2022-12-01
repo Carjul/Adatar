@@ -2,19 +2,15 @@ const {DataTypes}= require('sequelize')
 
 module.exports=(sequelize)=>{
     sequelize.define('Programas', {
-        Programa_id:{
-            type:DataTypes.STRING,
-            primaryKey: true
-        },
-        Programa:{
+        NombrePrograma:{
             type:DataTypes.STRING,
             allowNull: false
         },
-        NombreCorto:{
+        Sede:{
             type:DataTypes.STRING,
             allowNull: false
         },
-        NombreMuyCorto:{
+        Sesion:{
             type:DataTypes.STRING,
             allowNull: false
         }

@@ -1,7 +1,11 @@
 const { Facultades } = require("../db");
 
-function crearfacultad(params) {
-    params.map( async e=> await Facultades.create(e))
+const crearfacultad= async(params)=> {
+    
+    await Facultades.bulkCreate(params, {
+        ignoreDuplicates: true,
+    })
+        
 
    return "saved facultades";     
 }
