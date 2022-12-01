@@ -4,8 +4,8 @@ function createprograma(params) {
     
          params.map(  async(e)=>{ 
             await Programas.create({
-                 Programa_id:e.Programa_id,
-                 Programa:e.Programa,
+            
+                 NombrePrograma:e.Programa,
                  NombreCorto:e.NombreCorto,
                  NombreMuyCorto:e.NombreMuyCorto,
                  FacultadeFacultadId:e.Facultad_id

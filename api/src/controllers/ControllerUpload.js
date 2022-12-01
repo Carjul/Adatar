@@ -29,7 +29,7 @@ const UploadFile = async (req, res) => {
 
 
         var programas = reporte.map(e => {
-            return { NombrePrograma: e.ProgramaEstudiante, Sede: e.sede, Sesion: e.Sesion }
+            return { NombrePrograma: e.ProgramaEstudiante, Sede: e.sede, Sesion: e.Sesion,NombreFacultad: e.Facultad }
         })
        const p= eliminaDuplicados(programas)
        console.log(p);
