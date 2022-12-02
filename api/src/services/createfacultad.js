@@ -1,10 +1,18 @@
 const { Facultades } = require("../db");
 
-const crearfacultad= async(params)=> {
+const crearfacultad= (params)=> {
     
-    await Facultades.bulkCreate(params, {
-        ignoreDuplicates: true,
+ params.map( async(facultad) => {
+
+ const dato= await Facultades.findOrCreate({
+        where: {
+            NombreFacultad: facultad.NombreFacultad
+        }
     })
+ 
+   console.log(dato);
+ })
+
         
 
    return "saved facultades";     
