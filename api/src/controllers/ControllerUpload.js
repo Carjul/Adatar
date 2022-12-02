@@ -27,7 +27,7 @@ const UploadFile = async (req, res) => {
 
 
         var programas = reporte.map(e => {
-            return { NombrePrograma: e.ProgramaEstudiante, Sede: e.sede, Sesion: e.Sesion,NombreFacultad: e.Facultad }
+            return { NombrePrograma: e.ProgramaMateria, Sede: e.sede, Sesion: e.Sesion,NombreFacultad: e.Facultad }
         })
         const programaduplicado= eliminaDuplicados(programas)
         const programacredo =createprograma(programaduplicado)
@@ -35,7 +35,7 @@ const UploadFile = async (req, res) => {
 
 
         var pensum = reporte.map(e => { 
-            return { Pensum: e.ProgramaMateria, Semestres: e.SemMateria, NombrePrograma: e.ProgramaEstudiante } })
+            return { Pensum: e.ProgramaEstudiante, Semestres: e.SemMateriaNum, NombrePrograma: e.ProgramaMateria } })
         console.log(pensum)
         const pensumduplicado = eliminaDuplicados(pensum)
         //const pensumcreado= createpemsun(pensumduplicado)
