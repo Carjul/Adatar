@@ -1,31 +1,19 @@
-const { Op } = require("sequelize");
-const { Pensums, Programas } = require("../db");
+const { Pensums,Programas } = require("../db");
 
 function createpemsun(params) {
 
     params.map(async (e) => {
+        const relacion = await Programas.findOne({ where: { NombrePrograma:e.NombrePrograma } })
 
-       /*  let dato = await Pensums.findAll({
-            where: { [Op.and]: [{ Pensum: e.Pensum }, { Semestres: e.Semestres }] }
+       const pem= await Pensums.create({
+            Pensum: e.Pensum,
+            Semestres: e.Semestres,
+       })
+       
+    relacion.addPensum(pem)
 
-
-        })
-        if (dato.lenth === 0) {
-         
-        } */
-            const relacion = await Programas.findOne({ where: { NombrePrograma: e.NombrePrograma } })
-
-            const pem = await Pensums.create({
-                Pensum: e.Pensum,
-                Semestres: e.Semestres,
-            })
-
-            relacion.addPensum(pem)
-     
-
-
-    })
-    return "saved pensum";
+   })
+   return "saved pensum";
 }
 
 module.exports = createpemsun;
