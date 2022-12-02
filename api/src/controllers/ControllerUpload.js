@@ -22,17 +22,17 @@ const UploadFile = async (req, res) => {
         var facultad = reporte.map(e => {
             return { NombreFacultad: e.Facultad }
         })
-        let hash = {};
-        array = facultad.filter(o => hash[o.NombreFacultad] ? false : hash[o.NombreFacultad] = true);
-        const facultadcreada = await crearfacultad(array)
+        var fd= eliminaDuplicados(facultad)
+        const facultadcreada = await crearfacultad(fd)
         console.log(facultadcreada)
 
 
         var programas = reporte.map(e => {
             return { NombrePrograma: e.ProgramaEstudiante, Sede: e.sede, Sesion: e.Sesion,NombreFacultad: e.Facultad }
         })
-       const p= eliminaDuplicados(programas)
-       console.log(p);
+       const pd= eliminaDuplicados(programas)
+        const programacre =createprograma(pd)
+        console.log(programacre)
 
        // const programaCreado = await createprograma(unicos)
         // let pensums = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[5]])
@@ -46,7 +46,7 @@ const UploadFile = async (req, res) => {
         //console.log(estudiantes[0])
 
 
-        res.status(201).json({ msg: "recivido" })
+        res.status(201).json({  message: "Archivo subido correctamente" });
 
     } catch (error) {
         res.status(201).json(error)
