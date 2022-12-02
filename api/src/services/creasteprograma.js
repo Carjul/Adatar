@@ -5,15 +5,12 @@ function createprograma(params) {
 
      params.map(async (e) => {
 
-          let dato = await Programas.findOne({
+          let dato = await Programas.findAll({
                where: {[Op.and]: [{ NombrePrograma: e.NombrePrograma }, { Sede: e.Sede }, { Sesion: e.Sesion }] }
                  
            })
-           if (dato) {
-               console.log("ya existe el programa")
-   
-           }
-           else {
+           if (!dato) {
+               
                const relacion = await Facultades.findOne({ where: { NombreFacultad: e.NombreFacultad } })
 
                const pro= await Programas.create({

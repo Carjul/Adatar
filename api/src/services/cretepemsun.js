@@ -5,14 +5,14 @@ function createpemsun(params) {
 
     params.map(async (e) => {
 
-        let dato = await Pensums.findOne({
+        let dato = await Pensums.findAll({
             where: { [Op.and]: [{ Pensum: e.Pensum }, { Semestres: e.Semestres }] }
 
 
         })
-        if (dato) {
+        if (!dato) {
             console.log("ya existe el pensum")
-        } else {
+     
             const relacion = await Programas.findOne({ where: { NombrePrograma: e.NombrePrograma } })
 
             const pem = await Pensums.create({

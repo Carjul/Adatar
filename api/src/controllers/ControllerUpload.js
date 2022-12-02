@@ -36,7 +36,6 @@ const UploadFile = async (req, res) => {
 
         var pensum = reporte.map(e => { 
             return { Pensum: e.ProgramaMateria, Semestres: e.SemMateriaNum, NombrePrograma: e.ProgramaEstudiante } })
-        console.log(pensum)
         const pensumduplicado = eliminaDuplicados(pensum)
         const pensumcreado= createpemsun(pensumduplicado)
         console.log(pensumcreado)

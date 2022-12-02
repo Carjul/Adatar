@@ -47,8 +47,7 @@ const {
   MateriaPorPensums,
   Facultades,
   Rols,
-  Users,
-  Estudiantepensums
+  Users
 } = sequelize.models;
  
 Users.belongsTo(Rols)

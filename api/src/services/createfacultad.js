@@ -4,16 +4,12 @@ const crearfacultad = (params) => {
 
     params.map(async (facultad) => {
 
-        let dato = await Facultades.findOne({
+        let dato = await Facultades.findAll({
             where: {
                 NombreFacultad: facultad.NombreFacultad
             }
         })
-        if (dato) {
-            console.log("ya existe la facultad")
-
-        }
-        else {
+        if (!dato) {
             await Facultades.create({ NombreFacultad: facultad.NombreFacultad });
         }
     })
