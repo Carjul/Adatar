@@ -36,9 +36,10 @@ const UploadFile = async (req, res) => {
 
         var pensum = reporte.map(e => { 
             return { Pensum: e.ProgramaMateria, Semestres: e.SemMateria, NombrePrograma: e.ProgramaEstudiante } })
+        console.log(pensum)
         const pensumduplicado = eliminaDuplicados(pensum)
-        const pensumcreado= createpemsun(pensumduplicado)
-        console.log(pensumcreado)
+        //const pensumcreado= createpemsun(pensumduplicado)
+        console.log(pensumduplicado)
 
         // let materias = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[2]])
         // const m= createMaterias(materias)
