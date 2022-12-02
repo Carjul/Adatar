@@ -1,16 +1,17 @@
-const { Pensums } = require("../db");
+const { Pensums,Programas } = require("../db");
 
 function createpemsun(params) {
-    params.map(async e =>
-        await Pensums.create({
-            Pensum_id: e.Pensum_id,
-            Pensum: e.Pensum,
-            Sesion: e.Sesion,
-            ProgramaProgramaId: e.Programa_id,
-        })
-    )
+    params.map(async (e) => {
+        const relacion = await Programas.findOne({ where: { NombrePrograma:e.NombrePrograma } })
 
-    return "saved pensums";
+       const pem= await Pensums.create({
+            Pensum: e.Pensum,
+            Semestres: e.Semestres,
+       })
+    relacion.addPensum(pem)
+
+   })
+   return "saved pensum";
 }
 
 module.exports = createpemsun;

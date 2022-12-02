@@ -22,22 +22,24 @@ const UploadFile = async (req, res) => {
         var facultad = reporte.map(e => {
             return { NombreFacultad: e.Facultad }
         })
-        var fd= eliminaDuplicados(facultad)
-        const facultadcreada = await crearfacultad(fd)
+        var facultadrepetida= eliminaDuplicados(facultad)
+        const facultadcreada = await crearfacultad(facultadrepetida)
         console.log(facultadcreada)
 
 
         var programas = reporte.map(e => {
             return { NombrePrograma: e.ProgramaEstudiante, Sede: e.sede, Sesion: e.Sesion,NombreFacultad: e.Facultad }
         })
-       const pd= eliminaDuplicados(programas)
-        const programacre =createprograma(pd)
-        console.log(programacre)
+        const programaduplicado= eliminaDuplicados(programas)
+        const programacredo =createprograma(programaduplicado)
+        console.log(programacredo)
 
-       // const programaCreado = await createprograma(unicos)
-        // let pensums = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[5]])
-        // const pe= createpemsun(pensums)
-        // console.log(pe)
+
+        var pensum = reporte.map(e => { 
+            return { Pensum: e.ProgramaMateria, Semestres: e.SemMateria, NombrePrograma: e.ProgramaEstudiante } })
+        const pensumduplicado = eliminaDuplicados(pensum)
+         const pensumcreado= createpemsun(pensumduplicado)
+         console.log(pensumcreado)
 
         // let materias = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[2]])
         // const m= createMaterias(materias)

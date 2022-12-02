@@ -5,12 +5,12 @@ function createprograma(params) {
      params.map(async (e) => {
           const relacion = await Facultades.findOne({ where: { NombreFacultad: e.NombreFacultad } })
 
-         const p= await Programas.create({
+         const pro= await Programas.create({
                NombrePrograma: e.NombrePrograma,
                Sede: e.Sede,
                Sesion: e.Sesion,
           })
-     relacion.addPrograma(p)
+     relacion.addPrograma(pro)
 
      })
      return "saved programas";

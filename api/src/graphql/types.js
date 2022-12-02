@@ -15,20 +15,24 @@ const facultades =new GraphQLObjectType({
    name:'facultades',
    description:"datos facultad",
    fields:{
-    Facultad_id: {type:GraphQLID},
-    NombreFacultad: {type:GraphQLString},
-    NombreCortoFacultad: {type:GraphQLString},
+
+      id: {type:GraphQLID},
+      NombreFacultad: {type:GraphQLString},
+      createdAt: {type:GraphQLString},
+      updatedAt: {type:GraphQLString},
    }
 })
 const programas =new GraphQLObjectType({
    name:'programas',
    description:"datos por programa",
    fields:{
-   Programa_id:{type:GraphQLID},
-    Programa:{type:GraphQLString}, 
-    NombreCorto:{type:GraphQLString},
-    NombreMuyCorto:{type:GraphQLString},
-    FacultadeFacultadId: {type:GraphQLID},
+    id:{type:GraphQLID},
+    NombrePrograma:{type:GraphQLString}, 
+    Sede:{type:GraphQLString},
+    Sesion:{type:GraphQLString},
+    createdAt:{type:GraphQLString},
+    updatedAt:{type:GraphQLString},
+    FacultadeId: {type:GraphQLID},
    
    }
    
