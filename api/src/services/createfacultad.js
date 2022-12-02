@@ -4,13 +4,13 @@ const crearfacultad= (params)=> {
     
  params.map( async(facultad) => {
 
- const dato= await Facultades.findOrCreate({
+    await Facultades.findOrCreate({
         where: {
             NombreFacultad: facultad.NombreFacultad
         }
     })
  
-   console.log(dato);
+
  })
 
         

@@ -7,7 +7,7 @@ const createpemsun = require("../services/cretepemsun");
 const createMaterias = require("../services/createmateria");
 
 const data = new Array()
-const UploadFile = async (req, res) => {
+const UploadFile = (req, res) => {
     try {
         const { path } = req.file;
 
@@ -22,16 +22,16 @@ const UploadFile = async (req, res) => {
          var facultad = reporte.map(e => {
             return { NombreFacultad: e.Facultad } })
         var facultadrepetida= eliminaDuplicados(facultad)
-       // const facultadcreada = crearfacultad(facultadrepetida)
-        console.log(facultadrepetida)
+        const facultadcreada = crearfacultad(facultadrepetida)
+        console.log(facultadcreada)
 
 
         var programas = reporte.map(e => {
             return { NombrePrograma: e.ProgramaEstudiante, Sede: e.sede, Sesion: e.Sesion,NombreFacultad: e.Facultad }
         })
         const programaduplicado= eliminaDuplicados(programas)
-       // const programacredo =createprograma(programaduplicado)
-        console.log(programaduplicado)
+        const programacredo =createprograma(programaduplicado)
+        console.log(programacredo)
 
 
         var pensum = reporte.map(e => { 
