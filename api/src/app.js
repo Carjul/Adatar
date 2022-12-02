@@ -4,7 +4,7 @@ const cors =require("cors")
 const morgan =require("morgan");
 const { rutaUpload } = require("./routes/uploadFile");
 const schema  = require("./graphql/Schema");
-require('dotenv').config();
+
 
 const app = express()
 const {PORT}=process.env
