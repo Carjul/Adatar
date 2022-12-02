@@ -22,16 +22,16 @@ const UploadFile = async (req, res) => {
          var facultad = reporte.map(e => {
             return { NombreFacultad: e.Facultad } })
         var facultadrepetida= eliminaDuplicados(facultad)
-        const facultadcreada = crearfacultad(facultadrepetida)
-        console.log(facultadcreada)
+       // const facultadcreada = crearfacultad(facultadrepetida)
+        console.log(facultadrepetida)
 
 
         var programas = reporte.map(e => {
             return { NombrePrograma: e.ProgramaEstudiante, Sede: e.sede, Sesion: e.Sesion,NombreFacultad: e.Facultad }
         })
         const programaduplicado= eliminaDuplicados(programas)
-        const programacredo =createprograma(programaduplicado)
-        console.log(programacredo)
+       // const programacredo =createprograma(programaduplicado)
+        console.log(programaduplicado)
 
 
         var pensum = reporte.map(e => { 
