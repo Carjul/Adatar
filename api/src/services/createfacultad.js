@@ -1,21 +1,26 @@
 const { Facultades } = require("../db");
 
-const crearfacultad= (params)=> {
-    
- params.map( async(facultad) => {
+const crearfacultad = (params) => {
 
- const dato= await Facultades.findOrCreate({
-        where: {
-            NombreFacultad: facultad.NombreFacultad
+    params.map(async (facultad) => {
+
+        let dato = await Facultades.findOne({
+            where: {
+                NombreFacultad: facultad.NombreFacultad
+            }
+        })
+        if (dato) {
+            console.log("ya existe la facultad")
+
+        }
+        else {
+            await Facultades.create({ NombreFacultad: facultad.NombreFacultad });
         }
     })
- 
-   console.log(dato);
- })
 
-        
 
-   return "saved facultades";     
+
+    return "saved facultades";
 }
 
 module.exports = crearfacultad;
