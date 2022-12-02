@@ -15,14 +15,14 @@ function createpemsun(params) {
         } */
             const relacion = await Programas.findOne({ where: { NombrePrograma: e.NombrePrograma } })
 
-            const pem = await Pensums.create({
+           /*  const pem = await Pensums.create({
                 Pensum: e.Pensum,
                 Semestres: e.Semestres,
             })
 
             relacion.addPensum(pem)
-     
-
+      */
+console.log(relacion)
 
     })
     return "saved pensum";
