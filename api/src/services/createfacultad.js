@@ -9,7 +9,7 @@ const crearfacultad = (params) => {
                 NombreFacultad: facultad.NombreFacultad
             }
         })
-        if (!dato) {
+        if (dato.lenth === 0) {
             await Facultades.create({ NombreFacultad: facultad.NombreFacultad });
         }
     })

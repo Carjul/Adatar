@@ -9,7 +9,7 @@ function createprograma(params) {
                where: {[Op.and]: [{ NombrePrograma: e.NombrePrograma }, { Sede: e.Sede }, { Sesion: e.Sesion }] }
                  
            })
-           if (!dato) {
+           if (dato.lenth === 0) {
                
                const relacion = await Facultades.findOne({ where: { NombreFacultad: e.NombreFacultad } })
 

@@ -10,8 +10,8 @@ function createpemsun(params) {
 
 
         })
-        if (!dato) {
-            console.log("ya existe el pensum")
+        if (dato.lenth === 0) {
+         
      
             const relacion = await Programas.findOne({ where: { NombrePrograma: e.NombrePrograma } })
 
