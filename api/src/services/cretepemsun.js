@@ -1,6 +1,7 @@
 const { Pensums,Programas } = require("../db");
 
 function createpemsun(params) {
+
     params.map(async (e) => {
         const relacion = await Programas.findOne({ where: { NombrePrograma:e.NombrePrograma } })
 
@@ -8,6 +9,7 @@ function createpemsun(params) {
             Pensum: e.Pensum,
             Semestres: e.Semestres,
        })
+       
     relacion.addPensum(pem)
 
    })
