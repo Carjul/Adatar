@@ -5,6 +5,7 @@ const createprograma = require("../services/creasteprograma");
 const crearfacultad = require("../services/createfacultad");
 const createpemsun = require("../services/cretepemsun");
 const createMaterias = require("../services/createmateria");
+const crearstudent = require("../services/createstudiante");
 
 const data = new Array()
 const UploadFile =async(req, res) => {
@@ -17,37 +18,67 @@ const UploadFile =async(req, res) => {
         const hoja = excel.SheetNames[0];
         //convertir hoja a json
         let reporte = XLSX.utils.sheet_to_json(excel.Sheets[hoja]);
-        //console.log(reporte);
+      
 
         var facultad = reporte.map(e => {return { NombreFacultad: e.Facultad } })
         var facultadrepetida= eliminaDuplicados(facultad)
-        //console.log(facultadrepetida)
         const facultadcreada = await crearfacultad(facultadrepetida)
         console.log(facultadcreada)
 
         
 
-        var programas = reporte.map(e => {return { NombrePrograma: e.ProgramaEstudiante, Sede: e.sede, Sesion: e.Sesion,NombreFacultad: e.Facultad } })
-        const programaduplicado= eliminaDuplicados(programas)
-        //console.log(programaduplicado)
-        const programacredo = await createprograma(programaduplicado)
+        var programas = reporte.map(e => {return { NombrePrograma: e.ProgramaEstudiante, 
+            Sede: e.sede, 
+            Sesion: e.Sesion,
+            NombreFacultad: e.Facultad } })
+        var programarepetida= eliminaDuplicados(programas)
+        const programacredo = await createprograma(programarepetida)
         console.log(programacredo)
 
 
-        var pensum = reporte.map(e => {return { Pensum: e.ProgramaMateria, Semestres: e.SemMateriaNum, NombrePrograma: e.ProgramaEstudiante, Sede: e.sede, } })
-        const pensumduplicado = eliminaDuplicados(pensum)
-        //console.log(pensumduplicado)
-        const pensumcreado= await createpemsun(pensumduplicado)
+        var pensum = reporte.map(e => {return { 
+            Pensum: e.ProgramaMateria, 
+            Semestres: e.SemMateriaNum, 
+            NombrePrograma: e.ProgramaEstudiante, 
+            Sede: e.sede, } })
+        var pensumrepetida= eliminaDuplicados(pensum)
+        const pensumcreado= await createpemsun(pensumrepetida)
         console.log(pensumcreado)
 
-        // let materias = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[2]])
-        // const m= createMaterias(materias)
-        // console.log(m)
-        //let estudiantes = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]])
-        //console.log(estudiantes[0])
+
+        var estudiante = reporte.map(e => {return {
+            id:e.people_code_id,
+            TipoDoc:e.TipoDoc,
+            Identificacion:e.Identificacion,
+            Nombres:e.Nombres,
+            EstadoAlumnoPrograma:e.EstadoAlumnoPrograma,
+            Semestre:e.Semestre,
+            Direccion:e.DIRECCION,
+            Ciudad:e.CIUDAD,
+            Departamento:e.DEPARTAMENTO,
+            TelFijo:e.TelFijo,
+            TelMovil:e.TelMovil,
+            Email:e.EMAIL,
+            Genero:e.Genero,
+            SemeNumero:e.SemMateriaNum,
+            Pensum: e.ProgramaMateria, 
+            Semestres: e.SemMateriaNum, } })
+        const estudiantecreado= await crearstudent(estudiante)
+        console.log(estudiantecreado) 
 
 
-        res.status(201).json({  message: "Archivo subido correctamente" });
+        var materias = reporte.map(e => {return { 
+            NombreMateria: e.NombreMateria, 
+            CodigoMateria: e.CodigoMateria, 
+            Seccion:e.Seccion,
+            TipoMateria:e.TipoMateria, } })
+        const materiasduplicado = eliminaDuplicados(materias)
+       const materiascreado = await createMaterias(materiasduplicado)
+        console.log(materiascreado)
+         
+
+
+        res.status(201).json({  message: "database initialize" });
 
     } catch (error) {
         res.status(201).json(error)
@@ -63,6 +94,9 @@ const eliminaDuplicados = (arr) => {
   
     return [...new Map(arrMap).values()];
   }
+
+ 
+
 module.exports = {
     UploadFile
 }
