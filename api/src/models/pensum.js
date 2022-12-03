@@ -7,8 +7,8 @@ module.exports=(sequelize)=>{
             allowNull: false
         },
         Semestres:{
-            type:DataTypes.STRING,
-            allowNull: true
+            type:DataTypes.INTEGER,
+            allowNull: false
         }
         
     });
