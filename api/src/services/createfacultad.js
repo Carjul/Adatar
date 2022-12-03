@@ -1,17 +1,16 @@
 const { Facultades } = require("../db");
 
-const crearfacultad= (params)=> {
+const crearfacultad= async(params)=> {
     
- params.map( async(facultad) => {
-
+for (let i = 0; i < params.length; i++) {
+const {NombreFacultad}= params[i]
     await Facultades.findOrCreate({
         where: {
-            NombreFacultad: facultad.NombreFacultad
+             NombreFacultad
         }
-    })
- 
 
  })
+}
 
         
 

@@ -4,11 +4,15 @@ const { Pensums, Programas } = require("../db");
 const createpemsun= async(params)=> {
 
 for (let index = 0; index < params.length; index++) {
-    const element = params[index];
-    const relacion = await Programas.findOne({ where: { NombrePrograma: element.NombrePrograma } })
+    const {NombrePrograma,Sede,Pensum,Semestres} = params[index];
+    const relacion = await Programas.findOne({
+             where:{
+                [Op.and]:[{NombrePrograma},{Sede}]
+             }
+        })
     const pensum = await Pensums.create({
-        Pensum: element.Pensum,
-        Semestres: element.Semestres,
+             Pensum,
+             Semestres:`${Semestres}`
     })
     relacion.addPensum(pensum)
     

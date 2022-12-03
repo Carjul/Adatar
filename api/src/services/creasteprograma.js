@@ -1,18 +1,25 @@
 const { Programas, Facultades } = require('../db');
 
-const createprograma=(params)=> {
+const createprograma= async (params)=> {
 
-     params.map(async (e) => {
-          const relacion = await Facultades.findOne({ where: { NombreFacultad: e.NombreFacultad } })
+     for (let i = 0; i < params.length; i++) {
+            const {NombrePrograma, Sede, Sesion, NombreFacultad}= params[i]
+               const facultad = await Facultades.findOne({
+                    where: {
+                         NombreFacultad
+                    }
+               })
 
-         const pro= await Programas.create({
-               NombrePrograma: e.NombrePrograma,
-               Sede: e.Sede,
-               Sesion: e.Sesion,
-          })
-     relacion.addPrograma(pro)
-
-     })
-     return "saved programas";
+               const programacredo = await Programas.create({
+                    NombrePrograma,
+                    Sede,
+                    Sesion,
+               })
+               
+               facultad.addPrograma(programacredo)
+     };
+   
+     return "saved programas"; 
 }
+
 module.exports = createprograma;
