@@ -1,7 +1,7 @@
 const { Op } = require("sequelize");
 const { Pensums, Programas } = require("../db");
 
-function createpemsun(params) {
+const createpemsun=(params)=> {
 
     params.map(async (e) => {
 

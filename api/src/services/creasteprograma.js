@@ -1,6 +1,6 @@
 const { Programas, Facultades } = require('../db');
 
-function createprograma(params) {
+const createprograma=(params)=> {
 
      params.map(async (e) => {
           const relacion = await Facultades.findOne({ where: { NombreFacultad: e.NombreFacultad } })

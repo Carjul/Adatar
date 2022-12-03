@@ -7,7 +7,7 @@ const createpemsun = require("../services/cretepemsun");
 const createMaterias = require("../services/createmateria");
 
 const data = new Array()
-const UploadFile = (req, res) => {
+const UploadFile =async(req, res) => {
     try {
         const { path } = req.file;
 
@@ -24,6 +24,7 @@ const UploadFile = (req, res) => {
         const facultadcreada = crearfacultad(facultadrepetida)
         console.log(facultadcreada)
 
+        
 
         var programas = reporte.map(e => {return { NombrePrograma: e.ProgramaEstudiante, Sede: e.sede, Sesion: e.Sesion,NombreFacultad: e.Facultad } })
         const programaduplicado= eliminaDuplicados(programas)
@@ -33,7 +34,7 @@ const UploadFile = (req, res) => {
 
         var pensum = reporte.map(e => {return { Pensum: e.ProgramaMateria, Semestres: e.SemMateriaNum, NombrePrograma: e.ProgramaEstudiante } })
         const pensumduplicado = eliminaDuplicados(pensum)
-        const pensumcreado= createpemsun(pensumduplicado)
+        const pensumcreado= await createpemsun(pensumduplicado)
         console.log(pensumcreado)
 
         // let materias = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[2]])
