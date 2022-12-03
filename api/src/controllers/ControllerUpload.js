@@ -96,10 +96,10 @@ const UploadFile = async (req, res) => {
       return {
         NombreMateria: e.NombreMateria,
         CodigoMateria: e.CodigoMateria,
-        Seccion: e.Seccion,
-        TipoMateria: e.TipoMateria,
         Pensum: e.ProgramaMateria,
         Semestres: e.SemMateriaNum,
+        SemMateriaNum: e.SemMateriaNum,
+        Seme:e.seme
       }
     })
     const materiaPensumduplicado = eliminaDuplicados(materiaPensum)
