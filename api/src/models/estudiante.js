@@ -27,7 +27,7 @@ module.exports = (sequelize) => {
     },
     Semestre:{
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     Direccion: {
         type: DataTypes.STRING,
