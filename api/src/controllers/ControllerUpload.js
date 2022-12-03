@@ -77,8 +77,8 @@ const UploadFile =async(req, res) => {
         console.log(materiascreado)
          
 
-
-        res.status(201).json({  message: "database initialize" });
+     await fs.unlink(path);
+     res.status(201).json({  message: "database initialize" });
 
     } catch (error) {
         res.status(201).json(error)
