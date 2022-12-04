@@ -1,63 +1,65 @@
 const { Op } = require("sequelize");
-const { Estudiantes,Pensums } = require("../db");
- 
-const  crearstudent= async(params)=>{
-   for (let i = 0; i < params.length; i++) {
-    const {id,
-        TipoDoc,
-        Identificacion,
-        Nombres,
-        EstadoAlumnoPrograma,
-        Semestre,
-        Direccion,
-        Ciudad,
-        Departamento,
-        TelFijo,
-        TelMovil,
-        Email,
-        Genero,
-        SemeNumero,
-        Pensum, 
-        Semestres, }  = params[i];
-    
-   const existe = await Estudiantes.findOne({
-        where: {
-           Identificacion:`${Identificacion}`,
+const { Estudiantes, Pensums } = require("../db");
+
+const crearstudent = async (params) => {
+    try {
+        for (let i = 0; i < params.length; i++) {
+            const { id,
+                TipoDoc,
+                Identificacion,
+                Nombres,
+                EstadoAlumnoPrograma,
+                Semestre,
+                Direccion,
+                Ciudad,
+                Departamento,
+                TelFijo,
+                TelMovil,
+                Email,
+                Genero,
+                SemeNumero,
+                Pensum,
+                Semestres, } = params[i];
+
+
+            const pensum = await Pensums.findOne({
+                where: {
+                    [Op.and]: [{ Pensum }, { Semestres: `${Semestres}` }]
+                }
+            })
+
+            await Estudiantes.findOrCreate({
+                where: {
+                    Identificacion: `${Identificacion}`
+                },
+                defaults: {
+                    id,
+                    TipoDoc,
+                    Identificacion: `${Identificacion}`,
+                    Nombres,
+                    EstadoAlumnoPrograma,
+                    Semestre,
+                    Direccion,
+                    Ciudad,
+                    Departamento,
+                    TelFijo: `${TelFijo}`,
+                    TelMovil: `${TelMovil}`,
+                    Email,
+                    Genero,
+                    SemeNumero: `${SemeNumero}`,
+                    PensumId: pensum.id
+                }
+            })
+
+
+
+
         }
-   })
-    
-
-if (!existe) {
-    const pensum = await Pensums.findOne({
-        where:{
-            [Op.and]:[{Pensum},{Semestres:`${Semestres}`}]	
-        }
-    })    
-
-    const estudiante = await Estudiantes.create({
-        id,
-        TipoDoc,
-        Identificacion:`${Identificacion}`,
-        Nombres,
-        EstadoAlumnoPrograma,
-        Semestre,
-        Direccion,
-        Ciudad,
-        Departamento,
-        TelFijo:`${TelFijo}`,
-        TelMovil:`${TelMovil}`,
-        Email,
-        Genero,
-        SemeNumero: `${SemeNumero}`,
-    })
-
-    pensum.addEstudiante(estudiante)   
-   }
-
-   
-}
-return "saved student";    
+        return "saved student";
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 
-module.exports =crearstudent ;
+module.exports = crearstudent;

@@ -3,34 +3,43 @@ const { MateriaPorPensums, Pensums, Materias } = require("../db");
 
 
 const createMateriaspensun = async (params) => {
-    for (let i = 0; i < params.length; i++) {
-        const { NombreMateria,
-            CodigoMateria,
-            Pensum,
-            Semestres,
-            SemMateriaNum,
-            Seme } = params[i];
-        const pensum = await Pensums.findOne({
-            where: {
-                [Op.and]: [{ Pensum }, { Semestres: `${Semestres}` }]
-            }
-        })
+    try {
+        for (let i = 0; i < params.length; i++) {
+            const { NombreMateria,
+                CodigoMateria,
+                Pensum,
+                Semestres,
+                SemMateriaNum,
+                Seme } = params[i];
+            const pensum = await Pensums.findOne({
+                where: {
+                    [Op.and]: [{ Pensum }, { Semestres: `${Semestres}` }]
+                }
+            })
 
-        const materia = await Materias.findOne({
-            where: {
-                [Op.and]: [{ NombreMateria }, { CodigoMateria: `${CodigoMateria}` }]
-            }
-               })
-            const materiapensum = await MateriaPorPensums.create({
-            SemMateriaNum: `${SemMateriaNum}`,
-            Seme: `${Seme}`,
-        }) 
-        
-        await materiapensum.setPensum(pensum)
-        await materiapensum.setMateria(materia)
-     
+            const materia = await Materias.findOne({
+                where: {
+                    [Op.and]: [{ NombreMateria }, { CodigoMateria: `${CodigoMateria}` }]
+                }
+            })
+
+            await MateriaPorPensums.findOrCreate({
+                where:
+                {
+                    SemMateriaNum: `${SemMateriaNum}`,
+                    Seme: `${Seme}`,
+                    PensumId: pensum.id,
+                    MateriaId: materia.id
+                }
+
+            })
+
+
+        }
+        return "Saved Materiasporpensum "
+    } catch (error) {
+        console.log(error)
     }
-    return "Materias por pensum saved"
 }
 
 module.exports = createMateriaspensun;

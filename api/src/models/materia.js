@@ -10,10 +10,6 @@ module.exports=(sequelize)=>{
             type:DataTypes.STRING,
             allowNull: false
         },
-       Seccion:{
-        type:DataTypes.STRING,
-        allowNull: false
-       },
        TipoMateria:{
         type:DataTypes.STRING,
         allowNull: false

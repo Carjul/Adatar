@@ -7,30 +7,30 @@ module.exports=(sequelize)=>{
             allowNull: false
         },
         FINAL_GRADE:{
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false
         },
         Nota:{
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false
         },
         Gano:{
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         Perdio:{
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         Rango:{
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false
         },
         ProxNotaMin:{
-            type: DataTypes.INTEGER,
-            allowNull: false
+            type: DataTypes.STRING,
+            allowNull: true
         },
-        seccion:{
+        Seccion:{
             type: DataTypes.STRING,
             allowNull: false
         }

@@ -1,33 +1,35 @@
-const { Op } = require('sequelize');
+const { where } = require('sequelize');
 const { Programas, Facultades } = require('../db');
 
-const createprograma= async (params)=> {
+const createprograma = async (params) => {
+     try {
+          for (let i = 0; i < params.length; i++) {
 
-     for (let i = 0; i < params.length; i++) {
-            const {NombrePrograma, Sede, Sesion, NombreFacultad}= params[i]
-          const existe = await Programas.findOne({
-                 where:{
-                    [Op.and]:[{NombrePrograma},{Sede}]
-                 }
-          })
-          if (!existe) {
+               const { NombrePrograma, Sede, Sesion, NombreFacultad } = params[i]
+
                const facultad = await Facultades.findOne({
                     where: {
                          NombreFacultad
                     }
                })
 
-               const programacredo = await Programas.create({
-                    NombrePrograma,
-                    Sede,
-                    Sesion,
+               await Programas.findOrCreate({
+                    where: {
+                         NombrePrograma: NombrePrograma,
+                         Sede: Sede,
+                         Sesion: Sesion,
+                         FacultadeId: facultad.id
+                    }
                })
-               
-               facultad.addPrograma(programacredo)
-          }
-     };
-   
-     return "saved programas"; 
+
+
+          };
+
+          return "saved programas";
+     } catch (error) {
+          console.log(error)
+     }
+
 }
 
 module.exports = createprograma;
