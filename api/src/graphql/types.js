@@ -42,10 +42,10 @@ const pensums =new GraphQLObjectType({
    name:'pensums',
    description:"datos pensums",
    fields:{
-      Pensum_id:{type:GraphQLID}, 
+      id:{type:GraphQLID}, 
       Pensum:{type:GraphQLString}, 
-      Sesion:{type:GraphQLString},
-      ProgramaProgramaId:{type:GraphQLID},
+      Semestres:{type:GraphQLString},
+      ProgramaId:{type:GraphQLID},
   
    }
 })
@@ -57,9 +57,8 @@ const materias = new GraphQLObjectType({
       id:{type:GraphQLID},
       CodigoMateria:{type:GraphQLString}, 
       NombreMateria:{type:GraphQLString},
-      Seme:{type:GraphQLString},
-      SemMateriaNum:{type:GraphQLString},
-      PensumPensumId:{type:GraphQLID},
+      TipoMateria:{type:GraphQLString},
+      PensumId:{type:GraphQLID},
    }
 })
 

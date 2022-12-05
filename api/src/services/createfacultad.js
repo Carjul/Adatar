@@ -1,21 +1,23 @@
 const { Facultades } = require("../db");
 
-const crearfacultad= (params)=> {
+const crearfacultad = async (params) => {
+try {
     
- params.map( async(facultad) => {
-
-    await Facultades.findOrCreate({
-        where: {
-            NombreFacultad: facultad.NombreFacultad
-        }
-    })
- 
-
- })
-
+    for (let i = 0; i < params.length; i++) {
+        const { NombreFacultad } = params[i]
         
+        await Facultades.findOrCreate({
+            where: {
+                NombreFacultad
+            }
 
-   return "saved facultades";     
+        })
+    }
+
+    return "saved facultades";
+} catch (error) {
+    console.log(error)
+}
 }
 
 module.exports = crearfacultad;

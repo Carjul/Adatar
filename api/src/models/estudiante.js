@@ -3,9 +3,10 @@ const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
 
   sequelize.define('Estudiantes', {
-    People_code_id:{
+    id:{
       type:DataTypes.STRING,
-      primaryKey: true
+      primaryKey: true,
+      allowNull: false,
     },
     TipoDoc: {
       type: DataTypes.STRING,
@@ -20,6 +21,14 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+    EstadoAlumnoPrograma:{
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    Semestre:{
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
     Direccion: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -40,13 +49,18 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      Email:{
+    Email:{
         type: DataTypes.STRING,
         allowNull: false,
       },
-      Genero:{
+    Genero:{
         type: DataTypes.STRING,
         allowNull: false,
-      }
+      },
+    SemeNumero:{
+        type: DataTypes.STRING, 
+        allowNull: false,
+    }
+
   });
 };

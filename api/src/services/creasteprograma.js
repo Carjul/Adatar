@@ -1,18 +1,35 @@
+const { where } = require('sequelize');
 const { Programas, Facultades } = require('../db');
 
-const createprograma=(params)=> {
+const createprograma = async (params) => {
+     try {
+          for (let i = 0; i < params.length; i++) {
 
-     params.map(async (e) => {
-          const relacion = await Facultades.findOne({ where: { NombreFacultad: e.NombreFacultad } })
+               const { NombrePrograma, Sede, Sesion, NombreFacultad } = params[i]
 
-         const pro= await Programas.create({
-               NombrePrograma: e.NombrePrograma,
-               Sede: e.Sede,
-               Sesion: e.Sesion,
-          })
-     relacion.addPrograma(pro)
+               const facultad = await Facultades.findOne({
+                    where: {
+                         NombreFacultad
+                    }
+               })
 
-     })
-     return "saved programas";
+               await Programas.findOrCreate({
+                    where: {
+                         NombrePrograma: NombrePrograma,
+                         Sede: Sede,
+                         Sesion: Sesion,
+                         FacultadeId: facultad.id
+                    }
+               })
+
+
+          };
+
+          return "saved programas";
+     } catch (error) {
+          console.log(error)
+     }
+
 }
+
 module.exports = createprograma;
