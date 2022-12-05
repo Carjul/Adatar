@@ -8,4 +8,4 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage, dest: path.join(__dirname , 'public')}).single('file');
 
-module.exports= upload;
+module.exports= upload; 
