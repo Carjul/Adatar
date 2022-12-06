@@ -7,18 +7,26 @@ const createpemsun = async (params) => {
 
             const { NombrePrograma, Sede, Pensum, Semestres } = params[index];
 
-            const programa = await Programas.findOne({
+            const existe = await Pensums.findOne({
                 where: {
-                    [Op.and]: [{ NombrePrograma }, { Sede }]
+                    [Op.and]: [{ Pensum }, { Semestres:`${Semestres}` }]
                 }
             })
-            await Pensums.findOrCreate({
-                where: {
+
+            if (!existe) {
+
+                const programa = await Programas.findOne({
+                    where: {
+                        [Op.and]: [{ NombrePrograma }, { Sede }]
+                    }
+                })
+                const pensum = await Pensums.create({
                     Pensum,
                     Semestres: `${Semestres}`,
-                    ProgramaId: programa.id
-                }
-            })
+                })
+
+                await pensum.setPrograma(programa)
+            }
 
         }
 

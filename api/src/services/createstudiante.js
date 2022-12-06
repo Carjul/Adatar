@@ -21,18 +21,20 @@ const crearstudent = async (params) => {
                 Pensum,
                 Semestres, } = params[i];
 
-
-            const pensum = await Pensums.findOne({
+            const existe = await Estudiantes.findOne({
                 where: {
-                    [Op.and]: [{ Pensum }, { Semestres: `${Semestres}` }]
+                    Identificacion: `${Identificacion}`
                 }
             })
 
-            await Estudiantes.findOrCreate({
-                where: {
-                    Identificacion: `${Identificacion}`
-                },
-                defaults: {
+            if (!existe) {
+                const pensum = await Pensums.findOne({
+                    where: {
+                        [Op.and]: [{ Pensum }, { Semestres: `${Semestres}` }]
+                    }
+                })
+
+                const estudiante = await Estudiantes.create({
                     id,
                     TipoDoc,
                     Identificacion: `${Identificacion}`,
@@ -47,9 +49,11 @@ const crearstudent = async (params) => {
                     Email,
                     Genero,
                     SemeNumero: `${SemeNumero}`,
-                    PensumId: pensum.id
-                }
-            })
+
+                })
+
+                estudiante.addPensum(pensum)
+            }
 
 
 

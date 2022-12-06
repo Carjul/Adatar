@@ -26,15 +26,15 @@ const UploadFile = async (req, res) => {
     await fs.unlink(path);
 
 
-    const facultad=[]
-    const programas =[]
-    const pensum =[]
-    const estudiante =[]
-    const materias =[]
-    const materiaPensum=[]
-    const docentes =[]
-    const periodo=[]
-    const nota =[]
+    const facultad = []
+    const programas = []
+    const pensum = []
+    const estudiante = []
+    const materias = []
+    const materiaPensum = []
+    const docentes = []
+    const periodo = []
+    const nota = []
 
 
     for (let i = 0; i < reporte.length; i++) {
@@ -44,19 +44,19 @@ const UploadFile = async (req, res) => {
     /* let facultad = reporte.map(e => { return { NombreFacultad: e.Facultad } })*/
     const facultadrepetida = eliminaDuplicados(facultad)
     const facultadcreada = await crearfacultad(facultadrepetida)
-    console.log(facultadcreada) 
+    console.log(facultadcreada)
 
 
 
-for (let i = 0; i < reporte.length; i++) {
-  const e = reporte[i];
-  programas.push({
-    NombrePrograma: e.ProgramaEstudiante,
-    Sede: e.sede,
-    Sesion: e.Sesion,
-    NombreFacultad: e.Facultad
-  })
-}
+    for (let i = 0; i < reporte.length; i++) {
+      const e = reporte[i];
+      programas.push({
+        NombrePrograma: e.ProgramaEstudiante,
+        Sede: e.sede,
+        Sesion: e.Sesion,
+        NombreFacultad: e.Facultad
+      })
+    }
     /* let programas = reporte.map(e => {
       return {
         NombrePrograma: e.ProgramaEstudiante,
@@ -70,48 +70,48 @@ for (let i = 0; i < reporte.length; i++) {
     console.log(programacredo)
 
 
-  for (let i = 0; i < reporte.length; i++) {
-    const e = reporte[i];
-    pensum.push({
-      Pensum: e.ProgramaMateria,
-      Semestres: e.SemMateriaNum,
-      NombrePrograma: e.ProgramaEstudiante,
-      Sede: e.sede,
-    })
-  }
-   /*  let pensum = reporte.map(e => {
-      return {
+    for (let i = 0; i < reporte.length; i++) {
+      const e = reporte[i];
+      pensum.push({
         Pensum: e.ProgramaMateria,
         Semestres: e.SemMateriaNum,
         NombrePrograma: e.ProgramaEstudiante,
         Sede: e.sede,
-      }
-    }) */
+      })
+    }
+    /*  let pensum = reporte.map(e => {
+       return {
+         Pensum: e.ProgramaMateria,
+         Semestres: e.SemMateriaNum,
+         NombrePrograma: e.ProgramaEstudiante,
+         Sede: e.sede,
+       }
+     }) */
     const pensumrepetida = eliminaDuplicados(pensum)
     const pensumcreado = await createpemsun(pensumrepetida)
     console.log(pensumcreado)
 
-for (let i = 0; i < reporte.length; i++) {
-  const e = reporte[i];
-  estudiante.push({
-    id: e.people_code_id,
-    TipoDoc: e.TipoDoc,
-    Identificacion: e.Identificacion,
-    Nombres: e.Nombres,
-    EstadoAlumnoPrograma: e.EstadoAlumnoPrograma,
-    Semestre: e.Semestre,
-    Direccion: e.DIRECCION,
-    Ciudad: e.CIUDAD,
-    Departamento: e.DEPARTAMENTO,
-    TelFijo: e.TelFijo,
-    TelMovil: e.TelMovil,
-    Email: e.EMAIL,
-    Genero: e.Genero,
-    SemeNumero: e.SemMateriaNum,
-    Pensum: e.ProgramaMateria,
-    Semestres: e.SemMateriaNum,
-  })
-}
+    for (let i = 0; i < reporte.length; i++) {
+      const e = reporte[i];
+      estudiante.push({
+        id: e.people_code_id,
+        TipoDoc: e.TipoDoc,
+        Identificacion: e.Identificacion,
+        Nombres: e.Nombres,
+        EstadoAlumnoPrograma: e.EstadoAlumnoPrograma,
+        Semestre: e.Semestre,
+        Direccion: e.DIRECCION,
+        Ciudad: e.CIUDAD,
+        Departamento: e.DEPARTAMENTO,
+        TelFijo: e.TelFijo,
+        TelMovil: e.TelMovil,
+        Email: e.EMAIL,
+        Genero: e.Genero,
+        SemeNumero: e.SemMateriaNum,
+        Pensum: e.ProgramaMateria,
+        Semestres: e.SemMateriaNum,
+      })
+    }
     /* let estudiante = reporte.map(e => {
       return {
         id: e.people_code_id,
@@ -137,38 +137,38 @@ for (let i = 0; i < reporte.length; i++) {
     console.log(estudiantecreado)
 
 
- for (let i = 0; i < reporte.length; i++) {
-  const e = reporte[i];
-  materias.push({
-    NombreMateria: e.NombreMateria,
-    CodigoMateria: e.CodigoMateria,
-    TipoMateria: e.TipoMateria,
-  })
- }
-  /*   let materias = reporte.map(e => {
-      return {
+    for (let i = 0; i < reporte.length; i++) {
+      const e = reporte[i];
+      materias.push({
         NombreMateria: e.NombreMateria,
         CodigoMateria: e.CodigoMateria,
         TipoMateria: e.TipoMateria,
-      }
-    }) */
+      })
+    }
+    /*   let materias = reporte.map(e => {
+        return {
+          NombreMateria: e.NombreMateria,
+          CodigoMateria: e.CodigoMateria,
+          TipoMateria: e.TipoMateria,
+        }
+      }) */
     const materiasduplicado = eliminaDuplicados(materias)
     const materiascreado = await createMaterias(materiasduplicado)
     console.log(materiascreado)
 
 
-for (let i = 0; i < reporte.length; i++) {
-  const e = reporte[i];
-  materiaPensum.push({
-    NombreMateria: e.NombreMateria,
-    CodigoMateria: e.CodigoMateria,
-    Pensum: e.ProgramaMateria,
-    Semestres: e.SemMateriaNum,
-    SemMateriaNum: e.SemMateriaNum,
-    Seme: e.seme
-  })
- 
-}
+    for (let i = 0; i < reporte.length; i++) {
+      const e = reporte[i];
+      materiaPensum.push({
+        NombreMateria: e.NombreMateria,
+        CodigoMateria: e.CodigoMateria,
+        Pensum: e.ProgramaMateria,
+        Semestres: e.SemMateriaNum,
+        SemMateriaNum: e.SemMateriaNum,
+        Seme: e.seme
+      })
+
+    }
 
     /* let materiaPensum = reporte.map(e => {
       return {
@@ -185,13 +185,13 @@ for (let i = 0; i < reporte.length; i++) {
     console.log(materiaPensumcreado)
 
 
-for(let i = 0; i < reporte.length; i++) {
-  const e = reporte[i];
-  docentes.push({
-    Cog_Docente: e.Cog_Docente,
-    Nom_Docente: e.Nom_Docente,
-  })
-}
+    for (let i = 0; i < reporte.length; i++) {
+      const e = reporte[i];
+      docentes.push({
+        Cog_Docente: e.Cog_Docente,
+        Nom_Docente: e.Nom_Docente,
+      })
+    }
     /* var docentes = reporte.map(e => {
       return {
         Cog_Docente: e.Cog_Docente,
@@ -210,12 +210,12 @@ for(let i = 0; i < reporte.length; i++) {
         Año: e.año,
       })
     }
-   /*  let periodo = reporte.map(e => {
-      return {
-        Periodo: e.Periodo,
-        Año: e.año,
-      }
-    }) */
+    /*  let periodo = reporte.map(e => {
+       return {
+         Periodo: e.Periodo,
+         Año: e.año,
+       }
+     }) */
     const periododuplicado = eliminaDuplicados(periodo)
     const periodocreado = await createPeriodoAcademico(periododuplicado)
     console.log(periodocreado)

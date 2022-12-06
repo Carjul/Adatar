@@ -26,9 +26,10 @@ const createprograma = async (params) => {
                     NombrePrograma: NombrePrograma,
                     Sede: Sede,
                     Sesion: Sesion,
+                    
 
           })
-           facultad.addPrgrama(Programa)
+          await Programa.setFacultad(facultad)
           }
 
           };
