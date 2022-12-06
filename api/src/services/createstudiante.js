@@ -52,7 +52,7 @@ const crearstudent = async (params) => {
 
                 })
 
-                estudiante.addPensum(pensum)
+                pensum.addEstudiante(estudiante)
             }
 
 

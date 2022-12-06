@@ -29,7 +29,7 @@ const createprograma = async (params) => {
                     
 
           })
-          await Programa.setFacultad(facultad)
+           facultad.addPrograma(Programa)
           }
 
           };
