@@ -1,11 +1,19 @@
-const { where } = require('sequelize');
+const { Op } = require('sequelize');
 const { Programas, Facultades } = require('../db');
 
 const createprograma = async (params) => {
      try {
           for (let i = 0; i < params.length; i++) {
+     const { NombrePrograma, Sede, Sesion, NombreFacultad } = params[i]
+         
+     const existe = await Programas.findOne({
+               where: {
+                    [Op.and]:[{NombrePrograma},{Sede}]
+               }
+          })
 
-               const { NombrePrograma, Sede, Sesion, NombreFacultad } = params[i]
+          if (!existe) {
+              
 
                const facultad = await Facultades.findOne({
                     where: {
@@ -13,15 +21,15 @@ const createprograma = async (params) => {
                     }
                })
 
-               await Programas.findOrCreate({
-                    where: {
-                         NombrePrograma: NombrePrograma,
-                         Sede: Sede,
-                         Sesion: Sesion,
-                         FacultadeId: facultad.id
-                    }
-               })
+             const Programa=  await Programas.create({
+               
+                    NombrePrograma: NombrePrograma,
+                    Sede: Sede,
+                    Sesion: Sesion,
 
+          })
+           facultad.addPrgrama(Programa)
+          }
 
           };
 
