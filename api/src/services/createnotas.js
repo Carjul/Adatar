@@ -68,7 +68,7 @@ const createNotas = async (params) => {
                     Perdio,
                     Rango,
                     ProxNotaMin: `${ProxNotaMin}`,
-                    Seccion,
+                    Seccion: `${Seccion}`,
                     EstudianteId: estudent.id,
                     MateriaId: materia.id,
                     ProgramaId: programa.id,
