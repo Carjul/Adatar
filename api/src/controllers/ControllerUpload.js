@@ -41,11 +41,9 @@ const UploadFile = async (req, res) => {
       const e = reporte[i];
       facultad.push({ NombreFacultad: e.Facultad })
     }
-    /* let facultad = reporte.map(e => { return { NombreFacultad: e.Facultad } })*/
     const facultadrepetida = eliminaDuplicados(facultad)
     const facultadcreada = await crearfacultad(facultadrepetida)
     console.log(facultadcreada)
-
 
 
     for (let i = 0; i < reporte.length; i++) {
@@ -57,14 +55,6 @@ const UploadFile = async (req, res) => {
         NombreFacultad: e.Facultad
       })
     }
-    /* let programas = reporte.map(e => {
-      return {
-        NombrePrograma: e.ProgramaEstudiante,
-        Sede: e.sede,
-        Sesion: e.Sesion,
-        NombreFacultad: e.Facultad
-      }
-    }) */
     const programarepetida = eliminaDuplicados(programas)
     const programacredo = await createprograma(programarepetida)
     console.log(programacredo)
@@ -79,17 +69,10 @@ const UploadFile = async (req, res) => {
         Sede: e.sede,
       })
     }
-    /*  let pensum = reporte.map(e => {
-       return {
-         Pensum: e.ProgramaMateria,
-         Semestres: e.SemMateriaNum,
-         NombrePrograma: e.ProgramaEstudiante,
-         Sede: e.sede,
-       }
-     }) */
     const pensumrepetida = eliminaDuplicados(pensum)
     const pensumcreado = await createpemsun(pensumrepetida)
     console.log(pensumcreado)
+
 
     for (let i = 0; i < reporte.length; i++) {
       const e = reporte[i];
@@ -112,26 +95,6 @@ const UploadFile = async (req, res) => {
         Semestres: e.SemMateriaNum,
       })
     }
-    /* let estudiante = reporte.map(e => {
-      return {
-        id: e.people_code_id,
-        TipoDoc: e.TipoDoc,
-        Identificacion: e.Identificacion,
-        Nombres: e.Nombres,
-        EstadoAlumnoPrograma: e.EstadoAlumnoPrograma,
-        Semestre: e.Semestre,
-        Direccion: e.DIRECCION,
-        Ciudad: e.CIUDAD,
-        Departamento: e.DEPARTAMENTO,
-        TelFijo: e.TelFijo,
-        TelMovil: e.TelMovil,
-        Email: e.EMAIL,
-        Genero: e.Genero,
-        SemeNumero: e.SemMateriaNum,
-        Pensum: e.ProgramaMateria,
-        Semestres: e.SemMateriaNum,
-      }
-    }) */
     const estudiaterepetido = eliminaDuplicados(estudiante)
     const estudiantecreado = await crearstudent(estudiaterepetido)
     console.log(estudiantecreado)
@@ -145,13 +108,6 @@ const UploadFile = async (req, res) => {
         TipoMateria: e.TipoMateria,
       })
     }
-    /*   let materias = reporte.map(e => {
-        return {
-          NombreMateria: e.NombreMateria,
-          CodigoMateria: e.CodigoMateria,
-          TipoMateria: e.TipoMateria,
-        }
-      }) */
     const materiasduplicado = eliminaDuplicados(materias)
     const materiascreado = await createMaterias(materiasduplicado)
     console.log(materiascreado)
@@ -169,17 +125,6 @@ const UploadFile = async (req, res) => {
       })
 
     }
-
-    /* let materiaPensum = reporte.map(e => {
-      return {
-        NombreMateria: e.NombreMateria,
-        CodigoMateria: e.CodigoMateria,
-        Pensum: e.ProgramaMateria,
-        Semestres: e.SemMateriaNum,
-        SemMateriaNum: e.SemMateriaNum,
-        Seme: e.seme
-      }
-    }) */
     const materiaPensumduplicado = eliminaDuplicados(materiaPensum)
     const materiaPensumcreado = await createMateriaspensun(materiaPensumduplicado)
     console.log(materiaPensumcreado)
@@ -192,12 +137,6 @@ const UploadFile = async (req, res) => {
         Nom_Docente: e.Nom_Docente,
       })
     }
-    /* var docentes = reporte.map(e => {
-      return {
-        Cog_Docente: e.Cog_Docente,
-        Nom_Docente: e.Nom_Docente,
-      }
-    }) */
     const docentesduplicado = eliminaDuplicados(docentes)
     const docentescreado = await createDocente(docentesduplicado)
     console.log(docentescreado)
@@ -210,12 +149,6 @@ const UploadFile = async (req, res) => {
         Año: e.año,
       })
     }
-    /*  let periodo = reporte.map(e => {
-       return {
-         Periodo: e.Periodo,
-         Año: e.año,
-       }
-     }) */
     const periododuplicado = eliminaDuplicados(periodo)
     const periodocreado = await createPeriodoAcademico(periododuplicado)
     console.log(periodocreado)
@@ -243,27 +176,6 @@ const UploadFile = async (req, res) => {
         Año: e.año,
       })
     }
-    /* let nota = reporte.map(e => {
-      return {
-        GRADE_ACTIVITY: e.GRADE_ACTIVITY,
-        FINAL_GRADE: e.FINAL_GRADE,
-        Nota: e.Nota1,
-        Gano: e.Gano,
-        Perdio: e.Perdio,
-        Rango: e.Rango,
-        ProxNotaMin: e.ProxNotaMin,
-        Seccion: e.Seccion,
-        NombrePrograma: e.ProgramaEstudiante,
-        Sede: e.sede,
-        NombreMateria: e.NombreMateria,
-        CodigoMateria: e.CodigoMateria,
-        Identificacion: e.Identificacion,
-        Cog_Docente: e.Cog_Docente,
-        Nom_Docente: e.Nom_Docente,
-        Periodo: e.Periodo,
-        Año: e.año,
-      }
-    }) */
     const createnotas = await createNotas(nota)
     console.log(createnotas);
 

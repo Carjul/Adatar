@@ -11,29 +11,36 @@ const createMateriaspensun = async (params) => {
                 Semestres,
                 SemMateriaNum,
                 Seme } = params[i];
-            const pensum = await Pensums.findOne({
+
+            const existe = await MateriaPorPensums.findOne({
                 where: {
-                    [Op.and]: [{ Pensum }, { Semestres: `${Semestres}` }]
+                    [Op.and]: [{ SemMateriaNum: `${SemMateriaNum}` }, { Seme: `${Seme}`, }]
                 }
             })
 
-            const materia = await Materias.findOne({
-                where: {
-                    [Op.and]: [{ NombreMateria }, { CodigoMateria: `${CodigoMateria}` }]
-                }
-            })
+            if (!existe) {
+                const pensum = await Pensums.findOne({
+                    where: {
+                        [Op.and]: [{ Pensum }, { Semestres: `${Semestres}` }]
+                    }
+                })
 
-            await MateriaPorPensums.findOrCreate({
-                where:
-                {
+                const materia = await Materias.findOne({
+                    where: {
+                        [Op.and]: [{ NombreMateria }, { CodigoMateria: `${CodigoMateria}` }]
+                    }
+                })
+
+                const materiaPensum = await MateriaPorPensums.create({
                     SemMateriaNum: `${SemMateriaNum}`,
                     Seme: `${Seme}`,
-                    PensumId: pensum.id,
-                    MateriaId: materia.id
-                }
+                })
 
-            })
+                pensum.addMateriaPorPensums(materiaPensum)
+                materia.addMateriaPorPensums(materiaPensum)
+            }
 
+            
 
         }
         return "Saved Materiasporpensum "
