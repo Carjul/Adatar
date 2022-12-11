@@ -36,7 +36,7 @@ const UploadFile = async (req, res) => {
     const periodo = []
     const nota = []
 
-/* 
+
     for (let i = 0; i < reporte.length; i++) {
       const e = reporte[i];
       facultad.push({ NombreFacultad: e.Facultad })
@@ -153,7 +153,7 @@ const UploadFile = async (req, res) => {
     const periodocreado = await createPeriodoAcademico(periododuplicado)
     console.log(periodocreado)
 
- */
+
     for (let i = 0; i < reporte.length; i++) {
       const e = reporte[i];
       nota.push({

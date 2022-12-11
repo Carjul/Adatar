@@ -22,7 +22,7 @@ const createNotas = async (params) => {
                 Periodo,
                 Año } = params[i];
 
-           /* 
+           
                 const programa = await Programas.findOne({
                     where: {
                         [Op.and]: [{ NombrePrograma }, { Sede }]
@@ -53,7 +53,7 @@ const createNotas = async (params) => {
                         [Op.and]: [{ Año }, { Periodo }]
                     }
                 })
-     */
+    
                 await Notas.findOrCreate({
                     where: {
                         GRADE_ACTIVITY,
@@ -64,11 +64,11 @@ const createNotas = async (params) => {
                         Rango,
                         ProxNotaMin: `${ProxNotaMin}`,
                         Seccion: `${Seccion}`,
-                     /*    EstudianteId: estudent.id,
+                        EstudianteId: estudent.id,
                         MateriaId: materia.id,
                         ProgramaId: programa.id,
                         DocenteId: docente.id,
-                        PeriodoAcademicoId: periodo.id */
+                        PeriodoAcademicoId: periodo.id
                     }
     
                 })
