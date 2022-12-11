@@ -55,19 +55,21 @@ const createNotas = async (params) => {
                 })
     
                 await Notas.findOrCreate({
-                    GRADE_ACTIVITY,
-                    FINAL_GRADE: `${FINAL_GRADE}`,
-                    Nota,
-                    Gano,
-                    Perdio,
-                    Rango,
-                    ProxNotaMin: `${ProxNotaMin}`,
-                    Seccion: `${Seccion}`,
-                    EstudianteId: estudent.id,
-                    MateriaId: materia.id,
-                    ProgramaId: programa.id,
-                    DocenteId: docente.id,
-                    PeriodoAcademicoId: periodo.id
+                    where: {
+                        GRADE_ACTIVITY,
+                        FINAL_GRADE: `${FINAL_GRADE}`,
+                        Nota,
+                        Gano,
+                        Perdio,
+                        Rango,
+                        ProxNotaMin: `${ProxNotaMin}`,
+                        Seccion: `${Seccion}`,
+                        EstudianteId: estudent.id,
+                        MateriaId: materia.id,
+                        ProgramaId: programa.id,
+                        DocenteId: docente.id,
+                        PeriodoAcademicoId: periodo.id
+                    }
     
                 })
             }
