@@ -22,13 +22,7 @@ const createNotas = async (params) => {
                 Periodo,
                 Año } = params[i];
 
-            const existe = await Notas.findOne({
-                where: { 
-                    [Op.and]: [{ GRADE_ACTIVITY }, { FINAL_GRADE: `${FINAL_GRADE}` }, { Nota }, { Gano }, { Perdio }, { Rango }, { ProxNotaMin:`${ProxNotaMin}` }, { Seccion }]
-                }
-
-            })
-            if (!existe) {
+           
                 const programa = await Programas.findOne({
                     where: {
                         [Op.and]: [{ NombrePrograma }, { Sede }]
@@ -60,7 +54,7 @@ const createNotas = async (params) => {
                     }
                 })
     
-                await Notas.create({
+                await Notas.findOrCreate({
                     GRADE_ACTIVITY,
                     FINAL_GRADE: `${FINAL_GRADE}`,
                     Nota,
@@ -77,7 +71,7 @@ const createNotas = async (params) => {
     
                 })
             }
-        }
+        
         return "saved Notas "
     } catch (error) {
         console.log(error);
