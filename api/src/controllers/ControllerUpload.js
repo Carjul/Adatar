@@ -15,7 +15,7 @@ const createNotas = require("../services/createnotas");
 
 const UploadFile = async (req, res) => {
   try {
-   
+
     //leer excel
     const excel = XLSX.readFile(req.file.path);
     //obtener nombre de las hoja
@@ -23,15 +23,20 @@ const UploadFile = async (req, res) => {
     //convertir hoja a json
     var reporte = XLSX.utils.sheet_to_json(excel.Sheets[hoja]);
 
-
+    // funciones crear leer y escribir archivos in json
     const pathJSON = path.join(__dirname, './db.json');
 
     const readFiles = async () => {
-      const data = await fs.readFile(pathJSON, 'utf-8');
-      if (data.length === 0) {
-        const datos = { data: [] }
-        return datos;
+      const datos = { data: [] }
+      try {
+        const data = await fs.readFile(pathJSON, 'utf-8');
+        if (data.length === 0) {
+          return datos;
+        }
+      } catch (error) {
+        await fs.writeFile(pathJSON, JSON.stringify(datos, null, 2), 'utf-8');
       }
+      const data = await fs.readFile(pathJSON, 'utf-8');
       return JSON.parse(data);
     }
 
@@ -39,13 +44,14 @@ const UploadFile = async (req, res) => {
       const datos = { data: params }
       await fs.writeFile(pathJSON, JSON.stringify(datos, null, 2), 'utf-8');
     }
-   const {data}= await readFiles()
-   data.push(...reporte);  
-   
+    //intaceo de funciones
+    const { data } = await readFiles()
+    data.push(...reporte);
+    reporte=[]
     writeFiles(data);
- 
-   
 
+
+    //elimnar exel
     await fs.unlink(req.file.path);
 
 
