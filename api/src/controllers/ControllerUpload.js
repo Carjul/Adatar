@@ -46,7 +46,7 @@ const UploadFile = async (req, res) => {
  
    
 
-    await fs.unlink(path);
+    await fs.unlink(req.file.path);
 
 
     /*   const facultad = []
