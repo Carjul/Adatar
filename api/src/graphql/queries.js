@@ -1,8 +1,8 @@
 const { GraphQLList } = require('graphql')
-const { Users,Facultades,Programas,Pensums,Materias } = require('./../db');
-const { dataUser,facultades,programas,pensums,materias } = require('./types');
+const { Notas,Estudiantes,Pensums,Materias,Programas,Docentes, PeriodoAcademicos,MateriaPorPensums,Facultades,Users} = require('./../db');
+const {dataUser, facultades, programas, pensums, materias,materiaPorPensums,estudiantes,docentes,periodoAcademico,notas} = require('./types');
 
-const peticion = {
+const peticion_user = {
     type: new GraphQLList(dataUser),
     async resolve() {
         const users = await Users.findAll()
@@ -42,4 +42,44 @@ const peticion_materias = {
     }
 }
 
-module.exports = { peticion,peticion_facultad,peticion_programa,peticion_pensum,peticion_materias }
+ const peticion_materiaPorPensums = {
+    type: new GraphQLList(materiaPorPensums),
+    async resolve() {
+        const data = await MateriaPorPensums.findAll()
+        return data
+    }
+}
+
+const peticion_estudiantes = {
+    type: new GraphQLList(estudiantes),
+    async resolve() {
+        const data = await Estudiantes.findAll()
+        return data
+    }
+}
+ 
+const peticion_docentes = {
+    type: new GraphQLList(docentes),
+    async resolve() {
+        const data = await Docentes.findAll()
+        return data
+    }  
+}
+
+const peticion_periodoAcademico = {
+    type: new GraphQLList(periodoAcademico),
+    async resolve() {
+        const data = await PeriodoAcademicos.findAll()
+        return data
+    }
+}
+
+const peticion_notas = {
+    type: new GraphQLList(notas),
+    async resolve() {
+        const data = await Notas.findAll()
+        return data
+    }
+} 
+ 
+module.exports = { peticion_user,peticion_facultad,peticion_programa,peticion_pensum,peticion_materias,  peticion_materiaPorPensums,peticion_estudiantes, peticion_docentes,peticion_periodoAcademico,peticion_notas }

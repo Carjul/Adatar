@@ -1,5 +1,5 @@
-const {GraphQLString} = require('graphql');
-const { Users } = require('./../db');
+const {GraphQLString,GraphQLID, GraphQLObjectType, GraphQLInt} = require('graphql');
+const { Users,Notas } = require('./../db');
 
 const register={
     type:GraphQLString,
@@ -15,5 +15,8 @@ const register={
        return 'usuario creado'
     }
 }
+
+
+
 
 module.exports={register}
