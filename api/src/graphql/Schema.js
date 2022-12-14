@@ -1,6 +1,6 @@
 const {GraphQLSchema,GraphQLObjectType} = require('graphql')
 const {peticion_user,peticion_facultad,peticion_programa,peticion_pensum,peticion_materias,peticion_materiaPorPensums,peticion_estudiantes,peticion_docentes,peticion_periodoAcademico,peticion_notas }= require('./queries')
-const {register}= require('./mutatinos')
+const {register,Buscar_notas,Buscar_periodoAcademico,Buscar_docentes,Buscar_estudiantes,Buscar_materiaPorPensums,Buscar_materias,Buscar_pensums,Buscar_programas,Buscar_facultades}= require('./mutatinos')
 
 const QueryType= new GraphQLObjectType({
 name:'QueryType',
@@ -24,7 +24,15 @@ const MutationType= new GraphQLObjectType({
     description:'la raiz de MutationType',
     fields:{
         register,
-      
+        Buscar_notas,
+        Buscar_periodoAcademico,
+        Buscar_docentes,
+        Buscar_estudiantes,
+        Buscar_materiaPorPensums,
+        Buscar_materias,
+        Buscar_pensums,
+        Buscar_programas,
+        Buscar_facultades
     }
     })
 

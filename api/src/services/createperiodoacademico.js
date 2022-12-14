@@ -8,13 +8,13 @@ const createPeriodoAcademico = async (params) => {
 
            const existe = await PeriodoAcademicos.findOne({
                 where: {
-                    [Op.and]: [{ Año }, { Periodo}]
+                    [Op.and]: [{Year: Año }, { Periodo}]
                 }
            })
            if (!existe) {
             await PeriodoAcademicos.findOrCreate({
                 where: {
-                    Año,
+                    Year:Año,
                     Periodo
                 }
             })

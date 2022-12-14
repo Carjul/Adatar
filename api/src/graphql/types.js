@@ -62,7 +62,6 @@ const materias = new GraphQLObjectType({
       TipoMateria: { type: GraphQLString },
       createdAt: { type: GraphQLString },
       updatedAt: { type: GraphQLString },
-      PensumId: { type: GraphQLID },
    }
 })
 
@@ -123,7 +122,7 @@ const periodoAcademico = new GraphQLObjectType({
    fields: {
       id: { type: GraphQLID },
       Periodo: { type: GraphQLString },
-      //año debe ser cambiado a year
+      Year: { type:GraphQLInt },
       createdAt: { type: GraphQLString },
       updatedAt: { type: GraphQLString },
    }

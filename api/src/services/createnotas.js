@@ -50,7 +50,7 @@ const createNotas = async (params) => {
     
                 const periodo = await PeriodoAcademicos.findOne({
                     where: {
-                        [Op.and]: [{ Año }, { Periodo }]
+                        [Op.and]: [{ Year:Año }, { Periodo }]
                     }
                 })
     
