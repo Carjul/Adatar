@@ -1,5 +1,16 @@
 version: "3.9" 
 services: 
+  api:
+    container_name: api_adatar
+    restart: always
+    build: .
+    ports:
+      - 8000:3001
+    links:
+      - postgres
+    volumes:
+      - .:/usr/src/app
+
   postgres: 
     image: postgres
     restart: always 
@@ -12,14 +23,15 @@ services:
       POSTGRES_DB: adatar  
   pgadmin: 
     image: dpage/pgadmin4
-    restart: always 
-    ports: 
-      - 5050:80
     environment: 
       PGADMIN_DEFAULT_EMAIL: admin@gmail.com
       PGADMIN_DEFAULT_PASSWORD: admin
+    ports: 
+      - 80:80
     depends_on:
-      - postgres
+      - postgres 
+    logging: 
+      driver: none
        
 
  
