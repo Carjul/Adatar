@@ -34,4 +34,7 @@ services:
       driver: none
        
 
- 
+# docker run -p 80:80  -e PGADMIN_DEFAULT_EMAIL=admin@gmail.com -e PGADMIN_DEFAULT_PASSWORD=admin -d dpage/pgadmin4
+# docker run -p 5432:5432 --name postgres -e DATABASE_HOST=127.0.0.1 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=adatar -d postgres
+# docker inspect postgres
+# docker run -p 3000:3001  -e DB_USER=postgres -e DB_PASSWORD=postgres -e DB_HOST=172.17.0.2 -e DB=adatar -d <NAME IMAGEN>
