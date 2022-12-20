@@ -1,45 +1,113 @@
 import axios from "axios";
-import {setData, setOneData} from '../FeatureSlices/data';
+import { setNota,setPeriodo,setPrograma,setDocente,setEstudiante,setMateriaPorPensum, setMateria, setPensum,setFacultad } from '../FeatureSlices/data';
 
-  
+
 
 
 export const getData = () => (dispatch) => {
-    try {
-       
-          const query = `query{ peticion_notas{
-            id
-            GRADE_ACTIVITY
-            Nota
-            FINAL_GRADE
-            Gano
-            Perdio
-            Rango
-            ProxNotaMin
-            Seccion
-            EstudianteId
-            MateriaId
-            ProgramaId
-            DocenteId
-            PeriodoAcademicoId
-          }}`;
+  try {
 
-       
-        axios.post('http://localhost:3004/', {query})
-        .then((response) => {
-            dispatch(setData(response.data.data.peticion_notas));
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    } catch (error) {
-        console.log(error);
-    }
+    const query = `query{
+      peticion_facultad{
+      id
+      NombreFacultad
+      }
+      peticion_periodoAcademico{
+      id
+      Periodo
+      Year
+      }
+      peticion_programa{
+      id
+      NombrePrograma
+      Sede
+      Sesion
+      FacultadeId
+      }
+      peticion_pensum{
+      id
+      Pensum
+      Semestres
+      ProgramaId
+      }
+      peticion_materias{
+      id
+      CodigoMateria
+      NombreMateria
+      TipoMateria
+      }
+      peticion_docentes{
+      id
+      Cog_Docente
+      Nom_Docente
+      }
+      peticion_materiaPorPensums{
+      id
+      Seme
+      SemMateriaNum
+      PensumId
+      MateriaId
+      }
+      peticion_estudiantes{
+      id
+      TipoDoc
+      Identificacion
+      Nombres
+      EstadoAlumnoPrograma
+      Semestre
+      Direccion
+      Ciudad
+      Departamento
+      TelFijo
+      TelMovil
+      Email
+      Genero
+      SemeNumero
+      PensumId
+
+      }
+      peticion_notas{
+      id
+      GRADE_ACTIVITY
+      Nota
+      FINAL_GRADE
+      Gano
+      Perdio
+      Rango
+      ProxNotaMin
+      Seccion
+      EstudianteId
+      MateriaId
+      ProgramaId
+      DocenteId
+      PeriodoAcademicoId
+      }
+    }`;
+
+
+    axios.post('http://localhost:3004/', { query })
+      .then((response) => {
+        dispatch(setNota(response.data.data.peticion_notas));
+        dispatch(setPeriodo(response.data.data.peticion_periodoAcademico));
+        dispatch(setPrograma(response.data.data.peticion_programa));
+        dispatch(setDocente(response.data.data.peticion_docentes));
+        dispatch(setEstudiante(response.data.data.peticion_estudiantes));
+        dispatch(setMateriaPorPensum(response.data.data.peticion_materiaPorPensums));
+        dispatch(setMateria(response.data.data.peticion_materias));
+        dispatch(setPensum(response.data.data.peticion_pensum));
+        dispatch(setFacultad(response.data.data.peticion_facultad));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-export const getOneData = (id) => (dispatch) => {
-    try {
-        const query = `mutation{
+/* export const getOneData = (id) => (dispatch) => {
+  try {
+    const mutation = `mutation{
             Buscar_notas(id: ${id}){
             id
             GRADE_ACTIVITY
@@ -57,14 +125,15 @@ export const getOneData = (id) => (dispatch) => {
             PeriodoAcademicoId
           }}`;
 
-        axios.post('http://localhost:3004/', {query})
-        .then((response) => {
-            dispatch(setOneData(response.data.data.Buscar_notas));
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
+    axios.post('http://localhost:3004/', { mutation })
+      .then((response) => {
+        dispatch(setOneData(response.data.data.Buscar_notas));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  } catch (error) {
+    console.log(error);
+  }
+} */
+

@@ -1,22 +1,50 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState= {
-    data: [],
-    oneData: {}
+const initialState = {
+    facultad: [],
+    pensum: [],
+    materias: [],
+    materiaPorPensum: [],
+    estudiantes: [],
+    docentes: [],
+    programa: [],
+    periodoAcademico: [],
+    notas: [],
 }
 
 const dataSlice = createSlice({
     name: 'data',
     initialState,
     reducers: {
-        setData: (state, action) => {
-            state.data = action.payload
+        setNota: (state, action) => {
+            state.notas = action.payload
         },
-        setOneData: (state, action) => {
-            state.oneData = action.payload
+        setPeriodo:(state, action)=>{
+            state.periodoAcademico = action.payload
+        },
+        setPrograma: (state, action) => {
+            state.programa=action.payload
+        },
+        setDocente: (state, action) => {
+            state.docentes= action.payload
+        },
+        setEstudiante: (state, action) => {
+            state.estudiantes = action.payload
+        },
+        setMateriaPorPensum: (state, action) => {
+            state.materiaPorPensum = action.payload
+        },
+        setMateria: (state, action) => {
+            state.materias = action.payload
+        },
+        setPensum: (state, action) => {
+            state.pensum = action.payload
+        },
+        setFacultad: (state, action) => {
+            state.facultad = action.payload
         }
     }
 })
 
 export default dataSlice.reducer
-export const { setData, setOneData } = dataSlice.actions
+export const { setNota,setPeriodo,setPrograma,setDocente,setEstudiante,setMateriaPorPensum, setMateria, setPensum,setFacultad } = dataSlice.actions
