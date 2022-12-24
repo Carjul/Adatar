@@ -1,39 +1,62 @@
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { setTheme } from "../app/FeatureSlices/Themes";
 
 export function Nav() {
-    return(
-        <div className="navbar bg-base-100" data-theme='dark'>
-  <div className="flex-1">
-    <Link className="btn btn-ghost normal-case text-xl">Adatar</Link>
-  <div>
-      <Link to={"/"}>Home</Link>
-    </div>
-    <div>
-      <Link to={"/upload"}>Carga</Link>
-    </div>
-  </div>
-  <div className="flex-none gap-2">
-    <div className="form-control">
-      <input type="text" placeholder="Search" className="input input-bordered" />
-    </div>
-    <div className="dropdown dropdown-end">
-      <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-        <div className="w-10 rounded-full">
-          <img src="https://placeimg.com/80/80/people" alt="img"/>
+
+  const { theme } = useSelector(state => state.tema);
+
+  document.getElementById('root').setAttribute('data-theme', theme);
+
+
+  const dispatch = useDispatch();
+
+  const datacolor = ["light", "dark", "cupcake", "bumblebee", "emerald", "corporate", "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden", "forest", "aqua", "lofi", "pastel", "fantasy", "wireframe", "black", "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade", "night", "coffee", "winter"]
+
+  const handlechange = (e) => {
+    dispatch(setTheme(e.target.value));
+  }
+  return (
+    <div className="navbar bg-base-100 border-2" >
+      <div className="flex-1">
+        <Link to={"/"} className="btn btn-ghost normal-case text-xl">Adatar</Link>
+        <div>
+          <Link to={"/Home"} className="btn btn-ghost normal-case text-xl">Home</Link>
         </div>
-      </label>
-      <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-        <li>
-          <Link className="justify-between">
-            Profile
-            <span className="badge">New</span>
-          </Link>
-        </li>
-      
-      </ul>
+        <div>
+          <Link to={"/upload"} className="btn btn-ghost normal-case text-xl">Carga</Link>
+        </div>
+      </div>
+      <div className="flex-none gap-2 ">
+        <select name="tema" id="tema" onChange={handlechange} className="select select-primary w-5px max-w-xs">
+          <option defaultValue={"Themes"}>Themes</option>
+          {datacolor?.map(i =>
+            <option  key={i} value={i}>{i}</option>
+          )}
+        </select>
+
+        <div className="dropdown dropdown-end">
+          <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+            <div className="w-10 rounded-full">
+              <img src="https://placeimg.com/80/80/people" alt="img" />
+            </div>
+          </label>
+          <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
+            <li>
+              <Link to={""} className="justify-between">
+                Profile
+                <span className="badge">New</span>
+              </Link>
+              <Link to={""} className="justify-between">
+                Logout
+                <span className="badge">X</span>
+              </Link>
+            </li>
+
+          </ul>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-    )
+  )
 }
 

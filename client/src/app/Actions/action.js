@@ -1,5 +1,6 @@
 import axios from "axios";
 import { setNota,setPeriodo,setPrograma,setDocente,setEstudiante,setMateriaPorPensum, setMateria, setPensum,setFacultad } from '../FeatureSlices/data';
+import { setMsg } from "../FeatureSlices/MsgApi";
 
 
 
@@ -100,6 +101,20 @@ export const getData = () => (dispatch) => {
       .catch((error) => {
         console.error(error);
       });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const postFile =(obj)=>(dispatch)=>{
+  try {
+    axios.post('http://localhost:3004/upload',obj, {
+      headers: { "Content-Type": "multipart/form-data" }
+  }
+   ).then((result) => { 
+    console.log(result.data) 
+    dispatch(setMsg(result.data))
+  });
   } catch (error) {
     console.log(error);
   }

@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import datareducer from '../FeatureSlices/data/index'
+import themereducer from '../FeatureSlices/Themes/index'
+import msgreducer from '../FeatureSlices/MsgApi/index'
 
 export const store = configureStore({
     reducer: {
         data: datareducer,
+        msg: msgreducer,
+        tema: themereducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         immutableCheck: false,

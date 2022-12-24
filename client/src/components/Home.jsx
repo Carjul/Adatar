@@ -9,14 +9,14 @@ import * as echarts from 'echarts';
 const Home = () => {
   const datos = useSelector(state => state.data);
   const dispatch = useDispatch();
-  
+
   console.log(datos);
   useEffect(() => {
     dispatch(getData());
   }, [dispatch]);
 
 
-  useEffect(() => {
+   useEffect(() => {
     const chart = echarts.init(document.getElementById('chart'));
     const option = {
       legend: {
@@ -57,14 +57,29 @@ const Home = () => {
     };
 
     chart.setOption(option);
-  }, [])
-  return (
-    <div>
+  }, []) 
+  return (<>
       <Nav />
-      <div id="chart" style={{ width: 'auto', height: '600px' }}></div>
-
-
+       
+    <div className="flex flex-row items-center ">
+    <div className="flex flex-col items-center justify-end border-2" >
+      <div className="w-1/3 p-4">
+        hola
+      </div>
+      <div className="w-1/3 p-4">
+      hola
+      </div>
+      <div className="w-1/3 p-4">
+      hola
+      </div>
     </div>
+    
+       <div id="chart" style={{ width: 'auto', height: '600px' }}></div> 
+    </div>
+
+
+  </>
+   
   );
 }
 
