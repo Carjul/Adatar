@@ -107,17 +107,16 @@ export const getData = () => (dispatch) => {
 }
 
 export const postFile =(obj)=>(dispatch)=>{
-  try {
+
     axios.post('http://localhost:3004/upload',obj, {
       headers: { "Content-Type": "multipart/form-data" }
   }
    ).then((result) => { 
-    console.log(result.data) 
-    dispatch(setMsg(result.data))
+    dispatch(setMsg(result.data.message))
+  }).catch(err=>{
+    dispatch(setMsg(err.message))
   });
-  } catch (error) {
-    console.log(error);
-  }
+  
 }
 
 /* export const getOneData = (id) => (dispatch) => {

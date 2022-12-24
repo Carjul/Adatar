@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
-    massage:{
+    message:{
 
     }
 }
@@ -11,7 +11,7 @@ const msgSlice = createSlice({
     initialState,
     reducers: {
         setMsg: (state, action) => {
-            state.massage = action.payload
+            state.message = action.payload
         }
     }
 })
