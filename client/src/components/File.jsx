@@ -1,4 +1,5 @@
 import { Nav } from './Nav';
+import Sidebar from './sidebar';
 import { useEffect, useState, } from 'react';
 import { postFile } from '../app/Actions/action';
 import { useDispatch, useSelector } from 'react-redux'
@@ -15,15 +16,15 @@ const Upload = () => {
       [e.target.name]: e.target.files[0]
     });
   }
-  console.log(message)
   useEffect(() => {
     setSwich(false)
   }, [message])
   return (
     <>
       <Nav />
+      <div id='content'>
+      <Sidebar props={2} />
       {swich ?
-
         <div className="hero min-h-screen" style={{ backgroundImage: `url(${gif})` }}></div> :
         <div>
           {message === "database initialize" ? <div className="alert alert-success shadow-lg">
@@ -48,17 +49,16 @@ const Upload = () => {
                 setSwich(true)
               }} className="form-control">
 
-                <input type="file" id='miInputFile' name="file" onChange={handlesummit} className="file-input file-input-bordered file-input-primary w-full max-w-xs" required/>
+                <input type="file" id='miInputFile' name="file" onChange={handlesummit} className="file-input file-input-bordered file-input-primary w-full max-w-xs" required />
                 <br />
                 <button type="submit" className="btn btn-primary" >Enviar</button>
 
               </form>
-
-
             </div>
           </div>
         </div>
       }
+      </div>
     </>
   )
 }

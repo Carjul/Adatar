@@ -11,24 +11,18 @@ export function Nav() {
 
   const dispatch = useDispatch();
 
-  const datacolor = ["light", "dark", "cupcake", "bumblebee", "emerald", "corporate", "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden", "forest", "aqua", "lofi", "pastel", "fantasy", "wireframe", "black", "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade", "night", "coffee", "winter"]
+  const datacolor = ["cupcake", "bumblebee", "emerald", "corporate", "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden", "forest", "aqua", "pastel", "fantasy", "wireframe", "black", "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade", "night", "coffee", "winter","light", "dark"]
 
   const handlechange = (e) => {
     dispatch(setTheme(e.target.value));
   }
   return (
-    <div className="navbar bg-base-100 border-2" >
+    <div className="navbar bg-base-200 border-b border-base-300" >
       <div className="flex-1">
         <Link to={"/"} className="btn btn-ghost normal-case text-xl">Adatar</Link>
-        <div>
-          <Link to={"/Home"} className="btn btn-ghost normal-case text-xl">Home</Link>
-        </div>
-        <div>
-          <Link to={"/upload"} className="btn btn-ghost normal-case text-xl">Carga</Link>
-        </div>
       </div>
       <div className="flex-none gap-2 ">
-        <select name="tema" id="tema" onChange={handlechange} className="select select-primary w-5px max-w-xs">
+        <select name="tema" id="tema" onChange={handlechange} className="select select-primary w-5px max-w-xs border-none">
           <option defaultValue={"Themes"}>Themes</option>
           {datacolor?.map(i =>
             <option  key={i} value={i}>{i}</option>

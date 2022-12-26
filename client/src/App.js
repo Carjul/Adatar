@@ -6,11 +6,13 @@ import Init from './components/landing';
 
 function App() {
   return (
-      <Switch>
-      <Route exact path="/" component={Init} />
-        <Route  path="/home" component={Home} />
-       < Route path="/upload" component={Upload} />
-      </Switch>
+      <>
+        <Switch>
+          <Route exact path="/" component={Init} />
+          <Route path="/home" component={Home} />
+          <Route path="/upload" component={Upload} />
+        </Switch>
+      </>
     );
 }
 
