@@ -5,7 +5,32 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    theme: {
+      extend: {
+        flex: {
+          '1': '1 1 0%',
+          auto: '1 1 auto',
+          initial: '0 1 auto',
+          none: 'none',
+        },
+        align: {
+          'auto': 'auto',
+          'start': 'flex-start',
+          'end': 'flex-end',
+          'center': 'center',
+          'baseline': 'baseline',
+          'stretch': 'stretch',
+        },
+        justify: {
+          'start': 'flex-start',
+          'end': 'flex-end',
+          'center': 'center',
+          'between': 'space-between',
+          'around': 'space-around',
+        },
+       
+      },
+    },
   },
   plugins: [require("daisyui")],
   daisyui: {

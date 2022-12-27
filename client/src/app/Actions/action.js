@@ -1,8 +1,9 @@
 import axios from "axios";
 import { setNota,setPeriodo,setPrograma,setDocente,setEstudiante,setMateriaPorPensum, setMateria, setPensum,setFacultad } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
+import env from "react-dotenv";
 
-
+const {API_URL} = env;
 
 
 export const getData = () => (dispatch) => {
@@ -86,7 +87,7 @@ export const getData = () => (dispatch) => {
     }`;
 
 
-    axios.post('http://localhost:3004/', { query })
+    axios.post(`${API_URL}`, { query })
       .then((response) => {
         dispatch(setNota(response.data.data.peticion_notas));
         dispatch(setPeriodo(response.data.data.peticion_periodoAcademico));
@@ -108,7 +109,7 @@ export const getData = () => (dispatch) => {
 
 export const postFile =(obj)=>(dispatch)=>{
 
-    axios.post('http://localhost:3004/upload',obj, {
+    axios.post(`${API_URL}/upload`,obj, {
       headers: { "Content-Type": "multipart/form-data" }
   }
    ).then((result) => { 

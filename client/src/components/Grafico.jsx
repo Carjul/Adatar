@@ -45,8 +45,8 @@ function GraficoPolar(params) {
         chart.setOption(option);
       }, [])
     return(
-        <div clasName="flex items-center w-auto">
-        <div id="chart"></div> 
+        <div>
+        <div id='chart' style={{height:'740px', width:'700px' }} ></div> 
         </div>
     )
 }

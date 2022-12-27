@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { setTheme } from "../app/FeatureSlices/Themes";
+import { VscSymbolColor} from "react-icons/vsc";
 
 export function Nav() {
 
@@ -22,8 +23,9 @@ export function Nav() {
         <Link to={"/"} className="btn btn-ghost normal-case text-xl">Adatar</Link>
       </div>
       <div className="flex-none gap-2 ">
+          <VscSymbolColor />
         <select name="tema" id="tema" onChange={handlechange} className="select select-primary w-5px max-w-xs border-none">
-          <option defaultValue={"Themes"}>Themes</option>
+          <option defaultValue={"Themes"}> Themes</option>
           {datacolor?.map(i =>
             <option  key={i} value={i}>{i}</option>
           )}
