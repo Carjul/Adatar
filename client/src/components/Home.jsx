@@ -11,14 +11,14 @@ import GraficoPolar from './Grafico';
 const Home = () => {
   const datos = useSelector(state => state.data);
   const dispatch = useDispatch();
-
+  console.log(datos)
   
-  console.log(datos.programa);
+ /*  console.log(datos.programa);
   const perdio = datos.notas.filter((e) => e.Perdio===1);
   console.log(perdio)
   perdio.length > 0?  perdio.forEach((e) => console.log(datos.programa.find((i) => i.id === e.ProgramaId)) ) : console.log("no hay perdidos")
  
-  
+   */
  
   useEffect(() => {
     dispatch(getData());
@@ -27,11 +27,12 @@ const Home = () => {
 
    
   return (<>
-      <Nav />
-       <div id='content'>
+     
+       <Nav />
+       <div className='flex flex-row justify-content-around'>
        <Sidebar props={1}/>
         <GraficoPolar/>
-        
+  
        </div>
       
   

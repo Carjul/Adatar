@@ -22,9 +22,9 @@ const Upload = () => {
   return (
     <>
       <Nav />
-      <div id='content' >
+      <div className='flex flex-row justify-content-around' >
       <Sidebar props={2} />
-      <div className='content'>
+      <div className='flex flex-col items-center w-full h-full'>
       {message === "database initialize" ? <div className="alert alert-success shadow-lg">
             <div>
               <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -42,7 +42,7 @@ const Upload = () => {
         <div className="hero min-h-screen" style={{ backgroundImage: `url(${gif})` }}></div> :
         <div>
           
-          <div className="card w-96 bg-base-100 shadow-xl">
+          <div className="flex-1 card w-auto bg-base-100 shadow-xl">
             <div className="card-body items-center text-center">
               <h2 className="card-title">Subir Archivo</h2>
               <form onSubmit={e => {

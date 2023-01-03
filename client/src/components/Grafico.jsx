@@ -2,9 +2,12 @@ import * as echarts from 'echarts';
 import { useEffect } from 'react';
 
 function GraficoPolar(params) {
-    useEffect(() => {
-        const chart = echarts.init(document.getElementById('chart'));
-        const option = {
+  useEffect(() => {
+    const chart = echarts.init(document.getElementById('chart'));
+    window.addEventListener("resize", function () {
+      chart.resize();
+    });
+    const option = {
           legend: {
             top: 'bottom'
           },
@@ -45,8 +48,8 @@ function GraficoPolar(params) {
         chart.setOption(option);
       }, [])
     return(
-        <div>
-        <div id='chart' style={{height:'740px', width:'700px' }} ></div> 
+        <div className='flex flex-col items-center w-full h-full z-0'>
+        <div id='chart' style={{height:'800px' ,width:'650px'}}></div> 
         </div>
     )
 }
