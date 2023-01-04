@@ -1,9 +1,10 @@
 import axios from "axios";
 import { setNota,setPeriodo,setPrograma,setDocente,setEstudiante,setMateriaPorPensum, setMateria, setPensum,setFacultad } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
-import env from "react-dotenv";
+import { setUsers } from "../FeatureSlices/users";
 
-const {API_URL} = env;
+
+const {REACT_APP_API} = process.env;
 
 
 export const getData = () => (dispatch) => {
@@ -87,7 +88,7 @@ export const getData = () => (dispatch) => {
     }`;
 
 
-    axios.post(`${API_URL}`, { query })
+    axios.post(`${REACT_APP_API}/api/v1`, { query })
       .then((response) => {
         dispatch(setNota(response.data.data.peticion_notas));
         dispatch(setPeriodo(response.data.data.peticion_periodoAcademico));
@@ -109,7 +110,7 @@ export const getData = () => (dispatch) => {
 
 export const postFile =(obj)=>(dispatch)=>{
 
-    axios.post(`${API_URL}/upload`,obj, {
+    axios.post(`${REACT_APP_API}/upload`,obj, {
       headers: { "Content-Type": "multipart/form-data" }
   }
    ).then((result) => { 
@@ -118,6 +119,14 @@ export const postFile =(obj)=>(dispatch)=>{
     dispatch(setMsg(err.message))
   });
   
+}
+
+export const senduser=(obj)=>(dispatch)=>{
+  axios.post(`${REACT_APP_API}/login`,obj).then((result) => { 
+    dispatch(setUsers(result.data))
+  }).catch(err=>{
+    console.log(err);
+  });
 }
 
 /* export const getOneData = (id) => (dispatch) => {

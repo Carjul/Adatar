@@ -2,8 +2,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { setTheme } from "../app/FeatureSlices/Themes";
 import { VscSymbolColor} from "react-icons/vsc";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export function Nav() {
+  const {logout,user} = useAuth0();
 
   const { theme } = useSelector(state => state.tema);
 
@@ -34,7 +36,7 @@ export function Nav() {
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
-              <img src="https://placeimg.com/80/80/people" alt="img" />
+              <img src={`${user.picture}`} alt="img" />
             </div>
           </label>
           <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
@@ -43,7 +45,7 @@ export function Nav() {
                 Profile
                 <span className="badge">New</span>
               </Link>
-              <Link to={""} className="justify-between">
+              <Link to={"/"} onClick={()=>logout()} className="justify-between">
                 Logout
                 <span className="badge">X</span>
               </Link>
