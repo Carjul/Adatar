@@ -11,6 +11,7 @@ import GraficoPolar from './Grafico';
 const Home = () => {
   const datos = useSelector(state => state.data);
   const dispatch = useDispatch();
+  const token = localStorage.getItem('token');
   console.log(datos)
   
  /*  console.log(datos.programa);
@@ -21,8 +22,8 @@ const Home = () => {
    */
  
   useEffect(() => {
-    dispatch(getData());
-  }, [dispatch]);
+    dispatch(getData(token));
+  }, [dispatch,token]);
 
 
    

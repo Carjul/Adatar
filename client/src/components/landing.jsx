@@ -3,17 +3,29 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react"; 
 import { senduser } from "../app/Actions/action";
 import { useSelector,useDispatch } from "react-redux";
+import jwt_decode from "jwt-decode";
 
 const Init=()=>{
   const dispatch = useDispatch()
   
   const data= useSelector(state=>state.token)
- 
+
+if(data.user.token){
+  const decoded = jwt_decode(data.user.token);
+  localStorage.setItem('token', data.user.token);
+  localStorage.setItem('id', decoded.user.id);
+  localStorage.setItem('Email', decoded.user.Email);
+  localStorage.setItem('Name', decoded.user.Name);
+  localStorage.setItem('Avatar', decoded.user.Avatar);
+  localStorage.setItem('RolId', decoded.user.RolId);
+}
   const { loginWithRedirect, user } = useAuth0();
   
-useEffect(() => {
-  dispatch(senduser({email:user?.email,password:user?.nickname,name:user?.name,picture:user?.picture,}))
-},[dispatch, user])
+
+  useEffect(() => {
+    dispatch(senduser({email:user?.email,password:user?.nickname,name:user?.name,picture:user?.picture,}))
+  },[dispatch, user])
+
     return(
         <div className="hero min-h-screen" style={{ backgroundImage: `url("https://placeimg.com/1000/800/arch")` }}>
   <div className="hero-overlay bg-opacity-60"></div>

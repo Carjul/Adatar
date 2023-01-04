@@ -8,6 +8,7 @@ import gif from '../assets/loading-2.gif'
 const Upload = () => {
   const dispatch = useDispatch();
   const { message } = useSelector(state => state.msg);
+  const token = localStorage.getItem('token');
   const [obj, setObj] = useState({});
   const [swich, setSwich] = useState(false)
   const handlesummit = (e) => {
@@ -19,6 +20,7 @@ const Upload = () => {
   useEffect(() => {
     setSwich(false)
   }, [message])
+
   return (
     <>
       <Nav />
@@ -47,7 +49,7 @@ const Upload = () => {
               <h2 className="card-title">Subir Archivo</h2>
               <form onSubmit={e => {
                 e.preventDefault();
-                dispatch(postFile(obj))
+                dispatch(postFile(obj,token))
                 setSwich(true)
               }} className="form-control">
 

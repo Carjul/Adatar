@@ -1,6 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const { Users } = require('../db')
+const { Users} = require('../db')
 
 passport.use(new LocalStrategy(
     {
@@ -9,13 +9,13 @@ passport.use(new LocalStrategy(
         passwordField: 'password',
     },
     async (req, email, password, done) => {
-        const user = await Users.findOne({ where: { Email: email } });
+        const user = await Users.findOne({ where: { Email: email } }).catch((err) => { console.log(err) });
         if (user) {
             return done(null, user)
         }
         else {
             const { email, picture, name } = req.body;
-            const create = await Users.create({ Avatar: picture,Nombre: name, Email: email, Password: password,  });
+            const create = await Users.create({ Avatar: picture,Nombre: name, Email: email, Password: password,RolId:2});
             return done(null, create);
         }
     }

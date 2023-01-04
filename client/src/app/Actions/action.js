@@ -7,7 +7,7 @@ import { setUsers } from "../FeatureSlices/users";
 const {REACT_APP_API} = process.env;
 
 
-export const getData = () => (dispatch) => {
+export const getData = (token) => (dispatch) => {
   try {
 
     const query = `query{
@@ -87,8 +87,8 @@ export const getData = () => (dispatch) => {
       }
     }`;
 
-
-    axios.post(`${REACT_APP_API}/api/v1`, { query })
+    
+    axios.post(`${REACT_APP_API}/api/v1?token=${token}`, { query })
       .then((response) => {
         dispatch(setNota(response.data.data.peticion_notas));
         dispatch(setPeriodo(response.data.data.peticion_periodoAcademico));
@@ -108,9 +108,9 @@ export const getData = () => (dispatch) => {
   }
 }
 
-export const postFile =(obj)=>(dispatch)=>{
+export const postFile =(obj,token)=>(dispatch)=>{
 
-    axios.post(`${REACT_APP_API}/upload`,obj, {
+    axios.post(`${REACT_APP_API}/api/v1/upload?token=${token}`,obj, {
       headers: { "Content-Type": "multipart/form-data" }
   }
    ).then((result) => { 
@@ -129,6 +129,13 @@ export const senduser=(obj)=>(dispatch)=>{
   });
 }
 
+export const exit=()=>{
+  axios.get(`${REACT_APP_API}/logout`).then((result) => { 
+    console.log(result);
+  }).catch(err=>{
+    console.log(err);
+  });
+}
 /* export const getOneData = (id) => (dispatch) => {
   try {
     const mutation = `mutation{
