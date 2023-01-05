@@ -2,7 +2,7 @@ import axios from "axios";
 import { setNota,setPeriodo,setPrograma,setDocente,setEstudiante,setMateriaPorPensum, setMateria, setPensum,setFacultad } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
 import { setUsers } from "../FeatureSlices/users";
-
+import jwt_decode from "jwt-decode";
 
 const {REACT_APP_API} = process.env;
 
@@ -123,6 +123,17 @@ export const postFile =(obj,token)=>(dispatch)=>{
 
 export const senduser=(obj)=>(dispatch)=>{
   axios.post(`${REACT_APP_API}/login`,obj).then((result) => { 
+     if (result.data.token) {
+      localStorage.setItem('token',result.data.token) 
+      var decoded = jwt_decode(result.data.token);
+      localStorage.setItem('id', decoded.user.id);
+      localStorage.setItem('RolId', decoded.user.RolId);
+      localStorage.setItem('Email', decoded.user.Email);
+      localStorage.setItem('Name', decoded.user.Name);
+      localStorage.setItem('Avatar',decoded.user.Avatar);
+    }else{
+      console.log('no token');
+    }
     dispatch(setUsers(result.data))
   }).catch(err=>{
     console.log(err);

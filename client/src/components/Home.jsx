@@ -3,6 +3,7 @@ import { Nav } from './Nav';
 import {  useSelector,  useDispatch } from 'react-redux';
 import { getData } from '../app/Actions/action';
 import Sidebar from './sidebar';
+import Footer from './footer';
 import GraficoPolar from './Grafico';
 
 
@@ -35,7 +36,7 @@ const Home = () => {
         <GraficoPolar/>
   
        </div>
-      
+      <Footer/>
   
 
   </>

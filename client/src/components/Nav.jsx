@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { setTheme } from "../app/FeatureSlices/Themes";
 import { VscSymbolColor } from "react-icons/vsc";
+import {MdLogout} from "react-icons/md";
 import { useAuth0 } from "@auth0/auth0-react";
 import { exit } from "../app/Actions/action";
 
@@ -16,7 +17,7 @@ export function Nav() {
 
   const dispatch = useDispatch();
 
-  const datacolor = ["cupcake", "bumblebee", "emerald", "corporate", "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden", "forest", "aqua", "pastel", "fantasy", "wireframe", "black", "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade", "night", "coffee", "winter", "light", "dark"]
+  const datacolor = ["light", "dark", "cupcake", "bumblebee", "emerald", "corporate", "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden", "forest", "aqua", "pastel", "fantasy", "wireframe", "black", "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade", "night", "coffee", "winter"]
 
   const handlechange = (e) => {
     dispatch(setTheme(e.target.value));
@@ -48,12 +49,8 @@ export function Nav() {
           </label>
           <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
             <li>
-              <Link to={""} className="justify-between">
-                Profile
-                <span className="badge">New</span>
-              </Link>
               <button onClick={click} className="justify-between">Logout
-                <span className="badge">X</span>
+              <span><MdLogout/></span>
               </button>
             </li>
 
