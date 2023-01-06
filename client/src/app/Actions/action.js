@@ -129,7 +129,7 @@ export const senduser=(obj)=>(dispatch)=>{
       localStorage.setItem('id', decoded.user.id);
       localStorage.setItem('RolId', decoded.user.RolId);
       localStorage.setItem('Email', decoded.user.Email);
-      localStorage.setItem('Name', decoded.user.Name);
+      localStorage.setItem('Name', decoded.user.Nombre);
       localStorage.setItem('Avatar',decoded.user.Avatar);
     }else{
       console.log('no token');

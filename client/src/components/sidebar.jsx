@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { MdOutlineHome, MdFileUpload } from "react-icons/md";
+import { MdOutlineHome, MdFileUpload,MdAccountCircle } from "react-icons/md";
+import { GoGraph,GoTools} from "react-icons/go";
 
 const Sidebar = (number) => {
     let { props } = number;
@@ -24,6 +25,33 @@ const Sidebar = (number) => {
                             </Link> : <Link className="inline-flex items-center w-full px-4 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/upload"}>
                                 <MdFileUpload />
                                 <span className="ml-4 hidden md:flex md:flex-shrink-0">Upload</span>
+                            </Link>}
+                        </li>
+                        <li>
+                            {props === 3 ? <Link className="inline-flex items-center w-full px-4 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
+                                <MdAccountCircle/>
+                                <span className="ml-4 hidden md:flex md:flex-shrink-0">Perfil</span>
+                            </Link> : <Link className="inline-flex items-center w-full px-4 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
+                                <MdAccountCircle/>
+                                <span className="ml-4 hidden md:flex md:flex-shrink-0">Perfil</span>
+                            </Link>}
+                        </li>
+                        <li>
+                            {props === 4 ? <Link className="inline-flex items-center w-full px-4 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
+                                <GoGraph/>
+                                <span className="ml-4 hidden md:flex md:flex-shrink-0">Dashboard</span>
+                            </Link> : <Link className="inline-flex items-center w-full px-4 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
+                                <GoGraph/>
+                                <span className="ml-4 hidden md:flex md:flex-shrink-0">Dashboard</span>
+                            </Link>}
+                        </li>
+                        <li>
+                            {props === 5 ? <Link className="inline-flex items-center w-full px-4 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
+                                <GoTools/>
+                                <span className="ml-4 hidden md:flex md:flex-shrink-0">Configuración</span>
+                            </Link> : <Link className="inline-flex items-center w-full px-4 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
+                                <GoTools/>
+                                <span className="ml-4 hidden md:flex md:flex-shrink-0">Configuración</span>
                             </Link>}
                         </li>
                     </ul>

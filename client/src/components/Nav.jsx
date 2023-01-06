@@ -47,9 +47,9 @@ export function Nav() {
               <img src={`${value}`} alt="img" />
             </div>
           </label>
-          <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
+          <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52 ">
             <li>
-              <button onClick={click} className="justify-between">Logout
+              <button onClick={click} className="justify-between hover:bg-accent">Logout
               <span><MdLogout/></span>
               </button>
             </li>

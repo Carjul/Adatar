@@ -12,7 +12,7 @@ passport.use(new LocalStrategy(
         try {
             const user = await Users.findOne({ where: { Email: email } })
             if (user) {
-                user.password === password ? done(null, user) : done(null, false)
+                user.Password === password ? done(null, user) : done(null, false)
             }
             if (!user) {
                 const { email, picture, name } = req.body;
