@@ -8,7 +8,8 @@ import Init from './components/landing';
 import Perfil from './components/profile';
 
 function App() {
-  localStorage.getItem('RolId') ? console.log('id exists') : console.log('id does not exist');
+  let rol =localStorage.getItem('RolId')
+ console.log(rol)
   return (
       <>
         <Switch>

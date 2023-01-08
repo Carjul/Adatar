@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Nav } from './Nav';
-import {  useSelector,  useDispatch } from 'react-redux';
-import { getData } from '../app/Actions/action';
 import Sidebar from './sidebar';
 import Footer from './footer';
 import GraficoPolar from './Grafico';
@@ -10,10 +8,7 @@ import GraficoPolar from './Grafico';
 
 
 const Home = () => {
-  const datos = useSelector(state => state.data);
-  const dispatch = useDispatch();
-  const token = localStorage.getItem('token');
-  console.log(datos)
+ 
   
  /*  console.log(datos.programa);
   const perdio = datos.notas.filter((e) => e.Perdio===1);
@@ -22,11 +17,6 @@ const Home = () => {
  
    */
  
-  useEffect(() => {
-    dispatch(getData(token));
-  }, [dispatch,token]);
-
-
    
   return (<>
      
