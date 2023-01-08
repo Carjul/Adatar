@@ -184,11 +184,11 @@ export const deleteOneData = (id,token) => (dispatch) => {
 }
 
 export const updateOneData = (id, rol,token) => (dispatch) => {
-  const mutation = `mutation{
-    update(id:${id}, RolId:${rol})
+  const  query  = `mutation{
+    update(id:"${id}", RolId:"${rol}")
   }`
 
- axios.post(`${REACT_APP_API}/api/v1?token=${token}`, {mutation})
+ axios.post(`${REACT_APP_API}/api/v1?token=${token}`, { query })
  .then((result) => {
     dispatch(setMsg(result.data.data.update))
   }).catch(err => {
