@@ -2,21 +2,36 @@ const {GraphQLString,GraphQLID} = require('graphql');
 const { Notas,Estudiantes,Pensums,Materias,Programas,Docentes, PeriodoAcademicos,MateriaPorPensums,Facultades,Users } = require('./../db');
 const {facultades, programas, pensums, materias,materiaPorPensums,estudiantes,docentes,periodoAcademico,notas,} = require('./types');
 
-const register={
+
+const update={
     type:GraphQLString,
-    description:'crear new user',
+    description:'actualiza rol',
     args:{
-     Nombre:{type:GraphQLString},
-     Email:{type:GraphQLString},
-     Password:{type:GraphQLString}
+     id:{type:GraphQLID},
+     RolId:{type:GraphQLID}
     },
     async resolve (_,args){ 
-       const {Nombre,Email,Password} =args
-        await Users.create({Nombre,Email,Password})
-       return 'usuario creado'
+       const {id, RolId} =args
+       const user =await Users.findByPk(id)
+       user.RolId=RolId
+       await user.save()
+       return 'usuario actualizado'
     }
 }
-
+const deleteuser={
+    type:GraphQLString,
+    description:'eliminar user',
+    args:{
+     id:{type:GraphQLID},
+    },
+    async resolve (_,args){ 
+       const {id} =args
+       await Users.destroy({
+              where:{id}
+       })
+       return 'usuario eliminado'
+    }
+}
 const Buscar_notas = {
     type:notas,
     description:'buscar nota',
@@ -137,4 +152,4 @@ const Buscar_facultades = {
     }
 }
 
-module.exports={register,Buscar_notas,Buscar_periodoAcademico,Buscar_docentes,Buscar_estudiantes,Buscar_materiaPorPensums,Buscar_materias,Buscar_pensums,Buscar_programas,Buscar_facultades }
+module.exports={update,deleteuser,Buscar_notas,Buscar_periodoAcademico,Buscar_docentes,Buscar_estudiantes,Buscar_materiaPorPensums,Buscar_materias,Buscar_pensums,Buscar_programas,Buscar_facultades }

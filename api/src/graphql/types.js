@@ -7,7 +7,9 @@ const dataUser = new GraphQLObjectType({
       id: { type: GraphQLID },
       Nombre: { type: GraphQLString },
       Email: { type: GraphQLString },
-      Password: { type: GraphQLString }
+      Password: { type: GraphQLString },
+      Avatar: { type: GraphQLString },
+      RolId: { type: GraphQLID }, 
    }
 })
 

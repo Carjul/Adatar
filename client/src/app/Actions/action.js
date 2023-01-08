@@ -1,10 +1,10 @@
 import axios from "axios";
-import { setNota,setPeriodo,setPrograma,setDocente,setEstudiante,setMateriaPorPensum, setMateria, setPensum,setFacultad } from '../FeatureSlices/data';
+import { setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setMateria, setPensum, setFacultad } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
-import { setUsers } from "../FeatureSlices/users";
+import { setUsers,setConfig } from "../FeatureSlices/users";
 import jwt_decode from "jwt-decode";
 
-const {REACT_APP_API} = process.env;
+const { REACT_APP_API } = process.env;
 
 
 export const getData = (token) => (dispatch) => {
@@ -87,7 +87,7 @@ export const getData = (token) => (dispatch) => {
       }
     }`;
 
-    
+
     axios.post(`${REACT_APP_API}/api/v1?token=${token}`, { query })
       .then((response) => {
         dispatch(setNota(response.data.data.peticion_notas));
@@ -108,45 +108,95 @@ export const getData = (token) => (dispatch) => {
   }
 }
 
-export const postFile =(obj,token)=>(dispatch)=>{
+export const postFile = (obj, token) => (dispatch) => {
 
-    axios.post(`${REACT_APP_API}/api/v1/upload?token=${token}`,obj, {
-      headers: { "Content-Type": "multipart/form-data" }
+  axios.post(`${REACT_APP_API}/api/v1/upload?token=${token}`, obj, {
+    headers: { "Content-Type": "multipart/form-data" }
   }
-   ).then((result) => { 
+  ).then((result) => {
     dispatch(setMsg(result.data.message))
-  }).catch(err=>{
+  }).catch(err => {
     dispatch(setMsg(err.message))
   });
-  
+
 }
 
-export const senduser=(obj)=>(dispatch)=>{
-  axios.post(`${REACT_APP_API}/login`,obj).then((result) => { 
-     if (result.data.token) {
-      localStorage.setItem('token',result.data.token) 
+export const getuser = (token) => (dispatch) => {
+  const query = `query{
+    peticion_user{
+      id
+      Avatar
+      Nombre
+      Email
+      Password
+      RolId
+    }
+        }`
+    axios.post(`${REACT_APP_API}/api/v1?token=${token}`, { query })
+  .then((result)=>{
+   dispatch(setConfig(result.data.data.peticion_user))
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
+}
+
+export const senduser = (obj) => (dispatch) => {
+  axios.post(`${REACT_APP_API}/login`, obj).then((result) => {
+    if (result.data.token) {
+      localStorage.setItem('token', result.data.token)
       var decoded = jwt_decode(result.data.token);
       localStorage.setItem('id', decoded.user.id);
       localStorage.setItem('RolId', decoded.user.RolId);
       localStorage.setItem('Email', decoded.user.Email);
       localStorage.setItem('Name', decoded.user.Nombre);
-      localStorage.setItem('Avatar',decoded.user.Avatar);
-    }else{
+      localStorage.setItem('Avatar', decoded.user.Avatar);
+    } else {
       console.log('no token');
     }
     dispatch(setUsers(result.data))
-  }).catch(err=>{
+  }).catch(err => {
     console.log(err);
   });
 }
 
-export const exit=()=>{
-  axios.get(`${REACT_APP_API}/logout`).then((result) => { 
+export const exit = () => {
+  axios.get(`${REACT_APP_API}/logout`).then((result) => {
     console.log(result);
-  }).catch(err=>{
+  }).catch(err => {
     console.log(err);
   });
 }
+
+export const deleteOneData = (id,token) => (dispatch) => {
+
+    const query = `mutation{
+      deleteuser(id:"${id}")
+    }`
+ 
+    axios.post(`${REACT_APP_API}/api/v1?token=${token}`, {query})
+    .then((result) => {
+    dispatch(setMsg(result.data.data.deleteuser))
+  }).catch(err => {
+    dispatch(setMsg(err.message))
+  });
+
+}
+
+export const updateOneData = (id, rol,token) => (dispatch) => {
+  const mutation = `mutation{
+    update(id:${id}, RolId:${rol})
+  }`
+
+ axios.post(`${REACT_APP_API}/api/v1?token=${token}`, {mutation})
+ .then((result) => {
+    dispatch(setMsg(result.data.data.update))
+  }).catch(err => {
+    dispatch(setMsg(err.message))
+  });
+
+}
+
 /* export const getOneData = (id) => (dispatch) => {
   try {
     const mutation = `mutation{

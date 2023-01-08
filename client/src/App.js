@@ -1,5 +1,7 @@
 import React from 'react';
 import { Route,Switch } from "react-router-dom";
+import Config from './components/configuser';
+import { Dashboard } from './components/dashboard';
 import Upload from './components/File';
 import Home from './components/Home';
 import Init from './components/landing';
@@ -14,6 +16,8 @@ function App() {
           <Route path="/home" component={Home} />
           <Route path="/upload" component={Upload} />
           <Route path="/perfil" component={Perfil} />
+          <Route path="/dashboard" component={Dashboard}/>
+          <Route path="/config" component={Config}/>
         </Switch>
       </>
     );

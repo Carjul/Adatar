@@ -37,19 +37,19 @@ const Sidebar = (number) => {
                             </Link>}
                         </li>
                         <li>
-                            {props === 4 ? <Link className="inline-flex items-center w-full px-4 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
+                            {props === 4 ? <Link className="inline-flex items-center w-full px-4 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/dashboard"}>
                                 <GoGraph/>
                                 <span className="ml-4 hidden md:flex md:flex-shrink-0">Dashboard</span>
-                            </Link> : <Link className="inline-flex items-center w-full px-4 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
+                            </Link> : <Link className="inline-flex items-center w-full px-4 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/dashboard"}>
                                 <GoGraph/>
                                 <span className="ml-4 hidden md:flex md:flex-shrink-0">Dashboard</span>
                             </Link>}
                         </li>
                         <li>
-                            {props === 5 ? <Link className="inline-flex items-center w-full px-4 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
+                            {props === 5 ? <Link className="inline-flex items-center w-full px-4 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/config"}>
                                 <GoTools/>
                                 <span className="ml-4 hidden md:flex md:flex-shrink-0">Configuración</span>
-                            </Link> : <Link className="inline-flex items-center w-full px-4 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
+                            </Link> : <Link className="inline-flex items-center w-full px-4 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/config"}>
                                 <GoTools/>
                                 <span className="ml-4 hidden md:flex md:flex-shrink-0">Configuración</span>
                             </Link>}
