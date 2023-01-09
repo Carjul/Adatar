@@ -5,6 +5,7 @@ import { postFile } from '../app/Actions/action';
 import Footer from './footer'
 import { useDispatch, useSelector } from 'react-redux'
 import gif from '../assets/loading-2.gif'
+import { setMsg } from '../app/FeatureSlices/MsgApi';
 
 const Upload = () => {
   const dispatch = useDispatch();
@@ -18,9 +19,14 @@ const Upload = () => {
       [e.target.name]: e.target.files[0]
     });
   }
+ 
   useEffect(() => {
     setSwich(false)
-  }, [message])
+    setTimeout(() => {
+      dispatch(setMsg(""))
+    }, 5000)
+
+  }, [message,dispatch])
 
   return (
     <>
