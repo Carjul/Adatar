@@ -3,7 +3,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { senduser } from "../app/Actions/action";
 import {useDispatch, useSelector} from "react-redux";
-import { MdLogin} from "react-icons/md";
 import img from '../assets/img.jpg'
 const Init = () => {
   const { loginWithRedirect, user } = useAuth0();
@@ -21,10 +20,10 @@ const data = useSelector(state => state.token)
       <div className="hero-overlay bg-opacity-60"></div>
       <div className="hero-content text-center text-neutral-content">
         <div className="max-w-md">
-          <h1 className="mb-5 text-5xl font-bold">Hello there</h1>
+          <h1 className="mb-5 text-5xl font-bold">Hola</h1>
           <p className="mb-5">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
-          {data.user.token? <Link to="/home" className="btn btn-primary">Get Started</Link> :
-            <button className="btn btn-primary" onClick={() => loginWithRedirect()}>Log In <MdLogin/></button>}
+          {data.user.token? <Link to="/home" className="btn btn-primary">Empezar</Link>:
+            <button className="btn btn-primary" onClick={() => loginWithRedirect()}>Iniciar seción</button>}
         </div>
       </div>
     </div>

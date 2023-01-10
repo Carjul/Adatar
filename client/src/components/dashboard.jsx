@@ -16,6 +16,8 @@ export const Dashboard = () => {
     const dispatch = useDispatch();
     const token = localStorage.getItem('token');
 
+
+
     React.useEffect(() => {
         dispatch(getData(token));
     }, [dispatch, token]);
@@ -44,31 +46,43 @@ export const Dashboard = () => {
                     {/* filtar por carreras, y por un semestres.
          mostrar estudiantes materias y notas.
          mostras los estudiants que pueden perder el semestres */}
-                    <div className='flex flex-row flex-wrap '>
-                        <select name="Periodo academico" onChange={HandleChageP}>
+                    <div className='flex flex-row flex-wrap p-1 '>
+                        <div className="p-2">
+                        <select name="Periodo academico" onChange={HandleChageP} className="select select-secondary select-sm max-w-xs">
                             <option defaultValue="0">Periodo Academico</option>
                             {periodoAcademico?.map(e =>
                                 <option key={e.id} value={e.id}>{e.Year} {e.Periodo}</option>
                             )}
                         </select>
-                        <select name="Sede" onChange={HandleChageS} >
+
+                        </div>
+                        <div className="p-2">
+                        <select name="Sede" onChange={HandleChageS} className="select select-secondary select-sm max-w-xs">
                             <option defaultValue="0">Sede</option>
                             {programa?.map(e =>
                                 <option key={e.id} value={e.id}>{e.Sede}</option>
                             )}
                         </select>
-                        <select name="Programa" onChange={HandleChageC} >
+
+                        </div>
+                        <div className="p-2">
+                        <select name="Programa" onChange={HandleChageC} className="select select-secondary select-sm w-a max-w-xs">
                             <option defaultValue="0">Carrera</option>
                             {programa?.map(e =>
                                 <option key={e.id} value={e.id}>{e.NombrePrograma}</option>
                             )}
                         </select>
 
-                        <select name="Estado de notas" onChange={HandleChageE}>
+                        </div>
+                        <div className="p-2">
+                        <select name="Estado de notas" onChange={HandleChageE} className="select select-secondary select-sm max-w-xs">
                             <option defaultValue="0">Estado de notas</option>
                             <option value="1">Gano</option>
                             <option value="2">Perdio</option>
                         </select>
+
+                        </div>
+
 
 
                     </div>

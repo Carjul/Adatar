@@ -9,13 +9,7 @@ import GraficoPolar from './Grafico';
 
 const Home = () => {
  
-  
- /*  console.log(datos.programa);
-  const perdio = datos.notas.filter((e) => e.Perdio===1);
-  console.log(perdio)
-  perdio.length > 0?  perdio.forEach((e) => console.log(datos.programa.find((i) => i.id === e.ProgramaId)) ) : console.log("no hay perdidos")
- 
-   */
+
  
    
   return (<>
