@@ -46,7 +46,24 @@ const Buscar_notas = {
 
 
 }
+const Buscar_notas_año = {
+    type:notas,
+    description:'buscar nota',
+    args:{
+        id:{type:GraphQLID},
+    },
+    async resolve (_,args){
+        const {id} =args
+        const data = await Notas.findAll({
+            where:{
+                PeriodoAcademicoId:id
+            }
+        })
+        return data
+    }
 
+
+}
 const Buscar_periodoAcademico = {
     type:periodoAcademico,
     description:'buscar periodoAcademico',
@@ -152,4 +169,4 @@ const Buscar_facultades = {
     }
 }
 
-module.exports={update,deleteuser,Buscar_notas,Buscar_periodoAcademico,Buscar_docentes,Buscar_estudiantes,Buscar_materiaPorPensums,Buscar_materias,Buscar_pensums,Buscar_programas,Buscar_facultades }
+module.exports={update,deleteuser,Buscar_notas,Buscar_periodoAcademico,Buscar_docentes,Buscar_estudiantes,Buscar_materiaPorPensums,Buscar_materias,Buscar_pensums,Buscar_programas,Buscar_facultades,Buscar_notas_año }
