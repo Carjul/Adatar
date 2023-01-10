@@ -4,6 +4,7 @@ import Sidebar from './sidebar';
 import Footer from './footer';
 import { useEffect,useRef} from 'react';
 import { getuser,  deleteOneData, updateOneData  } from '../app/Actions/action';
+import { setMsg } from '../app/FeatureSlices/MsgApi';
 const Config = () => {
     const { message } = useSelector(state => state.msg);
     const { config } = useSelector(state => state.token);
@@ -11,11 +12,15 @@ const Config = () => {
     const user= config?.filter(e=>e.id !== id)
     const dispatch = useDispatch();
     const token = localStorage.getItem('token');
-    console.log(message)
     useEffect(() => {
         dispatch(getuser(token))
     }, [dispatch, token])
-   
+    useEffect(()=>{
+        setTimeout(() => {
+            dispatch(setMsg(""))
+          }, 6000)
+    },[dispatch,message])
+ 
     function MyButton({id}) {
     
         const buttonEl = useRef(null);
@@ -55,6 +60,18 @@ const Config = () => {
             <div className='flex flex-row justify-content-around'>
                 <Sidebar ids={5} />
                 <div>
+                {message === "usuario actualizado" ? <div className="alert alert-success shadow-lg">
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <span>El Rol ha sido actualizado</span>
+            </div>
+          </div> : ""}
+          {message === "usuario eliminado" ? <div className="alert alert-error shadow-lg">
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <span>Usuario eliminado</span>
+            </div>
+          </div> : ""}
                     <table className="flex flex-col">
                         <thead>
                             <tr className="flex flex-wrap flex ">

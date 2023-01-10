@@ -1,12 +1,14 @@
 import Footer from "./footer";
 import { Nav } from "./Nav";
 import Sidebar from "./sidebar";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Perfil = () => {
+    const { user } = useAuth0();
     let rol = localStorage.getItem('RolId');
     let email = localStorage.getItem('Email');
     let name = localStorage.getItem('Name');
-    let avatar = localStorage.getItem('Avatar');
+    let avatar = user?.picture
     return (
         <div>
 

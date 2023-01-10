@@ -1,42 +1,39 @@
 import { Nav } from './Nav';
 
- import {  useSelector,  useDispatch } from 'react-redux';
-import { getData } from '../app/Actions/action'; 
+import { useSelector, useDispatch } from 'react-redux';
+import { getData } from '../app/Actions/action';
 import Sidebar from './sidebar';
 import Footer from './footer';
 import React from 'react';
 
 export const Dashboard = () => {
 
-    const { 
+    const {
         programa,
-        periodoAcademico,
-        notas} = useSelector(state => state.data);
-        
-        console.log( programa,
-            periodoAcademico,
-            notas)
+        periodoAcademico} = useSelector(state => state.data);
+        const x = useSelector(state => state.data);
+    console.log(x)
     const dispatch = useDispatch();
     const token = localStorage.getItem('token');
 
     React.useEffect(() => {
         dispatch(getData(token));
-      }, [dispatch,token]);
-    
+    }, [dispatch, token]);
 
-const HandleChageP=(e)=>{
-console.log(e.target.value)
-}
-const HandleChageS=(e)=>{
-    console.log(e.target.value)
+
+    const HandleChageP = (e) => {
+        console.log(e.target.value)
     }
-const HandleChageC=(e)=>{
-console.log(e.target.value)
-}
+    const HandleChageS = (e) => {
+        console.log(e.target.value)
+    }
+    const HandleChageC = (e) => {
+        console.log(e.target.value)
+    }
 
-const HandleChageE=(e)=>{
-console.log(e.target.value)
-}
+    const HandleChageE = (e) => {
+        console.log(e.target.value)
+    }
 
     return (
         <>
@@ -50,20 +47,20 @@ console.log(e.target.value)
                     <div className='flex flex-row flex-wrap '>
                         <select name="Periodo academico" onChange={HandleChageP}>
                             <option defaultValue="0">Periodo Academico</option>
-                            {periodoAcademico?.map(e=>
-                            <option key={e.id} value={e.id}>{e.Year} {e.Periodo}</option>
+                            {periodoAcademico?.map(e =>
+                                <option key={e.id} value={e.id}>{e.Year} {e.Periodo}</option>
                             )}
                         </select>
                         <select name="Sede" onChange={HandleChageS} >
                             <option defaultValue="0">Sede</option>
-                            {programa?.map(e=>
-                            <option key={e.id} value={e.id}>{e.Sede}</option>
+                            {programa?.map(e =>
+                                <option key={e.id} value={e.id}>{e.Sede}</option>
                             )}
                         </select>
                         <select name="Programa" onChange={HandleChageC} >
                             <option defaultValue="0">Carrera</option>
-                            {programa?.map(e=>
-                            <option key={e.id} value={e.id}>{e.NombrePrograma}</option>
+                            {programa?.map(e =>
+                                <option key={e.id} value={e.id}>{e.NombrePrograma}</option>
                             )}
                         </select>
 

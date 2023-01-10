@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setMateria, setPensum, setFacultad } from '../FeatureSlices/data';
+import {  setPeriodo, setPrograma, setMateriaPorPensum, setMateria, setPensum, setFacultad } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
 import { setUsers,setConfig } from "../FeatureSlices/users";
 import jwt_decode from "jwt-decode";
@@ -39,11 +39,7 @@ export const getData = (token) => (dispatch) => {
       NombreMateria
       TipoMateria
       }
-      peticion_docentes{
-      id
-      Cog_Docente
-      Nom_Docente
-      }
+
       peticion_materiaPorPensums{
       id
       Seme
@@ -51,50 +47,14 @@ export const getData = (token) => (dispatch) => {
       PensumId
       MateriaId
       }
-      peticion_estudiantes{
-      id
-      TipoDoc
-      Identificacion
-      Nombres
-      EstadoAlumnoPrograma
-      Semestre
-      Direccion
-      Ciudad
-      Departamento
-      TelFijo
-      TelMovil
-      Email
-      Genero
-      SemeNumero
-      PensumId
-
-      }
-      peticion_notas{
-      id
-      GRADE_ACTIVITY
-      Nota
-      FINAL_GRADE
-      Gano
-      Perdio
-      Rango
-      ProxNotaMin
-      Seccion
-      EstudianteId
-      MateriaId
-      ProgramaId
-      DocenteId
-      PeriodoAcademicoId
-      }
+      
     }`;
 
 
     axios.post(`${REACT_APP_API}/api/v1?token=${token}`, { query })
       .then((response) => {
-        dispatch(setNota(response.data.data.peticion_notas));
         dispatch(setPeriodo(response.data.data.peticion_periodoAcademico));
         dispatch(setPrograma(response.data.data.peticion_programa));
-        dispatch(setDocente(response.data.data.peticion_docentes));
-        dispatch(setEstudiante(response.data.data.peticion_estudiantes));
         dispatch(setMateriaPorPensum(response.data.data.peticion_materiaPorPensums));
         dispatch(setMateria(response.data.data.peticion_materias));
         dispatch(setPensum(response.data.data.peticion_pensum));
