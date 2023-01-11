@@ -1,4 +1,4 @@
-const {GraphQLString,GraphQLID} = require('graphql');
+const {GraphQLString,GraphQLID,GraphQLList} = require('graphql');
 const { Notas,Estudiantes,Pensums,Materias,Programas,Docentes, PeriodoAcademicos,MateriaPorPensums,Facultades,Users } = require('./../db');
 const {facultades, programas, pensums, materias,materiaPorPensums,estudiantes,docentes,periodoAcademico,notas,} = require('./types');
 
@@ -46,19 +46,19 @@ const Buscar_notas = {
 
 
 }
-const Buscar_notas_año = {
-    type:notas,
-    description:'buscar nota',
+const notasporyear = {
+    type:new GraphQLList(notas),
+    description:'buscar nota por año',
     args:{
-        id:{type:GraphQLID},
+        PeriodoAcademicoId:{type:GraphQLID},
     },
     async resolve (_,args){
-        const {id} =args
+        const {PeriodoAcademicoId} =args
         const data = await Notas.findAll({
-            where:{
-                PeriodoAcademicoId:id
+            where: {
+                PeriodoAcademicoId
             }
-        })
+          });
         return data
     }
 
@@ -169,4 +169,4 @@ const Buscar_facultades = {
     }
 }
 
-module.exports={update,deleteuser,Buscar_notas,Buscar_periodoAcademico,Buscar_docentes,Buscar_estudiantes,Buscar_materiaPorPensums,Buscar_materias,Buscar_pensums,Buscar_programas,Buscar_facultades,Buscar_notas_año }
+module.exports={update,deleteuser,Buscar_notas,Buscar_periodoAcademico,Buscar_docentes,Buscar_estudiantes,Buscar_materiaPorPensums,Buscar_materias,Buscar_pensums,Buscar_programas,Buscar_facultades,notasporyear }
