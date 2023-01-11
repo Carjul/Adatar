@@ -1,7 +1,7 @@
 import { Nav } from './Nav';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getData } from '../app/Actions/action';
+import { getData, get_Nota_Año } from '../app/Actions/action';
 import Sidebar from './sidebar';
 import Footer from './footer';
 import React from 'react';
@@ -25,6 +25,7 @@ export const Dashboard = () => {
 
     const HandleChageP = (e) => {
         console.log(e.target.value)
+       dispatch(get_Nota_Año(e.target.value, token))
     }
     const HandleChageS = (e) => {
         console.log(e.target.value)

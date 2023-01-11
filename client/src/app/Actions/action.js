@@ -4,9 +4,9 @@ import { setMsg } from "../FeatureSlices/MsgApi";
 import { setUsers,setConfig } from "../FeatureSlices/users";
 import jwt_decode from "jwt-decode";
 
-const { REACT_APP_API } = process.env;
+/* const { REACT_APP_API } = process.env; */
 
-
+const REACT_APP_API = 'http://139.144.177.216:3004'
 export const getData = (token) => (dispatch) => {
   try {
 
@@ -159,7 +159,7 @@ export const updateOneData = (id, rol,token) => (dispatch) => {
 export const get_Nota_Año = (id,token) => (dispatch) => {
   try {
     const query = `mutation{
-      notasporyear(PeriodoAcademicoId:"${id}"){ ){
+      notasporyear(PeriodoAcademicoId:"${id}"){
             id
             GRADE_ACTIVITY
             Nota
@@ -178,7 +178,7 @@ export const get_Nota_Año = (id,token) => (dispatch) => {
 
         axios.post(`${REACT_APP_API}/api/v1?token=${token}`, { query })
       .then((response) => {
-        dispatch(setNota(response.data.data.Buscar_notas));
+        dispatch(setNota(response.data.data.notasporyear));
       })
       .catch((error) => {
         console.error(error);
