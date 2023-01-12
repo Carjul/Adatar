@@ -155,7 +155,22 @@ const Buscar_programas = {
         return data
     }
 }
-
+const Buscar_programas_sede = {
+    type:new GraphQLList(programas),
+    description:'buscar programas sede',
+    args:{
+        Sede:{type:GraphQLString},
+    },
+    async resolve (_,args){
+        const {Sede} =args
+        const data = await Programas.findAll({
+            where:{
+                Sede
+            }
+        })
+        return data
+    }
+}
 const Buscar_facultades = {
     type:facultades,
     description:'buscar facultades',
@@ -169,4 +184,4 @@ const Buscar_facultades = {
     }
 }
 
-module.exports={update,deleteuser,Buscar_notas,Buscar_periodoAcademico,Buscar_docentes,Buscar_estudiantes,Buscar_materiaPorPensums,Buscar_materias,Buscar_pensums,Buscar_programas,Buscar_facultades,notasporyear }
+module.exports={Buscar_programas_sede,update,deleteuser,Buscar_notas,Buscar_periodoAcademico,Buscar_docentes,Buscar_estudiantes,Buscar_materiaPorPensums,Buscar_materias,Buscar_pensums,Buscar_programas,Buscar_facultades,notasporyear }
