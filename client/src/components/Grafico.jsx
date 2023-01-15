@@ -1,7 +1,8 @@
 import * as echarts from 'echarts';
 import { useEffect } from 'react';
 
-function GraficoPolar(params) {
+function GraficoPolar({props}) {
+	console.log(props)
   useEffect(() => {
     const chart = echarts.init(document.getElementById('chart'));
     window.addEventListener("resize", function () {
@@ -30,27 +31,16 @@ function GraficoPolar(params) {
               itemStyle: {
                 borderRadius: 8
               },
-              data: [
-                { value: 40, name: 'education' },
-                { value: 38, name: 'rose 2' },
-                { value: 32, name: 'rose 3' },
-                { value: 30, name: 'rose 4' },
-                { value: 28, name: 'rose 5' },
-                { value: 26, name: 'rose 6' },
-                { value: 22, name: 'rose 7' },
-                { value: 18, name: 'rose 8' },
-                { value: 19, name: 'rose 9' },
-              ]
+              data: props
             }
           ]
         };
     
         chart.setOption(option);
-      }, [])
+      }, [props])
     return(
-        <div className='flex flex-col items-center w-full h-full z-0'>
-        <div id='chart' style={{height:'800px' ,width:'650px'}}></div> 
-        </div>
+        <div id='chart' style={{width: '80%', height: '80%'}}></div> 
+        
     )
 }
 

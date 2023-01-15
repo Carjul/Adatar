@@ -1,12 +1,12 @@
 import axios from "axios";
-import {  setPeriodo, setPrograma, setMateriaPorPensum, setMateria, setPensum, setFacultad, setNota } from '../FeatureSlices/data';
+import {  setPeriodo,  setPrograma,  setMateriaPorPensum, setMateria, setPensum, setFacultad, setNota, setSede } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
 import { setUsers,setConfig } from "../FeatureSlices/users";
 import jwt_decode from "jwt-decode";
 
-/* const { REACT_APP_API } = process.env; */
+ const { REACT_APP_API } = process.env; 
 
-const REACT_APP_API = 'http://139.144.177.216:3004'
+// const REACT_APP_API = 'http://localhost:3004'
 export const getData = (token) => (dispatch) => {
   try {
 
@@ -54,7 +54,7 @@ export const getData = (token) => (dispatch) => {
     axios.post(`${REACT_APP_API}/api/v1?token=${token}`, { query })
       .then((response) => {
         dispatch(setPeriodo(response.data.data.peticion_periodoAcademico));
-        dispatch(setPrograma(response.data.data.peticion_programa));
+        dispatch(setSede(response.data.data.peticion_programa));
         dispatch(setMateriaPorPensum(response.data.data.peticion_materiaPorPensums));
         dispatch(setMateria(response.data.data.peticion_materias));
         dispatch(setPensum(response.data.data.peticion_pensum));
@@ -79,6 +79,27 @@ export const postFile = (obj, token) => (dispatch) => {
     dispatch(setMsg(err.message))
   });
 
+}
+
+export const getProgramas=(Sede,token)=>(dispatch)=>{
+  const query=`mutation{
+    Buscar_programas_sede(Sede:"${Sede}"){
+     id
+     NombrePrograma
+     Sede
+     Sesion
+     FacultadeId
+     
+   }
+   }`
+
+   axios.post(`${REACT_APP_API}/api/v1?token=${token}`, { query })
+   .then((res)=> {
+    dispatch( setPrograma(res.data.data.Buscar_programas_sede))
+   })
+   .catch(err => {
+    dispatch(setMsg(err.message))
+  });
 }
 
 export const getuser = (token) => (dispatch) => {
