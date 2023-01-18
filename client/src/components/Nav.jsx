@@ -14,7 +14,7 @@ export function Nav() {
   document.getElementById('root').setAttribute('data-theme', theme);
 
   const value = user?.picture;
-console.log(value)
+
   const dispatch = useDispatch();
 
   const datacolor = ["light", "dark", "cupcake", "bumblebee", "emerald", "corporate", "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden", "forest", "aqua", "pastel", "fantasy", "wireframe", "black", "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade", "night", "coffee", "winter"]
