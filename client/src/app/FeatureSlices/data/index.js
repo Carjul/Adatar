@@ -38,6 +38,20 @@ const dataSlice = createSlice({
         },
         setPrograma: (state, action) => {
             state.programa = action.payload
+            const arreglo=[]
+            const arr = []
+            for (let i = 0; i < action.payload.length; i++) {
+                const e = action.payload[i];
+      
+                state.notas.forEach(element => {
+                if(element.ProgramaId === e.id && element.Gano === 0) {
+                    arr.push(element)
+                };
+            })
+           
+            arreglo.push({ value: arr.length, name:  e.NombrePrograma })
+        }
+        state.notasperpro = arreglo
         },
         setDocente: (state, action) => {
             state.docentes = action.payload
@@ -95,21 +109,10 @@ const dataSlice = createSlice({
                 return e.nota.Gano === parseInt(action.payload)
             })
         },
-        setNotasperpro: (state, action) => {
-            var x = state.notas.filter(e => {
-                return e.ProgramaId === action.payload.id
-            })
-            var arr = x.filter(e => {
-                return e.Gano === 0
-            })
-
-            state.notasperpro = state.notasperpro.concat([{ value: arr.length, name: action.payload.nombre }])
-        },
-        setCleand: (state, action) => {
-            state.notasperpro = action.payload
-        }
+        
+        
     }
 })
 
 export default dataSlice.reducer
-export const { setCleand, setNotasperpro, setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions
+export const {  setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions

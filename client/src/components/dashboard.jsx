@@ -5,7 +5,7 @@ import { getData, getProgramas, get_Nota_Año } from '../app/Actions/action';
 import Sidebar from './sidebar';
 import Footer from './footer';
 import React from 'react';
-import { setNotasmateria, /* setNotastate, */ setNotasperpro, setCleand } from '../app/FeatureSlices/data';
+import { setNotasmateria, /* setNotastate, */ } from '../app/FeatureSlices/data';
 import * as echarts from 'echarts';
 
 export const Dashboard = () => {
@@ -18,17 +18,9 @@ export const Dashboard = () => {
     const token = localStorage.getItem('token');
 
 
-    React.useEffect(() => {
-        for (let i = 0; i < programa?.length; i++) {
-            const e = programa[i];
-            dispatch(setNotasperpro({ id: e.id, nombre: e.NombrePrograma }))
-        }
-
-    }, [dispatch, programa])
 
     React.useEffect(() => {
         dispatch(getData(token));
-        dispatch(setCleand([]))
     }, [dispatch, token]);
 
 
@@ -37,7 +29,6 @@ export const Dashboard = () => {
         dispatch(get_Nota_Año(e.target.value, token))
     }
     const HandleChageS = (e) => {
-        dispatch(setCleand([]))
         console.log(e.target.value)
         dispatch(getProgramas(e.target.value, token))
     }
@@ -81,6 +72,7 @@ export const Dashboard = () => {
             },
             series: [
                 {
+                    name: 'Porcentaje de notas bajas',
                     type: 'pie',
                     radius: '65%',
                     center: ['50%', '50%'],
@@ -112,12 +104,20 @@ export const Dashboard = () => {
         legend: {
           top: '82%',
           left: 'center'
+        },toolbox: {
+            show: true,
+            feature: {
+                mark: { show: true },
+                dataView: { show: true, readOnly: false },
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
         },
         series: [
           {
-            name: 'Access From',
+            name: 'materia',
             type: 'pie',
-            radius: ['40%', '70%'],
+            radius: ['20%', '60%'],
             avoidLabelOverlap: false,
             label: {
               show: false,
@@ -144,7 +144,7 @@ export const Dashboard = () => {
             <Nav />
             <div className='flex flex-row justify-content-around'>
                 <Sidebar props={4} />
-                <div className="flex flex-col items-center w-full h-full z-0" >
+                <div className="flex flex-col items-center w-full h-auto z-0" >
 
                     <div className='flex flex-row flex-wrap p-1 '>
 
@@ -186,11 +186,11 @@ export const Dashboard = () => {
 
                     </div>
                     <h1 className='text-xl'>Notas perdidas por programa</h1>
-                    <div id="main" style={{ width: '100%', height: '900px' }} ></div>
+                    <div id="main"  style={{ width: '100%', height: '900px' }} ></div>
                     <br />
                     <h1 className='text-xl'>Notas perdidas por materia</h1>
-                    <div id="mains" style={{ width: '100%', height: '1300px' }} ></div>
-
+                    <div id="mains"  style={{ width: '100%', height: '900px' }} ></div>
+                    <br />
                 </div>
 
             </div>
