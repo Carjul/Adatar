@@ -27,6 +27,15 @@ const dataSlice = createSlice({
         setPeriodo: (state, action) => {
             state.periodoAcademico = action.payload
         },
+        /* setNotasperma:(state, action)=>{
+            //state.notasperma
+            for (let i = 0; i < state.notasperma.length; i++) {
+                const element = state.notasperma[i];
+                element.value.forEach(e => {
+                    e.DocenteId,e.EstudianteId
+                });
+            }
+        }, */
         setSede: (state, action) => {
             var sedes = []
             action.payload?.forEach(e => {

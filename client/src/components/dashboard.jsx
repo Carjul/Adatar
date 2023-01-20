@@ -139,6 +139,57 @@ export const Dashboard = () => {
       };
           myChart.setOption(option);
     },[notasmateria])
+
+    React.useEffect(()=>{
+        let myChart = echarts.init(document.getElementById('main3'));
+        window.addEventListener("resize", function () {
+            myChart.resize();
+        })
+       let option = {
+            dataset: {
+              source: [
+                ['score', 'numero', 'estudiantes'],
+                [3, 5, 'Matcha Latte'],
+                [1, 7, 'Milk Tea'],
+                [4, 4, 'Cheese Cocoa'],
+                [1, 1, 'Cheese Brownie'],
+                [7, 2, 'Matcha Cocoa'],
+                [1, 7, 'Tea'],
+                [6, 9, 'Orange Juice'],
+                [6, 10, 'Lemon Juice'],
+                [7, 2, 'Walnut Brownie']
+              ]
+            },
+            grid: { containLabel: true },
+            xAxis: { name: 'amount' },
+            yAxis: { type: 'category' },
+            visualMap: {
+              orient: 'horizontal',
+              left: 'center',
+              min: 0,
+              max: 15,
+              text: ['High Score', 'Low Score'],
+              // Map the score column to color
+              dimension: 0,
+              inRange: {
+                color: ['#65B581', '#FFCE34', '#FD665F']
+              }
+            },
+            series: [
+              {
+                type: 'bar',
+                encode: {
+                  // Map the "amount" column to X axis.
+                  x: 'numero', 
+                  // Map the "product" column to Y axis
+                  y: 'estudiantes'
+                }
+              }
+            ]
+          }
+          myChart.setOption(option);
+    })
+
     return (
         <>
             <Nav />
@@ -166,15 +217,7 @@ export const Dashboard = () => {
                             </select>
 
                         </div>
-                        <div className="px-0 py-2">
-                            <select name="Programa" onChange={HandleChageC} className="select select-secondary select-sm w-a max-w-xs">
-                                <option defaultValue="0">Carrera</option>
-                                {programa?.map(e =>
-                                    <option key={e.id} value={e.id}>{e.NombrePrograma}</option>
-                                )}
-                            </select>
-
-                        </div>
+                        
                        {/*  <div className="px-0 py-2">
                             <select name="Estado de notas" onChange={HandleChageE} className="select select-secondary select-sm max-w-xs">
                                 <option defaultValue="0">Estado de notas</option>
@@ -188,8 +231,20 @@ export const Dashboard = () => {
                     <h1 className='text-xl'>Notas perdidas por programa</h1>
                     <div id="main"  style={{ width: '100%', height: '900px' }} ></div>
                     <br />
+                    <div className="px-0 py-2">
+                            <select name="Programa" onChange={HandleChageC} className="select select-secondary select-sm w-a max-w-xs">
+                                <option defaultValue="0">Carrera</option>
+                                {programa?.map(e =>
+                                    <option key={e.id} value={e.id}>{e.NombrePrograma}</option>
+                                )}
+                            </select>
+
+                        </div>
                     <h1 className='text-xl'>Notas perdidas por materia</h1>
                     <div id="mains"  style={{ width: '100%', height: '900px' }} ></div>
+                    <br />
+                    <h1 className='text-xl'>Numero de materias peridas estudiante</h1>
+                    <div id="main3"  style={{ width: '100%', height: '900px' }} ></div>
                     <br />
                 </div>
 

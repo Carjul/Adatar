@@ -12,4 +12,6 @@ COPY . .
 
 EXPOSE 3001
 
+VOLUME [ "/usr/src/app" ]
+
 CMD [ "npm","start" ]

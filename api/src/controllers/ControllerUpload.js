@@ -161,7 +161,7 @@ const UploadFile = async (req, res) => {
     const materiascreado = await createMaterias(materiasduplicado)
     console.log(materiascreado)
 
-    const materiaPensumduplicado = eliminaDuplicados(materiaPensum)
+    /* const materiaPensumduplicado = eliminaDuplicados(materiaPensum) */
     materiaPensum=[]
     const materiaPensumcreado = await createMateriaspensun(materiaPensumduplicado)
     console.log(materiaPensumcreado)
