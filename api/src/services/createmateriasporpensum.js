@@ -5,32 +5,28 @@ const { MateriaPorPensums, Pensums, Materias } = require("../db");
 const createMateriaspensun = async (params) => {
     try {
         for (let i = 0; i < params.length; i++) {
-            const { NombreMateria,
-                CodigoMateria,
-                Pensum,
-                Semestres,
-                SemMateriaNum,
-                Seme } = params[i];
+            const { NombreMateria, CodigoMateria, Pensum, Semestres, SemMateriaNum, Seme } = params[i];
+
+            const pensum = await Pensums.findOne({
+                where: {
+                    [Op.and]: [{ Pensum }, { Semestres: `${Semestres}`}]
+                }
+            })
+
+            const materia = await Materias.findOne({
+                 where: {
+                    [Op.and]: [{ NombreMateria }, { CodigoMateria: `${CodigoMateria}` }]
+                }
+            })
 
             const existe = await MateriaPorPensums.findOne({
                 where: {
-                    [Op.and]: [{ SemMateriaNum: `${SemMateriaNum}` }, { Seme: `${Seme}`, }]
+                    [Op.and]: [{ SemMateriaNum: `${SemMateriaNum}` }, { Seme: `${Seme}` }, {PensumId:pensum.id},{MateriaId:materia.id} ]
                 }
             })
 
             if (!existe) {
-                const pensum = await Pensums.findOne({
-                    where: {
-                        [Op.and]: [{ Pensum }, { Semestres: `${Semestres}` }]
-                    }
-                })
-
-                const materia = await Materias.findOne({
-                    where: {
-                        [Op.and]: [{ NombreMateria }, { CodigoMateria: `${CodigoMateria}` }]
-                    }
-                })
-
+        
                 const materiaPensum = await MateriaPorPensums.create({
                     SemMateriaNum: `${SemMateriaNum}`,
                     Seme: `${Seme}`,

@@ -12,7 +12,7 @@ const Upload = () => {
   const { message } = useSelector(state => state.msg);
   const token = localStorage.getItem('token');
   const [obj, setObj] = useState({});
-  const [swich, setSwich] = useState(false)
+  const [swich, setSwich] = useState(Boolean)
   const handlesummit = (e) => {
     setObj({
       ...obj,

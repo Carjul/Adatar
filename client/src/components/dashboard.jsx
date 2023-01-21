@@ -15,7 +15,7 @@ export const Dashboard = () => {
     const x = useSelector(state => state.data);
     console.log(x)
     const dispatch = useDispatch();
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');  
 
 
 
