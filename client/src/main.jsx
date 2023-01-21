@@ -1,17 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
 import { Auth0Provider } from "@auth0/auth0-react";
 import { BrowserRouter } from 'react-router-dom'
 import { store } from './app/Store/store'
 import { Provider } from 'react-redux'
+import App from './App';
 
-const {REACT_APP_DOMAIN,REACT_APP_CLIENT_ID}=process.env;
+
+const cliente=import.meta.env.VITE_APP_CLIENT_ID;
+const domains =import.meta.env.VITE_APP_DOMAIN;
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Auth0Provider domain={REACT_APP_DOMAIN} clientId={REACT_APP_CLIENT_ID} redirectUri={window.location.origin}>
+    <Auth0Provider domain={domains} clientId={cliente} redirectUri={window.location.origin}>
     <Provider store={store}>
       <BrowserRouter>
         <App />

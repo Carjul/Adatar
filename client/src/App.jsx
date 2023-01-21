@@ -6,6 +6,7 @@ import Upload from './components/File';
 import Home from './components/Home';
 import Init from './components/landing';
 import Perfil from './components/profile';
+import './index.css'
 
 function App() {
   let rol =localStorage.getItem('RolId')
@@ -24,4 +25,4 @@ function App() {
     );
 }
 
-export default App;
+export default App

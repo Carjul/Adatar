@@ -4,9 +4,9 @@ import { setMsg } from "../FeatureSlices/MsgApi";
 import { setUsers,setConfig } from "../FeatureSlices/users";
 import jwt_decode from "jwt-decode";
 
- const { REACT_APP_API } = process.env; 
+ const url = import.meta.env.VITE_APP_API; 
 
-// const REACT_APP_API = 'http://localhost:3004'
+// const url = 'http://localhost:3004'
 export const getData = (token) => (dispatch) => {
   try {
 
@@ -51,7 +51,7 @@ export const getData = (token) => (dispatch) => {
     }`;
 
 
-    axios.post(`${REACT_APP_API}/api/v1?token=${token}`, { query })
+    axios.post(`${url}/api/v1?token=${token}`, { query })
       .then((response) => {
         dispatch(setPeriodo(response.data.data.peticion_periodoAcademico));
         dispatch(setSede(response.data.data.peticion_programa));
@@ -70,7 +70,7 @@ export const getData = (token) => (dispatch) => {
 
 export const postFile = (obj, token) => (dispatch) => {
 
-  axios.post(`${REACT_APP_API}/api/v1/upload?token=${token}`, obj, {
+  axios.post(`${url}/api/v1/upload?token=${token}`, obj, {
     headers: { "Content-Type": "multipart/form-data" }
   }
   ).then((result) => {
@@ -93,7 +93,7 @@ export const getProgramas=(Sede,token)=>(dispatch)=>{
    }
    }`
 
-   axios.post(`${REACT_APP_API}/api/v1?token=${token}`, { query })
+   axios.post(`${url}/api/v1?token=${token}`, { query })
    .then((res)=> {
     dispatch( setPrograma(res.data.data.Buscar_programas_sede))
    })
@@ -113,7 +113,7 @@ export const getuser = (token) => (dispatch) => {
       RolId
     }
         }`
-    axios.post(`${REACT_APP_API}/api/v1?token=${token}`, { query })
+    axios.post(`${url}/api/v1?token=${token}`, { query })
   .then((result)=>{
    dispatch(setConfig(result.data.data.peticion_user))
   })
@@ -123,7 +123,7 @@ export const getuser = (token) => (dispatch) => {
 }
 
 export const senduser = (obj) => (dispatch) => {
-  axios.post(`${REACT_APP_API}/login`, obj).then((result) => {
+  axios.post(`${url}/login`, obj).then((result) => {
     if (result.data.token) {
       localStorage.setItem('token', result.data.token)
       var decoded = jwt_decode(result.data.token);
@@ -142,7 +142,7 @@ export const senduser = (obj) => (dispatch) => {
 }
 
 export const exit = () => {
-  axios.get(`${REACT_APP_API}/logout`).then((result) => {
+  axios.get(`${url}/logout`).then((result) => {
     console.log(result);
   }).catch(err => {
     console.log(err);
@@ -155,7 +155,7 @@ export const deleteOneData = (id,token) => (dispatch) => {
       deleteuser(id:"${id}")
     }`
  
-    axios.post(`${REACT_APP_API}/api/v1?token=${token}`, {query})
+    axios.post(`${url}/api/v1?token=${token}`, {query})
     .then((result) => {
     dispatch(setMsg(result.data.data.deleteuser))
   }).catch(err => {
@@ -169,7 +169,7 @@ export const updateOneData = (id, rol,token) => (dispatch) => {
     update(id:"${id}", RolId:"${rol}")
   }`
 
- axios.post(`${REACT_APP_API}/api/v1?token=${token}`, { query })
+ axios.post(`${url}/api/v1?token=${token}`, { query })
  .then((result) => {
     dispatch(setMsg(result.data.data.update))
   }).catch(err => {
@@ -197,7 +197,7 @@ export const get_Nota_Año = (id,token) => (dispatch) => {
             PeriodoAcademicoId
           }}`;
 
-        axios.post(`${REACT_APP_API}/api/v1?token=${token}`, { query })
+        axios.post(`${url}/api/v1?token=${token}`, { query })
       .then((response) => {
         dispatch(setNota(response.data.data.notasporyear));
       })
