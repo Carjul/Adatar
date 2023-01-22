@@ -5,23 +5,24 @@ import { postFile } from '../app/Actions/action';
 import Footer from './footer'
 import { useDispatch, useSelector } from 'react-redux'
 import gif from '../assets/loading-2.gif'
-import { setMsg } from '../app/FeatureSlices/MsgApi';
+import { setMsg,setSwich } from '../app/FeatureSlices/MsgApi';
 
 const Upload = () => {
   const dispatch = useDispatch();
-  const { message } = useSelector(state => state.msg);
+  const { message,swich } = useSelector(state => state.msg);
   const token = localStorage.getItem('token');
   const [obj, setObj] = useState({});
-  const [swich, setSwich] = useState(Boolean)
+
   const handlesummit = (e) => {
     setObj({
       ...obj,
       [e.target.name]: e.target.files[0]
     });
   }
- 
+ if(swich && message){
+     dispatch(setSwich(false))
+   }
   useEffect(() => {
-    setSwich(false)
     setTimeout(() => {
       dispatch(setMsg(""))
     }, 5000)
@@ -57,7 +58,7 @@ const Upload = () => {
                   <form onSubmit={e => {
                     e.preventDefault();
                     dispatch(postFile(obj, token))
-                    setSwich(true)
+                    dispatch(setSwich(true))
                   }} className="form-control">
 
                     <input type="file" id='miInputFile' name="file" onChange={handlesummit} className="file-input file-input-bordered file-input-primary w-full max-w-xs" required />

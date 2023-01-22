@@ -47,20 +47,26 @@ const dataSlice = createSlice({
         },
         setPrograma: (state, action) => {
             state.programa = action.payload
-            const arreglo=[]
+            const arreglo = []
             const arr = []
-            for (let i = 0; i < action.payload.length; i++) {
-                const e = action.payload[i];
-      
-                state.notas.forEach(element => {
-                if(element.ProgramaId === e.id && element.Gano === 0) {
-                    arr.push(element)
-                };
-            })
-           
-            arreglo.push({ value: arr.length, name:  e.NombrePrograma })
-        }
-        state.notasperpro = arreglo
+            for (let i = 0; i < state.programa.length; i++) {
+                const e = state.programa[i];
+                arreglo.push({ value: [], name: e.NombrePrograma, id: e.id })
+            }
+            for (let i = 0; i < arreglo.length; i++) {
+                const element = arreglo[i];
+                state.notas.forEach((e) => {
+                    if (e.ProgramaId === element.id && e.Gano === 0) {
+                        element.value.push(e)
+                    }
+                })
+
+            }
+            for (let i = 0; i < arreglo.length; i++) {
+                const element = arreglo[i];
+                arr.push({ value: element.value.length, name: element.name })
+            }
+            state.notasperpro = arr
         },
         setDocente: (state, action) => {
             state.docentes = action.payload
@@ -85,7 +91,7 @@ const dataSlice = createSlice({
             const notas_programa = []
             for (let i = 0; i < state.notas.length; i++) {
                 const e = state.notas[i];
-                if (e.ProgramaId === action.payload && e.Gano=== 0) notas_programa.push(e)
+                if (e.ProgramaId === action.payload && e.Gano === 0) notas_programa.push(e)
             }
 
             const data = []
@@ -100,28 +106,26 @@ const dataSlice = createSlice({
                 if (data.indexOf(e) === i) norepeat.push(e)
             }
             const materias = []
-            const materiasdata=[]
+            const materiasdata = []
             for (let i = 0; i < norepeat.length; i++) {
-                const dato =[]
+                const dato = []
                 const e = norepeat[i]
-                notas_programa.forEach((el) =>{if(el.MateriaId === e.id)  dato.push(el)})
+                notas_programa.forEach((el) => { if (el.MateriaId === e.id) dato.push(el) })
                 materiasdata.push({ value: dato, name: e.NombreMateria, })
                 materias.push({ value: dato.length, name: e.NombreMateria, })
             }
-            state.notasperma= materiasdata
-         
+            state.notasperma = materiasdata
+
             state.notasmateria = materias
 
         },
         setNotastate: (state, action) => {
-            state.notastate = state.notasmateria.filter(e => {
-                return e.nota.Gano === parseInt(action.payload)
-            })
+            state.notastate =[]
         },
-        
-        
+
+
     }
 })
 
 export default dataSlice.reducer
-export const {  setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions
+export const { setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions

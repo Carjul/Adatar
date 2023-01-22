@@ -1,5 +1,5 @@
 import axios from "axios";
-import {  setPeriodo,  setPrograma,  setMateriaPorPensum, setMateria, setPensum, setFacultad, setNota, setSede } from '../FeatureSlices/data';
+import {  setPeriodo,  setPrograma,  setMateriaPorPensum, setMateria, setPensum, setFacultad, setNota, setSede,setDocente,setEstudiante } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
 import { setUsers,setConfig } from "../FeatureSlices/users";
 import jwt_decode from "jwt-decode";
@@ -208,35 +208,43 @@ export const get_Nota_Año = (id,token) => (dispatch) => {
     console.log(error);
   }
 } 
-/* export const getOneData = (id) => (dispatch) => {
+export const getDataperson =(token)=>(dispatch)=>{
   try {
-    const mutation = `mutation{
-            Buscar_notas(id: ${id}){
-            id
-            GRADE_ACTIVITY
-            Nota
-            FINAL_GRADE
-            Gano
-            Perdio
-            Rango
-            ProxNotaMin
-            Seccion
-            EstudianteId
-            MateriaId
-            ProgramaId
-            DocenteId
-            PeriodoAcademicoId
-          }}`;
+    const query =`query{
+      peticion_estudiantes{
+        id
+        TipoDoc
+        Identificacion
+        Nombres
+        EstadoAlumnoPrograma
+        Semestre
+        Direccion
+        Ciudad
+        Departamento
+        TelFijo
+        TelMovil
+        Email
+        Genero
+        SemeNumero
+        PensumId
+      }
+      peticion_docentes{
+        id
+        Cog_Docente
+        Nom_Docente
+        
+      }
+    }
+    `
+axios.post(`${url}/api/v1?token=${token}`, { query })
+.then(res=>{
+  dispatch(setDocente(res.data.data.peticion_docentes))
+  dispatch(setEstudiante(res.data.data.peticion_estudiantes))
 
-    axios.post('http://localhost:3004/', { mutation })
-      .then((response) => {
-        dispatch(setOneData(response.data.data.Buscar_notas));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+})
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-} */
+}
+
 
