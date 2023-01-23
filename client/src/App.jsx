@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route,Switch } from "react-router-dom";
+import { Route,Routes } from "react-router-dom";
 import Config from './components/configuser';
 import { Dashboard } from './components/dashboard';
 import Upload from './components/File';
@@ -13,14 +13,14 @@ function App() {
  console.log(rol)
   return (
       <>
-        <Switch>
-          <Route exact path="/" component={Init} />
-          <Route path="/home" component={Home} />
-          <Route path="/upload" component={Upload} />
-          <Route path="/perfil" component={Perfil} />
-          <Route path="/dashboard" component={Dashboard}/>
-          <Route path="/config" component={Config}/>
-        </Switch>
+        <Routes>
+          <Route exact path="/" element={<Init/>} />
+          <Route path="/home" element={<Home/>} />
+          <Route path="/upload" element={<Upload/>} />
+          <Route path="/perfil" element={<Perfil/>} />
+          <Route path="/dashboard" element={<Dashboard/>}/>
+          <Route path="/config" element={<Config/>}/>
+        </Routes>
       </>
     );
 }

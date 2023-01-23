@@ -124,7 +124,9 @@ const dataSlice = createSlice({
             for (let i = 0; i < state.notasperma.length; i++) {
                 const element = state.notasperma[i];
                 element.value.forEach(e=>{ 
-                    ar.push(state.materiaPorPensum.find(elemento => elemento.MateriaId === e.MateriaId),element)
+                    var pensun =state.materiaPorPensum.find(elemento => elemento.MateriaId === e.MateriaId)
+                    var estudiante =state.estudiantes.find(elemento => elemento.id === e.EstudianteId)
+                    ar.push({pensun,element,estudiante})
                 })
             }
             state.notastate =ar

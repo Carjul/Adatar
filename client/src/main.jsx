@@ -21,6 +21,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </Auth0Provider>
   </React.StrictMode>
 );
+
 /* 
 REACT_APP_API=http://139.144.177.216:3001
 REACT_APP_DOMAIN=dev-35dy5wz22m0uql2f.us.auth0.com
