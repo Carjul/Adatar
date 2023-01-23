@@ -26,21 +26,17 @@ export const Dashboard = () => {
 
 
     const HandleChageP = (e) => {
-        console.log(e.target.value)
         dispatch(get_Nota_Año(e.target.value, token))
     }
     const HandleChageS = (e) => {
-        console.log(e.target.value)
         dispatch(getProgramas(e.target.value, token))
     }
     const HandleChageC = (e) => {
-        console.log(e.target.value)
         dispatch(getDataperson(token))
         dispatch(setNotasmateria(`${e.target.value}`))
     }
    
      const HandleChageE = (e) => {
-         console.log(e.target.value)
          dispatch(setNotastate(e.target.value))
      }
 

@@ -120,7 +120,14 @@ const dataSlice = createSlice({
 
         },
         setNotastate: (state, action) => {
-            state.notastate =[]
+            const ar =[]
+            for (let i = 0; i < state.notasperma.length; i++) {
+                const element = state.notasperma[i];
+                element.value.forEach(e=>{ 
+                    ar.push(state.materiaPorPensum.find(elemento => elemento.MateriaId === e.MateriaId),element)
+                })
+            }
+            state.notastate =ar
         },
 
 
