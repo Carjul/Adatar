@@ -12,7 +12,7 @@ import * as echarts from 'echarts';
 
 export const Dashboard = () => {
 
-    const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma } = useSelector(state => state.data);
+    const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma,notasemestre   } = useSelector(state => state.data);
     const x = useSelector(state => state.data);
     console.log(x)
     const dispatch = useDispatch();
@@ -22,6 +22,7 @@ export const Dashboard = () => {
 
     React.useEffect(() => {
         dispatch(getData(token));
+        dispatch(getDataperson(token))
     }, [dispatch, token]);
 
 
@@ -32,7 +33,6 @@ export const Dashboard = () => {
         dispatch(getProgramas(e.target.value, token))
     }
     const HandleChageC = (e) => {
-        dispatch(getDataperson(token))
         dispatch(setNotasmateria(`${e.target.value}`))
     }
    
@@ -146,6 +146,7 @@ export const Dashboard = () => {
     }, [notasmateria])
 
     React.useEffect(() => {
+        let arr= notasemestre
         let myChart = echarts.init(document.getElementById('main3'));
         window.addEventListener("resize", function () {
             myChart.resize();
@@ -154,15 +155,8 @@ export const Dashboard = () => {
             dataset: {
                 source: [
                     ['score', 'numero', 'estudiantes'],
-                    [3, 5, 'Matcha Latte'],
-                    [1, 7, 'Milk Tea'],
-                    [4, 4, 'Cheese Cocoa'],
-                    [1, 1, 'Cheese Brownie'],
-                    [7, 2, 'Matcha Cocoa'],
-                    [1, 7, 'Tea'],
-                    [6, 9, 'Orange Juice'],
-                    [6, 10, 'Lemon Juice'],
-                    [7, 2, 'Walnut Brownie']
+                    ...arr
+
                 ]
             },
             grid: { containLabel: true },
@@ -193,7 +187,7 @@ export const Dashboard = () => {
             ]
         }
         myChart.setOption(option);
-    })
+    },[notasemestre])
 
     return (
         <>

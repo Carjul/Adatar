@@ -13,6 +13,7 @@ const initialState = {
     notas: [],
     notasmateria: [],
     notastate: [],
+    notasemestre: [],
     notasperpro: [],
     notasperma: [],
 }
@@ -120,20 +121,44 @@ const dataSlice = createSlice({
 
         },
         setNotastate: (state, action) => {
-            const ar =[]
+            const ar = []
+            const result = []
             for (let i = 0; i < state.notasperma.length; i++) {
                 const element = state.notasperma[i];
-                element.value.forEach(e=>{ 
-                    var pensun =state.materiaPorPensum.find(elemento => elemento.MateriaId === e.MateriaId)
-                    var estudiante =state.estudiantes.find(elemento => elemento.id === e.EstudianteId)
-                    ar.push({pensun,element,estudiante})
+                var nota = element.value
+                var NombreMateria = element.name
+                var pensun = state.materiaPorPensum.find(elemento => elemento.MateriaId === nota[0].MateriaId)
+                nota.forEach(e => {
+                    var estudiante = state.estudiantes.find(elemento => elemento.id === e.EstudianteId)
+                    ar.push({ pensun, NombreMateria, Notamateria: e, estudiante })
                 })
             }
-            state.notastate =ar
+            state.notastate = ar
+
+            const student = []
+            const data = []
+ 
+            for (let i = 0; i < ar.length; i++) {
+                const e = ar[i];                                                                                                  
+                if (e.pensun.SemMateriaNum == action.payload) {
+                    data.push(e)
+                    student.push(e.estudiante.Nombres)
+                }
+            }
+            console.log(data)
+
+            for (let index = 0; index < student.length; index++) {
+                const nombres = student[index];                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                const x = []
+                data.forEach(e => { if (e.estudiante.Nombres === nombres) { x.push(e) } })
+
+                result.push([x.length, x.length, nombres])
+            }
+            state.notasemestre = result                                                                                                                                                                                                                                                                                                                         
         },
 
 
-    }
+    }                                                                                                                                                                                           
 })
 
 export default dataSlice.reducer

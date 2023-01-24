@@ -23,7 +23,7 @@ const data = useSelector(state => state.token)
           <h1 className="mb-5 text-5xl font-bold">Hola</h1>
           <p className="mb-5">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
           {data.user.token? <Link to="/home" className="btn btn-primary">Empezar</Link>:
-            <button className="btn btn-primary" onClick={() => loginWithRedirect()}>Iniciar seción</button>}
+            <button className="btn btn-primary" onClick={() => loginWithRedirect()}>Iniciar sesión</button>}
         </div>
       </div>
     </div>

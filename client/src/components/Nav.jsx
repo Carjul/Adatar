@@ -52,8 +52,7 @@ export function Nav() {
           <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52 ">
             
             <li>
-              <button onClick={click} className="justify-between hover:bg-accent">Logout
-              <span><MdLogout/></span>
+              <button onClick={click} className="justify-between hover:bg-accent">Cerrar sesión<span><MdLogout/></span>
               </button>
             </li>
 
