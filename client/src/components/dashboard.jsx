@@ -12,7 +12,7 @@ import * as echarts from 'echarts';
 
 export const Dashboard = () => {
 
-    const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma,notasemestre   } = useSelector(state => state.data);
+    const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma, notas,notasemestre   } = useSelector(state => state.data);
     const x = useSelector(state => state.data);
     console.log(x)
     const dispatch = useDispatch();
@@ -208,7 +208,7 @@ export const Dashboard = () => {
                             </select>
 
                         </div>
-                        <div className="px-0 py-2">
+                        {notas.length>0?<div className="px-0 py-2">
                             <select name="Sede" onChange={HandleChageS} className="select select-secondary select-sm max-w-xs">
                                 <option defaultValue="0">Sede</option>
                                 {sede?.map((e, i) =>
@@ -216,7 +216,7 @@ export const Dashboard = () => {
                                 )}
                             </select>
 
-                        </div>
+                        </div>:<div></div>}
 
                         
 

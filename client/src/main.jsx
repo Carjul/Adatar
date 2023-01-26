@@ -21,8 +21,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </Auth0Provider>
   </React.StrictMode>
 );
-
+/* window.addEventListener("load", function(event) {
+ this.window.location.href="/"
+}); */
 /* 
-REACT_APP_API=http://139.144.177.216:3001
-REACT_APP_DOMAIN=dev-35dy5wz22m0uql2f.us.auth0.com
-REACT_APP_CLIENT_ID=DZkkkzyucPxIKzlNoH3ru3Al0NL8OzL1 */
+VITE_APP_API=http://139.144.177.216:3004
+VITE_APP_DOMAIN=dev-35dy5wz22m0uql2f.us.auth0.com
+VITE_APP_CLIENT_ID=91WKassra0wibb6avtlA05QM7ckt9xvP */
