@@ -20,8 +20,8 @@ const data = useSelector(state => state.token)
       <div className="hero-overlay bg-opacity-60"></div>
       <div className="hero-content text-center text-neutral-content">
         <div className="max-w-md">
-          <h1 className="mb-5 text-5xl font-bold">Hola</h1>
-          <p className="mb-5">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+          <h1 className="mb-5 text-5xl font-bold">Bienvenido a ADATAR</h1>
+          <p className="mb-5">El proyecto ADATAR adapta el proceso de descubrimiento de conocimiento en bases de datos (KDD) generando un sistema de análisis de datos académicos que permita lanzar alertas tempranas sobre retención académica .</p>
           {data.user.token? <Link to="/home" className="btn btn-primary">Empezar</Link>:
             <button className="btn btn-primary" onClick={() => loginWithRedirect()}>Iniciar sesión</button>}
         </div>
