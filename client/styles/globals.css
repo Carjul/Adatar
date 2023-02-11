@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#sidebar{
+    height: 41rem;
+}
+
+#bgi{
+    background-image: url('../public/img.jpg');
+}
+#gif{
+    background-image: url('../public/loading-2.gif');
+}
