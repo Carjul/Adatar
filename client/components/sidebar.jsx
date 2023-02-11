@@ -39,10 +39,10 @@ const Sidebar = (number) => {
                         <li>
                             {props === 4 ? <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" href={"/dashboard"}>
                                 <GoGraph/>
-                                <span className="ml-4 hidden md:flex md:flex-shrink-0">Dashboard</span>
-                            </Link> : <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" href={"/dashboard"}>
+                                <span className="ml-4 hidden md:flex md:flex-shrink-0">Graficos</span>
+                            </Link> : <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/dashboard"}>
                                 <GoGraph/>
-                                <span className="ml-4 hidden md:flex md:flex-shrink-0">Dashboard</span>
+                                <span className="ml-4 hidden md:flex md:flex-shrink-0">Graficos</span>
                             </Link>}
                         </li>
                         <li>
