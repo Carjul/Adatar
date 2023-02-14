@@ -6,7 +6,8 @@ import { useEffect, useRef } from 'react';
 import { getuser, deleteOneData, updateOneData } from '@/app/Actions/action';
 import { setMsg } from '@/app/FeatureSlices/MsgApi';
 import PrivateRoute from '@/components/proteccion';
-import {getCookie} from 'cookies-next'
+import { getCookie } from 'cookies-next'
+import Image from 'next/image';
 
 const Config = () => {
     const { message } = useSelector(state => state.msg);
@@ -16,8 +17,8 @@ const Config = () => {
     const id = getCookie('id')
 
     const user = config?.filter(e => e.id !== id)
-
     const token = getCookie('token');
+
 
     useEffect(() => {
         dispatch(getuser(token))
@@ -26,6 +27,7 @@ const Config = () => {
     useEffect(() => {
         setTimeout(() => {
             dispatch(setMsg(""))
+            dispatch(getuser(token))
         }, 6000)
     }, [dispatch, message])
 
@@ -36,7 +38,7 @@ const Config = () => {
             const currentButtonEl = buttonEl.current;
             const handleClick = () => {
                 dispatch(deleteOneData(id, token))
-                dispatch(getuser(token))
+
             };
             currentButtonEl.addEventListener('click', handleClick);
 
@@ -48,7 +50,7 @@ const Config = () => {
     function Formupdate({ id }) {
         const handlechange = (e) => {
             dispatch(updateOneData(id, e.target.value, token));
-            dispatch(getuser(token))
+
         }
         return (
             <div>
@@ -56,7 +58,7 @@ const Config = () => {
                     <option value="0">Roles</option>
                     <option value="1">Administrador</option>
                     <option value="2">Directivo</option>
-                    <option value="3">Coordinador</option>
+                    <option value="3">Coordinador de semestre</option>
                 </select>
 
             </div>
@@ -101,7 +103,7 @@ const Config = () => {
                                     <td className="p-2">
                                         <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                                             <div className="w-10 rounded-full">
-                                                <img src={e.Avatar} alt="img" />
+                                                <Image src={e.Avatar} alt="Avatar" width={40} height={50} />
                                             </div>
                                         </label>
                                     </td>
@@ -115,7 +117,7 @@ const Config = () => {
                                             <div className="badge badge-outline bg-secondary">Directivo</div>
                                         </div> : ""}
                                         {parseInt(e.RolId) === 3 ? <div className="card-actions justify-start">
-                                            <div className="badge badge-outline bg-secondary">Coordinador</div>
+                                            <div className="badge badge-outline bg-secondary">Coordinador de semestre</div>
                                         </div> : ""}
                                     </td>
                                     <td className="p-2"><Formupdate id={e.id} /></td>

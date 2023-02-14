@@ -1,11 +1,12 @@
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
 import { VscSymbolColor } from "react-icons/vsc";
-import {MdLogout} from "react-icons/md";
+import { MdLogout } from "react-icons/md";
 import { exit } from "../app/Actions/action";
-import { useEffect } from "react";
+import { useEffect} from "react";
 import { setTheme } from "@/app/FeatureSlices/Themes";
-
+import { deleteCookie, getCookie } from 'cookies-next'
+import Image from "next/image";
 
 export default function Nav() {
 
@@ -14,12 +15,9 @@ export default function Nav() {
 
   useEffect(() => {
     document.getElementById('root').setAttribute('data-theme', theme);
-  },[theme])
+  }, [theme])
 
-  const {auth0data} = useSelector(state => state.token)
-
-  const value = auth0data?.picture;
-
+  const value= getCookie('Avatar')
   const dispatch = useDispatch();
 
   const datacolor = ["light", "dark", "cupcake", "bumblebee", "emerald", "corporate", "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden", "forest", "aqua", "pastel", "fantasy", "wireframe", "black", "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade", "night", "coffee", "winter"]
@@ -29,10 +27,15 @@ export default function Nav() {
   }
   const click = () => {
     exit()
-    localStorage.clear();
+    deleteCookie('token');
+    deleteCookie('id');
+    deleteCookie('RolId');
+    deleteCookie('Email');
+    deleteCookie('Name');
+    deleteCookie('Avatar');
   }
 
-    
+
   return (
     <div className="navbar bg-base-200 border-b border-base-300" >
       <div className="flex-1">
@@ -50,14 +53,15 @@ export default function Nav() {
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
-              <img src={value} alt="img" />
+              
+              <Image src={value} alt="Avatar" width={40} height={50}/>
             </div>
           </label>
           <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52 ">
-            
+
             <li>
-              <button onClick={click} className="hover:bg-accent"><a className="w-full" href="/api/auth/logout">Cerrar sesión </a> <span><MdLogout/></span></button>
-              
+              <button onClick={click} className="hover:bg-accent"><Link className="w-full" href="/api/auth/logout">Cerrar sesión </Link> <span><MdLogout /></span></button>
+
             </li>
 
           </ul>

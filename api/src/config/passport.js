@@ -16,7 +16,7 @@ passport.use(new LocalStrategy(
             }
             if (!user) {
                 const { email, picture, name } = req.body;
-                const usercreate = await Users.create({ Avatar: picture, Nombre: name, Email: email, Password: password, RolId: 2 });
+                const usercreate = await Users.create({ Avatar: picture, Nombre: name, Email: email, Password: password, RolId: 3 });
                 return done(null, usercreate);
             }
         } catch (error) {

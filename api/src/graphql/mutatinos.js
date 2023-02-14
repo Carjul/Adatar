@@ -12,9 +12,7 @@ const update={
     },
     async resolve (_,args){ 
        const {id, RolId} =args
-       const user =await Users.findByPk(id)
-       user.RolId=RolId
-       await user.save()
+       await Users.update({RolId},{where:{id}})
        return 'usuario actualizado'
     }
 }

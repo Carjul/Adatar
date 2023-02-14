@@ -3,6 +3,7 @@ import  Nav  from "@/components/Nav";
 import Sidebar from "@/components/sidebar";
 import PrivateRoute from "@/components/proteccion";
 import {getCookie} from 'cookies-next'
+import Image from "next/image";
 
 const Perfil = () => {
 
@@ -20,10 +21,10 @@ const Perfil = () => {
 
                     <div className="card card-compact w-a bg-base-100 shadow-xl ">
                     
-                        <div className="card-body">
-                            <h1 className="card-title">Perfil</h1>
+                        <div className="card-body items-center">
+                            <h1 className="card-title">Datos de usuario</h1>
                             <br />
-                            <img  className="mask mask-circle" src={`${avatar}`} alt="img" />
+                            <Image src={avatar} alt="Avatar" width={180} height={180} className="border rounded-full"/>
                             <h3>{name}</h3>
                             <strong>{email}</strong>
                             <br />
@@ -35,7 +36,7 @@ const Perfil = () => {
                             <div className="badge badge-outline bg-secondary">Directivo</div>
                             </div> : ""}
                             {parseInt(rol) === 3 ? <div className="card-actions justify-start">
-                            <div className="badge badge-outline bg-secondary">Coordinador</div>
+                            <div className="badge badge-outline bg-secondary">Coordinador de semestre</div>
                             </div> : ""}
                             <br />
                         </div>

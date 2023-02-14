@@ -25,7 +25,7 @@ useEffect(() => {
         <div className="max-w-md">
           <h1 className="mb-5 text-5xl font-bold">Bienvenido a ADATAR</h1>
           <p className="mb-5">El proyecto ADATAR adapta el proceso de descubrimiento de conocimiento en bases de datos (KDD) generando un sistema de análisis de datos académicos que permita lanzar alertas tempranas sobre retención académica .</p>
-          {data.user.token? <Link href="/home" className="btn btn-primary">Empezar</Link>:<a href="/api/auth/login"><button className="btn btn-primary" >Iniciar sesión</button></a>
+          {data.user.token? <Link href="/home" className="btn btn-primary">Empezar</Link>:<Link href="/api/auth/login"><button className="btn btn-primary" >Iniciar sesión</button></Link>
             }
     
 

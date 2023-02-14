@@ -1,15 +1,14 @@
 import React from 'react';
 import { useRouter } from 'next/router'
-
+import {getCookie} from 'cookies-next'
 
 const PrivateRoute = ({ children }) => {
   const router = useRouter()
-  const  token  = localStorage.getItem('token');
+  const  token  = getCookie('token');
 
-  if (!token) {
-    router.push('/');
-    return null;
-  }
+  React.useEffect(() => {
+    if(!token) router.replace('/');
+  }, [token,router]);
 
   return (<>{children}</>)
 };
