@@ -1,5 +1,5 @@
 import '@/styles/globals.css'
-import { store } from '@/app/store/store'
+import { store } from '@/app/Store/store'
 import { Provider } from 'react-redux'
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 
