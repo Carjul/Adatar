@@ -1,6 +1,7 @@
 const express=require( "express")
 const {graphqlHTTP}= require('express-graphql')
-const cors =require("cors")
+const cors = require("cors")
+const morgan = require("morgan")
 const passport = require('passport');
 const session = require('express-session');
 require('./config/passport')
@@ -14,6 +15,7 @@ app.set('port', process.env.PORT)
 app.use(session({secret: "secret",resave: true,saveUninitialized: true,}));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(morgan('dev'))
 app.use(cors())
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.json({ limit: '50mb' }));

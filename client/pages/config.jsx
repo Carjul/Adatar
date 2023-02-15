@@ -29,7 +29,7 @@ const Config = () => {
             dispatch(setMsg(""))
             dispatch(getuser(token))
         }, 6000)
-    }, [dispatch, message])
+    }, [dispatch, message,token])
 
     function MyButton({ id }) {
 

@@ -12,10 +12,12 @@ const {auth0data} = useSelector(state => state.token)
 
 useEffect(() => {
   dispatch(loginApi())
-},[] )
+},[dispatch] )
 
  useEffect(() => {
+  if(auth0data.hasOwnProperty('email')){
     dispatch(senduser({ email: auth0data?.email, password: auth0data?.nickname, name: auth0data?.name, picture: auth0data?.picture, }))
+  }
   }, [dispatch,auth0data]) 
 
   return (
