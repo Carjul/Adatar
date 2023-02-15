@@ -1,6 +1,8 @@
-FROM node:14-alpine
+FROM node:14
 
-WORKDIR /app
+RUN mkdir -p /usr/src/app
+
+WORKDIR /usr/src/app
 
 COPY package.json .
 COPY package-lock.json .
