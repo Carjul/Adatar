@@ -4,7 +4,8 @@ import Sidebar from "@/components/sidebar";
 import PrivateRoute from "@/components/proteccion";
 import {getCookie} from 'cookies-next'
 import Image from "next/image";
-
+ 
+ 
 const Perfil = () => {
 
     let rol = getCookie('RolId');
@@ -14,6 +15,7 @@ const Perfil = () => {
     return (
         <div>
             <PrivateRoute />
+     
             <Nav />
             <div className='flex flex-row justify-content-around'>
                 <Sidebar props={3} />

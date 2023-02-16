@@ -9,6 +9,7 @@ import * as echarts from 'echarts';
 import FileSaver from 'file-saver';
 import PrivateRoute from '@/components/proteccion';
 import {getCookie} from 'cookies-next'
+ 
 
 const Dashboard = () => {
 
@@ -192,6 +193,7 @@ const Dashboard = () => {
     return (
         <>
             <PrivateRoute /> 
+ 
             <Nav />
             <div className='flex flex-row justify-content-around'>
                 <Sidebar props={4} />

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setMsg,setSwich } from '@/app/FeatureSlices/MsgApi';
 import PrivateRoute from '@/components/proteccion';
 import { getCookie } from 'cookies-next';
+ 
 
 const Upload = () => {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ const Upload = () => {
   return (
     <>
       <PrivateRoute />
+ 
       <Nav />
       <div className='flex flex-row justify-content-around' >
         <Sidebar props={2} />

@@ -8,6 +8,7 @@ import { setMsg } from '@/app/FeatureSlices/MsgApi';
 import PrivateRoute from '@/components/proteccion';
 import { getCookie } from 'cookies-next'
 import Image from 'next/image';
+ 
 
 const Config = () => {
     const { message } = useSelector(state => state.msg);
@@ -67,6 +68,7 @@ const Config = () => {
     return (
         <>
             <PrivateRoute />
+       
             <Nav />
             <div className='flex flex-row justify-content-around'>
                 <Sidebar props={5} />
