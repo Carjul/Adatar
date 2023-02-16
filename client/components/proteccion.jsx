@@ -5,9 +5,7 @@ import {getCookie} from 'cookies-next'
 const PrivateRoute = ({ children }) => {
   const router = useRouter()
   const  token  = getCookie('token');
-  const coordinador = ['/home', '/perfil', '/dashboard']
-  const directivo = ['/home', '/perfil', '/dashboard', '/upload']
-  const admin = ['/home', '/perfil', '/dashboard', '/upload', '/config']
+  
   const rol = getCookie('RolId');
 
   React.useEffect(() => {
@@ -15,7 +13,11 @@ const PrivateRoute = ({ children }) => {
   }, [token,router]);
 
   React.useEffect(() => {
-  
+
+    const coordinador = ['/home', '/perfil', '/dashboard']
+    const directivo = ['/home', '/perfil', '/dashboard', '/upload']
+    const admin = ['/home', '/perfil', '/dashboard', '/upload', '/config']
+
       if ( !admin.includes(router.pathname) && rol === '1' ) {
         router.push('/home');
       }
@@ -26,7 +28,7 @@ const PrivateRoute = ({ children }) => {
         router.push('/home');
       }
 
-  }, [rol, router, coordinador, admin, directivo]);
+  }, [rol, router]);
 
   return (<>{children}</>)
 };
