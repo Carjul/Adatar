@@ -4,40 +4,40 @@ const fs = require('fs');
 const path = require('path');
 
 
-const {DB_USER, DB_PASSWORD, DB_HOST,DB} = process.env;
+const { DB_USER, DB_PASSWORD, DB_HOST, DB } = process.env;
 
 
-const sequelize = new Sequelize(DB, DB_USER, DB_PASSWORD, {
-    host: DB_HOST,
-    dialect: 'postgres',
-    logging: false,
-    native: false, 
-    pool: {
-      max: 50,
-      min: 0,
-      acquire: 1200000,
-      idle: 1000000,
-    },
-    dialectOptions: {
-        ssl: {
-            rejectUnauthorized: true,        
-        }
-    }
- });
-
-
-
-/* const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB}`,{
+/* const sequelize = new Sequelize(DB, DB_USER, DB_PASSWORD, {
+  host: DB_HOST,
+  dialect: 'postgres',
   logging: false,
-  native: false, 
+  native: false,
+  pool: {
+    max: 50,
+    min: 0,
+    acquire: 1200000,
+    idle: 1000000,
+  },
+  dialectOptions: {
+    ssl: {
+      rejectUnauthorized: true,
+    }
+  }
+}); */
+
+
+
+const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB}`, {
+  logging: false,
+  native: false,
   pool: {
     max: 50,
     min: 0,
     acquire: 1200000,
     idle: 1000000,
   }
-}); 
- */
+});
+
 
 const basename = path.basename(__filename);
 const modelDefiners = [];
@@ -70,7 +70,7 @@ const {
   Rols,
   Users
 } = sequelize.models;
- 
+
 Users.belongsTo(Rols)
 Rols.hasMany(Users)
 
@@ -106,6 +106,6 @@ Programas.hasMany(Pensums)
 
 
 module.exports = {
-  ...sequelize.models, 
-  conn: sequelize,     
+  ...sequelize.models,
+  conn: sequelize,
 };
