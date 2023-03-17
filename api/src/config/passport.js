@@ -9,7 +9,9 @@ passport.use(new LocalStrategy(
         passwordField: 'password',
     },(req, email, password, done) => {
         try {
-           Users.findOne({ where: { Email: email } }).then((user) => {
+           Users.findAll({ 
+            where: { Email: email }
+         }).then((user) => {
                 if (!user) {
                     const { email, picture, name } = req.body;
                     const usercreate = Users.create({ Avatar: picture, Nombre: name, Email: email, Password: password, RolId: 3 });

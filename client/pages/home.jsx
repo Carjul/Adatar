@@ -13,7 +13,7 @@ const Home = () => {
         <Nav />
         <div className='flex flex-row justify-content-around'>
             <Sidebar props={1} />
-            <p>home aqui</p>
+            <p></p>
 
         </div>
         <Footer />

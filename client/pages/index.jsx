@@ -1,4 +1,5 @@
-import Link from "next/link";
+import  Link from "next/link";
+import {useRouter } from 'next/router'
 import { useEffect } from "react";
 import {useDispatch, useSelector} from "react-redux";
 import { senduser, loginApi} from "@/app/Actions/action";
@@ -8,11 +9,17 @@ const dispatch = useDispatch()
 const data = useSelector(state => state.token)
 const {auth0data} = useSelector(state => state.token)
 
-
+const router = useRouter()
 
 useEffect(() => {
   dispatch(loginApi())
 },[dispatch] )
+
+useEffect(() => {
+  if(data.user.token){
+    router.push("/home")
+  }
+},[data] )
 
  useEffect(() => {
   if(auth0data.hasOwnProperty('email')){
@@ -27,9 +34,7 @@ useEffect(() => {
         <div className="max-w-md">
           <h1 className="mb-5 text-5xl font-bold">Bienvenido a ADATAR</h1>
           <p className="mb-5">El proyecto ADATAR adapta el proceso de descubrimiento de conocimiento en bases de datos (KDD) generando un sistema de análisis de datos académicos que permita lanzar alertas tempranas sobre retención académica .</p>
-          {data.user.token? <Link href="/home" className="btn btn-primary">Empezar</Link>:<Link href="/api/auth/login"><button className="btn btn-primary" >Iniciar sesión</button></Link>
-            }
-    
+          <Link href="/api/auth/login"><button className="btn btn-primary" >Iniciar sesión</button></Link>
 
         </div>
       </div>
