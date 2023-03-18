@@ -12,12 +12,13 @@ passport.use(new LocalStrategy(
            Users.findAll({ 
             where: { Email: email }
          }).then((user) => {
-                if (!user) {
+            const user1 = user[0];
+                if (!user1) {
                     const { email, picture, name } = req.body;
                     const usercreate = Users.create({ Avatar: picture, Nombre: name, Email: email, Password: password, RolId: 3 });
                     return done(null, usercreate);
                 }else {
-                    user.Password === password ? done(null, user) : done(null, false)
+                    user1.Password === password ? done(null, user1) : done(null, false)
                 }
             })
         } catch (error) {
