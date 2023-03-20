@@ -1,14 +1,13 @@
 import React from 'react';
-import Nav from '@/components/Nav';
-import Sidebar from '@/components/sidebar';
-import Footer from '@/components/footer';
-import PrivateRoute from '@/components/proteccion';
+import Nav from '../components/Nav';
+import Sidebar from '../components/sidebar';
+import Footer from '../components/footer';
+
  
  
 const Home = () => {
 
     return (<>
-        <PrivateRoute />
      
         <Nav />
         <div className='flex flex-row justify-content-around'>

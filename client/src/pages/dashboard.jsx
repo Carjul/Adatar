@@ -1,14 +1,14 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getData, getProgramas, get_Nota_Año,getDataperson } from '@/app/Actions/action';
-import { setNotasmateria, setNotastate, } from '@/app/FeatureSlices/data';
-import  Nav  from '@/components/Nav';
-import Sidebar from '@/components/sidebar';
-import Footer from '@/components/footer';
+import { getData, getProgramas, get_Nota_Año,getDataperson } from '../app/Actions/action';
+import { setNotasmateria, setNotastate, } from '../app/FeatureSlices/data';
+import  Nav  from '../components/Nav';
+import Sidebar from '../components/sidebar';
+import Footer from '../components/footer';
 import * as echarts from 'echarts';
 import FileSaver from 'file-saver';
-import PrivateRoute from '@/components/proteccion';
-import {getCookie} from 'cookies-next'
+
+
  
 
 const Dashboard = () => {
@@ -17,7 +17,7 @@ const Dashboard = () => {
     const x = useSelector(state => state.data);
     console.log(x)
     const dispatch = useDispatch();
-    const token = getCookie('token');
+    const token =localStorage.getItem('token');
 
 
 
@@ -192,7 +192,7 @@ const Dashboard = () => {
 
     return (
         <>
-            <PrivateRoute /> 
+           
  
             <Nav />
             <div className='flex flex-row justify-content-around'>

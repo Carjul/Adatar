@@ -1,20 +1,21 @@
-import Footer from "@/components/footer";
-import  Nav  from "@/components/Nav";
-import Sidebar from "@/components/sidebar";
-import PrivateRoute from "@/components/proteccion";
-import {getCookie} from 'cookies-next'
-import Image from "next/image";
+import Footer from "../components/footer";
+import  Nav  from "../components/Nav";
+import Sidebar from "../components/sidebar";
+
+
+
  
  
 const Perfil = () => {
 
-    let rol = getCookie('RolId');
-    let email = getCookie('Email');
-    let name = getCookie('Name');
-    let avatar = getCookie('Avatar')
+     let rol = localStorage.getItem('RolId');
+    let email = localStorage.getItem('Email');
+    let name = localStorage.getItem('Name');
+    let avatar =localStorage.getItem('Avatar');
+
     return (
         <div>
-            <PrivateRoute />
+        
      
             <Nav />
             <div className='flex flex-row justify-content-around'>
@@ -26,7 +27,7 @@ const Perfil = () => {
                         <div className="card-body items-center">
                             <h1 className="card-title">Datos de usuario</h1>
                             <br />
-                            <Image src={avatar} alt="Avatar" width={180} height={180} className="border rounded-full"/>
+                            <img src={avatar} alt="Avatar" width={180} height={180} className="border rounded-full"/>
                             <h3>{name}</h3>
                             <strong>{email}</strong>
                             <br />

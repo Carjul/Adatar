@@ -1,13 +1,12 @@
-import Nav from '@/components/Nav';
+import Nav from '../components/Nav';
 import { useSelector, useDispatch } from 'react-redux';
-import Sidebar from '@/components/sidebar';
-import Footer from '@/components/footer';
+import Sidebar from '../components/sidebar';
+import Footer from '../components/footer';
 import { useEffect, useRef } from 'react';
-import { getuser, deleteOneData, updateOneData } from '@/app/Actions/action';
-import { setMsg } from '@/app/FeatureSlices/MsgApi';
-import PrivateRoute from '@/components/proteccion';
-import { getCookie } from 'cookies-next'
-import Image from 'next/image';
+import { getuser, deleteOneData, updateOneData } from '../app/Actions/action';
+import { setMsg } from '../app/FeatureSlices/MsgApi';
+
+
  
 
 const Config = () => {
@@ -15,10 +14,10 @@ const Config = () => {
     const { config } = useSelector(state => state.token);
     const dispatch = useDispatch();
 
-    const id = getCookie('id')
+    const id = localStorage.getItem('id');
 
     const user = config?.filter(e => e.id !== id)
-    const token = getCookie('token');
+    const token = localStorage.getItem('token');
 
 
     useEffect(() => {
@@ -67,7 +66,7 @@ const Config = () => {
     }
     return (
         <>
-            <PrivateRoute />
+     
        
             <Nav />
             <div className='flex flex-row justify-content-around'>
@@ -104,8 +103,8 @@ const Config = () => {
                                 <tr key={e.id} className="flex flex-wrap border border-base-300">
                                     <td className="p-2">
                                         <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                                            <div className="w-10 rounded-full">
-                                                <Image src={e.Avatar} alt="Avatar" width={40} height={50} />
+                                            <div className="w-10 rounded-full">                                         
+                                                <img src={ `${e.Avatar}`} alt="Avatar" width={40} height={50}/>
                                             </div>
                                         </label>
                                     </td>

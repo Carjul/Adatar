@@ -1,19 +1,12 @@
 import axios from "axios";
 import {  setPeriodo,  setPrograma,  setMateriaPorPensum, setMateria, setPensum, setFacultad, setNota, setSede,setDocente,setEstudiante } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
-import { setUsers,setConfig,setData } from "../FeatureSlices/users";
+import { setUsers,setConfig } from "../FeatureSlices/users";
 import jwt_decode from "jwt-decode";
-import { setCookie } from 'cookies-next';
-
-const url = process.env.NEXT_PUBLIC_API; 
 
 
-export const loginApi= ()=>(dispatch)=>{
-  axios.get('/api/auth/me')
-  .then((res)=>{
-   dispatch(setData(res.data))
-  })
-} 
+const url = import.meta.env.VITE_PUBLIC_API; 
+
 
 
 export const getData = (token) => (dispatch) => {
@@ -135,13 +128,12 @@ export const senduser = (obj) => (dispatch) => {
   axios.post(`${url}/login`, obj).then((result) => {
     if (result.data.token) {
       localStorage.setItem('token', result.data.token)
-      setCookie('token', result.data.token)
       var decoded = jwt_decode(result.data.token);
-      setCookie('id', decoded.user.id);
-      setCookie('RolId', decoded.user.RolId);
-      setCookie('Email', decoded.user.Email);
-      setCookie('Name', decoded.user.Nombre);
-      setCookie('Avatar', decoded.user.Avatar);
+      localStorage.setItem('id', decoded.user.id);
+      localStorage.setItem('RolId', decoded.user.RolId);
+      localStorage.setItem('Email', decoded.user.Email);
+      localStorage.setItem('Name', decoded.user.Nombre);
+      localStorage.setItem('Avatar', decoded.user.Avatar);
     } else {
       console.log('no token');
     }

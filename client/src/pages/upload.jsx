@@ -1,18 +1,18 @@
-import Nav  from '@/components/Nav';
-import Sidebar from '@/components/sidebar';
+import Nav  from '../components/Nav';
+import Sidebar from '../components/sidebar';
 import { useEffect, useState, } from 'react';
-import { postFile } from '@/app/Actions/action';
-import Footer from '@/components/footer'
+import { postFile } from '../app/Actions/action';
+import Footer from '../components/footer'
 import { useDispatch, useSelector } from 'react-redux'
-import { setMsg,setSwich } from '@/app/FeatureSlices/MsgApi';
-import PrivateRoute from '@/components/proteccion';
-import { getCookie } from 'cookies-next';
+import { setMsg,setSwich } from '../app/FeatureSlices/MsgApi';
+
+
  
 
 const Upload = () => {
   const dispatch = useDispatch();
   const { message,swich } = useSelector(state => state.msg);
-  const token = getCookie('token')
+  const token = localStorage.getItem('token')
   const [obj, setObj] = useState({});
 
   const handlesummit = (e) => {
@@ -33,7 +33,7 @@ const Upload = () => {
 
   return (
     <>
-      <PrivateRoute />
+  
  
       <Nav />
       <div className='flex flex-row justify-content-around' >
