@@ -10,15 +10,3 @@ conn.sync({ force:false}).then(() => {
 })
 .catch((err)=>{console.log(err)});
 
-(async()=>{
-    const roles=["Admin","Directivo","Coordinador de semestre"]
-    for(let i=0;i<roles.length;i++){
-        const e =roles[i]
-        await Rols.findOrCreate({
-            where:{
-                rol:e
-            }
-        })
-    }
-
-})();
