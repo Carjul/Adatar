@@ -1,12 +1,20 @@
 const { GraphQLList } = require('graphql')
-const { Notas,Estudiantes,Pensums,Materias,Programas,Docentes, PeriodoAcademicos,MateriaPorPensums,Facultades,Users} = require('./../db');
-const {dataUser, facultades, programas, pensums, materias,materiaPorPensums,estudiantes,docentes,periodoAcademico,notas} = require('./types');
+const { Notas,Estudiantes,Pensums,Materias,Programas,Docentes, PeriodoAcademicos,MateriaPorPensums,Facultades,Users,Rols} = require('./../db');
+const {dataUser, facultades, programas, pensums, materias,materiaPorPensums,estudiantes,docentes,periodoAcademico,notas,Roles} = require('./types');
 
 const peticion_user = {
     type: new GraphQLList(dataUser),
     async resolve() {
         const users = await Users.findAll()
         return users
+    }
+}
+
+const peticion_rol = {
+    type: new GraphQLList(Roles),
+    async resolve() {
+        const data = await Rols.findAll()
+        return data
     }
 }
 
@@ -82,4 +90,4 @@ const peticion_notas = {
     }
 } 
  
-module.exports = { peticion_user,peticion_facultad,peticion_programa,peticion_pensum,peticion_materias,  peticion_materiaPorPensums,peticion_estudiantes, peticion_docentes,peticion_periodoAcademico,peticion_notas }
+module.exports = {peticion_rol, peticion_user,peticion_facultad,peticion_programa,peticion_pensum,peticion_materias,  peticion_materiaPorPensums,peticion_estudiantes, peticion_docentes,peticion_periodoAcademico,peticion_notas }

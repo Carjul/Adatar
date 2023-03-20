@@ -13,6 +13,17 @@ const dataUser = new GraphQLObjectType({
    }
 })
 
+const Roles = new GraphQLObjectType({
+   name: 'rols',
+   description: "datos de rol",
+   fields: {
+      id: { type: GraphQLID },
+      rol: { type: GraphQLString },
+      createdAt: { type: GraphQLString },
+      updatedAt: { type: GraphQLString },
+   }
+})
+
 const facultades = new GraphQLObjectType({
    name: 'facultades',
    description: "datos facultad",
@@ -153,4 +164,4 @@ const notas= new GraphQLObjectType({
    }
 }) 
 
-module.exports = { dataUser, facultades, programas, pensums, materias, materiaPorPensums, estudiantes, docentes, periodoAcademico,notas}
+module.exports = {Roles, dataUser, facultades, programas, pensums, materias, materiaPorPensums, estudiantes, docentes, periodoAcademico,notas}
