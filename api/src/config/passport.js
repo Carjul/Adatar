@@ -7,20 +7,22 @@ passport.use(new LocalStrategy(
         passReqToCallback: true,
         usernameField: "email",
         passwordField: 'password',
-    },(req, email, password, done) => {
+    }, async (req, email, password, done) => {
+       
         try {
-           Users.findAll({ 
-            where: { Email: email }
-         }).then((user) => {
-            const user1 = user[0];
-                if (!user1) {
-                    const { email, picture, name } = req.body;
-                    const usercreate = Users.create({ Avatar: picture, Nombre: name, Email: email, Password: password, RolId: 3 });
-                    return done(null, usercreate);
-                }else {
-                    user1.Password === password ? done(null, user1) : done(null, false)
-                }
+            const busqueda = await Users.findAll({
+                where: { Email: email }
             })
+            const user = busqueda[0]
+
+            if (!user) {
+                const { email, picture, name } = req.body;
+                const usercreate = await Users.create({ Avatar: picture, Nombre: name, Email: email, Password: password, RolId: 3 });
+                return done(null, usercreate);
+            } else {
+                user.Password === password ? done(null, user) : done(null, false)
+            }
+
         } catch (error) {
             console.log(error)
         }

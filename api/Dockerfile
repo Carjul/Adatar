@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:latest
 
 RUN mkdir -p /usr/src/app
 
@@ -10,6 +10,10 @@ RUN npm install
 
 COPY . .
 
+ENV PORT=3001 DB_USER=postgres DB_PASSWORD=12345 DB_HOST=172.17.0.1 DB=adatar
+
 EXPOSE 3001
 
-CMD [ "npm","run","start" ]
+VOLUME [ "/usr/src/app" ]
+
+CMD [ "npm","run","dev" ]
