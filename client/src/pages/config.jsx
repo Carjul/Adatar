@@ -7,7 +7,7 @@ import { getuser, deleteOneData, updateOneData } from '../app/Actions/action';
 import { setMsg } from '../app/FeatureSlices/MsgApi';
 
 
- 
+
 
 const Config = () => {
     const { message } = useSelector(state => state.msg);
@@ -29,7 +29,7 @@ const Config = () => {
             dispatch(setMsg(""))
             dispatch(getuser(token))
         }, 6000)
-    }, [dispatch, message,token])
+    }, [dispatch, message, token])
 
     function MyButton({ id }) {
 
@@ -66,8 +66,6 @@ const Config = () => {
     }
     return (
         <>
-     
-       
             <Nav />
             <div className='flex flex-row justify-content-around'>
                 <Sidebar props={5} />
@@ -84,27 +82,19 @@ const Config = () => {
                             <span>Usuario eliminado</span>
                         </div>
                     </div> : ""}
-                    <table className="flex flex-col">
-                        <thead>
-                            <tr className="flex flex-wrap flex ">
-                                <th className="p-4">Avatar</th>
-                                <th className="p-4">Nombre</th>
-                                <th className="p-4">Correo</th>
-                                <th className="p-4">Rol</th>
-                                <th className="p-4">Cambiar Rol</th>
-                                <th className="p-4">Eliminar Usurio</th>
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody>
+                    <table className="table table-striped table-hover table-bordered mt-10"><thead><tr><th>Avatar</th>
+                        <th className="p-4">Nombre</th>
+                        <th className="p-4">Correo</th>
+                        <th className="p-4">Rol</th>
+                        <th className="p-4">Cambiar Rol</th>
+                        <th className="p-4">Eliminar Usurio</th></tr>
+                    </thead><tbody>
                             {user?.map(e =>
-                                <tr key={e.id} className="flex flex-wrap border border-base-300">
+                                <tr key={e.id} >
                                     <td className="p-2">
                                         <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                                            <div className="w-10 rounded-full">                                         
-                                                <img src={ `${e.Avatar}`} alt="Avatar" width={40} height={50}/>
+                                            <div className="w-10 rounded-full">
+                                                <img src={`${e.Avatar}`} alt="Avatar" width={40} height={50} />
                                             </div>
                                         </label>
                                     </td>
@@ -125,8 +115,7 @@ const Config = () => {
                                     <td className="p-2"><MyButton id={e.id} /></td>
                                 </tr>
                             )}
-                        </tbody>
-                    </table>
+                        </tbody></table>
 
                 </div>
             </div>

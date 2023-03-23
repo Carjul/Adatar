@@ -53,7 +53,7 @@ export default function Login() {
           </label>
           <input type="password" placeholder="password" name="password" className="input input-bordered" onChange={EventUser} />
           <label className="label">
-            <Link to="#" className="label-text-alt link link-hover">Forgot password?</Link>
+            <Link to="#" className="label-text-alt link link-hover">Forgot password?</Link><Link to="/registro" className="label-text-alt link link-hover">Resgristrate</Link>
           </label>
         </div>
         <div className="form-control mt-6">

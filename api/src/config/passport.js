@@ -4,11 +4,9 @@ const { Users } = require('../db')
 
 passport.use(new LocalStrategy(
     {
-        passReqToCallback: true,
         usernameField: "email",
-        passwordField: 'password',
-    }, async (req, email, password, done) => {
-       
+    }, async (email, password, done) => {
+
         try {
             const busqueda = await Users.findAll({
                 where: { Email: email }
@@ -16,11 +14,9 @@ passport.use(new LocalStrategy(
             const user = busqueda[0]
 
             if (!user) {
-                const { email, picture, name } = req.body;
-                const usercreate = await Users.create({ Avatar: picture, Nombre: name, Email: email, Password: password, RolId: 3 });
-                return done(null, usercreate);
+                return done(null, false, { message: "Not User found." });
             } else {
-                user.Password === password ? done(null, user) : done(null, false)
+                user.Password === password ? done(null, user) : done(null, false, { message: "Incorrect Password." })
             }
 
         } catch (error) {
