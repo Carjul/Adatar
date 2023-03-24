@@ -5,12 +5,12 @@ import { MdLogout } from "react-icons/md";
 import { exit } from "../app/Actions/action";
 import { useEffect } from "react";
 import { setTheme } from "../app/FeatureSlices/Themes";
-
+import { useAuth0 } from "@auth0/auth0-react";	
 
 
 export default function Nav() {
 
-
+  const { logout } = useAuth0();
   const { theme } = useSelector(state => state.tema);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function Nav() {
   const click = () => {
     exit()
     localStorage.clear()
-    location.href = "/"
+    logout({ logoutParams: { returnTo: window.location.origin } })
   }
 
 

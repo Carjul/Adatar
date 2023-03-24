@@ -6,12 +6,15 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from './app/Store/store'
 
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </BrowserRouter>
-  </React.StrictMode >,
+    <Auth0Provider domain={import.meta.env.VITE_PUBLIC_DOMAIN} clientId={import.meta.env.VITE_PUBLIC_CLIENT_ID}	authorizationParams={{ redirect_uri: window.location.origin}}>
+      <BrowserRouter>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </BrowserRouter>
+    </Auth0Provider>
+  </React.StrictMode>,
 )

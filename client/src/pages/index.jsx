@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+const { loginWithRedirect } = useAuth0();
 
 const Init = () => {
 const { user }=useSelector(state=>state.token)
@@ -10,7 +11,7 @@ const { user }=useSelector(state=>state.token)
         <div className="max-w-md">
           <h1 className="mb-5 text-5xl font-bold">Bienvenido a ADATAR</h1>
           <p className="mb-5">El proyecto ADATAR adapta el proceso de descubrimiento de conocimiento en bases de datos (KDD) generando un sistema de análisis de datos académicos que permita lanzar alertas tempranas sobre retención académica .</p>
-          {user.token?<Link to="/home"><button className="btn btn-primary" >Home</button></Link>:<Link to="/login"><button className="btn btn-primary" >Iniciar sesión</button></Link>}
+          {user.token?<Link to="/home"><button className="btn btn-primary" >Home</button></Link>:<button className="btn btn-primary" onClick={() => loginWithRedirect()} >Iniciar sesión</button>}
 
         </div>
       </div>

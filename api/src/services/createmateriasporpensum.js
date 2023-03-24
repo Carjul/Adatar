@@ -9,7 +9,7 @@ const createMateriaspensun = async (params) => {
 
             const pensum = await Pensums.findOne({
                 where: {
-                    [Op.and]: [{ Pensum }, { Semestres: `${Semestres}`}]
+                    Pensum, 
                 }
             })
 

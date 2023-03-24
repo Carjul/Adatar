@@ -40,7 +40,7 @@ const create_rol = {
     async resolve(_, args) {
         const { rol } = args
 
-        const roles = await Rols.finAll({
+        const roles = await Rols.findAll({
             where: {
                 rol
             }

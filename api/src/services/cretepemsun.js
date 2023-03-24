@@ -9,7 +9,7 @@ const createpemsun = async (params) => {
 
             const existe = await Pensums.findOne({
                 where: {
-                    [Op.and]: [{ Pensum }, { Semestres:`${Semestres}` }]
+                    Pensum 
                 }
             })
 
@@ -22,7 +22,6 @@ const createpemsun = async (params) => {
                 })
                 const pensum = await Pensums.create({
                     Pensum,
-                    Semestres: `${Semestres}`,
                 })
 
                 await pensum.setPrograma(programa)

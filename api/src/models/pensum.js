@@ -13,7 +13,7 @@ module.exports=(sequelize)=>{
         },
         Semestres:{
             type:DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         }
         
     });

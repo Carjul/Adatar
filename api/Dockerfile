@@ -10,7 +10,7 @@ RUN npm install
 
 COPY . .
 
-ENV PORT=3001 DB_USER=postgres DB_PASSWORD=12345 DB_HOST=172.17.0.1 DB=adatar
+ENV PORT=3001 DB_USER=postgres DB_PASSWORD=postgres DB_HOST=172.17.0.1 DB=adatar
 
 EXPOSE 3001
 
