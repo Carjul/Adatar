@@ -28,7 +28,7 @@ passport.use(new LocalStrategy(
                         Nombre,
                         Email: email,
                         Password: password,
-                        Rol:2
+                        RolId:2
                     })
                     done(null, newUser)
                 } else {
