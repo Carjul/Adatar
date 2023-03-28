@@ -1,9 +1,25 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-const { loginWithRedirect } = useAuth0();
+import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect } from "react";
+ 
+
 
 const Init = () => {
-const { user }=useSelector(state=>state.token)
+  const { loginWithRedirect,isAuthenticated } = useAuth0();
+
+  
+  const { user }=useSelector(state=>state.token)
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if ( isAuthenticated && !user.token) {
+      navigate("/validar")
+    }
+  },[isAuthenticated,user])
+
+  
+
   return (
     <div className="hero min-h-screen" id="bgi">
       <div className="hero-overlay bg-opacity-60"></div>

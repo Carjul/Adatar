@@ -5,7 +5,7 @@ import { GoGraph, GoTools } from "react-icons/go";
 
 const Sidebar = (number) => {
     let { props } = number;
-    const rol ='1'
+    const rol = localStorage.getItem('RolId');
     if (rol === '1') {
         return (
             <div className="nav z-10 bg-base-200 border-r border-base-300" >

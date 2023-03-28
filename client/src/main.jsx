@@ -5,6 +5,7 @@ import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from './app/Store/store'
+import { Auth0Provider } from '@auth0/auth0-react'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
