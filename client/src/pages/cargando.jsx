@@ -2,24 +2,22 @@ import {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useAuth0} from '@auth0/auth0-react';
 import { senduser } from '../app/Actions/action';
-import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const Cargar = () => {
-const Navigate=useNavigate()
 const dispatch=useDispatch()
 let {user,logout}=useAuth0()
 const gmail =/^[a-zA-Z]+@correo\.unicordoba\.edu\.co$/;
 
 useEffect(()=>{
     if(user && gmail.test(user.email)){
-        console.log(user)
         dispatch(senduser({email:user.email,password:user.nickname,Avatar:user.picture,Nombre:user.name}))
+        mostrarAlerta(1)
         setInterval(()=>{
-            Navigate("/home")
-        },2000)
+            location.href="/"
+        },3000)
     }else{
-        mostrarAlerta()
+        mostrarAlerta(0)
         setInterval(()=>{
             logout({returnTo:window.location.origin})
         },5000)
@@ -40,12 +38,21 @@ useEffect(()=>{
         </>
     )
 }
-const mostrarAlerta = () => {
+const mostrarAlerta = (num) => {
+   if(num===1){
     Swal.fire({
-      title: 'Advertencia',
-      text: '¡Este coreo no es valido!',
-      icon: 'error',
+      title: 'listo',
+      text: 'has iniciado sesion correctamente',
+      icon:  'success',
       confirmButtonText: 'Aceptar' 
     });
+}else{
+    Swal.fire({
+        title: 'Advertencia',
+        text: '¡Este coreo no es valido!',
+        icon: 'error',
+        confirmButtonText: 'Aceptar' 
+      });
+}
   };
 export default Cargar

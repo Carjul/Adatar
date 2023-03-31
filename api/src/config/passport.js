@@ -23,13 +23,14 @@ passport.use(new LocalStrategy(
             }else{
                 if (patron.test(email)) {
                     const  { Nombre, Avatar} = req.body	
-                    const newUser = await Users.create({
-                        Avatar,
-                        Nombre,
-                        Email: email,
-                        Password: password,
-                        RolId:2
-                    })
+                    const newUser = await Users.findOrCreate({
+                        where: { 
+                            Avatar,
+                            Nombre,
+                            Email: email,
+                            Password: password,
+                            RolId:2 },
+                        })
                     done(null, newUser)
                 } else {
                     done(null, false, { message: "el correo no pertenece a la universidad." })

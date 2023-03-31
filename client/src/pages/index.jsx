@@ -9,14 +9,14 @@ const Init = () => {
   const { loginWithRedirect,isAuthenticated } = useAuth0();
 
   
-  const { user }=useSelector(state=>state.token)
+ const token=localStorage.getItem('token')
   const navigate = useNavigate();
 
   useEffect(() => {
-    if ( isAuthenticated && !user.token) {
+    if ( isAuthenticated && !token) {
       navigate("/validar")
     }
-  },[isAuthenticated,user])
+  },[isAuthenticated,token])
 
   
 
@@ -27,7 +27,7 @@ const Init = () => {
         <div className="max-w-md">
           <h1 className="mb-5 text-5xl font-bold">Bienvenido a ADATAR</h1>
           <p className="mb-5">El proyecto ADATAR adapta el proceso de descubrimiento de conocimiento en bases de datos (KDD) generando un sistema de análisis de datos académicos que permita lanzar alertas tempranas sobre retención académica .</p>
-          {user.token?<Link to="/home"><button className="btn btn-primary" >Home</button></Link>:<button className="btn btn-primary" onClick={() => loginWithRedirect()} >Iniciar sesión</button>}
+          {token?<button className="btn btn-primary" onClick={()=> location.href="/home"}>Home</button>:<button className="btn btn-primary" onClick={() => loginWithRedirect()} >Iniciar sesión</button>}
 
         </div>
       </div>
