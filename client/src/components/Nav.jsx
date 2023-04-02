@@ -6,6 +6,7 @@ import { exit } from "../app/Actions/action";
 import { useEffect } from "react";
 import { setTheme } from "../app/FeatureSlices/Themes";
 import { useAuth0 } from "@auth0/auth0-react";	
+import logo from '../assets/ar-logo.png'
 
 
 export default function Nav() {
@@ -35,7 +36,7 @@ export default function Nav() {
   return (
     <div className="navbar bg-base-200 border-b border-base-300" >
       <div className="flex-1">
-        <Link to={"/"} className="btn btn-outline btn-primary normal-case text-xl border-none">Adatar</Link>
+        <Link to={"/"} className="btn btn-outline btn-primary normal-case text-xl border-none"><img src={logo} alt="logo" width={'45px'} height={'50px'} /></Link>
       </div>
       <div className="flex-none gap-2 ">
         <VscSymbolColor />

@@ -48,21 +48,42 @@ const dataSlice = createSlice({
         },
         setPrograma: (state, action) => {
             state.programa = action.payload
-            const arreglo = []
+            const arreglo = [
+                { value: [], name: "Cero" },
+                { value: [], name: "Muy Baja" },
+                { value: [], name: "Baja" },
+                { value: [], name: "Media" },
+                { value: [], name: "Alta" },
+                { value: [], name: "Muy Alta" },
+            ]
             const arr = []
+
             for (let i = 0; i < state.programa.length; i++) {
-                const e = state.programa[i];
-                arreglo.push({ value: [], name: e.NombrePrograma, id: e.id })
-            }
-            for (let i = 0; i < arreglo.length; i++) {
-                const element = arreglo[i];
+                const ele = state.programa[i];
                 state.notas.forEach((e) => {
-                    if (e.ProgramaId === element.id && e.Gano === 0) {
-                        element.value.push(e)
+
+                    if (e.ProgramaId === ele.id && e.Nota == 0.0) {
+                        arreglo[0].value.push(e)
+                    }
+                    if (e.ProgramaId === ele.id && e.Nota > 0.0 && e.Nota < 2.0) {
+                        arreglo[1].value.push(e)
+                    }
+                    if (e.ProgramaId === ele.id && e.Nota >= 2 && e.Nota < 3.0) {
+                        arreglo[2].value.push(e)
+                    }
+                    if (e.ProgramaId === ele.id && e.Nota >= 3.0 && e.Nota < 4.0) {
+                        arreglo[3].value.push(e)
+                    }
+                    if (e.ProgramaId === ele.id && e.Nota >= 4.0 && e.Nota < 4.5) {
+                        arreglo[4].value.push(e)
+                    }
+                    if (e.ProgramaId === ele.id && e.Nota >= 4.5 && e.Nota <= 5.0) {
+                        arreglo[5].value.push(e)
                     }
                 })
 
             }
+
             for (let i = 0; i < arreglo.length; i++) {
                 const element = arreglo[i];
                 arr.push({ value: element.value.length, name: element.name })
@@ -92,32 +113,63 @@ const dataSlice = createSlice({
             const notas_programa = []
             for (let i = 0; i < state.notas.length; i++) {
                 const e = state.notas[i];
-                if (e.ProgramaId === action.payload && e.Gano === 0) notas_programa.push(e)
+                if (e.ProgramaId === action.payload) {
+                    notas_programa.push(e)
+                }
             }
 
-            const data = []
+            const Cero = [[], [], [], [], [], [], [], [], [],[]]
+            const MuyBaja = [[], [], [], [], [], [], [], [], [],[]]
+            const Baja = [[], [], [], [], [], [], [], [], [],[]]
+            const Medio = [[], [], [], [], [], [], [], [], [],[]]
+            const Alta = [[], [], [], [], [], [], [], [], [],[]]
+            const MuyAlta = [[], [], [], [], [], [], [], [], [],[]]
 
             for (let i = 0; i < notas_programa.length; i++) {
-                const element = notas_programa[i].MateriaId;
-                state.materias.forEach(e => e.id === element ? data.push(e) : "")
-            }
-            const norepeat = []
-            for (let i = 0; i < data.length; i++) {
-                const e = data[i];
-                if (data.indexOf(e) === i) norepeat.push(e)
-            }
-            const materias = []
-            const materiasdata = []
-            for (let i = 0; i < norepeat.length; i++) {
-                const dato = []
-                const e = norepeat[i]
-                notas_programa.forEach((el) => { if (el.MateriaId === e.id) dato.push(el) })
-                materiasdata.push({ value: dato, name: e.NombreMateria, })
-                materias.push({ value: dato.length, name: e.NombreMateria, })
-            }
-            state.notasperma = materiasdata
+                const element = notas_programa[i];
+                state.materiaPorPensum.forEach((e) => {
+                    var index = parseInt(e.SemMateriaNum) -1;
 
-            state.notasmateria = materias
+                    if ( !isNaN(index) && e.MateriaId === element.MateriaId ) {
+            
+                        if (element.Nota == 0.0) {
+                            Cero[index].push(element)
+                        }
+                        if (element.Nota > 0.0 && element.Nota < 2.0) {
+                            MuyBaja[index].push(element)
+                        }
+                        if (element.Nota >= 2.0 && element.Nota < 3.0) {
+                            Baja[index].push(element)
+                        }
+                        if (element.Nota >= 3.0 && element.Nota < 4.0) {
+                            Medio[index].push(element)
+                        }
+                        if (element.Nota >= 4.0 && element.Nota < 4.5) {
+                            Alta[index].push(element)
+                        }
+                        if (element.Nota >= 4.5 && element.Nota <= 5.0) {
+                            MuyAlta[index].push(element)
+                        } 
+
+                    }
+                })
+            }
+            
+            const materias = [Cero, MuyBaja, Baja, Medio, Alta, MuyAlta]
+            var result = []
+              for (let i = 0; i < materias.length; i++) {
+                const element = materias[i];
+                const num = []
+                element.forEach((e) => {
+                   num.push(e.length) 
+                })
+                result.push(num)
+              }
+             
+              
+              
+  
+              state.notasmateria = result
 
         },
         setNotastate: (state, action) => {
@@ -137,9 +189,9 @@ const dataSlice = createSlice({
 
             const student = []
             const data = []
- 
+
             for (let i = 0; i < ar.length; i++) {
-                const e = ar[i];                                                                                                  
+                const e = ar[i];
                 if (e.pensun.SemMateriaNum == action.payload) {
                     data.push(e)
                     student.push(e.estudiante.Nombres)
@@ -148,17 +200,17 @@ const dataSlice = createSlice({
             console.log(data)
 
             for (let index = 0; index < student.length; index++) {
-                const nombres = student[index];                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                const nombres = student[index];
                 const x = []
                 data.forEach(e => { if (e.estudiante.Nombres === nombres) { x.push(e) } })
 
                 result.push([x.length, x.length, nombres])
             }
-            state.notasemestre = result                                                                                                                                                                                                                                                                                                                         
+            state.notasemestre = result
         },
 
 
-    }                                                                                                                                                                                           
+    }
 })
 
 export default dataSlice.reducer
