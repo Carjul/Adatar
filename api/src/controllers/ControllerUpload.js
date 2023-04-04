@@ -11,6 +11,7 @@ const createDocente = require("../services/createdocente");
 const createPeriodoAcademico = require("../services/createperiodoacademico");
 const createMateriaspensun = require("../services/createmateriasporpensum");
 const createNotas = require("../services/createnotas");
+const {BusquedaDB} = require("./graficos");
 
 const UploadFile = async (req, res) => {
   try {
@@ -179,12 +180,13 @@ const UploadFile = async (req, res) => {
     const createnotas = await createNotas(nota)
     nota=[]
     console.log(createnotas);
+    BusquedaDB()
 
-
-    res.status(201).json({ message: "database initialize" });
+    res.json({ message: "database initialize" });
+    
 
   } catch (error) {
-    res.status(500).json(error)
+    res.json(error)
   }
 }
 

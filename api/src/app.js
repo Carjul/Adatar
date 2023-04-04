@@ -12,7 +12,7 @@ const routerLog = require("./routes/login")
 const { routerData } = require("./routes/data")
 const schema  = require("./graphql/Schema")
 const app = express()
-require('./controllers/graficos') 
+ 
 
 app.set('port', process.env.PORT)
 app.use(session({secret: "secret",resave: true,saveUninitialized: true,}));
