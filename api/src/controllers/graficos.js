@@ -9,7 +9,7 @@ const State = {
     docentes: [],
     programa: [],
     sede: [],
-    Programas_sede: [],
+    Programas_sede: [], 
     periodoAcademico: [],
     notas: [],
     notas_PeriodoAcademico: [],

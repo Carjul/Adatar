@@ -11,9 +11,10 @@ const { rutaUpload } = require("./routes/uploadFile")
 const routerLog = require("./routes/login")
 const { routerData } = require("./routes/data")
 const schema  = require("./graphql/Schema")
+const {BusquedaDB} = require("./controllers/graficos")
 const app = express()
  
-
+BusquedaDB()
 app.set('port', process.env.PORT)
 app.use(session({secret: "secret",resave: true,saveUninitialized: true,}));
 app.use(passport.initialize());
