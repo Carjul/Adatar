@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getData, getProgramas, get_Nota_Año, getDataperson } from '../app/Actions/action';
-import { setNotasmateria, setNotastate, } from '../app/FeatureSlices/data';
+import { setNotasmateria, setNotastate, setNotasperma} from '../app/FeatureSlices/data';
 import Nav from '../components/Nav';
 import Sidebar from '../components/sidebar';
 import Footer from '../components/footer';
 import * as echarts from 'echarts';
-import FileSaver from 'file-saver';
+/* import FileSaver from 'file-saver'; */
 
 
 
@@ -35,6 +35,8 @@ const Dashboard = () => {
   }
   const HandleChageC = (e) => {
     dispatch(setNotasmateria(`${e.target.value}`))
+    dispatch(setNotasperma(`${e.target.value}`))
+    
   }
 
   const HandleChageE = (e) => {
@@ -231,7 +233,8 @@ const Dashboard = () => {
     myChart.setOption(option);
   }, [notasemestre])
 
-  useEffect(() => {
+  React.useEffect(() => {
+    let datos=notasperma
     let myChart = echarts.init(document.getElementById('mainx'));
     let option = {
       tooltip: {
@@ -252,12 +255,12 @@ const Dashboard = () => {
         }
       },
       legend: {
-        data: ['Ganaron', 'Perdieron', 'Promedio']
+        data: ['Ganaron', 'Perdieron']
       },
       xAxis: [
         {
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data:datos?.Materia, //materias
           axisPointer: {
             type: 'shadow'
           }
@@ -266,15 +269,6 @@ const Dashboard = () => {
       yAxis: [
         {
           type: 'value'
-        },
-        {
-          type: 'value',
-          min: 0.0,
-          max: 5.0,
-          interval: 0.5,
-          axisLabel: {
-            formatter: '{value}'
-          }
         }
       ],
       series: [
@@ -293,7 +287,7 @@ const Dashboard = () => {
           emphasis: {
             focus: 'series'
           },
-          data: [10, 50, 11, 14, 90, 30, 10]
+          data: datos?.Perdio//los que ganan
         },
         {
           name: 'Ganaron',
@@ -310,27 +304,13 @@ const Dashboard = () => {
           emphasis: {
             focus: 'series'
           },
-          data: [80, 120, 11, 14, 90, 30, 10]
-        },
-        {
-          name: 'Promedio',
-          type: 'line',
-          yAxisIndex: 1,
-          label: {
-            show: true
-          },
-          tooltip: {
-            valueFormatter: function (value) {
-              return value;
-            }
-          },
-          data: [2.0, 2.2, 3.3, 4.5, 2.3, 4.2, 2.3]
+          data: datos.Gano// los que perdieron
         }
       ]
     };
 
     option && myChart.setOption(option);
-  })
+  }, [notasperma])
 
   return (
     <>

@@ -15,7 +15,7 @@ const initialState = {
     notastate: [],
     notasemestre: [],
     notasperpro: [],
-    notasperma: [],
+    notasperma: {},//notas por materia
 }
 
 const dataSlice = createSlice({
@@ -28,15 +28,58 @@ const dataSlice = createSlice({
         setPeriodo: (state, action) => {
             state.periodoAcademico = action.payload
         },
-        /* setNotasperma:(state, action)=>{
-            //state.notasperma
-            for (let i = 0; i < state.notasperma.length; i++) {
-                const element = state.notasperma[i];
-                element.value.forEach(e => {
-                    e.DocenteId,e.EstudianteId
-                });
+        setNotasperma: (state, action) => {
+            const notas_por_materia = {
+                Materia: [],
+                Gano: [],
+                Perdio: [],
             }
-        }, */
+            const notas = []
+            const arregloRepetidos = []
+            const materias = []
+            state.notas.forEach(e => {
+                if (e.ProgramaId === action.payload) {
+                    notas.push(e)
+                }
+            })
+            for (let i = 0; i < notas.length; i++) {
+                const element = notas[i];
+                state.materias.forEach(e => {
+                    if (e.id === element.MateriaId) {
+                        arregloRepetidos.push(e)
+                    }
+                })
+            }
+            
+            for (var j = 0; j < arregloRepetidos.length; j++) {
+                var objeto = arregloRepetidos[j];
+                if (materias.indexOf(objeto) === -1) {
+                    materias.push(objeto);
+                }
+            }
+
+             for (let i = 0; i < materias.length; i++) {
+                const element = materias[i];
+                notas_por_materia.Materia.push(element.NombreMateria)
+                const Gano = []
+                const Perdio = []
+                notas.forEach(e => {
+                    if (element.id === e.MateriaId) {
+
+                        if (e.Gano === 1) {
+                            Gano.push(e)
+                        } else {
+                            Perdio.push(e)
+                        }
+                    }
+                })
+                notas_por_materia.Gano.push(Gano.length)
+                notas_por_materia.Perdio.push(Perdio.length)
+
+            } 
+            
+            state.notasperma = notas_por_materia
+        },
         setSede: (state, action) => {
             var sedes = []
             action.payload?.forEach(e => {
@@ -118,20 +161,20 @@ const dataSlice = createSlice({
                 }
             }
 
-            const Cero = [[], [], [], [], [], [], [], [], [],[]]
-            const MuyBaja = [[], [], [], [], [], [], [], [], [],[]]
-            const Baja = [[], [], [], [], [], [], [], [], [],[]]
-            const Medio = [[], [], [], [], [], [], [], [], [],[]]
-            const Alta = [[], [], [], [], [], [], [], [], [],[]]
-            const MuyAlta = [[], [], [], [], [], [], [], [], [],[]]
+            const Cero = [[], [], [], [], [], [], [], [], [], []]
+            const MuyBaja = [[], [], [], [], [], [], [], [], [], []]
+            const Baja = [[], [], [], [], [], [], [], [], [], []]
+            const Medio = [[], [], [], [], [], [], [], [], [], []]
+            const Alta = [[], [], [], [], [], [], [], [], [], []]
+            const MuyAlta = [[], [], [], [], [], [], [], [], [], []]
 
             for (let i = 0; i < notas_programa.length; i++) {
                 const element = notas_programa[i];
                 state.materiaPorPensum.forEach((e) => {
-                    var index = parseInt(e.SemMateriaNum) -1;
+                    var index = parseInt(e.SemMateriaNum) - 1;
 
-                    if ( !isNaN(index) && e.MateriaId === element.MateriaId ) {
-            
+                    if (!isNaN(index) && e.MateriaId === element.MateriaId) {
+
                         if (element.Nota == 0.0) {
                             Cero[index].push(element)
                         }
@@ -149,27 +192,28 @@ const dataSlice = createSlice({
                         }
                         if (element.Nota >= 4.5 && element.Nota <= 5.0) {
                             MuyAlta[index].push(element)
-                        } 
+                        }
 
                     }
                 })
+
             }
-            
+
             const materias = [Cero, MuyBaja, Baja, Medio, Alta, MuyAlta]
             var result = []
-              for (let i = 0; i < materias.length; i++) {
+            for (let i = 0; i < materias.length; i++) {
                 const element = materias[i];
                 const num = []
                 element.forEach((e) => {
-                   num.push(e.length) 
+                    num.push(e.length)
                 })
                 result.push(num)
-              }
-             
-              
-              
-  
-              state.notasmateria = result
+            }
+
+
+
+
+            state.notasmateria = result
 
         },
         setNotastate: (state, action) => {
@@ -214,4 +258,4 @@ const dataSlice = createSlice({
 })
 
 export default dataSlice.reducer
-export const { setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions
+export const { setNotasperma, setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions
