@@ -216,7 +216,7 @@ const dataSlice = createSlice({
             state.notasmateria = result
 
         },
-        setNotastate: (state, action) => {
+        setNotastate: (state, action) => {//datos para la tabla de estidiantes por semestre
             const ar = []
             const result = []
             for (let i = 0; i < state.notasperma.length; i++) {

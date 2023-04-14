@@ -1,14 +1,11 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getData, getProgramas, get_Nota_Año, getDataperson } from '../app/Actions/action';
-import { setNotasmateria, setNotastate, setNotasperma} from '../app/FeatureSlices/data';
+import { setNotasmateria, setNotastate, setNotasperma } from '../app/FeatureSlices/data';
 import Nav from '../components/Nav';
 import Sidebar from '../components/sidebar';
 import Footer from '../components/footer';
 import * as echarts from 'echarts';
-/* import FileSaver from 'file-saver'; */
-
-
 
 
 const Dashboard = () => {
@@ -18,7 +15,6 @@ const Dashboard = () => {
   console.log(x)
   const dispatch = useDispatch();
   const token = localStorage.getItem('token');
-
 
 
   React.useEffect(() => {
@@ -36,18 +32,11 @@ const Dashboard = () => {
   const HandleChageC = (e) => {
     dispatch(setNotasmateria(`${e.target.value}`))
     dispatch(setNotasperma(`${e.target.value}`))
-    
   }
-
   const HandleChageE = (e) => {
     dispatch(setNotastate(e.target.value))
   }
 
-  /*  const handleDownload = () => {
-     const data = JSON.stringify(...notasperma)
-     const blob = new Blob([data], { type: 'text/plain;charset=utf-8' });
-     FileSaver.saveAs(blob, 'data.txt');
-   } */
 
   React.useEffect(() => {
     let datos = notasperpro
@@ -59,6 +48,15 @@ const Dashboard = () => {
 
       tooltip: {
         trigger: 'item'
+      },
+      toolbox: {
+        show: true,
+        feature: {
+          mark: { show: true },
+          dataView: { show: true, readOnly: false },
+          restore: { show: false },
+          saveAsImage: { show: true }
+        }
       },
       legend: {
         orient: 'horizontal',
@@ -86,7 +84,9 @@ const Dashboard = () => {
   React.useEffect(() => {
     let dato = notasmateria
     let myChart = echarts.init(document.getElementById('mains'));
-
+    window.addEventListener("resize", function () {
+      myChart.resize();
+    })
     var option = {
       tooltip: {
         trigger: 'axis',
@@ -94,6 +94,15 @@ const Dashboard = () => {
           // Use axis to trigger tooltip
           type: 'shadow' // 'shadow' as default; can also be 'line' or 'shadow'
         }
+      },
+      toolbox: {
+        show: true,
+        feature: {
+          mark: { show: true },
+          dataView: { show: true, readOnly: false },
+          restore: { show: false },
+          saveAsImage: { show: true }
+        },
       },
       legend: {},
       grid: {
@@ -190,6 +199,88 @@ const Dashboard = () => {
   }, [notasmateria])
 
   React.useEffect(() => {
+    let datos = notasperma
+    let myChart = echarts.init(document.getElementById('mainx'));
+    window.addEventListener("resize", function () {
+      myChart.resize();
+    })
+    let option = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          crossStyle: {
+            color: '#999'
+          }
+        }
+      },
+      toolbox: {
+        feature: {
+          dataView: { show: true, readOnly: false },
+          magicType: { show: true, type: ['line', 'bar'] },
+          restore: { show: false },
+          saveAsImage: { show: true }
+        }
+      },
+      legend: {
+        data: ['Ganaron', 'Perdieron']
+      },
+      xAxis: [
+        {
+          type: 'category',
+          data: datos?.Materia, //materias
+          axisPointer: {
+            type: 'shadow'
+          }
+        }
+      ],
+      yAxis: [
+        {
+          type: 'value'
+        }
+      ],
+      series: [
+        {
+          name: 'Perdieron',
+          type: 'bar',
+          stack: 'total',
+          label: {
+            show: true
+          },
+          tooltip: {
+            valueFormatter: function (value) {
+              return value;
+            }
+          },
+          emphasis: {
+            focus: 'series'
+          },
+          data: datos?.Perdio
+        },
+        {
+          name: 'Ganaron',
+          type: 'bar',
+          stack: 'total',
+          label: {
+            show: true
+          },
+          tooltip: {
+            valueFormatter: function (value) {
+              return value;
+            }
+          },
+          emphasis: {
+            focus: 'series'
+          },
+          data: datos.Gano
+        }
+      ]
+    };
+
+    option && myChart.setOption(option);
+  }, [notasperma])
+
+  React.useEffect(() => {
     let arr = notasemestre
     let myChart = echarts.init(document.getElementById('main3'));
     window.addEventListener("resize", function () {
@@ -202,6 +293,14 @@ const Dashboard = () => {
           ...arr
 
         ]
+      },
+      toolbox: {
+        show: true,
+        feature: {
+          dataView: { show: true, readOnly: false, title: 'Datos' },
+          restore: { show: false },
+          saveAsImage: { show: true } 
+        }
       },
       grid: { containLabel: true },
       xAxis: { name: 'amount' },
@@ -233,99 +332,17 @@ const Dashboard = () => {
     myChart.setOption(option);
   }, [notasemestre])
 
-  React.useEffect(() => {
-    let datos=notasperma
-    let myChart = echarts.init(document.getElementById('mainx'));
-    let option = {
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'cross',
-          crossStyle: {
-            color: '#999'
-          }
-        }
-      },
-      toolbox: {
-        feature: {
-          dataView: { show: true, readOnly: false },
-          magicType: { show: true, type: ['line', 'bar'] },
-          restore: { show: true },
-          saveAsImage: { show: true }
-        }
-      },
-      legend: {
-        data: ['Ganaron', 'Perdieron']
-      },
-      xAxis: [
-        {
-          type: 'category',
-          data:datos?.Materia, //materias
-          axisPointer: {
-            type: 'shadow'
-          }
-        }
-      ],
-      yAxis: [
-        {
-          type: 'value'
-        }
-      ],
-      series: [
-        {
-          name: 'Perdieron',
-          type: 'bar',
-          stack: 'total',
-          label: {
-            show: true
-          },
-          tooltip: {
-            valueFormatter: function (value) {
-              return value;
-            }
-          },
-          emphasis: {
-            focus: 'series'
-          },
-          data: datos?.Perdio//los que ganan
-        },
-        {
-          name: 'Ganaron',
-          type: 'bar',
-          stack: 'total',
-          label: {
-            show: true
-          },
-          tooltip: {
-            valueFormatter: function (value) {
-              return value;
-            }
-          },
-          emphasis: {
-            focus: 'series'
-          },
-          data: datos.Gano// los que perdieron
-        }
-      ]
-    };
-
-    option && myChart.setOption(option);
-  }, [notasperma])
-
   return (
     <>
-
-
       <Nav />
       <div className='flex flex-row justify-content-around'>
         <Sidebar props={4} />
 
         <div className="flex flex-col items-center w-full h-auto z-0" >
 
-          <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
-            <h2 className="card-title mx-auto mt-10">Notas por rango</h2>
-            <div className="card-body">
-
+          <div className="card card-compact w-4/5 bg-base-100 shadow-xl mt-6">
+            <h2 className="card-title mx-auto mt-5">Filtros</h2>
+            <div className="card-body flex flex-row">
               <div className='flex flex-row flex-wrap p-1 mx-auto '>
                 <div className="px-0 py-2">
                   <select name="Periodo academico" onChange={HandleChageP} className="select select-secondary select-sm max-w-xs">
@@ -334,7 +351,6 @@ const Dashboard = () => {
                       <option key={e.id} value={e.id}>{e.Year} {e.Periodo}</option>
                     )}
                   </select>
-
                 </div>
                 {notas.length > 0 ? <div className="px-0 py-2">
                   <select name="Sede" onChange={HandleChageS} className="select select-secondary select-sm max-w-xs">
@@ -346,27 +362,51 @@ const Dashboard = () => {
 
                 </div> : <div></div>}
 
+                <div className="px-0 py-2">
+                  <select name="Programa" onChange={HandleChageC} className="select select-secondary select-sm w-a max-w-xs">
+                    <option defaultValue="0">Carrera</option>
+                    {programa?.map(e =>
+                      <option key={e.id} value={e.id}>{e.NombrePrograma}</option>
+                    )}
+                  </select>
+                </div>
+
+                <div className="px-0 py-2">
+                  <select name="Estado de notas" onChange={HandleChageE} className="select select-secondary select-sm max-w-xs">
+                    <option defaultValue="0">Estudiantes por semestre</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                  </select>
+                </div>
+
               </div>
-              <div id="main" style={{ width: '100%', height: '600px' }} ></div>
+
             </div>
+
           </div>
+
           <br />
 
           <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
+            <h2 className="card-title mx-auto mt-10">Notas por rango</h2>
+            <div className="card-body">
+              <div id="main" style={{ width: '100%', height: '600px' }} ></div>
+            </div>
+          </div>
 
+          <br />
+
+          <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
             <h2 className="card-title mx-auto mt-5">Notas perdidas por materia</h2>
             <div className="card-body">
-
-              <div className="px-0 py-2 mx-auto">
-                <select name="Programa" onChange={HandleChageC} className="select select-secondary select-sm w-a max-w-xs">
-                  <option defaultValue="0">Carrera</option>
-                  {programa?.map(e =>
-                    <option key={e.id} value={e.id}>{e.NombrePrograma}</option>
-                  )}
-                </select>
-
-              </div>
-
               <div id="mains" style={{ width: '100%', height: '900px' }} ></div>
             </div>
           </div>
@@ -374,45 +414,24 @@ const Dashboard = () => {
           <br />
 
           <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
-
             <h2 className="card-title mx-auto mt-5">Materias del Semestre Académico</h2>
             <div className="card-body">
               <div id="mainx" style={{ width: '100%', height: '900px' }} ></div>
             </div>
           </div>
+
           <br />
+
           <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
             <h2 className='card-title mx-auto mt-5'>Numero de materias peridas estudiante</h2>
             <div className="card-body">
-
-              <div className="px-0 py-2  mx-auto" >
-                <select name="Estado de notas" onChange={HandleChageE} className="select select-secondary select-sm max-w-xs">
-                  <option defaultValue="0">Estudiantes por semestre</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-
-              </div>
-
               <div id="main3" style={{ width: '100%', height: '900px' }} ></div>
             </div>
           </div>
-          <br />
-
 
         </div>
-
       </div>
       <Footer />
-
     </>
   )
 }

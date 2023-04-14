@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
  
@@ -27,7 +26,7 @@ const Init = () => {
         <div className="max-w-md">
           <h1 className="mb-5 text-5xl font-bold">Bienvenido a ADATAR</h1>
           <p className="mb-5">El proyecto ADATAR adapta el proceso de descubrimiento de conocimiento en bases de datos (KDD) generando un sistema de análisis de datos académicos que permita lanzar alertas tempranas sobre retención académica .</p>
-          {token?<button className="btn btn-primary" onClick={()=> location.href="/home"}>Home</button>:<button className="btn btn-primary" onClick={() => loginWithRedirect()} >Iniciar sesión</button>}
+          {token?<Link to={"/home"}><button className="btn btn-primary" >Home</button></Link>:<button className="btn btn-primary" onClick={() => loginWithRedirect()} >Iniciar sesión</button>}
 
         </div>
       </div>
