@@ -12,46 +12,46 @@ const Sidebar = (number) => {
                 <div className="flex-1">
                     <div id="sidebar" className="flex  overflow-hidden  flex-col flex-grow justify-content-start px-4 mt-5 h-100">
                         <ul>
-                            <li>{props === 1 ? <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-100 transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/home"}>
+                            <li>{props === 1 ? <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-100 transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/home"}>
                                 < MdOutlineHome />
                                 <span className="ml-4 hidden md:flex md:flex-shrink-0"> Home</span>
-                            </Link> : <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-100 transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/home"}>
+                            </Link> : <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-100 transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/home"}>
                                 < MdOutlineHome />
                                 <span className="ml-4 hidden md:flex md:flex-shrink-0"> Home</span>
                             </Link>}
                             </li>
                             <li>
-                                {props === 2 ? <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/upload"}>
+                                {props === 2 ? <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/upload"}>
                                     <MdFileUpload />
                                     <span className="ml-4 hidden md:flex md:flex-shrink-0">Upload</span>
-                                </Link> : <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/upload"}>
+                                </Link> : <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/upload"}>
                                     <MdFileUpload />
                                     <span className="ml-4 hidden md:flex md:flex-shrink-0">Upload</span>
                                 </Link>}
                             </li>
                             <li>
-                                {props === 3 ? <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
+                                {props === 3 ? <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
                                     <MdAccountCircle />
                                     <span className="ml-4 hidden md:flex md:flex-shrink-0">Perfil</span>
-                                </Link> : <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
+                                </Link> : <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
                                     <MdAccountCircle />
                                     <span className="ml-4 hidden md:flex md:flex-shrink-0">Perfil</span>
                                 </Link>}
                             </li>
                             <li>
-                                {props === 4 ? <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/dashboard"}>
+                                {props === 4 ? <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/dashboard"}>
                                     <GoGraph />
                                     <span className="ml-4 hidden md:flex md:flex-shrink-0">Graficos</span>
-                                </Link> : <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/dashboard"}>
+                                </Link> : <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/dashboard"}>
                                     <GoGraph />
                                     <span className="ml-4 hidden md:flex md:flex-shrink-0">Graficos</span>
                                 </Link>}
                             </li>
                             <li>
-                                {props === 5 ? <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/config"}>
+                                {props === 5 ? <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/config"}>
                                     <GoTools />
                                     <span className="ml-4 hidden md:flex md:flex-shrink-0">Configuración</span>
-                                </Link> : <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/config"}>
+                                </Link> : <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/config"}>
                                     <GoTools />
                                     <span className="ml-4 hidden md:flex md:flex-shrink-0">Configuración</span>
                                 </Link>}
@@ -69,37 +69,37 @@ const Sidebar = (number) => {
                 <div className="flex-1">
                     <div id="sidebar" className="flex  overflow-hidden  flex-col flex-grow justify-content-start px-4 mt-5 h-100">
                         <ul>
-                            <li>{props === 1 ? <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-100 transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/home"}>
+                            <li>{props === 1 ? <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-100 transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/home"}>
                                 < MdOutlineHome />
                                 <span className="ml-4 hidden md:flex md:flex-shrink-0"> Home</span>
-                            </Link> : <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-100 transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/home"}>
+                            </Link> : <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-100 transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/home"}>
                                 < MdOutlineHome />
                                 <span className="ml-4 hidden md:flex md:flex-shrink-0"> Home</span>
                             </Link>}
                             </li>
                             <li>
-                                {props === 2 ? <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/upload"}>
+                                {props === 2 ? <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/upload"}>
                                     <MdFileUpload />
                                     <span className="ml-4 hidden md:flex md:flex-shrink-0">Upload</span>
-                                </Link> : <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/upload"}>
+                                </Link> : <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/upload"}>
                                     <MdFileUpload />
                                     <span className="ml-4 hidden md:flex md:flex-shrink-0">Upload</span>
                                 </Link>}
                             </li>
                             <li>
-                                {props === 3 ? <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
+                                {props === 3 ? <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
                                     <MdAccountCircle />
                                     <span className="ml-4 hidden md:flex md:flex-shrink-0">Perfil</span>
-                                </Link> : <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
+                                </Link> : <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
                                     <MdAccountCircle />
                                     <span className="ml-4 hidden md:flex md:flex-shrink-0">Perfil</span>
                                 </Link>}
                             </li>
                             <li>
-                                {props === 4 ? <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/dashboard"}>
+                                {props === 4 ? <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/dashboard"}>
                                     <GoGraph />
                                     <span className="ml-4 hidden md:flex md:flex-shrink-0">Graficos</span>
-                                </Link> : <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/dashboard"}>
+                                </Link> : <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/dashboard"}>
                                     <GoGraph />
                                     <span className="ml-4 hidden md:flex md:flex-shrink-0">Graficos</span>
                                 </Link>}
@@ -118,29 +118,29 @@ const Sidebar = (number) => {
                 <div className="flex-1">
                     <div id="sidebar" className="flex  overflow-hidden  flex-col flex-grow justify-content-start px-4 mt-5 h-100">
                         <ul>
-                            <li>{props === 1 ? <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-100 transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/home"}>
+                            <li>{props === 1 ? <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-100 transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/home"}>
                                 < MdOutlineHome />
                                 <span className="ml-4 hidden md:flex md:flex-shrink-0"> Home</span>
-                            </Link> : <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-100 transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/home"}>
+                            </Link> : <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-100 transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/home"}>
                                 < MdOutlineHome />
                                 <span className="ml-4 hidden md:flex md:flex-shrink-0"> Home</span>
                             </Link>}
                             </li>
 
                             <li>
-                                {props === 3 ? <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
+                                {props === 3 ? <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
                                     <MdAccountCircle />
                                     <span className="ml-4 hidden md:flex md:flex-shrink-0">Perfil</span>
-                                </Link> : <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
+                                </Link> : <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/perfil"}>
                                     <MdAccountCircle />
                                     <span className="ml-4 hidden md:flex md:flex-shrink-0">Perfil</span>
                                 </Link>}
                             </li>
                             <li>
-                                {props === 4 ? <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/dashboard"}>
+                                {props === 4 ? <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/dashboard"}>
                                     <GoGraph />
                                     <span className="ml-4 hidden md:flex md:flex-shrink-0">Graficos</span>
-                                </Link> : <Link className="inline-flex items-center w-full px-0.5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/dashboard"}>
+                                </Link> : <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-content transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-base-300" to={"/dashboard"}>
                                     <GoGraph />
                                     <span className="ml-4 hidden md:flex md:flex-shrink-0">Graficos</span>
                                 </Link>}

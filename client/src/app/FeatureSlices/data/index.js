@@ -16,6 +16,7 @@ const initialState = {
     notasemestre: [],
     notasperpro: [],
     notasperma: {},//notas por materia
+    notas_del_semestre: [],
 }
 
 const dataSlice = createSlice({
@@ -42,6 +43,8 @@ const dataSlice = createSlice({
                     notas.push(e)
                 }
             })
+            state.notas_del_semestre = notas
+
             for (let i = 0; i < notas.length; i++) {
                 const element = notas[i];
                 state.materias.forEach(e => {
@@ -217,11 +220,12 @@ const dataSlice = createSlice({
 
         },
         setNotastate: (state, action) => {//datos para la tabla de estidiantes por semestre
-            const ar = []
+           /*  const ar = []
             const result = []
             for (let i = 0; i < state.notasperma.length; i++) {
                 const element = state.notasperma[i];
                 var nota = element.value
+                
                 var NombreMateria = element.name
                 var pensun = state.materiaPorPensum.find(elemento => elemento.MateriaId === nota[0].MateriaId)
                 nota.forEach(e => {
@@ -250,7 +254,7 @@ const dataSlice = createSlice({
 
                 result.push([x.length, x.length, nombres])
             }
-            state.notasemestre = result
+            state.notasemestre = result */
         },
 
 
