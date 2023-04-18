@@ -16,7 +16,9 @@ const initialState = {
     notasemestre: [],
     notasperpro: [],
     notasperma: {},//notas por materia
-    notas_del_semestre: [],
+    semestres: [],
+    notas_estudiantes:[],
+    notas_del_semestre:[],
 }
 
 const dataSlice = createSlice({
@@ -76,6 +78,7 @@ const dataSlice = createSlice({
                         }
                     }
                 })
+
                 notas_por_materia.Gano.push(Gano.length)
                 notas_por_materia.Perdio.push(Perdio.length)
 
@@ -220,46 +223,79 @@ const dataSlice = createSlice({
 
         },
         setNotastate: (state, action) => {//datos para la tabla de estidiantes por semestre
-           /*  const ar = []
+    
+            let Notasperma = []
             const result = []
-            for (let i = 0; i < state.notasperma.length; i++) {
-                const element = state.notasperma[i];
-                var nota = element.value
-                
-                var NombreMateria = element.name
-                var pensun = state.materiaPorPensum.find(elemento => elemento.MateriaId === nota[0].MateriaId)
-                nota.forEach(e => {
-                    var estudiante = state.estudiantes.find(elemento => elemento.id === e.EstudianteId)
-                    ar.push({ pensun, NombreMateria, Notamateria: e, estudiante })
-                })
-            }
-            state.notastate = ar
+           const semestres = []
 
-            const student = []
-            const data = []
 
-            for (let i = 0; i < ar.length; i++) {
-                const e = ar[i];
-                if (e.pensun.SemMateriaNum == action.payload) {
-                    data.push(e)
-                    student.push(e.estudiante.Nombres)
+            state.materiaPorPensum.forEach((e) => {
+                 if(e.PensumId=== action.payload ){
+                    Notasperma.push(e)
+                 }
+            })
+             
+             for (let i = 0; i <Notasperma.length; i++) {
+                const element =Notasperma[i];
+              
+                if(!isNaN(element.SemMateriaNum)){
+                    let num =parseInt(element.SemMateriaNum)
+                    semestres.push(num)
+
                 }
+                
             }
-            console.log(data)
+            const elementosUnicos = [];  
+            semestres.forEach(num => { 
+              if (!elementosUnicos.includes(num)) {  
+                elementosUnicos.push(num);  
+              }
+            })
+            
+            state.semestres= elementosUnicos.sort()
 
-            for (let index = 0; index < student.length; index++) {
-                const nombres = student[index];
-                const x = []
-                data.forEach(e => { if (e.estudiante.Nombres === nombres) { x.push(e) } })
+           
 
-                result.push([x.length, x.length, nombres])
-            }
-            state.notasemestre = result */
         },
+setNotas_Por_Estudiante:(state,action)=>{
+const estudiantes = []
+ 
+const notas= state.notas_del_semestre
 
+const materiaId = []
+state.materiaPorPensum.forEach((e)=>{
+    e.SemMateriaNum === action.payload? materiaId.push(e):null    
+     
+    })
 
+for (let e = 0; e < notas.length; e++) {
+    const element = notas[e];
+    state.estudiantes.forEach((e)=>{
+        if(e.id === element.EstudianteId){
+            estudiantes.push(e)
+        }
+    })
+    
+}
+ 
+const notas_estudiantes = []
+for (let i = 0; i < estudiantes.length; i++) {
+    const element = estudiantes[i];
+    const notas = []
+    for (let j = 0; j < materiaId.length; j++) {
+        const e = materiaId[j];
+        if(e.MateriaId === element.MateriaId){
+            notas.push(e)
+        }
     }
-})
+    notas_estudiantes.push({Estudiante:element,Notas:notas})
+
+
+}
+console.log(notas_estudiantes)
+    }
+    }
+})  
 
 export default dataSlice.reducer
-export const { setNotasperma, setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions
+export const { setNotas_Por_Estudiante,setNotasperma, setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions

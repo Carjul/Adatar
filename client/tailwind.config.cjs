@@ -8,7 +8,52 @@ module.exports = {
     extend: {},
   },
   plugins: [require("daisyui")],
+
   daisyui: {
-    themes: ["light", "cmyk", "halloween"],
-  }
+    themes: [
+      {
+        Dark: {
+
+          "primary": "#F58E2D",
+
+          "secondary": "#9333ea",
+
+          "accent": "#CBFD03",
+
+          "neutral": "#191A3F",
+
+          "base-100": "#3F3E3D",
+
+          "info": "#3194F6",
+
+          "success": "#5FC992",
+
+          "warning": "#F7DE2D",
+
+          "error": "#E60300",
+        },
+        Lite: {
+
+          "primary": "#F58E2D",
+
+          "secondary": "#9333ea",
+
+          "accent": "#CBFD03",
+
+          "neutral": "#191A3F",
+
+          "base-100": "#f5f5f4",
+
+          "info": "#3194F6",
+
+          "success": "#5FC992",
+
+          "warning": "#F7DE2D",
+
+          "error": "#E60300",
+        },
+      },
+
+    ],
+  },
 }

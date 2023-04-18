@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getData, getProgramas, get_Nota_Año, getDataperson } from '../app/Actions/action';
-import { setNotasmateria, setNotastate, setNotasperma } from '../app/FeatureSlices/data';
+import { setNotasmateria, setNotastate, setNotasperma ,setNotas_Por_Estudiante} from '../app/FeatureSlices/data';
 import Nav from '../components/Nav';
 import Sidebar from '../components/sidebar';
 import Footer from '../components/footer';
@@ -10,7 +10,7 @@ import * as echarts from 'echarts';
 
 const Dashboard = () => {
 
-  const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma, notas, notasemestre } = useSelector(state => state.data);
+  const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma, notas, notasemestre,semestres } = useSelector(state => state.data);
   const x = useSelector(state => state.data);
   console.log(x)
   const dispatch = useDispatch();
@@ -32,10 +32,11 @@ const Dashboard = () => {
   const HandleChageC = (e) => {
     dispatch(setNotasmateria(`${e.target.value}`))
     dispatch(setNotasperma(`${e.target.value}`))
+    dispatch(setNotastate(`${e.target.value}`))
   }
-  const HandleChageE = (e) => {
-    dispatch(setNotastate(e.target.value))
-  }
+   const HandleChageE = (e) => {
+    dispatch(setNotas_Por_Estudiante(`${e.target.value}`))
+  } 
 
 
   React.useEffect(() => {
@@ -373,17 +374,11 @@ const Dashboard = () => {
 
                 <div className="px-0 py-2">
                   <select name="Estado de notas" onChange={HandleChageE} className="select select-secondary select-sm max-w-xs">
-                    <option defaultValue="0">Estudiantes por semestre</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
+                    <option defaultValue="1">Estudiantes por semestre</option>
+                    {semestres?.map(e => 
+                    <option key={e} value={e}>{e}</option>)
+                    }
+                    
                   </select>
                 </div>
 
