@@ -262,11 +262,22 @@ const estudiantes = []
  
 const notas= state.notas_del_semestre
 
-const materiaId = []
-state.materiaPorPensum.forEach((e)=>{
-    e.SemMateriaNum === action.payload? materiaId.push(e):null    
-     
+const materias = []
+for (let i = 0; i < state.materiaPorPensum; i++) {
+    const e = state.materiaPorPensum[i];
+   if( e.SemMateriaNum === action.payload){ materias.push(e)}
+    
+}
+var materias_sem=[]
+for (let i = 0; i < notas.length; i++) {
+    const element = notas[i];
+    materias.forEach((e)=>{
+        if(e.MateriaId === element.MateriaId){
+            materias_sem.push(e)
+        }
     })
+
+}
 
 for (let e = 0; e < notas.length; e++) {
     const element = notas[e];
@@ -279,19 +290,11 @@ for (let e = 0; e < notas.length; e++) {
 }
  
 const notas_estudiantes = []
-for (let i = 0; i < estudiantes.length; i++) {
-    const element = estudiantes[i];
-    const notas = []
-    for (let j = 0; j < materiaId.length; j++) {
-        const e = materiaId[j];
-        if(e.MateriaId === element.MateriaId){
-            notas.push(e)
-        }
-    }
+
     notas_estudiantes.push({Estudiante:element,Notas:notas})
 
 
-}
+
 console.log(notas_estudiantes)
     }
     }
