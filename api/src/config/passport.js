@@ -29,7 +29,7 @@ passport.use(new LocalStrategy(
                             Nombre,
                             Email: email,
                             Password: password,
-                            RolId:2 },
+                            RolId:1 },
                         })
                     done(null, newUser)
                 } else {

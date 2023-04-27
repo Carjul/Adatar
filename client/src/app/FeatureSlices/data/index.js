@@ -234,7 +234,8 @@ const dataSlice = createSlice({
                     Notasperma.push(e)
                  }
             })
-             
+            state.notasemestre= Notasperma
+
              for (let i = 0; i <Notasperma.length; i++) {
                 const element =Notasperma[i];
               
@@ -258,42 +259,72 @@ const dataSlice = createSlice({
 
         },
 setNotas_Por_Estudiante:(state,action)=>{
-const estudiantes = []
- 
-const notas= state.notas_del_semestre
-
-const materiaId = []
-state.materiaPorPensum.forEach((e)=>{
-    e.SemMateriaNum === action.payload? materiaId.push(e):null    
-     
-    })
-
-for (let e = 0; e < notas.length; e++) {
-    const element = notas[e];
-    state.estudiantes.forEach((e)=>{
-        if(e.id === element.EstudianteId){
-            estudiantes.push(e)
-        }
-    })
     
-}
  
-const notas_estudiantes = []
-for (let i = 0; i < estudiantes.length; i++) {
-    const element = estudiantes[i];
-    const notas = []
-    for (let j = 0; j < materiaId.length; j++) {
-        const e = materiaId[j];
-        if(e.MateriaId === element.MateriaId){
-            notas.push(e)
-        }
+function filtrarNotasPorSemestre(semestre) {
+
+
+  // Filtramos las materias del pensum que tienen el semestre buscado
+  const materiasFiltradas = [];
+    for (let i = 0; i < state.notasemestre.length; i++) {
+      if (state.notasemestre[i].SemMateriaNum === `${semestre}`) {
+        materiasFiltradas.push(state.notasemestre[i]);
+      }
     }
-    notas_estudiantes.push({Estudiante:element,Notas:notas})
+  
+  // Filtramos los estudiantes que corresponden a las materias filtradas
+  const estudiantesFiltrados = [];
+    for (let i = 0; i < state.estudiantes.length; i++) {
+      if (materiasFiltradas.some(materia => materia.PensumId === state.estudiantes[i].PensumId)) {
+        estudiantesFiltrados.push(state.estudiantes[i]);
+      }
+    }
+  
+  
+  const uniqueIds = {};
+const estudiantes = estudiantesFiltrados.filter(obj => {
+  if (!uniqueIds[obj.id]) {
+    uniqueIds[obj.id] = true;
+    return true;
+  }
+  return false;
+});
+
+// Filtramos las notas que corresponden a los estudiantes filtrados
+  const notasFiltradas = [];
+    for (let i = 0; i < state.notas.length; i++) {
+      if (estudiantes.some(estudiante => estudiante.id === state.notas[i].EstudianteId)) {
+        notasFiltradas.push(state.notas[i]);
+      }
+    } 
+
+const estudiantesConNotas = [];
+for (let i = 0; i < estudiantes.length; i++) {
+  const estudiante = estudiantes[i];
+  const notasEstudiante = notasFiltradas.filter(nota => nota.EstudianteId === estudiante.id);
+  estudiantesConNotas.push({ estudiante, notas: notasEstudiante });
+}
+
+// Devolvemos el resultado como un objeto que contiene las materias, estudiantes y notas filtradas
+return estudiantesConNotas
+
 
 
 }
-console.log(notas_estudiantes)
+
+const notasemestre = filtrarNotasPorSemestre(action.payload)
+const data = []
+ for (let j = 0; j < notasemestre.length; j++) {
+    const element = notasemestre[j];
+    let perdidos = element.notas.filter(nota => nota.Perdio === 1 )
+    if(perdidos.length>0){
+        
+        data.push([perdidos.length, perdidos.length,element.estudiante.Nombres])
     }
+ }
+state.notas_estudiantes= data
+    }
+
     }
 })  
 

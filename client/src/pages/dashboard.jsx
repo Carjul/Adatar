@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getData, getProgramas, get_Nota_Año, getDataperson } from '../app/Actions/action';
-import { setNotasmateria, setNotastate, setNotasperma ,setNotas_Por_Estudiante} from '../app/FeatureSlices/data';
+import { setNotasmateria, setNotastate, setNotasperma ,setNotas_Por_Estudiante,} from '../app/FeatureSlices/data';
 import Nav from '../components/Nav';
 import Sidebar from '../components/sidebar';
 import Footer from '../components/footer';
@@ -10,7 +10,7 @@ import * as echarts from 'echarts';
 
 const Dashboard = () => {
 
-  const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma, notas, notasemestre,semestres } = useSelector(state => state.data);
+  const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma, notas, notasemestre,semestres,notas_estudiantes} = useSelector(state => state.data);
   const x = useSelector(state => state.data);
   console.log(x)
   const dispatch = useDispatch();
@@ -282,7 +282,7 @@ const Dashboard = () => {
   }, [notasperma])
 
   React.useEffect(() => {
-    let arr = notasemestre
+    let arr = notas_estudiantes
     let myChart = echarts.init(document.getElementById('main3'));
     window.addEventListener("resize", function () {
       myChart.resize();
@@ -292,7 +292,6 @@ const Dashboard = () => {
         source: [
           ['score', 'numero', 'estudiantes'],
           ...arr
-
         ]
       },
       toolbox: {
@@ -331,7 +330,7 @@ const Dashboard = () => {
       ]
     }
     myChart.setOption(option);
-  }, [notasemestre])
+  }, [notas_estudiantes])
 
   return (
     <>
