@@ -11,8 +11,6 @@ import * as echarts from 'echarts';
 const Dashboard = () => {
 
   const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma, notas, notasemestre,semestres,notas_estudiantes} = useSelector(state => state.data);
-  const x = useSelector(state => state.data);
-  console.log(x)
   const dispatch = useDispatch();
   const token = localStorage.getItem('token');
 

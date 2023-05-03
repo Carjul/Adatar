@@ -10,3 +10,5 @@ conn.sync({ force:false}).then(() => {
 })
 .catch((err)=>{console.log(err)});
 
+/* const {BusquedaDB} = require('./src/controllers/graficos');
+BusquedaDB() */

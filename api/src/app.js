@@ -11,10 +11,10 @@ const { rutaUpload } = require("./routes/uploadFile")
 const routerLog = require("./routes/login")
 const { routerData } = require("./routes/data")
 const schema  = require("./graphql/Schema")
-/* const {BusquedaDB} = require("./controllers/graficos") */
+
 const app = express()
  
-/* BusquedaDB() */  
+
 app.set('port', process.env.PORT)
 app.use(session({secret: "secret",resave: true,saveUninitialized: true,}));
 app.use(passport.initialize());
@@ -26,11 +26,11 @@ app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 
 app.use('/', routerLog)
-app.use('/',  routerData )
-app.use('/api/v1', isAuthenticated,rutaUpload)
-app.use('/api/v1', isAuthenticated, graphqlHTTP({ schema, graphiql:true }));
+app.use('/',  routerData)
+app.use('/api/v1',isAuthenticated,rutaUpload)
+app.use('/api/v1',isAuthenticated, graphqlHTTP({ schema, graphiql:true }));
 
- 
+
 
 
 module.exports= app;

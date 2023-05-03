@@ -94,7 +94,7 @@ const Config = () => {
                                     <td className="p-2">
                                         <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                                             <div className="w-10 rounded-full">
-                                                <img src={`${e.Avatar}`} alt="Avatar" width={40} height={50} />
+                                                <img src={`${e.Avatar}`} alt="Avatar" width={40} height={50} crossOrigin="anonymous"/>
                                             </div>
                                         </label>
                                     </td>
