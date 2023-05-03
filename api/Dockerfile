@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:18.11
 
 RUN mkdir -p /usr/src/app
 
@@ -16,4 +16,4 @@ EXPOSE 3001
 
 VOLUME [ "/usr/src/app" ]
 
-CMD ["npm","start"]
+CMD [ "npm","run","dev" ]
