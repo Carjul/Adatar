@@ -1,4 +1,4 @@
-const { Notas, Estudiantes, Pensums, Materias, Programas, Docentes, PeriodoAcademicos, MateriaPorPensums, Facultades } = require('../db.js');
+/* const { Notas, Estudiantes, Pensums, Materias, Programas, Docentes, PeriodoAcademicos, MateriaPorPensums, Facultades } = require('../db.js');
 
 const State = {
     facultad: [],
@@ -196,7 +196,7 @@ const setNotasmateria= (id) => {
 
     State.notasmateria.push(result)
     console.log(State.notasmateria)
-}
+} */
 /* 
  
         setNotastate: (state, action) => {//datos para la tabla de estidiantes por semestre
@@ -307,4 +307,4 @@ state.notas_estudiantes= data
 */
 
 
-module.exports = { State ,BusquedaDB}
+//module.exports = { State ,BusquedaDB}

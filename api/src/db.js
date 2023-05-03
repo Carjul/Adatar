@@ -24,6 +24,9 @@ const { DB_USER, DB_PASSWORD, DB_HOST, DB } = process.env;
 const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB}`, {
   logging: false,
   native: false,
+  define: {
+    timestamps: false
+  },
   pool: {
     max: 50,
     min: 0,
