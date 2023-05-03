@@ -15,4 +15,4 @@ EXPOSE 3001
 
 VOLUME [ "/usr/src/app" ]
 
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "dev" ]
