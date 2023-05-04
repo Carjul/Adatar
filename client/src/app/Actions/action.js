@@ -1,13 +1,38 @@
 import axios from "axios";
-import {  setPeriodo,  setPrograma,  setMateriaPorPensum, setMateria, setPensum, setFacultad, setNota, setSede,setDocente,setEstudiante } from '../FeatureSlices/data';
+import {  setPeriodo,  setPrograma,  setMateriaPorPensum, setMateria, setPensum, setFacultad, setNota, setSede,setDocente,setEstudiante,setNotas_Por_Estudiante,setNotasmateria,setNotasperma,setNotastate } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
 import { setUsers,setConfig } from "../FeatureSlices/users";
 import jwt_decode from "jwt-decode";
 
 
 const url = import.meta.env.VITE_PUBLIC_API; 
+const url2 = import.meta.env.VITE_PUBLIC_SEVICE;
 
+export const getdataEst = (params)=>(dispatch) => {
+  axios.post(`${url2}/notas`, params).then((result) => {
+    dispatch(setNotas_Por_Estudiante(result.data))
+    //dispatch(setNotas_Por_Estudiante(result.data))
+}).catch(err => {
+    console.log(err);
+});
+}
 
+export const getNotasRango = (params)=>(dispatch) => {
+  axios.post(`${url2}/notas/rango`, params).then((result) => {
+    dispatch(setNotasmateria(result.data))
+    dispatch(setNotastate(result.data)) 
+}).catch(err => {
+    console.log(err);
+});
+}
+
+export const getMaterias = (params)=>(dispatch) => {
+  axios.post(`${url2}/Materias`, params).then((result) => {
+    dispatch(setNotasperma(result.data))
+}).catch(err => {
+    console.log(err);
+});
+}
 
 export const getData = (token) => (dispatch) => {
   try {
@@ -179,29 +204,12 @@ export const updateOneData = (id, rol,token) => (dispatch) => {
   });
 
 }
-export const get_Nota_Año = (id,token) => (dispatch) => {
+export const get_Nota_Año = (params) => (dispatch) => {
   try {
-    const query = `mutation{
-      notasporyear(PeriodoAcademicoId:"${id}"){
-            id
-            GRADE_ACTIVITY
-            Nota
-            FINAL_GRADE
-            Gano
-            Perdio
-            Rango
-            ProxNotaMin
-            Seccion
-            EstudianteId
-            MateriaId
-            ProgramaId
-            DocenteId
-            PeriodoAcademicoId
-          }}`;
 
-        axios.post(`${url}/api/v1?token=${token}`, { query })
+        axios.post(`${url2}/Notas_periodo`, params)
       .then((response) => {
-        dispatch(setNota(response.data.data.notasporyear));
+        dispatch(setNota(response.data));
       })
       .catch((error) => {
         console.error(error);

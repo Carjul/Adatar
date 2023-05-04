@@ -27,7 +27,7 @@ const Upload = () => {
   useEffect(() => {
     setTimeout(() => {
       dispatch(setMsg(""))
-    }, 5000)
+    }, 20000)
 
   }, [message,dispatch])
 

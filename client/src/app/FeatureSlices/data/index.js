@@ -17,8 +17,8 @@ const initialState = {
     notasperpro: [],
     notasperma: {},//notas por materia
     semestres: [],
-    notas_estudiantes:[],
-    notas_del_semestre:[],
+    notas_estudiantes: [],
+    notas_del_semestre: [],
 }
 
 const dataSlice = createSlice({
@@ -37,53 +37,13 @@ const dataSlice = createSlice({
                 Gano: [],
                 Perdio: [],
             }
-            const notas = []
-            const arregloRepetidos = []
-            const materias = []
-            state.notas.forEach(e => {
-                if (e.ProgramaId === action.payload) {
-                    notas.push(e)
-                }
-            })
-            state.notas_del_semestre = notas
 
-            for (let i = 0; i < notas.length; i++) {
-                const element = notas[i];
-                state.materias.forEach(e => {
-                    if (e.id === element.MateriaId) {
-                        arregloRepetidos.push(e)
-                    }
-                })
+            for (let i = 0; i < action.payload.length; i++) {
+                const element = action.payload[i];
+                notas_por_materia.Materia.push(element.nombre)
+                notas_por_materia.Gano.push(element.gano)
+                notas_por_materia.Perdio.push(element.perdio)
             }
-            
-            for (var j = 0; j < arregloRepetidos.length; j++) {
-                var objeto = arregloRepetidos[j];
-                if (materias.indexOf(objeto) === -1) {
-                    materias.push(objeto);
-                }
-            }
-
-             for (let i = 0; i < materias.length; i++) {
-                const element = materias[i];
-                notas_por_materia.Materia.push(element.NombreMateria)
-                const Gano = []
-                const Perdio = []
-                notas.forEach(e => {
-                    if (element.id === e.MateriaId) {
-
-                        if (e.Gano === 1) {
-                            Gano.push(e)
-                        } else {
-                            Perdio.push(e)
-                        }
-                    }
-                })
-
-                notas_por_materia.Gano.push(Gano.length)
-                notas_por_materia.Perdio.push(Perdio.length)
-
-            } 
-            
             state.notasperma = notas_por_materia
         },
         setSede: (state, action) => {
@@ -95,6 +55,7 @@ const dataSlice = createSlice({
                 return sedes.indexOf(item) === index;
             })
         },
+
         setPrograma: (state, action) => {
             state.programa = action.payload
             const arreglo = [
@@ -159,14 +120,6 @@ const dataSlice = createSlice({
         },
         setNotasmateria: (state, action) => {
 
-            const notas_programa = []
-            for (let i = 0; i < state.notas.length; i++) {
-                const e = state.notas[i];
-                if (e.ProgramaId === action.payload) {
-                    notas_programa.push(e)
-                }
-            }
-
             const Cero = [[], [], [], [], [], [], [], [], [], []]
             const MuyBaja = [[], [], [], [], [], [], [], [], [], []]
             const Baja = [[], [], [], [], [], [], [], [], [], []]
@@ -174,36 +127,36 @@ const dataSlice = createSlice({
             const Alta = [[], [], [], [], [], [], [], [], [], []]
             const MuyAlta = [[], [], [], [], [], [], [], [], [], []]
 
-            for (let i = 0; i < notas_programa.length; i++) {
-                const element = notas_programa[i];
-                state.materiaPorPensum.forEach((e) => {
-                    var index = parseInt(e.SemMateriaNum) - 1;
+            for (let i = 0; i < action.payload.length; i++) {
+                const element = action.payload[i];
 
-                    if (!isNaN(index) && e.MateriaId === element.MateriaId) {
+                var index = parseInt(element.semestres) - 1;
 
-                        if (element.Nota == 0.0) {
-                            Cero[index].push(element)
-                        }
-                        if (element.Nota > 0.0 && element.Nota < 2.0) {
-                            MuyBaja[index].push(element)
-                        }
-                        if (element.Nota >= 2.0 && element.Nota < 3.0) {
-                            Baja[index].push(element)
-                        }
-                        if (element.Nota >= 3.0 && element.Nota < 4.0) {
-                            Medio[index].push(element)
-                        }
-                        if (element.Nota >= 4.0 && element.Nota < 4.5) {
-                            Alta[index].push(element)
-                        }
-                        if (element.Nota >= 4.5 && element.Nota <= 5.0) {
-                            MuyAlta[index].push(element)
-                        }
+                if (!isNaN(index)) {
 
+                    if (element.nota == 0.0) {
+                        Cero[index].push(element)
                     }
-                })
+                    if (element.nota > 0.0 && element.nota < 2.0) {
+                        MuyBaja[index].push(element)
+                    }
+                    if (element.nota >= 2.0 && element.nota < 3.0) {
+                        Baja[index].push(element)
+                    }
+                    if (element.nota >= 3.0 && element.nota < 4.0) {
+                        Medio[index].push(element)
+                    }
+                    if (element.nota >= 4.0 && element.nota < 4.5) {
+                        Alta[index].push(element)
+                    }
+                    if (element.nota >= 4.5 && element.nota <= 5.0) {
+                        MuyAlta[index].push(element)
+                    }
 
+                }
             }
+
+
 
             const materias = [Cero, MuyBaja, Baja, Medio, Alta, MuyAlta]
             var result = []
@@ -223,110 +176,74 @@ const dataSlice = createSlice({
 
         },
         setNotastate: (state, action) => {//datos para la tabla de estidiantes por semestre
-    
-            let Notasperma = []
-            const result = []
-           const semestres = []
 
-
-            state.materiaPorPensum.forEach((e) => {
-                 if(e.PensumId=== action.payload ){
-                    Notasperma.push(e)
-                 }
-            })
-            state.notasemestre= Notasperma
-
-             for (let i = 0; i <Notasperma.length; i++) {
-                const element =Notasperma[i];
-              
-                if(!isNaN(element.SemMateriaNum)){
-                    let num =parseInt(element.SemMateriaNum)
-                    semestres.push(num)
-
-                }
-                
-            }
-            const elementosUnicos = [];  
-            semestres.forEach(num => { 
-              if (!elementosUnicos.includes(num)) {  
-                elementosUnicos.push(num);  
-              }
-            })
             
-            state.semestres= elementosUnicos.sort()
-
            
+            const semestres = action.payload.filter((e) => {
+            return e.semestres !== null
+            })
+
+            
+            const elementosUnicos = [];
+            semestres.forEach(num => {
+                if (!elementosUnicos.includes(num.semestres)) {
+                    elementosUnicos.push(num.semestres);
+                }
+            })
+
+            state.semestres = elementosUnicos.sort()
+
 
         },
-setNotas_Por_Estudiante:(state,action)=>{
-    
- 
-function filtrarNotasPorSemestre(semestre) {
+        setNotas_Por_Estudiante: (state, action) => {
+
+            const notas = []
+            //filtrar elementos sin estar repetido por su is
+            const elementosUnicos = [];
+
+            action.payload.forEach(num => {
+                if (!elementosUnicos.includes(num.estudiante_id)) {
+                    elementosUnicos.push(num);
+
+                }
+            })
+
+            for (let j = 0; j < elementosUnicos.length; j++) {
+                const id = elementosUnicos[j].estudiante_id;
+                const nombre = elementosUnicos[j].estudiante_nombre;
+                var data = action.payload.filter((e) => e.estudiante_id === id)
+                var arreglo = [nombre, data.length, data.length]
+                notas.push(arreglo)
+            }
 
 
-  // Filtramos las materias del pensum que tienen el semestre buscado
-  const materiasFiltradas = [];
-    for (let i = 0; i < state.notasemestre.length; i++) {
-      if (state.notasemestre[i].SemMateriaNum === `${semestre}`) {
-        materiasFiltradas.push(state.notasemestre[i]);
-      }
-    }
-  
-  // Filtramos los estudiantes que corresponden a las materias filtradas
-  const estudiantesFiltrados = [];
-    for (let i = 0; i < state.estudiantes.length; i++) {
-      if (materiasFiltradas.some(materia => materia.PensumId === state.estudiantes[i].PensumId)) {
-        estudiantesFiltrados.push(state.estudiantes[i]);
-      }
-    }
-  
-  
-  const uniqueIds = {};
-const estudiantes = estudiantesFiltrados.filter(obj => {
-  if (!uniqueIds[obj.id]) {
-    uniqueIds[obj.id] = true;
-    return true;
-  }
-  return false;
-});
+            const registro = {};
 
-// Filtramos las notas que corresponden a los estudiantes filtrados
-  const notasFiltradas = [];
-    for (let i = 0; i < state.notas.length; i++) {
-      if (estudiantes.some(estudiante => estudiante.id === state.notas[i].EstudianteId)) {
-        notasFiltradas.push(state.notas[i]);
-      }
-    } 
+            notas.forEach((elemento) => {
+                const clave = elemento[0];
+                if (registro[clave]) {
+                    registro[clave].contador++;
+                } else {
+                    registro[clave] = {
+                        elemento: elemento,
+                        contador: 1,
+                    };
+                }
+            });
 
-const estudiantesConNotas = [];
-for (let i = 0; i < estudiantes.length; i++) {
-  const estudiante = estudiantes[i];
-  const notasEstudiante = notasFiltradas.filter(nota => nota.EstudianteId === estudiante.id);
-  estudiantesConNotas.push({ estudiante, notas: notasEstudiante });
-}
+            const resultado = Object.values(registro).map((objeto) => {
+                const elemento = objeto.elemento;
 
-// Devolvemos el resultado como un objeto que contiene las materias, estudiantes y notas filtradas
-return estudiantesConNotas
+                return elemento;
+            });
 
+            console.log(resultado);
 
-
-}
-
-const notasemestre = filtrarNotasPorSemestre(action.payload)
-const data = []
- for (let j = 0; j < notasemestre.length; j++) {
-    const element = notasemestre[j];
-    let perdidos = element.notas.filter(nota => nota.Perdio === 1 )
-    if(perdidos.length>0){
-        
-        data.push([perdidos.length, perdidos.length,element.estudiante.Nombres])
-    }
- }
-state.notas_estudiantes= data
-    }
+            state.notas_estudiantes = resultado
+        }
 
     }
-})  
+})
 
 export default dataSlice.reducer
-export const { setNotas_Por_Estudiante,setNotasperma, setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions
+export const { setNotas_Por_Estudiante, setNotasperma, setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions

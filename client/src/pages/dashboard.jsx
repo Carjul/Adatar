@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getData, getProgramas, get_Nota_Año, getDataperson } from '../app/Actions/action';
-import { setNotasmateria, setNotastate, setNotasperma ,setNotas_Por_Estudiante,} from '../app/FeatureSlices/data';
+import { getNotasRango,getData, getProgramas, get_Nota_Año, getDataperson,getdataEst,getMaterias } from '../app/Actions/action';
+import {  setNotas_Por_Estudiante,} from '../app/FeatureSlices/data';
 import Nav from '../components/Nav';
 import Sidebar from '../components/sidebar';
 import Footer from '../components/footer';
@@ -9,8 +9,13 @@ import * as echarts from 'echarts';
 
 
 const Dashboard = () => {
-
+const arr = [{
+  semestre:3,
+  pensum_id:"1",
+  periodo_academico:1
+}]
   const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma, notas, notasemestre,semestres,notas_estudiantes} = useSelector(state => state.data);
+  
   const dispatch = useDispatch();
   const token = localStorage.getItem('token');
 
@@ -22,18 +27,23 @@ const Dashboard = () => {
 
 
   const HandleChageP = (e) => {
-    dispatch(get_Nota_Año(e.target.value, token))
+    arr[0].periodo_academico=parseInt(e.target.value)
+    dispatch(get_Nota_Año({	"periodo_id":e.target.value}))
   }
   const HandleChageS = (e) => {
     dispatch(getProgramas(e.target.value, token))
   }
   const HandleChageC = (e) => {
-    dispatch(setNotasmateria(`${e.target.value}`))
-    dispatch(setNotasperma(`${e.target.value}`))
-    dispatch(setNotastate(`${e.target.value}`))
+    arr[0].pensum_id=`${e.target.value}`
+    dispatch(getNotasRango({ "pensum_id": `${e.target.value}`})) 
+     dispatch(getMaterias({"programa_id":`${e.target.value}`})) 
   }
    const HandleChageE = (e) => {
-    dispatch(setNotas_Por_Estudiante(`${e.target.value}`))
+    arr[0].semestre=parseInt(e.target.value)
+    // coverir arr a json
+    dispatch(getdataEst(arr[0]))
+    
+    
   } 
 
 
@@ -199,6 +209,7 @@ const Dashboard = () => {
 
   React.useEffect(() => {
     let datos = notasperma
+    console.log(datos)
     let myChart = echarts.init(document.getElementById('mainx'));
     window.addEventListener("resize", function () {
       myChart.resize();
@@ -288,7 +299,7 @@ const Dashboard = () => {
     let option = {
       dataset: {
         source: [
-          ['score', 'numero', 'estudiantes'],
+          ['estudiantes','score', 'numero' ],
           ...arr
         ]
       },
@@ -361,7 +372,7 @@ const Dashboard = () => {
                 </div> : <div></div>}
 
                 <div className="px-0 py-2">
-                  <select name="Programa" onChange={HandleChageC} className="select select-secondary select-sm w-a max-w-xs">
+                  <select name="Programa"  onChange={HandleChageC} className="select select-secondary select-sm w-a max-w-xs">
                     <option defaultValue="0">Carrera</option>
                     {programa?.map(e =>
                       <option key={e.id} value={e.id}>{e.NombrePrograma}</option>

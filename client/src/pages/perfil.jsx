@@ -27,7 +27,7 @@ const Perfil = () => {
                         <div className="card-body items-center">
                             <h1 className="card-title">Datos de usuario</h1>
                             <br />
-                            <img src={avatar} alt="Avatar" width={180} height={180} className="border rounded-full" crossOrigin="anonymous"/>
+                            <img src={avatar} alt="Avatar" width={180} height={180} className="border rounded-full" />
                             <h3>{name}</h3>
                             <strong>{email}</strong>
                             <br />

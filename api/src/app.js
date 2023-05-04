@@ -9,7 +9,6 @@ require('./config/passport')
 const {isAuthenticated} = require("./helper/index")
 const { rutaUpload } = require("./routes/uploadFile")
 const routerLog = require("./routes/login")
-const { routerData } = require("./routes/data")
 const schema  = require("./graphql/Schema")
 
 const app = express()
@@ -26,7 +25,6 @@ app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 
 app.use('/', routerLog)
-app.use('/',  routerData)
 app.use('/api/v1',isAuthenticated,rutaUpload)
 app.use('/api/v1',isAuthenticated, graphqlHTTP({ schema, graphiql:true }));
 
