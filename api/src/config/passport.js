@@ -23,15 +23,23 @@ passport.use(new LocalStrategy(
             }else{
                 if (patron.test(email)) {
                     const  { Nombre, Avatar} = req.body	
-                    const newUser = await Users.findOrCreate({
-                        where: { 
-                            Avatar,
-                            Nombre,
-                            Email: email,
-                            Password: password,
-                            RolId:1 },
-                        })
-                    done(null, newUser)
+                    const existe = await Users.findAll({
+                        where: { Email: email }
+                    })
+                    if (existe.length > 0) {
+                        done(null, false, { message: "el correo ya esta registrado" })
+                    }else{
+                        const newUser = await Users.findOrCreate({
+                            where: { 
+                                Avatar,
+                                Nombre,
+                                Email: email,
+                                Password: password,
+                                RolId:1 },
+                            })
+                        done(null, newUser)
+                    }
+                    
                 } else {
                     done(null, false, { message: "el correo no pertenece a la universidad." })
                 }
