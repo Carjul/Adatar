@@ -1,11 +1,24 @@
 {
     "redirects": [
-       
+        {
+            "source": "/dashboard",
+            "destination": "https://adatar.vercel.app/dashboard"
+        },
         {
             "source": "/home",
             "destination": "https://adatar.vercel.app/home"
-            
+        },
+        {
+            "source": "/perfil",
+            "destination": "https://adatar.vercel.app/perfil"
+        },
+
+        {
+            "source": "/config",
+            "destination": "https://adatar.vercel.app/config"
+        },{
+            "source":"/upload",
+            "destination":"https://adatar.vercel.app/upload"
         }
-    
     ]
 }
