@@ -99,6 +99,7 @@ const dataSlice = createSlice({
                 arr.push({ value: element.value.length, name: element.name })
             }
             state.notasperpro = arr
+            console.log(arr);
         },
         setDocente: (state, action) => {
             state.docentes = action.payload
