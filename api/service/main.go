@@ -31,9 +31,12 @@ func main() {
 	app := mux.NewRouter()
 
 	// Rutas
+	app.HandleFunc("/service", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("Servicio iniciado"))
 
+	})
 	//ruta notas por peiodo academico
-	app.HandleFunc("/Notas_periodo", func(w http.ResponseWriter, r *http.Request) {
+	app.HandleFunc("/service/Notas_periodo", func(w http.ResponseWriter, r *http.Request) {
 		var params struct {
 			PeriodoID string `json:"periodo_id"`
 		}
@@ -105,7 +108,7 @@ func main() {
 
 	}).Methods("POST")
 
-	app.HandleFunc("/Materias", func(w http.ResponseWriter, r *http.Request) {
+	app.HandleFunc("/service/Materias", func(w http.ResponseWriter, r *http.Request) {
 		var params struct {
 			ProgramaID string `json:"programa_id"`
 		}
@@ -170,7 +173,7 @@ func main() {
 	}).Methods("POST")
 
 	//ruta notas por rango
-	app.HandleFunc("/notas/rango", func(w http.ResponseWriter, r *http.Request) {
+	app.HandleFunc("/service/notas/rango", func(w http.ResponseWriter, r *http.Request) {
 		var params struct {
 			PensumID string `json:"pensum_id"`
 		}
@@ -240,7 +243,7 @@ func main() {
 	}).Methods("POST")
 
 	// Agregar tus rutas aquí
-	app.HandleFunc("/notas", func(w http.ResponseWriter, r *http.Request) {
+	app.HandleFunc("/service/notas", func(w http.ResponseWriter, r *http.Request) {
 
 		// Leer los parámetros de la solicitud
 		var params struct {

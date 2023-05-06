@@ -24,9 +24,9 @@ app.use(flash());
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 
-app.use('/', routerLog)
-app.use('/api/v1',isAuthenticated,rutaUpload)
-app.use('/api/v1',isAuthenticated, graphqlHTTP({ schema, graphiql:true }));
+app.use('/app/', routerLog)
+app.use('/app/api/v1',isAuthenticated,rutaUpload)
+app.use('/app/api/v1',isAuthenticated, graphqlHTTP({ schema, graphiql:true }));
 
 
 
