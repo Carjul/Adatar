@@ -26,7 +26,9 @@ const dataSlice = createSlice({
     initialState,
     reducers: {
         setNota: (state, action) => {
-            state.notas = action.payload
+       
+            state.notasperpro=action.payload
+
         },
         setPeriodo: (state, action) => {
             state.periodoAcademico = action.payload
@@ -58,48 +60,6 @@ const dataSlice = createSlice({
 
         setPrograma: (state, action) => {
             state.programa = action.payload
-            const arreglo = [
-                { value: [], name: "Cero" },
-                { value: [], name: "Muy Baja" },
-                { value: [], name: "Baja" },
-                { value: [], name: "Media" },
-                { value: [], name: "Alta" },
-                { value: [], name: "Muy Alta" },
-            ]
-            const arr = []
-
-            for (let i = 0; i < state.programa.length; i++) {
-                const ele = state.programa[i];
-                state.notas.forEach((e) => {
-
-                    if (e.ProgramaId === ele.id && e.Nota == 0.0) {
-                        arreglo[0].value.push(e)
-                    }
-                    if (e.ProgramaId === ele.id && e.Nota > 0.0 && e.Nota < 2.0) {
-                        arreglo[1].value.push(e)
-                    }
-                    if (e.ProgramaId === ele.id && e.Nota >= 2 && e.Nota < 3.0) {
-                        arreglo[2].value.push(e)
-                    }
-                    if (e.ProgramaId === ele.id && e.Nota >= 3.0 && e.Nota < 4.0) {
-                        arreglo[3].value.push(e)
-                    }
-                    if (e.ProgramaId === ele.id && e.Nota >= 4.0 && e.Nota < 4.5) {
-                        arreglo[4].value.push(e)
-                    }
-                    if (e.ProgramaId === ele.id && e.Nota >= 4.5 && e.Nota <= 5.0) {
-                        arreglo[5].value.push(e)
-                    }
-                })
-
-            }
-
-            for (let i = 0; i < arreglo.length; i++) {
-                const element = arreglo[i];
-                arr.push({ value: element.value.length, name: element.name })
-            }
-            state.notasperpro = arr
-            console.log(arr);
         },
         setDocente: (state, action) => {
             state.docentes = action.payload

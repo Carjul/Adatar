@@ -38,7 +38,7 @@ func main() {
 	//ruta notas por peiodo academico
 	app.HandleFunc("/service/Notas_periodo", func(w http.ResponseWriter, r *http.Request) {
 		var params struct {
-			PeriodoID string `json:"periodo_id"`
+			ProgramaID string `json:"programa_id"`
 		}
 
 		decoder := json.NewDecoder(r.Body)
@@ -48,55 +48,35 @@ func main() {
 			return
 		}
 
-		query := `SELECT * FROM Public."Notas" n WHERE n."PeriodoAcademicoId"=$1`
+		query := `SELECT  COUNT(*) AS value ,n."Rango" AS name
+		FROM Public."Notas" n
+		WHERE n."ProgramaId" = $1
+		GROUP BY n."Rango";`
 
-		args := []interface{}{params.PeriodoID}
+		args := []interface{}{params.ProgramaID}
 		rows, err := db.Query(query, args...)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		defer rows.Close()
+
 		type Resultado struct {
-			ID                 int    `json:"id"`
-			GradeActivity      string `json:"GRADE_ACTIVITY"`
-			FinalGrade         string `json:"FINAL_GRADE"`
-			Nota               string `json:"Nota"`
-			Gano               int    `json:"Gano"`
-			Perdio             int    `json:"Perdio"`
-			Rango              string `json:"Rango"`
-			ProxNotaMin        string `json:"ProxNotaMin,omitempty"`
-			Seccion            string `json:"Seccion"`
-			EstudianteID       string `json:"EstudianteId"`
-			MateriaID          int    `json:"MateriaId"`
-			ProgramaID         int    `json:"ProgramaId"`
-			DocenteID          int    `json:"DocenteId"`
-			PeriodoAcademicoID int    `json:"PeriodoAcademicoId"`
+			Value string `json:"value"`
+			Name  string `json:"name"`
 		}
 
 		notas := []Resultado{}
 
 		for rows.Next() {
-			var id int
-			var gradeActivity string
-			var finalGrade string
-			var nota string
-			var gano int
-			var perdio int
-			var rango string
-			var proxNotaMin string
-			var seccion string
-			var estudianteID string
-			var materiaID int
-			var programaID int
-			var docenteID int
-			var periodoAcademicoID int
+			var value string
+			var name string
 
-			err = rows.Scan(&id, &gradeActivity, &finalGrade, &nota, &gano, &perdio, &rango, &proxNotaMin, &seccion, &estudianteID, &materiaID, &programaID, &docenteID, &periodoAcademicoID)
+			err = rows.Scan(&value, &name)
 			if err != nil {
 				log.Fatal(err)
 			}
-			notas = append(notas, Resultado{ID: id, GradeActivity: gradeActivity, FinalGrade: finalGrade, Nota: nota, Gano: gano, Perdio: perdio, Rango: rango, ProxNotaMin: proxNotaMin, Seccion: seccion, EstudianteID: estudianteID, MateriaID: materiaID, ProgramaID: programaID, DocenteID: docenteID, PeriodoAcademicoID: periodoAcademicoID})
+			notas = append(notas, Resultado{Value: value, Name: name})
 		}
 
 		if err := rows.Err(); err != nil {

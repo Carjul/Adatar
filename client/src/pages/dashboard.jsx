@@ -15,7 +15,8 @@ const arr = [{
   periodo_academico:1
 }]
   const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma, notas, notasemestre,semestres,notas_estudiantes} = useSelector(state => state.data);
-  
+  const x = useSelector(state => state.data);
+
   const dispatch = useDispatch();
   const token = localStorage.getItem('token');
 
@@ -23,12 +24,13 @@ const arr = [{
   React.useEffect(() => {
     dispatch(getData(token));
     dispatch(getDataperson(token))
+    console.log(x)
   }, [dispatch, token]);
 
 
   const HandleChageP = (e) => {
     arr[0].periodo_academico=parseInt(e.target.value)
-    dispatch(get_Nota_Año({	"periodo_id":e.target.value}))
+    /* dispatch(get_Nota_Año({	"periodo_id":e.target.value})) */
   }
   const HandleChageS = (e) => {
     dispatch(getProgramas(e.target.value, token))
@@ -37,6 +39,7 @@ const arr = [{
     arr[0].pensum_id=`${e.target.value}`
     dispatch(getNotasRango({ "pensum_id": `${e.target.value}`})) 
      dispatch(getMaterias({"programa_id":`${e.target.value}`})) 
+     dispatch(get_Nota_Año({	"programa_id":`${e.target.value}`}))
   }
    const HandleChageE = (e) => {
     arr[0].semestre=parseInt(e.target.value)
@@ -361,7 +364,7 @@ const arr = [{
                     )}
                   </select>
                 </div>
-                {notas.length > 0 ? <div className="px-0 py-2">
+                 <div className="px-0 py-2">
                   <select name="Sede" onChange={HandleChageS} className="select select-secondary select-sm max-w-xs">
                     <option defaultValue="0">Sede</option>
                     {sede?.map((e, i) =>
@@ -369,7 +372,7 @@ const arr = [{
                     )}
                   </select>
 
-                </div> : <div></div>}
+                </div> 
 
                 <div className="px-0 py-2">
                   <select name="Programa"  onChange={HandleChageC} className="select select-secondary select-sm w-a max-w-xs">

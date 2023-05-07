@@ -1,37 +1,37 @@
 import axios from "axios";
-import {  setPeriodo,  setPrograma,  setMateriaPorPensum, setMateria, setPensum, setFacultad, setNota, setSede,setDocente,setEstudiante,setNotas_Por_Estudiante,setNotasmateria,setNotasperma,setNotastate } from '../FeatureSlices/data';
+import { setPeriodo, setPrograma, setMateriaPorPensum, setMateria, setPensum, setFacultad, setNota, setSede, setDocente, setEstudiante, setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotastate } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
-import { setUsers,setConfig } from "../FeatureSlices/users";
+import { setUsers, setConfig } from "../FeatureSlices/users";
 import jwt_decode from "jwt-decode";
 
 
-const url = import.meta.env.VITE_PUBLIC_API; 
+const url = import.meta.env.VITE_PUBLIC_API;
 const url2 = import.meta.env.VITE_PUBLIC_SEVICE;
 
-export const getdataEst = (params)=>(dispatch) => {
+export const getdataEst = (params) => (dispatch) => {
   axios.post(`${url2}/notas`, params).then((result) => {
     dispatch(setNotas_Por_Estudiante(result.data))
     //dispatch(setNotas_Por_Estudiante(result.data))
-}).catch(err => {
+  }).catch(err => {
     console.log(err);
-});
+  });
 }
 
-export const getNotasRango = (params)=>(dispatch) => {
+export const getNotasRango = (params) => (dispatch) => {
   axios.post(`${url2}/notas/rango`, params).then((result) => {
     dispatch(setNotasmateria(result.data))
-    dispatch(setNotastate(result.data)) 
-}).catch(err => {
+    dispatch(setNotastate(result.data))
+  }).catch(err => {
     console.log(err);
-});
+  });
 }
 
-export const getMaterias = (params)=>(dispatch) => {
+export const getMaterias = (params) => (dispatch) => {
   axios.post(`${url2}/Materias`, params).then((result) => {
     dispatch(setNotasperma(result.data))
-}).catch(err => {
+  }).catch(err => {
     console.log(err);
-});
+  });
 }
 
 export const getData = (token) => (dispatch) => {
@@ -108,8 +108,8 @@ export const postFile = (obj, token) => (dispatch) => {
 
 }
 
-export const getProgramas=(Sede,token)=>(dispatch)=>{
-  const query=`mutation{
+export const getProgramas = (Sede, token) => (dispatch) => {
+  const query = `mutation{
     Buscar_programas_sede(Sede:"${Sede}"){
      id
      NombrePrograma
@@ -120,13 +120,13 @@ export const getProgramas=(Sede,token)=>(dispatch)=>{
    }
    }`
 
-   axios.post(`${url}/api/v1?token=${token}`, { query })
-   .then((res)=> {
-    dispatch( setPrograma(res.data.data.Buscar_programas_sede))
-   })
-   .catch(err => {
-    dispatch(setMsg(err.message))
-  });
+  axios.post(`${url}/api/v1?token=${token}`, { query })
+    .then((res) => {
+      dispatch(setPrograma(res.data.data.Buscar_programas_sede))
+    })
+    .catch(err => {
+      dispatch(setMsg(err.message))
+    });
 }
 
 export const getuser = (token) => (dispatch) => {
@@ -140,13 +140,13 @@ export const getuser = (token) => (dispatch) => {
       RolId
     }
         }`
-    axios.post(`${url}/api/v1?token=${token}`, { query })
-  .then((result)=>{
-   dispatch(setConfig(result.data.data.peticion_user))
-  })
-  .catch((err)=>{
-    console.log(err)
-  })
+  axios.post(`${url}/api/v1?token=${token}`, { query })
+    .then((result) => {
+      dispatch(setConfig(result.data.data.peticion_user))
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 }
 
 export const senduser = (obj) => (dispatch) => {
@@ -176,51 +176,49 @@ export const exit = () => {
   });
 }
 
-export const deleteOneData = (id,token) => (dispatch) => {
+export const deleteOneData = (id, token) => (dispatch) => {
 
-    const query = `mutation{
+  const query = `mutation{
       deleteuser(id:"${id}")
     }`
- 
-    axios.post(`${url}/api/v1?token=${token}`, {query})
+
+  axios.post(`${url}/api/v1?token=${token}`, { query })
     .then((result) => {
-    dispatch(setMsg(result.data.data.deleteuser))
-  }).catch(err => {
-    dispatch(setMsg(err.message))
-  });
+      dispatch(setMsg(result.data.data.deleteuser))
+    }).catch(err => {
+      dispatch(setMsg(err.message))
+    });
 
 }
 
-export const updateOneData = (id, rol,token) => (dispatch) => {
-  const  query  = `mutation{
+export const updateOneData = (id, rol, token) => (dispatch) => {
+  const query = `mutation{
     update(id:"${id}", RolId:"${rol}")
   }`
 
- axios.post(`${url}/api/v1?token=${token}`, { query })
- .then((result) => {
-    dispatch(setMsg(result.data.data.update))
-  }).catch(err => {
-    dispatch(setMsg(err.message))
-  });
+  axios.post(`${url}/api/v1?token=${token}`, { query })
+    .then((result) => {
+      dispatch(setMsg(result.data.data.update))
+    }).catch(err => {
+      dispatch(setMsg(err.message))
+    });
 
 }
 export const get_Nota_Año = (params) => (dispatch) => {
-  try {
 
-        axios.post(`${url2}/Notas_periodo`, params)
-      .then((response) => {
-        dispatch(setNota(response.data));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  } catch (error) {
-    console.log(error);
-  }
-} 
-export const getDataperson =(token)=>(dispatch)=>{
+  axios.post(`${url2}/Notas_periodo`, params)
+    .then((response) => {
+      dispatch(setNota(response.data));
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+}
+export const getDataperson = (token) => (dispatch) => {
   try {
-    const query =`query{
+    const query = `query{
       peticion_estudiantes{
         id
         TipoDoc
@@ -246,12 +244,12 @@ export const getDataperson =(token)=>(dispatch)=>{
       }
     }
     `
-axios.post(`${url}/api/v1?token=${token}`, { query })
-.then(res=>{
-  dispatch(setDocente(res.data.data.peticion_docentes))
-  dispatch(setEstudiante(res.data.data.peticion_estudiantes))
+    axios.post(`${url}/api/v1?token=${token}`, { query })
+      .then(res => {
+        dispatch(setDocente(res.data.data.peticion_docentes))
+        dispatch(setEstudiante(res.data.data.peticion_estudiantes))
 
-})
+      })
   } catch (error) {
     console.log(error)
   }
