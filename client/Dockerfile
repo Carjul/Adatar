@@ -1,17 +1,17 @@
 FROM node:latest
 
-RUN mkdir -p /usr/src/app
+RUN mkdir -p /app
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY package*.json ./
+COPY package.json ./
 
 RUN npm install
 
 COPY . .
 
-VOLUME [ "/usr/src/app" ]
-
 EXPOSE 3001
+
+VOLUME [ "/app" ]
 
 CMD [ "npm", "run", "dev" ]

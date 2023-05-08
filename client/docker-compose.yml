@@ -1,18 +1,22 @@
-version: '3.8'
+version: '3.0'
 
 services:
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - 30:3001
     volumes:
-      - .:/usr/src/app
+      - .:/app
     environment:
       - VITE_PUBLIC_API=https://173-230-132-232.ip.linodeusercontent.com/app
       - VITE_PUBLIC_SEVICE=https://173-230-132-232.ip.linodeusercontent.com/service
       - VITE_PUBLIC_CLIENT_ID=DZkkkzyucPxIKzlNoH3ru3Al0NL8OzL1
       - VITE_PUBLIC_DOMAIN=dev-35dy5wz22m0uql2f.us.auth0.com
       
-    command: npm run dev
+
+
+
 
 
