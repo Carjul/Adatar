@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getNotasRango,getData, getProgramas, get_Nota_Año, getDataperson,getdataEst,getMaterias } from '../app/Actions/action';
-import {  setNotas_Por_Estudiante,} from '../app/FeatureSlices/data';
+
 import Nav from '../components/Nav';
 import Sidebar from '../components/sidebar';
 import Footer from '../components/footer';
@@ -15,7 +15,7 @@ const arr = [{
   periodo_academico:1
 }]
   const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma, notas, notasemestre,semestres,notas_estudiantes} = useSelector(state => state.data);
-  const x = useSelector(state => state.data);
+ 
 
   const dispatch = useDispatch();
   const token = localStorage.getItem('token');
@@ -212,7 +212,7 @@ const arr = [{
 
   React.useEffect(() => {
     let datos = notasperma
-    console.log(datos)
+ 
     let myChart = echarts.init(document.getElementById('mainx'));
     window.addEventListener("resize", function () {
       myChart.resize();
@@ -258,7 +258,7 @@ const arr = [{
           type: 'bar',
           stack: 'total',
           label: {
-            show: true
+            show: false
           },
           tooltip: {
             valueFormatter: function (value) {

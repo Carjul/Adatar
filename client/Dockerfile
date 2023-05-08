@@ -10,9 +10,8 @@ RUN npm install
 
 COPY . .
 
-ENV VITE_PUBLIC_API=https://173-230-132-232.ip.linodeusercontent.com/app VITE_PUBLIC_SEVICE=https://173-230-132-232.ip.linodeusercontent.com/service VITE_PUBLIC_CLIENT_ID="DZkkkzyucPxIKzlNoH3ru3Al0NL8OzL1" VITE_PUBLIC_DOMAIN="dev-35dy5wz22m0uql2f.us.auth0.com"
-EXPOSE 3001
-
 VOLUME [ "/usr/src/app" ]
+
+EXPOSE 3001
 
 CMD [ "npm", "run", "dev" ]

@@ -1,8 +1,8 @@
 FROM node:18.11
 
-RUN mkdir -p /usr/src/app
+RUN mkdir -p /usr/src/api
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/api
 
 COPY package*.json ./
 
@@ -10,10 +10,9 @@ RUN npm install
 
 COPY . .
 
-ENV PORT=3001 DB_USER=admin DB_PASSWORD=12345 DB_HOST=173.230.132.232:5432 DB=adatar
 
 EXPOSE 3001
 
-VOLUME [ "/usr/src/app" ]
+VOLUME [ "/usr/src/api" ]
 
 CMD [ "npm","run","dev" ]
