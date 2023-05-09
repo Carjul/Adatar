@@ -19,7 +19,7 @@ const UploadFile = async (req, res) => {
     //leer excel
     const excel = XLSX.readFile(req.file.path);
     //obtener nombre de las hoja
-    const hoja = excel.SheetNames[0];
+    const hoja = excel.Sheets['Data'];
     //convertir hoja a json
     var reporte = XLSX.utils.sheet_to_json(excel.Sheets[hoja]);
 
