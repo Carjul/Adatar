@@ -1,12 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    facultad: [],
-    pensum: [],
-    materias: [],
-    materiaPorPensum: [],
-    estudiantes: [],
-    docentes: [],
+   
     programa: [],
     sede: [],
     periodoAcademico: [],
@@ -20,7 +15,6 @@ const initialState = {
     notas_estudiantes: [],
     notas_del_semestre: [],
 }
-
 const dataSlice = createSlice({
     name: 'data',
     initialState,
@@ -197,8 +191,6 @@ const dataSlice = createSlice({
 
                 return elemento;
             });
-
-            console.log(resultado);
 
             state.notas_estudiantes = resultado
         }

@@ -82,7 +82,7 @@ const Config = () => {
                             <span>Usuario eliminado</span>
                         </div>
                     </div> : ""}
-                    <table className="table table-striped table-hover table-bordered mt-10"><thead><tr><th>Avatar</th>
+                    <table className="table table-striped table-hover table-bordered mt-10 "><thead><tr><th>Avatar</th>
                         <th className="p-4">Nombre</th>
                         <th className="p-4">Correo</th>
                         <th className="p-4">Rol</th>
@@ -115,7 +115,8 @@ const Config = () => {
                                     <td className="p-2"><MyButton id={e.id} /></td>
                                 </tr>
                             )}
-                        </tbody></table>
+                        </tbody>
+                    </table>
 
                 </div>
             </div>

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getNotasRango,getData, getProgramas, get_Nota_Año, getDataperson,getdataEst,getMaterias } from '../app/Actions/action';
+import { getNotasRango,getData, getProgramas, get_Nota_Año,getdataEst,getMaterias } from '../app/Actions/action';
 
 import Nav from '../components/Nav';
 import Sidebar from '../components/sidebar';
@@ -23,8 +23,6 @@ const arr = [{
 
   React.useEffect(() => {
     dispatch(getData(token));
-    dispatch(getDataperson(token))
-    console.log(x)
   }, [dispatch, token]);
 
 
@@ -112,7 +110,7 @@ const arr = [{
         feature: {
           mark: { show: true },
           dataView: { show: true, readOnly: false },
-          restore: { show: false },
+          restore: { show: true},
           saveAsImage: { show: true }
         },
       },
@@ -136,7 +134,7 @@ const arr = [{
           type: 'bar',
           stack: 'total',
           label: {
-            show: true
+            show: false
           },
           emphasis: {
             focus: 'series'
@@ -148,7 +146,7 @@ const arr = [{
           type: 'bar',
           stack: 'total',
           label: {
-            show: true
+            show: false
           },
           emphasis: {
             focus: 'series'
@@ -160,7 +158,7 @@ const arr = [{
           type: 'bar',
           stack: 'total',
           label: {
-            show: true
+            show: false
           },
           emphasis: {
             focus: 'series'
@@ -172,7 +170,7 @@ const arr = [{
           type: 'bar',
           stack: 'total',
           label: {
-            show: true
+            show: false
           },
           emphasis: {
             focus: 'series'
@@ -184,7 +182,7 @@ const arr = [{
           type: 'bar',
           stack: 'total',
           label: {
-            show: true
+            show: false
           },
           emphasis: {
             focus: 'series'
@@ -196,7 +194,7 @@ const arr = [{
           type: 'bar',
           stack: 'total',
           label: {
-            show: true
+            show: false
           },
           emphasis: {
             focus: 'series'
@@ -231,7 +229,7 @@ const arr = [{
         feature: {
           dataView: { show: true, readOnly: false },
           magicType: { show: true, type: ['line', 'bar'] },
-          restore: { show: false },
+          restore: { show: true },
           saveAsImage: { show: true }
         }
       },
@@ -275,7 +273,7 @@ const arr = [{
           type: 'bar',
           stack: 'total',
           label: {
-            show: true
+            show: false
           },
           tooltip: {
             valueFormatter: function (value) {

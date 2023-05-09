@@ -82,10 +82,10 @@ export const getData = (token) => (dispatch) => {
       .then((response) => {
         dispatch(setPeriodo(response.data.data.peticion_periodoAcademico));
         dispatch(setSede(response.data.data.peticion_programa));
-        dispatch(setMateriaPorPensum(response.data.data.peticion_materiaPorPensums));
+       /*  dispatch(setMateriaPorPensum(response.data.data.peticion_materiaPorPensums));
         dispatch(setMateria(response.data.data.peticion_materias));
         dispatch(setPensum(response.data.data.peticion_pensum));
-        dispatch(setFacultad(response.data.data.peticion_facultad));
+        dispatch(setFacultad(response.data.data.peticion_facultad)); */
       })
       .catch((error) => {
         console.error(error);
@@ -190,7 +190,7 @@ export const deleteOneData = (id, token) => (dispatch) => {
     });
 
 }
-
+console.log
 export const updateOneData = (id, rol, token) => (dispatch) => {
   const query = `mutation{
     update(id:"${id}", RolId:"${rol}")
@@ -209,7 +209,6 @@ export const get_Nota_Año = (params) => (dispatch) => {
   axios.post(`${url2}/Notas_periodo`, params)
     .then((response) => {
       dispatch(setNota(response.data));
-      console.log(response.data);
     })
     .catch((error) => {
       console.error(error);
