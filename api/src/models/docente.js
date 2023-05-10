@@ -9,11 +9,11 @@ module.exports=(sequelize)=>{
         },
         Cog_Docente:{
             type:DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         Nom_Docente:{
             type:DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         }
     });
 }

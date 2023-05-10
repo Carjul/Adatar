@@ -13,7 +13,7 @@ module.exports=(sequelize)=>{
         },
         NombreMateria:{
             type:DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
        TipoMateria:{
         type:DataTypes.STRING,

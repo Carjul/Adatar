@@ -9,7 +9,7 @@ module.exports=(sequelize)=>{
         },
         Year:{
             type:DataTypes.INTEGER,
-            allowNull: false
+            allowNull: true
         },
         Periodo:{
             type:DataTypes.STRING,

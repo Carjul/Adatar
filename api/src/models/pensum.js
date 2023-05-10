@@ -9,7 +9,7 @@ module.exports=(sequelize)=>{
         },
         Pensum:{
             type:DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         Semestres:{
             type:DataTypes.STRING,

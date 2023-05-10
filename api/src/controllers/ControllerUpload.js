@@ -118,7 +118,7 @@ const UploadFile = async (req, res) => {
       nota.push({
         GRADE_ACTIVITY: e.GRADE_ACTIVITY,
         FINAL_GRADE: e.FINAL_GRADE,
-        Nota: e.Nota1,
+        Nota: e.Nota1 || e.nota2,
         Gano: e.Gano,
         Perdio: e.Perdio,
         Rango: e.Rango,
