@@ -1,12 +1,15 @@
 package main
 
 import (
+	"bytes"
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 
+	"github.com/360EntSecGroup-Skylar/excelize"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
 	"github.com/rs/cors"
@@ -35,6 +38,168 @@ func main() {
 		w.Write([]byte("Servicio iniciado"))
 
 	})
+
+	//ruta para leer el archivo excel
+	app.HandleFunc("/service/upload", func(w http.ResponseWriter, r *http.Request) {
+		// Parseamos el archivo que se subió
+		r.ParseMultipartForm(10 << 20) // permitir hasta 10 MB de tamaño de archivo
+		file, _, err := r.FormFile("file")
+		if err != nil {
+			fmt.Println("Error al cargar el archivo:", err)
+			return
+		}
+		defer file.Close()
+
+		// Leemos el archivo Excel
+		data, err := ioutil.ReadAll(file)
+		if err != nil {
+			fmt.Println("Error al leer el archivo:", err)
+			return
+		}
+
+		// Creamos un nuevo objeto Excelize y abrimos el archivo
+		f, err := excelize.OpenReader(bytes.NewReader(data))
+		if err != nil {
+			fmt.Println("Error al abrir el archivo Excel:", err)
+			return
+		}
+
+		// Convertir hoja a slice de maps
+		filas := f.GetRows("Data")
+		if err != nil {
+			log.Fatal(err)
+		}
+		reporte := []map[string]string{}
+		encabezados := filas[0]
+		for _, fila := range filas[1:] {
+			m := map[string]string{}
+			for j, celda := range fila {
+				m[encabezados[j]] = celda
+			}
+			reporte = append(reporte, m)
+		}
+		// Creamos una lista para almacenar los datos
+
+		type Facultad struct {
+			NombreFacultad string
+		}
+
+		type Programa struct {
+			NombrePrograma string
+			Sede           string
+			Sesion         string
+			NombreFacultad string
+		}
+
+		type Pensum struct {
+			Pensum         string
+			Semestres      string
+			NombrePrograma string
+			Sede           string
+		}
+
+		type Estudiante struct {
+			ID                   string
+			TipoDoc              string
+			Identificacion       string
+			Nombres              string
+			EstadoAlumnoPrograma string
+			Semestre             string
+			Direccion            string
+			Ciudad               string
+			Departamento         string
+			TelFijo              string
+			TelMovil             string
+			Email                string
+			Genero               string
+			SemeNumero           string
+			Pensum               string
+			Semestres            string
+		}
+
+		type Materia struct {
+			NombreMateria string
+			CodigoMateria string
+			TipoMateria   string
+		}
+
+		type MateriaPensum struct {
+			NombreMateria string
+			CodigoMateria string
+			Pensum        string
+			Semestres     string
+			SemMateriaNum string
+			Seme          string
+		}
+
+		type Docente struct {
+			Cog_Docente string
+			Nom_Docente string
+		}
+
+		type Periodo struct {
+			Periodo string
+			Año     string
+		}
+
+		type Nota struct {
+			GRADE_ACTIVITY string
+			FINAL_GRADE    string
+			Nota           string
+			Gano           int
+			Perdio         int
+			Rango          string
+			ProxNotaMin    string
+			Seccion        string
+			NombrePrograma string
+			Sede           string
+			NombreMateria  string
+			CodigoMateria  string
+			Identificacion string
+			Cog_Docente    string
+			Nom_Docente    string
+			Periodo        string
+			Año            string
+		}
+
+		// Creamos una lista para almacenar los datos
+		var (
+			facultad []Facultad
+			/* programas     []Programa
+			pensum        []Pensum
+			estudiante    []Estudiante
+			materias      []Materia
+			materiaPensum []MateriaPensum
+			docentes      []Docente
+			periodo       []Periodo
+			nota          []Nota */
+		)
+		//guardar facultad en la base de datos
+		for _, fila := range reporte {
+			facultad = append(facultad, Facultad{NombreFacultad: fila["NombreFacultad"]})
+		}
+		//fmt.Println(facultad)
+		fmt.Println(facultad)
+		/* for _, facultad := range facultad {
+			query := `INSERT INTO public."Facultades"("NombreFacultad") VALUES ($1)`
+			args := []interface{}{facultad.NombreFacultad}
+			_, err := db.Exec(query, args...)
+			if err != nil {
+				fmt.Println("Error al insertar la facultad:", err)
+				return
+			}
+		} */
+
+		//conver to json
+		dataJSON, err := json.Marshal(reporte)
+		// Mostramos la lista en la consola
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(dataJSON)
+
+	}).Methods("POST")
+
 	//ruta notas por peiodo academico
 	app.HandleFunc("/service/Notas_periodo", func(w http.ResponseWriter, r *http.Request) {
 		var params struct {

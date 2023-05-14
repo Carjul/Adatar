@@ -95,12 +95,13 @@ export const getData = (token) => (dispatch) => {
   }
 }
 
-export const postFile = (obj, token) => (dispatch) => {
+export const postFile = (obj) => (dispatch) => {
 
-  axios.post(`${url}/api/v1/upload?token=${token}`, obj, {
+  axios.post(`${url2}/upload`, obj, {
     headers: { "Content-Type": "multipart/form-data" }
   }
   ).then((result) => {
+    console.log(result.data);
     dispatch(setMsg(result.data.message))
   }).catch(err => {
     dispatch(setMsg(err.message))
