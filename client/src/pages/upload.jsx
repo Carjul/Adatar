@@ -61,8 +61,8 @@ const Upload = () => {
                   <h2 className="card-title">Subir Archivo</h2>
                   <form onSubmit={e => {
                     e.preventDefault();
-                    dispatch(postFile(obj))
-                    /* dispatch(setSwich(true)) */
+                     dispatch(postFile(obj, token))
+                    dispatch(setSwich(true))
                   }} className="form-control">
                     
                     <input type="file" id='miInputFile' name="file" onChange={handlesummit} className="file-input file-input-bordered file-input-primary w-full max-w-xs" required />

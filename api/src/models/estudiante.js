@@ -4,8 +4,12 @@ module.exports = (sequelize) => {
 
   sequelize.define('Estudiantes', {
     id:{
+       type:DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+    },
+    people_code_id:{
       type:DataTypes.STRING,
-      primaryKey: true,
       allowNull: false,
     },
     TipoDoc: {

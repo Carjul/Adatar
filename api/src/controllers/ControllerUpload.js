@@ -1,6 +1,6 @@
 const XLSX = require("xlsx");
 const fs = require('fs-extra');
-const path = require('path');
+ 
 
 const createprograma = require("../services/creasteprograma");
 const crearfacultad = require("../services/createfacultad");
@@ -118,11 +118,11 @@ const UploadFile = async (req, res) => {
       nota.push({
         GRADE_ACTIVITY: e.GRADE_ACTIVITY,
         FINAL_GRADE: e.FINAL_GRADE,
-        Nota: e.Nota1 || e.nota2,
+        Nota: e.Nota1? e.Nota1:e.Nota2,
         Gano: e.Gano,
         Perdio: e.Perdio,
         Rango: e.Rango,
-        ProxNotaMin: e.ProxNotaMin,
+        ProxNotaMin: e.ProxNotaMin=== undefined? 0:e.ProxNotaMax,
         Seccion: e.Seccion,
         NombrePrograma: e.ProgramaEstudiante,
         Sede: e.sede,
@@ -135,7 +135,7 @@ const UploadFile = async (req, res) => {
         Año: e.año,
       })
     }
-
+ 
     reporte=[]
 
     const facultadrepetida = eliminaDuplicados(facultad)
@@ -182,7 +182,7 @@ const UploadFile = async (req, res) => {
     nota=[]
     console.log(createnotas);
      
-
+ 
     res.json({ message: "database initialize" });
     
 
