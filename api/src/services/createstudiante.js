@@ -1,10 +1,73 @@
 const { Op } = require("sequelize");
 const { Estudiantes, Pensums } = require("../db");
-const { Client } = require('pg');
-const { DB_USER, DB_PASSWORD, DB_HOST, DB } = process.env;
 
-  
-  const crearstudent = async (params) => {
+const crearstudent = async (params) => {
+    try {
+        for (let i = 0; i < params.length; i++) {
+            const { id,
+                TipoDoc,
+                Identificacion,
+                Nombres,
+                EstadoAlumnoPrograma,
+                Semestre,
+                Direccion,
+                Ciudad,
+                Departamento,
+                TelFijo,
+                TelMovil,
+                Email,
+                Genero,
+                SemeNumero,
+                Pensum,
+                Semestres, } = params[i];
+
+            const existe = await Estudiantes.findOne({
+                where: {
+                    Identificacion: `${Identificacion}`
+                }
+            })
+
+            if (!existe) {
+                const pensum = await Pensums.findOne({
+                    where: {
+                        Pensum,
+                    }
+                })
+
+                const estudiante = await Estudiantes.create({
+                    people_code_id: id,
+                    TipoDoc,
+                    Identificacion: `${Identificacion}`,
+                    Nombres,
+                    EstadoAlumnoPrograma,
+                    Semestre,
+                    Direccion,
+                    Ciudad,
+                    Departamento,
+                    TelFijo: `${TelFijo}`,
+                    TelMovil: `${TelMovil}`,
+                    Email,
+                    Genero,
+                    SemeNumero: `${SemeNumero}`,
+
+                })
+
+                pensum.addEstudiante(estudiante)
+            }
+
+
+
+
+        }
+        return "saved student";
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+module.exports = crearstudent;
+    /* 
     try {
         const client = new Client({
             connectionString: `postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB}`,
@@ -35,12 +98,5 @@ const { DB_USER, DB_PASSWORD, DB_HOST, DB } = process.env;
     } catch (error) {
         console.log(error)
     }
-}
+    */
 
-  
-  
-  
-
-
-
-module.exports = crearstudent;

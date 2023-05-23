@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setPeriodo, setPrograma, setMateriaPorPensum, setMateria, setPensum, setFacultad, setNota, setSede, setDocente, setEstudiante, setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotastate } from '../FeatureSlices/data';
+import { setPeriodo, setPrograma, setNota, setSede, setDocente, setEstudiante, setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotastate } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
 import { setUsers, setConfig } from "../FeatureSlices/users";
 import jwt_decode from "jwt-decode";
