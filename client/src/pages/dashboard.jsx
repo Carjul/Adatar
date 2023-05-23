@@ -425,7 +425,7 @@ const arr = [{
           </div>
 
           <br />
-
+x 
           <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
             <h2 className='card-title mx-auto mt-5'>Numero de materias perididas estudiante</h2>
             <div className="card-body">
