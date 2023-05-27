@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getNotasRango,getData, getProgramas, get_Nota_Año,getdataEst,getMaterias } from '../app/Actions/action';
 
@@ -35,9 +35,9 @@ const arr = [{
   }
   const HandleChageC = (e) => {
     arr[0].pensum_id=`${e.target.value}`
-    dispatch(getNotasRango({ "pensum_id": `${e.target.value}`})) 
-     dispatch(getMaterias({"programa_id":`${e.target.value}`})) 
-     dispatch(get_Nota_Año({	"programa_id":`${e.target.value}`}))
+    dispatch(getNotasRango({"pensum_id":`${e.target.value}`})) 
+    dispatch(getMaterias({"programa_id":`${e.target.value}`})) 
+    dispatch(get_Nota_Año({"programa_id":`${e.target.value}`}))
   }
    const HandleChageE = (e) => {
     arr[0].semestre=parseInt(e.target.value)

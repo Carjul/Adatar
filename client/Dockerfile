@@ -1,8 +1,8 @@
-FROM node:latest
+FROM node:18.11
 
-RUN mkdir -p /app
+RUN mkdir -p /usr/src/app
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 COPY package.json ./
 
@@ -12,6 +12,6 @@ COPY . .
 
 EXPOSE 3001
 
-VOLUME [ "/app" ]
+VOLUME [ "/usr/src/app" ]
 
 CMD [ "npm", "run", "dev" ]

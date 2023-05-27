@@ -9,6 +9,8 @@ COPY . .
 RUN go install github.com/cosmtrek/air@latest
 RUN go get github.com/gorilla/mux
 RUN go get github.com/lib/pq
+RUN go get github.com/joho/godotenv
+
 
 VOLUME [ "/go/src/app" ]
 

@@ -1,93 +1,24 @@
 package main
 
 import (
-	"bytes"
-	"database/sql"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 
-	"github.com/360EntSecGroup-Skylar/excelize"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
 	"github.com/rs/cors"
 )
 
 func main() {
-	db, err := sql.Open("postgres", "postgres://admin:12345@173.230.132.232:5432/adatar?sslmode=disable")
-	if err != nil {
-		fmt.Println("Error al conectarse a la base de datos:", err)
-		return
-	}
-	defer db.Close()
-
-	// Verificación de la conexión
-	err = db.Ping()
-	if err != nil {
-		fmt.Println("No se pudo establecer conexión con la base de datos:", err)
-		return
-	}
-	fmt.Println("Conexión establecida con éxito")
-
+	db := InitDB()
 	app := mux.NewRouter()
 
 	// Rutas
 	app.HandleFunc("/service", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Servicio iniciado"))
-
 	})
-
-	//ruta para leer el archivo excel
-	app.HandleFunc("/service/upload", func(w http.ResponseWriter, r *http.Request) {
-		// Parseamos el archivo que se subió
-		r.ParseMultipartForm(10 << 20) // permitir hasta 10 MB de tamaño de archivo
-		file, _, err := r.FormFile("file")
-		if err != nil {
-			fmt.Println("Error al cargar el archivo:", err)
-			return
-		}
-		defer file.Close()
-
-		// Leemos el archivo Excel
-		data, err := ioutil.ReadAll(file)
-		if err != nil {
-			fmt.Println("Error al leer el archivo:", err)
-			return
-		}
-
-		// Creamos un nuevo objeto Excelize y abrimos el archivo
-		f, err := excelize.OpenReader(bytes.NewReader(data))
-		if err != nil {
-			fmt.Println("Error al abrir el archivo Excel:", err)
-			return
-		}
-
-		// Convertir hoja a slice de maps
-		filas := f.GetRows("Data")
-		if err != nil {
-			log.Fatal(err)
-		}
-		reporte := []map[string]string{}
-		encabezados := filas[0]
-		for _, fila := range filas[1:] {
-			m := map[string]string{}
-			for j, celda := range fila {
-				m[encabezados[j]] = celda
-			}
-			reporte = append(reporte, m)
-		}
-
-		//conver to json
-		dataJSON, err := json.Marshal(reporte)
-		// Mostramos la lista en la consola
-
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		w.Write(dataJSON)
-
-	}).Methods("POST")
 
 	//ruta notas por peiodo academico
 	app.HandleFunc("/service/Notas_periodo", func(w http.ResponseWriter, r *http.Request) {
