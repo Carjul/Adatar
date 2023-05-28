@@ -125,7 +125,7 @@ const UploadFile = async (req, res) => {
         Gano: e.Gano || "",
         Perdio: e.Perdio || 0,
         Rango: e.Rango || 0,
-        ProxNotaMin: e.ProxNotaMin=== undefined? "":e.ProxNotaMax,
+        ProxNotaMin: e.ProxNotaMin || "",
         Seccion: e.Seccion || "",
         NombrePrograma: e.ProgramaEstudiante || "",
         Sede: e.sede || "",
@@ -135,7 +135,7 @@ const UploadFile = async (req, res) => {
         Cog_Docente: e.Cog_Docente || "",
         Nom_Docente: e.Nom_Docente || "",
         Periodo: e.Periodo || "",
-        Año: e.año || "",
+        Año: e.año || 0,
       })
     }
  
