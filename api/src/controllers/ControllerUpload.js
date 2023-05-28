@@ -113,7 +113,7 @@ const UploadFile = async (req, res) => {
       const e = reporte[i];
       periodo.push({
         Periodo: e.Periodo || "",
-        Año: e.año || "",
+        Año: e.año || 0,
       })
     }
     for (let i = 0; i < reporte.length; i++) {
@@ -123,9 +123,9 @@ const UploadFile = async (req, res) => {
         FINAL_GRADE: e.FINAL_GRADE || "",
         Nota: e.Nota1? e.Nota1:e.Nota2,
         Gano: e.Gano || "",
-        Perdio: e.Perdio || "",
-        Rango: e.Rango || "",
-        ProxNotaMin: e.ProxNotaMin=== undefined? 0:e.ProxNotaMax,
+        Perdio: e.Perdio || 0,
+        Rango: e.Rango || 0,
+        ProxNotaMin: e.ProxNotaMin=== undefined? "":e.ProxNotaMax,
         Seccion: e.Seccion || "",
         NombrePrograma: e.ProgramaEstudiante || "",
         Sede: e.sede || "",
