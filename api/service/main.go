@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -294,5 +293,5 @@ func main() {
 
 	// Iniciar el servidor HTTP
 	http.ListenAndServe(":8000", router)
-	fmt.Println("Servidor iniciado en el puerto 8000")
+	log.Println("Servidor iniciado en el puerto 8000")
 }

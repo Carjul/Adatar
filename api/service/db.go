@@ -23,7 +23,6 @@ func InitDB() *sql.DB {
 		log.Println("Error al conectarse a la base de datos:", err)
 
 	}
-	defer db.Close()
 
 	// Verificación de la conexión
 	err = db.Ping()

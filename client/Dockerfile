@@ -1,8 +1,8 @@
-FROM node:18.11
+FROM node:14.17.0-alpine3.13
 
-RUN mkdir -p /usr/src/app
+RUN mkdir -p /app
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package.json ./
 
@@ -12,6 +12,6 @@ COPY . .
 
 EXPOSE 3001
 
-VOLUME [ "/usr/src/app" ]
+VOLUME [ "/app" ]
 
 CMD [ "npm", "run", "dev" ]

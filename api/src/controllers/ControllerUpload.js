@@ -42,100 +42,100 @@ const UploadFile = async (req, res) => {
 
     for (let i = 0; i < reporte.length; i++) {
       const e = reporte[i];
-      facultad.push({ NombreFacultad: e.Facultad })
+      facultad.push({ NombreFacultad: e.Facultad || ""})
     }
     for (let i = 0; i < reporte.length; i++) {
       const e = reporte[i];
       programas.push({
-        NombrePrograma: e.ProgramaEstudiante,
-        Sede: e.sede,
-        Sesion: e.Sesion,
-        NombreFacultad: e.Facultad
+        NombrePrograma: e.ProgramaEstudiante || "",
+        Sede: e.sede || "",
+        Sesion: e.Sesion || "",
+        NombreFacultad: e.Facultad || "",
       })
     }
     for (let i = 0; i < reporte.length; i++) {
       const e = reporte[i];
       pensum.push({
-        Pensum: e.ProgramaMateria,
-        Semestres: e.SemMateriaNum,
-        NombrePrograma: e.ProgramaEstudiante,
-        Sede: e.sede,
+        Pensum: e.ProgramaMateria || "",
+        Semestres: e.SemMateriaNum || "",
+        NombrePrograma: e.ProgramaEstudiante || "",
+        Sede: e.sede || "",
       })
     }
     for (let i = 0; i < reporte.length; i++) {
       const e = reporte[i];
       estudiante.push({
-        id: e.people_code_id,
-        TipoDoc: e.TipoDoc,
-        Identificacion: e.Identificacion,
-        Nombres: e.Nombres,
-        EstadoAlumnoPrograma: e.EstadoAlumnoPrograma,
-        Semestre: e.Semestre,
-        Direccion: e.DIRECCION,
-        Ciudad: e.CIUDAD,
-        Departamento: e.DEPARTAMENTO,
-        TelFijo: e.TelFijo,
-        TelMovil: e.TelMovil,
-        Email: e.EMAIL,
-        Genero: e.Genero,
-        SemeNumero: e.SemMateriaNum,
-        Pensum: e.ProgramaMateria,
-        Semestres: e.SemMateriaNum,
+        id: e.people_code_id || "",
+        TipoDoc: e.TipoDoc || "",
+        Identificacion: e.Identificacion || "",
+        Nombres: e.Nombres || "",
+        EstadoAlumnoPrograma: e.EstadoAlumnoPrograma || "",
+        Semestre: e.Semestre || "",
+        Direccion: e.DIRECCION || "",
+        Ciudad: e.CIUDAD || "",
+        Departamento: e.DEPARTAMENTO || "",
+        TelFijo: e.TelFijo || "",
+        TelMovil: e.TelMovil || "",
+        Email: e.EMAIL || "",
+        Genero: e.Genero || "",
+        SemeNumero: e.SemMateriaNum || "",
+        Pensum: e.ProgramaMateria || "",
+        Semestres: e.SemMateriaNum || "",
       })
     }
     for (let i = 0; i < reporte.length; i++) {
       const e = reporte[i];
       materias.push({
-        NombreMateria: e.NombreMateria,
-        CodigoMateria: e.CodigoMateria,
-        TipoMateria: e.TipoMateria,
+        NombreMateria: e.NombreMateria || "",
+        CodigoMateria: e.CodigoMateria || "",
+        TipoMateria: e.TipoMateria || "",
       })
     }
     for (let i = 0; i < reporte.length; i++) {
       const e = reporte[i];
       materiaPensum.push({
-        NombreMateria: e.NombreMateria,
-        CodigoMateria: e.CodigoMateria,
-        Pensum: e.ProgramaMateria,
-        Semestres: e.SemMateriaNum,
-        SemMateriaNum: e.SemMateriaNum,
-        Seme: e.seme
+        NombreMateria: e.NombreMateria || "",
+        CodigoMateria: e.CodigoMateria || "",
+        Pensum: e.ProgramaMateria || "",
+        Semestres: e.SemMateriaNum || "",
+        SemMateriaNum: e.SemMateriaNum || "",
+        Seme: e.seme || ""
       })
     }
     for (let i = 0; i < reporte.length; i++) {
       const e = reporte[i];
       docentes.push({
-        Cog_Docente: e.Cog_Docente,
-        Nom_Docente: e.Nom_Docente,
+        Cog_Docente: e.Cog_Docente || "",
+        Nom_Docente: e.Nom_Docente || "",
       })
     }
     for (let i = 0; i < reporte.length; i++) {
       const e = reporte[i];
       periodo.push({
-        Periodo: e.Periodo,
-        Año: e.año,
+        Periodo: e.Periodo || "",
+        Año: e.año || "",
       })
     }
     for (let i = 0; i < reporte.length; i++) {
       const e = reporte[i];
       nota.push({
-        GRADE_ACTIVITY: e.GRADE_ACTIVITY,
-        FINAL_GRADE: e.FINAL_GRADE,
+        GRADE_ACTIVITY: e.GRADE_ACTIVITY || "",
+        FINAL_GRADE: e.FINAL_GRADE || "",
         Nota: e.Nota1? e.Nota1:e.Nota2,
-        Gano: e.Gano,
-        Perdio: e.Perdio,
-        Rango: e.Rango,
+        Gano: e.Gano || "",
+        Perdio: e.Perdio || "",
+        Rango: e.Rango || "",
         ProxNotaMin: e.ProxNotaMin=== undefined? 0:e.ProxNotaMax,
-        Seccion: e.Seccion,
-        NombrePrograma: e.ProgramaEstudiante,
-        Sede: e.sede,
-        NombreMateria: e.NombreMateria,
-        CodigoMateria: e.CodigoMateria,
-        Identificacion: e.Identificacion,
-        Cog_Docente: e.Cog_Docente,
-        Nom_Docente: e.Nom_Docente,
-        Periodo: e.Periodo,
-        Año: e.año,
+        Seccion: e.Seccion || "",
+        NombrePrograma: e.ProgramaEstudiante || "",
+        Sede: e.sede || "",
+        NombreMateria: e.NombreMateria || "",
+        CodigoMateria: e.CodigoMateria || "",
+        Identificacion: e.Identificacion || "",
+        Cog_Docente: e.Cog_Docente || "",
+        Nom_Docente: e.Nom_Docente || "",
+        Periodo: e.Periodo || "",
+        Año: e.año || "",
       })
     }
  

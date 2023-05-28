@@ -8,7 +8,7 @@ import Footer from '../components/footer';
 import * as echarts from 'echarts';
 
 
-const Dashboard = () => {
+const Dashboard = () => { 
 const arr = [{
   semestre:3,
   pensum_id:"1",
