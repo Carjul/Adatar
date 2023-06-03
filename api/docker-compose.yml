@@ -1,35 +1,35 @@
-version: "3.9" 
-services: 
+version: "3.9"
+services:
   adatar:
     container_name: api_adatar
     restart: always
     build: .
     ports:
-      - 3004:3001  
-    environment:
-      - PORT=3001 
-      - DB_USER=admin 
-      - DB_PASSWORD=12345 
-      - DB_HOST=173.230.132.232:5432 
-      - DB=adatar
+      - 3004:3001
+    #environment:
+      #- PORT=3001
+      #- DB_USER=admin
+      #- DB_PASSWORD=12345
+      #- DB_HOST=localhost
+      #- DB=adatar
     volumes:
       - .:/usr/src/api
-  
+
+
   service:
     container_name: go-api_adatar
     restart: always
     build: ./service
     ports:
       - 8000:8000
-    environment: 
-      - DB_USER=admin 
-      - DB_PASSWORD=12345 
-      - DB_HOST=173.230.132.232:5432 
-      - DB=adatar
+   # environment:
+      #- DB_USER=admin
+     # - DB_PASSWORD=12345
+      #- DB_HOST=localhost:8080
+     # - DB=adatar
     volumes:
       - ./service:/go/src/app
-
-
+ 
 
   
 

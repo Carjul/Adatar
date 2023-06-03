@@ -7,21 +7,24 @@ const path = require('path');
 const { DB_USER, DB_PASSWORD, DB_HOST, DB } = process.env;
 
 
- /* const sequelize = new Sequelize(DB, DB_USER, DB_PASSWORD, {
+  
+
+/*const sequelize = new Sequelize(DB, DB_USER, DB_PASSWORD, {
   host: DB_HOST,
   dialect: 'mysql',
   logging: false,
   native: false,
+  define: {
+    timestamps: false
+  },
   pool: {
     max: 50,
     min: 0,
     acquire: 1200000,
     idle: 1000000,
-  }
+  } 
 }); */
-
-
-const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB}`, {
+ const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB}`, {
   logging: false,
   native: false,
   define: {
@@ -33,7 +36,7 @@ const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}
     acquire: 1200000,
     idle: 1000000,
   }
-});
+}); 
 
 
 const basename = path.basename(__filename);

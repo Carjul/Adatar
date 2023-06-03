@@ -33,7 +33,7 @@ module.exports=(sequelize)=>{
         },
         ProxNotaMin:{
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: false
         },
         Seccion:{
             type: DataTypes.STRING,

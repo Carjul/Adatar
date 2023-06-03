@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getNotasRango,getData, getProgramas, get_Nota_Año,getdataEst,getMaterias } from '../app/Actions/action';
+import { getNotasRango, getData, getProgramas, get_Nota_Año, getdataEst, getMaterias } from '../app/Actions/action';
 
 import Nav from '../components/Nav';
 import Sidebar from '../components/sidebar';
@@ -8,14 +8,14 @@ import Footer from '../components/footer';
 import * as echarts from 'echarts';
 
 
-const Dashboard = () => { 
-const arr = [{
-  semestre:3,
-  pensum_id:"1",
-  periodo_academico:1
-}]
-  const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma, notas, notasemestre,semestres,notas_estudiantes} = useSelector(state => state.data);
- 
+const Dashboard = () => {
+  const arr = [{
+    semestre: 3,
+    pensum_id: 1,
+    periodo_academico: 1
+  }]
+  const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma, notas, notasemestre, semestres, notas_estudiantes } = useSelector(state => state.data);
+
 
   const dispatch = useDispatch();
   const token = localStorage.getItem('token');
@@ -27,25 +27,25 @@ const arr = [{
 
 
   const HandleChageP = (e) => {
-    arr[0].periodo_academico=parseInt(e.target.value)
+    arr[0].periodo_academico = parseInt(e.target.value)
     /* dispatch(get_Nota_Año({	"periodo_id":e.target.value})) */
   }
   const HandleChageS = (e) => {
     dispatch(getProgramas(e.target.value, token))
   }
   const HandleChageC = (e) => {
-    arr[0].pensum_id=`${e.target.value}`
-    dispatch(getNotasRango({"pensum_id":`${e.target.value}`})) 
-    dispatch(getMaterias({"programa_id":`${e.target.value}`})) 
-    dispatch(get_Nota_Año({"programa_id":`${e.target.value}`}))
+    arr[0].pensum_id =  parseInt(e.target.value)
+    dispatch(getNotasRango({ "pensum_id": `${e.target.value}` }))
+    dispatch(getMaterias({ "programa_id": `${e.target.value}` }))
+    dispatch(get_Nota_Año({ "programa_id": `${e.target.value}` }))
   }
-   const HandleChageE = (e) => {
-    arr[0].semestre=parseInt(e.target.value)
+  const HandleChageE = (e) => {
+    arr[0].semestre = parseInt(e.target.value)
     // coverir arr a json
     dispatch(getdataEst(arr[0]))
-    
-    
-  } 
+
+
+  }
 
 
   React.useEffect(() => {
@@ -55,7 +55,11 @@ const arr = [{
       myChar.resize();
     })
     var option = {
-
+      title: {
+        show: true,
+        text: 'Notas por rango',
+        left: 'center',
+      },
       tooltip: {
         trigger: 'item'
       },
@@ -70,7 +74,7 @@ const arr = [{
       },
       legend: {
         orient: 'horizontal',
-        top: '82%',
+        top: '90%',
       },
       series: [
         {
@@ -91,6 +95,7 @@ const arr = [{
     option && myChar.setOption(option);
   }, [notasperpro]);
 
+
   React.useEffect(() => {
     let dato = notasmateria
     let myChart = echarts.init(document.getElementById('mains'));
@@ -98,6 +103,11 @@ const arr = [{
       myChart.resize();
     })
     var option = {
+      title: {
+        show: true,
+        text: 'Notas perdidas por materia',
+        left: 'center',
+      },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -110,11 +120,14 @@ const arr = [{
         feature: {
           mark: { show: true },
           dataView: { show: true, readOnly: false },
-          restore: { show: true},
+          restore: { show: true },
           saveAsImage: { show: true }
         },
       },
-      legend: {},
+      legend: {
+        orient: 'horizontal',
+        top: '98%'
+      },
       grid: {
         left: '3%',
         right: '4%',
@@ -210,12 +223,17 @@ const arr = [{
 
   React.useEffect(() => {
     let datos = notasperma
- 
+
     let myChart = echarts.init(document.getElementById('mainx'));
     window.addEventListener("resize", function () {
       myChart.resize();
     })
     let option = {
+      title: {
+        show: true,
+        text: 'Materias del Semestre Académico',
+        left: 'center',
+      },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -234,7 +252,9 @@ const arr = [{
         }
       },
       legend: {
-        data: ['Ganaron', 'Perdieron']
+        data: ['Ganaron', 'Perdieron'],
+        orient: 'horizontal',
+        top: '97%'
       },
       xAxis: [
         {
@@ -298,9 +318,14 @@ const arr = [{
       myChart.resize();
     })
     let option = {
+      title: {
+        show: true,
+        text: 'Numero de materias perididas estudiante',
+        left: 'center',
+      },
       dataset: {
         source: [
-          ['estudiantes','score', 'numero' ],
+          ['estudiantes', 'score', 'numero'],
           ...arr
         ]
       },
@@ -309,7 +334,7 @@ const arr = [{
         feature: {
           dataView: { show: true, readOnly: false, title: 'Datos' },
           restore: { show: false },
-          saveAsImage: { show: true } 
+          saveAsImage: { show: true }
         }
       },
       grid: { containLabel: true },
@@ -362,7 +387,7 @@ const arr = [{
                     )}
                   </select>
                 </div>
-                 <div className="px-0 py-2">
+                <div className="px-0 py-2">
                   <select name="Sede" onChange={HandleChageS} className="select select-secondary select-sm max-w-xs">
                     <option defaultValue="0">Sede</option>
                     {sede?.map((e, i) =>
@@ -370,10 +395,10 @@ const arr = [{
                     )}
                   </select>
 
-                </div> 
+                </div>
 
                 <div className="px-0 py-2">
-                  <select name="Programa"  onChange={HandleChageC} className="select select-secondary select-sm w-a max-w-xs">
+                  <select name="Programa" onChange={HandleChageC} className="select select-secondary select-sm w-a max-w-xs">
                     <option defaultValue="0">Carrera</option>
                     {programa?.map(e =>
                       <option key={e.id} value={e.id}>{e.NombrePrograma}</option>
@@ -384,10 +409,10 @@ const arr = [{
                 <div className="px-0 py-2">
                   <select name="Estado de notas" onChange={HandleChageE} className="select select-secondary select-sm max-w-xs">
                     <option defaultValue="1">Estudiantes por semestre</option>
-                    {semestres?.map(e => 
-                    <option key={e} value={e}>{e}</option>)
+                    {semestres?.map(e =>
+                      <option key={e} value={e}>{e}</option>)
                     }
-                    
+
                   </select>
                 </div>
 
@@ -400,7 +425,7 @@ const arr = [{
           <br />
 
           <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
-            <h2 className="card-title mx-auto mt-10">Notas por rango</h2>
+            {/*<h2 className="card-title mx-auto mt-10">Notas por rango</h2> */}
             <div className="card-body">
               <div id="main" style={{ width: '100%', height: '600px' }} ></div>
             </div>
@@ -409,7 +434,7 @@ const arr = [{
           <br />
 
           <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
-            <h2 className="card-title mx-auto mt-5">Notas perdidas por materia</h2>
+            {/*<h2 className="card-title mx-auto mt-5">Notas perdidas por materia</h2> */}
             <div className="card-body">
               <div id="mains" style={{ width: '100%', height: '900px' }} ></div>
             </div>
@@ -418,16 +443,16 @@ const arr = [{
           <br />
 
           <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
-            <h2 className="card-title mx-auto mt-5">Materias del Semestre Académico</h2>
+            {/*<h2 className="card-title mx-auto mt-5">Materias del Semestre Académico</h2> */}
             <div className="card-body">
               <div id="mainx" style={{ width: '100%', height: '900px' }} ></div>
             </div>
           </div>
 
           <br />
- 
+
           <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
-            <h2 className='card-title mx-auto mt-5'>Numero de materias perididas estudiante</h2>
+            {/* <h2 className='card-title mx-auto mt-5'>Numero de materias perididas estudiante</h2> */}
             <div className="card-body">
               <div id="main3" style={{ width: '100%', height: '900px' }} ></div>
             </div>

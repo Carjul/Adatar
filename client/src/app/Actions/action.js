@@ -10,8 +10,8 @@ const url2 = import.meta.env.VITE_PUBLIC_SEVICE;
 
 export const getdataEst = (params) => (dispatch) => {
   axios.post(`${url2}/notas`, params).then((result) => {
+
     dispatch(setNotas_Por_Estudiante(result.data))
-    //dispatch(setNotas_Por_Estudiante(result.data))
   }).catch(err => {
     console.log(err);
   });

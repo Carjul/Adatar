@@ -212,7 +212,7 @@ func main() {
 		// Leer los parámetros de la solicitud
 		var params struct {
 			Semestre         int    `json:"semestre"`
-			PensumID         string `json:"pensum_id"`
+			PensumID         int    `json:"pensum_id"`
 			PeriodoAcademico int    `json:"periodo_academico"`
 		}
 		err := json.NewDecoder(r.Body).Decode(&params)
@@ -225,8 +225,8 @@ func main() {
 		query := `
 			SELECT e.id AS estudiante_id, e."Nombres" AS estudiante_nombre, m."SemMateriaNum" AS semestre, n."Nota", n."ProxNotaMin"
 			FROM Public."Estudiantes" e
-			INNER JOIN Public."Notas" n ON e.id = n."EstudianteId"
-			INNER JOIN public."MateriaPorPensums" m ON n."MateriaId" = m."MateriaId" AND n."MateriaId" = m."MateriaId"
+			JOIN Public."Notas" n ON e.id = n."EstudianteId"
+			JOIN public."MateriaPorPensums" m ON n."MateriaId" = m."MateriaId" AND n."MateriaId" = m."MateriaId"
 			WHERE m."SemMateriaNum" = $1 AND n."Perdio" = 1 AND n."PeriodoAcademicoId" = $2 AND m."PensumId" = $3
 		`
 		args := []interface{}{params.Semestre, params.PeriodoAcademico, params.PensumID}

@@ -47,7 +47,7 @@ module.exports = (sequelize) => {
       },
     TelFijo:{
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
       },
     TelMovil:{
         type: DataTypes.STRING,

@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
   },
     NombreFacultad: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     // NombreCortoFacultad: {
     //   type: DataTypes.STRING,
