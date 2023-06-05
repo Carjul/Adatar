@@ -46,6 +46,7 @@ export const getData = (token) => (dispatch) => {
       id
       Periodo
       Year
+      NomNotaPeriodo
       }
       peticion_programa{
       id
@@ -95,11 +96,10 @@ export const getData = (token) => (dispatch) => {
   }
 }
 
-export const postFile = (obj, token) => (dispatch) => {
+export const postFile = (obj, token,x) => (dispatch) => {
 
-  axios.post(`${url}/api/v1/upload?token=${token}`, obj, {
-    headers: { "Content-Type": "multipart/form-data" }
-  }
+  axios.post(`${url}/api/v1/upload?token=${token}&corte=${encodeURIComponent(x)}`, obj, {
+    headers: { "Content-Type": "multipart/form-data" }}
   ).then((result) => {
     dispatch(setMsg(result.data.message))
   }).catch(err => {

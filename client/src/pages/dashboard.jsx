@@ -34,7 +34,7 @@ const Dashboard = () => {
     dispatch(getProgramas(e.target.value, token))
   }
   const HandleChageC = (e) => {
-    arr[0].pensum_id =  parseInt(e.target.value)
+    arr[0].pensum_id = parseInt(e.target.value)
     dispatch(getNotasRango({ "pensum_id": `${e.target.value}` }))
     dispatch(getMaterias({ "programa_id": `${e.target.value}` }))
     dispatch(get_Nota_Año({ "programa_id": `${e.target.value}` }))
@@ -46,10 +46,41 @@ const Dashboard = () => {
 
 
   }
+  const [graficos, setGraficos] = React.useState(0);
 
+  const onclicksuma = (num) => {
+    if (graficos <3) {
+      setGraficos(graficos + num);
+    }
+  };
+
+  const onclickresta = (num) => {
+    if (graficos > 0) {
+      setGraficos(graficos - num);
+    }
+  };
 
   React.useEffect(() => {
-    let datos = notasperpro
+    let dato1 = notasperpro;
+    let dato2 = notasmateria;
+    let dato3 = notasperma;
+    let dato4 = notas_estudiantes;
+    if (graficos === 0) {
+      ChageChart1(dato1)
+    }
+    if (graficos === 1) {
+      ChageChart2(dato2)
+    }
+    if (graficos === 2) {
+      ChageChart3(dato3)
+    }
+    if (graficos === 3) {
+      ChageChart4(dato4)
+    }
+  })
+
+  const ChageChart1 = (e) => {
+
     let myChar = echarts.init(document.getElementById('main'));
     window.addEventListener("resize", function () {
       myChar.resize();
@@ -80,7 +111,7 @@ const Dashboard = () => {
         {
           type: 'pie',
           radius: '50%',
-          data: datos,
+          data: e,
           emphasis: {
             itemStyle: {
               shadowBlur: 10,
@@ -93,12 +124,12 @@ const Dashboard = () => {
     };
 
     option && myChar.setOption(option);
-  }, [notasperpro]);
 
 
-  React.useEffect(() => {
-    let dato = notasmateria
-    let myChart = echarts.init(document.getElementById('mains'));
+
+  }
+  const ChageChart2 = (e) => {
+    let myChart = echarts.init(document.getElementById('main1'));
     window.addEventListener("resize", function () {
       myChart.resize();
     })
@@ -126,7 +157,7 @@ const Dashboard = () => {
       },
       legend: {
         orient: 'horizontal',
-        top: '98%'
+        top: '95%'
       },
       grid: {
         left: '3%',
@@ -152,7 +183,7 @@ const Dashboard = () => {
           emphasis: {
             focus: 'series'
           },
-          data: dato[0]
+          data: e[0]
         },
         {
           name: 'Muy Baja',
@@ -164,7 +195,7 @@ const Dashboard = () => {
           emphasis: {
             focus: 'series'
           },
-          data: dato[1]
+          data: e[1]
         },
         {
           name: 'Baja',
@@ -176,7 +207,7 @@ const Dashboard = () => {
           emphasis: {
             focus: 'series'
           },
-          data: dato[2]
+          data: e[2]
         },
         {
           name: 'Media',
@@ -188,7 +219,7 @@ const Dashboard = () => {
           emphasis: {
             focus: 'series'
           },
-          data: dato[3]
+          data: e[3]
         },
         {
           name: 'Alta',
@@ -200,7 +231,7 @@ const Dashboard = () => {
           emphasis: {
             focus: 'series'
           },
-          data: dato[4]
+          data: e[4]
         },
         {
           name: 'Muy Alta',
@@ -212,19 +243,15 @@ const Dashboard = () => {
           emphasis: {
             focus: 'series'
           },
-          data: dato[5]
+          data: e[5]
         }
       ]
     };
 
     option && myChart.setOption(option);
-
-  }, [notasmateria])
-
-  React.useEffect(() => {
-    let datos = notasperma
-
-    let myChart = echarts.init(document.getElementById('mainx'));
+  }
+  const ChageChart3 = (e) => {
+    let myChart = echarts.init(document.getElementById('main2'));
     window.addEventListener("resize", function () {
       myChart.resize();
     })
@@ -259,7 +286,7 @@ const Dashboard = () => {
       xAxis: [
         {
           type: 'category',
-          data: datos?.Materia, //materias
+          data: e?.Materia, //materias
           axisPointer: {
             type: 'shadow'
           }
@@ -286,7 +313,7 @@ const Dashboard = () => {
           emphasis: {
             focus: 'series'
           },
-          data: datos?.Perdio
+          data: e?.Perdio
         },
         {
           name: 'Ganaron',
@@ -303,16 +330,15 @@ const Dashboard = () => {
           emphasis: {
             focus: 'series'
           },
-          data: datos.Gano
+          data: e.Gano
         }
       ]
     };
 
     option && myChart.setOption(option);
-  }, [notasperma])
+  }
+  const ChageChart4 = (e) => {
 
-  React.useEffect(() => {
-    let arr = notas_estudiantes
     let myChart = echarts.init(document.getElementById('main3'));
     window.addEventListener("resize", function () {
       myChart.resize();
@@ -326,7 +352,7 @@ const Dashboard = () => {
       dataset: {
         source: [
           ['estudiantes', 'score', 'numero'],
-          ...arr
+          ...e
         ]
       },
       toolbox: {
@@ -365,7 +391,7 @@ const Dashboard = () => {
       ]
     }
     myChart.setOption(option);
-  }, [notas_estudiantes])
+  }
 
   return (
     <>
@@ -383,7 +409,7 @@ const Dashboard = () => {
                   <select name="Periodo academico" onChange={HandleChageP} className="select select-secondary select-sm max-w-xs">
                     <option defaultValue="0">Periodo Academico</option>
                     {periodoAcademico?.map(e =>
-                      <option key={e.id} value={e.id}>{e.Year} {e.Periodo}</option>
+                      <option key={e.id} value={e.id}>{e.Year} {e.Periodo} {e.NomNotaPeriodo}</option>
                     )}
                   </select>
                 </div>
@@ -425,39 +451,25 @@ const Dashboard = () => {
           <br />
 
           <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
-            {/*<h2 className="card-title mx-auto mt-10">Notas por rango</h2> */}
             <div className="card-body">
-              <div id="main" style={{ width: '100%', height: '600px' }} ></div>
+              {graficos===0?<div id="main" style={{ width: '100%', height: '600px' }} ></div>:<></>}
+              {graficos===1?<div id="main1" style={{ width: '100%', height: '700px' }} ></div>:<></>}
+              {graficos===2?<div id="main2" style={{ width: '100%', height: '700px' }} ></div>:<></>}
+              {graficos===3?<div id="main3" style={{ width: '100%', height: '600px' }} ></div>:<></>}
+             
             </div>
           </div>
 
           <br />
-
-          <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
-            {/*<h2 className="card-title mx-auto mt-5">Notas perdidas por materia</h2> */}
-            <div className="card-body">
-              <div id="mains" style={{ width: '100%', height: '900px' }} ></div>
-            </div>
-          </div>
-
-          <br />
-
-          <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
-            {/*<h2 className="card-title mx-auto mt-5">Materias del Semestre Académico</h2> */}
-            <div className="card-body">
-              <div id="mainx" style={{ width: '100%', height: '900px' }} ></div>
-            </div>
-          </div>
-
-          <br />
-
-          <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
-            {/* <h2 className='card-title mx-auto mt-5'>Numero de materias perididas estudiante</h2> */}
-            <div className="card-body">
-              <div id="main3" style={{ width: '100%', height: '900px' }} ></div>
-            </div>
-          </div>
-
+           <div className='mx-auto'>
+                <div className="join">
+                  <button className="join-item btn btn-primary" onClick={() => onclickresta(1)}>«</button>
+                  <button className="join-item btn btn-primary">Grafico {graficos}</button>
+                  <button className="join-item btn btn-primary" onClick={() => onclicksuma(1)}>»</button>
+                </div>
+              </div>
+          <br/>  
+         
         </div>
       </div>
       <Footer />

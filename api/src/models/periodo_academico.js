@@ -14,6 +14,10 @@ module.exports=(sequelize)=>{
         Periodo:{
             type:DataTypes.STRING,
             allowNull: false
+        },
+        NomNotaPeriodo:{
+            type:DataTypes.STRING,
+            allowNull: false
         }
     });
 }

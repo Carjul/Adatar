@@ -5,16 +5,23 @@ import { useEffect } from "react";
 
 
 const Init = () => {
-  const { loginWithRedirect,isAuthenticated } = useAuth0();
+  const { loginWithRedirect,isAuthenticated, logout} = useAuth0();
 
-  
+
  const token=localStorage.getItem('token')
   const navigate = useNavigate();
 
   useEffect(() => {
-    if ( isAuthenticated && !token) {
+  
+    if (isAuthenticated && token) {
+      console.log("sesion iniciada")
+    }
+    else if(isAuthenticated && !token){
       navigate("/validar")
     }
+    
+
+  
   },[isAuthenticated,token])
 
   

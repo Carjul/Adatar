@@ -4,18 +4,19 @@ const { PeriodoAcademicos } = require("../db");
 const createPeriodoAcademico = async (params) => {
     try {
         for (let i = 0; i < params.length; i++) {
-            const { Año, Periodo } = params[i]
+            const { Año, Periodo,NomNotaPeriodo } = params[i]
 
            const existe = await PeriodoAcademicos.findOne({
                 where: {
-                    [Op.and]: [{Year: Año }, { Periodo}]
+                    [Op.and]: [{Year: Año }, { Periodo},{NomNotaPeriodo}]
                 }
            })
            if (!existe) {
             await PeriodoAcademicos.findOrCreate({
                 where: {
                     Year:Año,
-                    Periodo
+                    Periodo,
+                    NomNotaPeriodo
                 }
             })
            }

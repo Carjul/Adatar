@@ -136,8 +136,7 @@ const periodoAcademico = new GraphQLObjectType({
       id: { type: GraphQLID },
       Periodo: { type: GraphQLString },
       Year: { type:GraphQLInt },
-      createdAt: { type: GraphQLString },
-      updatedAt: { type: GraphQLString },
+      NomNotaPeriodo: { type: GraphQLString },
    }
 })
 

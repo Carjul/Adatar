@@ -8,7 +8,7 @@ const { DB_USER, DB_PASSWORD, DB_HOST, DB } = process.env;
 
 
   
-
+//my sql
 /*const sequelize = new Sequelize(DB, DB_USER, DB_PASSWORD, {
   host: DB_HOST,
   dialect: 'mysql',
@@ -24,6 +24,7 @@ const { DB_USER, DB_PASSWORD, DB_HOST, DB } = process.env;
     idle: 1000000,
   } 
 }); */
+//postgres
  const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB}`, {
   logging: false,
   native: false,
