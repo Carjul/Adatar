@@ -14,25 +14,29 @@ const Upload = () => {
   const { message, swich } = useSelector(state => state.msg);
   const token = localStorage.getItem('token')
   const [obj, setObj] = useState({});
-  const [NotasPeriodo, setNotasPeriodo] = useState({corte:""});
-
-  const handlesummit = (e) => {
+  var [selectedFile, setSelectedFile] = useState(null);
+  const handlesummit = (e) => {  
+    const texto = e.target.files[0].name
+    const textoRecortadoSubstring = texto.substring(0, texto.indexOf('.'))
+    
+    setSelectedFile({
+      name: textoRecortadoSubstring
+    }); 
+  
     setObj({
       ...obj,
       [e.target.name]: e.target.files[0]
     });
+    
   }
-  const hadleSelect = (e) => {
-    setNotasPeriodo({corte:e.target.value})
-    console.log(NotasPeriodo)
-  }
+
   if (swich && message) {
     dispatch(setSwich(false))
   }
   useEffect(() => {
     setTimeout(() => {
       dispatch(setMsg(""))
-    }, 20000)
+    }, 50000)
 
   }, [message, dispatch])
 
@@ -66,23 +70,21 @@ const Upload = () => {
                   <h2 className="card-title">Subir Archivo</h2>
                   <form onSubmit={e => {
                     e.preventDefault();
-                    dispatch(postFile(obj, token, NotasPeriodo?.corte))
+                    dispatch(postFile(obj, token, selectedFile.name))
                     dispatch(setSwich(true))
-                    NotasPeriodo.corte=""
+                    selectedFile.name=""
                   }} className="form-control">
 
                     <input type="file" id='miInputFile' name="file" onChange={handlesummit} className="file-input file-input-bordered file-input-primary w-full max-w-xs" required />
                     <br />
-                    <select className="select select-primary select-sm max-w-xs" onChange={hadleSelect} value={NotasPeriodo.corte}>
-                      <option defaultValue={""}>Selecionar corte de Notas</option>
-                      <option value="Notas Primer Corte">Notas Primer Corte</option>
-                      <option value="Notas segundo Corte">Notas segundo Corte</option>
-                      <option value="Notas tercer Corte">Notas tercer Corte</option>
-
+                    <select  className="select select-primary select-sm max-w-xs">
+                      {selectedFile === null? <option value="">Seleccione el periodo</option> :
+                        <option value={selectedFile.name}>{selectedFile.name}</option>
+                      }
                     </select>
 
                     <br />
-                    {NotasPeriodo.corte===""?<button disabled className="btn btn-primary" >Enviar</button>:<button type="submit" className="btn btn-primary" >Enviar</button>}
+                     <button type="submit" className="btn btn-primary" >Enviar</button>
 
                   </form>
                 </div>

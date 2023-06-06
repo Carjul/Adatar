@@ -46,7 +46,7 @@ const UploadFile = async (req, res) => {
     var nota = []
 
     const validarCadena = (valor) => {
-      const regex = /^(?![\s\S]*$)[^]*$|^null$|^undefined$/;
+      const regex = /^(?![\s\S]*$)[^]*$|^null$|^"NULL"$|^undefined$|^"undefined"$/;
       return regex.test(valor);
     };
 
@@ -60,7 +60,9 @@ const UploadFile = async (req, res) => {
       return true; // Mantener el objeto si no hay valores vacíos, nulos o indefinidos
     });
    console.log(reporte_filtrado.length)
-    for (let i = 0; i < reporte_filtrado .length; i++) {
+   const slice = reporte_filtrado.slice(0, 100)
+   console.log(slice)
+     for (let i = 0; i < reporte_filtrado .length; i++) {
       const e = reporte_filtrado [i];
 
       
@@ -131,7 +133,7 @@ const UploadFile = async (req, res) => {
 
         nota.push({
           GRADE_ACTIVITY: e.GRADE_ACTIVITY,
-          FINAL_GRADE: e.FINAL_GRADE,
+          FINAL_GRADE: e.FINAL_GRADE? e.FINAL_GRADE : "no tiene",
           Nota: e.Nota1 ? e.Nota1 : e.Nota2,
           Gano: e.Gano,
           Perdio: parseInt(e.Perdio),
