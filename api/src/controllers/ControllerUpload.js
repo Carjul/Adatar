@@ -133,12 +133,12 @@ const UploadFile = async (req, res) => {
 
         nota.push({
           GRADE_ACTIVITY: e.GRADE_ACTIVITY,
-          FINAL_GRADE: e.FINAL_GRADE? e.FINAL_GRADE : "no tiene",
+          FINAL_GRADE: e.FINAL_GRADE? e.FINAL_GRADE : "no pertece",
           Nota: e.Nota1 ? e.Nota1 : e.Nota2,
           Gano: e.Gano,
           Perdio: parseInt(e.Perdio),
           Rango:parseInt( e.Rango),
-          ProxNotaMin: e.ProxNotaMin,
+          ProxNotaMin: e.ProxNotaMin? e.ProxNotaMin : "no calculado",
           Seccion: e.Seccion,
           NombrePrograma: e.ProgramaMateria,
           Sede: e.sede,
