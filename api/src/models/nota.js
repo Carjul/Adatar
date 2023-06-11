@@ -13,7 +13,7 @@ module.exports=(sequelize)=>{
         },
         FINAL_GRADE:{
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         Nota:{
             type: DataTypes.STRING,
@@ -32,8 +32,8 @@ module.exports=(sequelize)=>{
             allowNull: false
         },
         ProxNotaMin:{
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.INTEGER,
+            allowNull: true
         },
         Seccion:{
             type: DataTypes.STRING,

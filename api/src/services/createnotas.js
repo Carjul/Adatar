@@ -19,7 +19,6 @@ const createNotas = async (params) => {
                 Identificacion,
                 Cog_Docente,
                 Nom_Docente,
-                NomNotaPeriodo,
                 Periodo,
                 Año } = params[i];
 
