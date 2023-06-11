@@ -1,6 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const { Users } = require('../db')
+const { db } = require('../db')
 
 
 const patron = /^[a-zA-Z]+@correo\.unicordoba\.edu\.co$/;
@@ -13,40 +13,27 @@ passport.use(new LocalStrategy(
     async (req, email, password, done) => {
 
         try {
-            const busqueda = await Users.findAll({
-                where: { Email: email }
-            })
-            const user = busqueda[0]
- 
-            if(user){
+            const busqueda = await db.query(`SELECT * FROM public."Users" WHERE "Email" = $1`, [email]);
+            const user = busqueda.rows[0]
+
+            if (busqueda.rows.length !== 0) {
                 user.Password === password ? done(null, user) : done(null, false, { message: "contraseña incorrecta" })
-            }else{
+            } else {
                 if (patron.test(email)) {
-                    const  { Nombre, Avatar} = req.body	
-                    const existe = await Users.findAll({
-                        where: { Email: email }
-                    })
-                    if (existe.length > 0) {
-                        done(null, false, { message: "el correo ya esta registrado" })
-                    }else{
-                        const newUser = await Users.findOrCreate({
-                            where: { 
-                                Avatar,
-                                Nombre,
-                                Email: email,
-                                Password: password,
-                                RolId:1 },
-                            })
-                        done(null, newUser)
-                    }
-                    
+                    const { Nombre, Avatar } = req.body
+                        const ROL = await db.query(`SELECT * FROM public."Rols" WHERE "rol" = $1`, ["Admin"]);
+                        if (ROL.rows.length !== 0) {  
+                        const newUser = await db.query(`INSERT INTO public."Users"("Avatar", "Nombre", "Email", "Password", "RolId") VALUES ($1, $2, $3, $4, $5) RETURNING *`, [Avatar, Nombre, email, password, ROL.rows[0].id]);
+                        done(null, newUser.rows[0]);
+                        }
+
                 } else {
                     done(null, false, { message: "el correo no pertenece a la universidad." })
                 }
             }
-        
-            
-            
+
+
+
 
         } catch (error) {
             console.log(error)
@@ -61,9 +48,10 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-    Users.findByPk(id).then((user) => {
-        done(null, user);
-    })
+    db.query(`SELECT * FROM "Users" WHERE id=${id}`)
+        .then((user) => {
+            done(null, user);
+        })
         .catch((err) => {
             done(new Error(err));
         })

@@ -1,5 +1,5 @@
 const { GraphQLString, GraphQLID, GraphQLList } = require('graphql');
-const { Notas, Estudiantes, Pensums, Materias, Programas, Docentes, PeriodoAcademicos, MateriaPorPensums, Facultades, Users, Rols } = require('./../db');
+const { db} = require('./../db');
 const { facultades, programas, pensums, materias, materiaPorPensums, estudiantes, docentes, periodoAcademico, notas } = require('./types');
 
 
@@ -12,7 +12,7 @@ const update = {
     },
     async resolve(_, args) {
         const { id, RolId } = args
-        await Users.update({ RolId }, { where: { id } })
+        await db.query(`UPDATE Users SET "RolId"=${RolId} WHERE id=${id}`)
         return 'usuario actualizado'
     }
 }
@@ -24,9 +24,7 @@ const deleteuser = {
     },
     async resolve(_, args) {
         const { id } = args
-        await Users.destroy({
-            where: { id }
-        })
+        await db.query(`DELETE FROM Users WHERE id=${id}`)
         return 'usuario eliminado'
     }
 }
@@ -40,18 +38,12 @@ const create_rol = {
     async resolve(_, args) {
         const { rol } = args
 
-        const roles = await Rols.findAll({
-            where: {
-                rol
-            }
-        })
+        const roles = await db.query(`SELECT * FROM "Rols" WHERE rol='${rol}'`)
 
         if (roles.length > 0) {
             return "rol ya existe"
         } else {
-            await Rols.create({
-                rol
-            })
+            await db.query(`INSERT INTO "Rols" (rol) VALUES ('${rol}')`)
             return "rol creado"
         }
     }
@@ -65,9 +57,7 @@ const delete_rol = {
     },
     async resolve(_, args) {
         const { id } = args
-        await Rols.destroy({
-            where: { id }
-        })
+        await db.query(`DELETE FROM Rols WHERE id=${id}`)
         return 'rol eliminado'
     }
 }
@@ -80,7 +70,7 @@ const Buscar_notas = {
     },
     async resolve(_, args) {
         const { id } = args
-        const data = await Notas.findByPk(id)
+        const data = await db.query(`SELECT * FROM Notas WHERE id=${id}`)
         return data
     }
 
@@ -94,11 +84,7 @@ const notasporyear = {
     },
     async resolve(_, args) {
         const { PeriodoAcademicoId } = args
-        const data = await Notas.findAll({
-            where: {
-                PeriodoAcademicoId
-            }
-        });
+        const data = await db.query(`SELECT * FROM notas WHERE "PeriodoAcademicoId"=${PeriodoAcademicoId}`)
         return data
     }
 
@@ -112,7 +98,7 @@ const Buscar_periodoAcademico = {
     },
     async resolve(_, args) {
         const { id } = args
-        const data = await PeriodoAcademicos.findByPk(id)
+        const data = await db.query(`SELECT * FROM "PeriodoAcademico" WHERE id=${id}`)
         return data
     }
 
@@ -126,7 +112,7 @@ const Buscar_docentes = {
     },
     async resolve(_, args) {
         const { id } = args
-        const data = await Docentes.findByPk(id)
+        const data = await db.query(`SELECT * FROM Docentes WHERE id=${id}`)
         return data
     }
 }
@@ -139,7 +125,7 @@ const Buscar_estudiantes = {
     },
     async resolve(_, args) {
         const { id } = args
-        const data = await Estudiantes.findByPk(id)
+        const data = await db.query(`SELECT * FROM Estudiantes WHERE id=${id}`)
         return data
     }
 }
@@ -152,7 +138,7 @@ const Buscar_materiaPorPensums = {
     },
     async resolve(_, args) {
         const { id } = args
-        const data = await MateriaPorPensums.findByPk(id)
+        const data = await db.query(`SELECT * FROM "MateriaPorPensums" WHERE id=${id}`)
         return data
     }
 }
@@ -165,7 +151,7 @@ const Buscar_materias = {
     },
     async resolve(_, args) {
         const { id } = args
-        const data = await Materias.findByPk(id)
+        const data = await db.query(`SELECT * FROM Materias WHERE id=${id}`)
         return data
     }
 }
@@ -178,7 +164,7 @@ const Buscar_pensums = {
     },
     async resolve(_, args) {
         const { id } = args
-        const data = await Pensums.findByPk(id)
+        const data = await db.query(`SELECT * FROM Pensums WHERE id=${id}`)
         return data
     }
 }
@@ -191,7 +177,7 @@ const Buscar_programas = {
     },
     async resolve(_, args) {
         const { id } = args
-        const data = await Programas.findByPk(id)
+        const data = await db.query(`SELECT * FROM Programas WHERE id=${id}`)
         return data
     }
 }
@@ -203,11 +189,7 @@ const Buscar_programas_sede = {
     },
     async resolve(_, args) {
         const { Sede } = args
-        const data = await Programas.findAll({
-            where: {
-                Sede
-            }
-        })
+        const data = await db.query(`SELECT * FROM Programas WHERE sede='${Sede}'`)
         return data
     }
 }
@@ -219,7 +201,7 @@ const Buscar_facultades = {
     },
     async resolve(_, args) {
         const { id } = args
-        const data = await Facultades.findByPk(id)
+        const data =  await db.query(`SELECT * FROM Facultades WHERE id=${id}`)
         return data
     }
 }

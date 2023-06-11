@@ -1,48 +1,34 @@
-const { Op } = require("sequelize");
-const { MateriaPorPensums, Pensums, Materias } = require("../db");
+const { db} = require("../db");
 
 
 const createMateriaspensun = async (params) => {
     try {
         for (let i = 0; i < params.length; i++) {
-            const { NombreMateria, CodigoMateria, Pensum, Semestres, SemMateriaNum, Seme } = params[i];
+            const { NombreMateria, CodigoMateria, Pensum, SemMateriaNum, Seme } = params[i];
 
-            const pensum = await Pensums.findOne({
-                where: {
-                    Pensum, 
+            const pensum = await db.query(`SELECT * FROM public."Pensums" WHERE "Pensum" = $1`, [Pensum]);
+            const materia = await db.query(`SELECT * FROM public."Materias" WHERE "NombreMateria" = $1 AND "CodigoMateria" = $2`, [NombreMateria, CodigoMateria]);
+
+            if (pensum.rows.length !== 0 && materia.rows.length !== 0) {
+                const existe = await db.query(
+                    `SELECT * FROM public."MateriaPorPensums" WHERE "SemMateriaNum" = $1 AND "Seme" = $2 AND "PensumId" = $3 AND "MateriaId" = $4`,
+                    [SemMateriaNum, Seme, pensum.rows[0].id, materia.rows[0].id]
+                );
+
+                if (existe.rows.length === 0) {
+                    await db.query(
+                        `INSERT INTO public."MateriaPorPensums"("SemMateriaNum", "Seme", "PensumId", "MateriaId") VALUES ($1, $2, $3, $4)`,
+                        [SemMateriaNum, Seme, pensum.rows[0].id, materia.rows[0].id]
+                    );
                 }
-            })
-
-            const materia = await Materias.findOne({
-                 where: {
-                    [Op.and]: [{ NombreMateria }, { CodigoMateria: `${CodigoMateria}` }]
-                }
-            })
-
-            const existe = await MateriaPorPensums.findOne({
-                where: {
-                    [Op.and]: [{ SemMateriaNum: `${SemMateriaNum}` }, { Seme: `${Seme}` }, {PensumId:pensum.id},{MateriaId:materia.id} ]
-                }
-            })
-
-            if (!existe) {
-        
-                const materiaPensum = await MateriaPorPensums.create({
-                    SemMateriaNum: `${SemMateriaNum}`,
-                    Seme: `${Seme}`,
-                })
-
-                pensum.addMateriaPorPensums(materiaPensum)
-                materia.addMateriaPorPensums(materiaPensum)
             }
-
-            
-
         }
-        return "Saved Materiasporpensum "
+
+        return "Saved Materiasporpensum";
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
-}
+};
+
 
 module.exports = createMateriaspensun;

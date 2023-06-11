@@ -14,6 +14,7 @@ const createNotas = require("../services/createnotas");
 
 
 
+
 const UploadFile = async (req, res) => {
   try {
 
@@ -45,23 +46,21 @@ const UploadFile = async (req, res) => {
     var periodo = []
     var nota = []
 
-    const validarCadena = (valor) => {
-      const regex = /^(?![\s\S]*$)[^]*$|^null$|^"NULL"$|^undefined$|^"undefined"$/;
-      return regex.test(valor);
-    };
 
-    const reporte_filtrado = reporte.filter(objeto => {
-      // Verificar si algún valor es vacío, nulo o indefinido
-      for (let key in objeto) {
-        if (objeto.hasOwnProperty(key) && validarCadena(key)) {
-          return false; // Descartar el objeto si hay un valor vacío, nulo o indefinido
-        }
-      }
-      return true; // Mantener el objeto si no hay valores vacíos, nulos o indefinidos
-    });
-   console.log(reporte_filtrado.length)
-   const slice = reporte_filtrado.slice(0, 100)
-   console.log(slice)
+ 
+
+
+const reporte_filtrado=reporte.filter(obj => {
+  for (let key in obj) {
+    if (obj[key] === null|| obj[key]===NaN || obj[key] === undefined  || obj[key] === "null"|| obj[key] === "NULL"|| obj[key] === "undefined"|| obj[key] === '') {
+      return false;
+    }
+  }
+  return true;
+});
+
+reporte = []
+
      for (let i = 0; i < reporte_filtrado .length; i++) {
       const e = reporte_filtrado [i];
 
@@ -85,7 +84,7 @@ const UploadFile = async (req, res) => {
 
 
         estudiante.push({
-          id: e.people_code_id,
+          People_code_id: e.people_code_id,
           TipoDoc: e.TipoDoc,
           Identificacion: e.Identificacion,
           Nombres: e.Nombres,
@@ -99,8 +98,7 @@ const UploadFile = async (req, res) => {
           Email: e.EMAIL,
           Genero: e.Genero,
           SemeNumero: e.SemMateriaNum,
-          Pensum: e.ProgramaEstudiante,
-          Semestres: e.SemMateriaNum,
+          Pensum: e.ProgramaEstudiante
         });
 
         materias.push({
@@ -155,8 +153,9 @@ const UploadFile = async (req, res) => {
     }
 
 
-    reporte = []
+  
 
+ 
     const facultadrepetida = eliminaDuplicados(facultad)
     facultad = []
     const facultadcreada = await crearfacultad(facultadrepetida)
@@ -166,41 +165,41 @@ const UploadFile = async (req, res) => {
     programas = []
     const programacredo = await createprograma(programarepetida)
     console.log(programacredo)
-
+    
     const pensumrepetida = eliminaDuplicados(pensum)
     pensum = []
     const pensumcreado = await createpemsun(pensumrepetida)
     console.log(pensumcreado)
-
+    
     const estudiaterepetido = eliminaDuplicados(estudiante)
     estudiante = []
     const estudiantecreado = await crearstudent(estudiaterepetido)
     console.log(estudiantecreado)
-
+    
     const materiasduplicado = eliminaDuplicados(materias)
     materias = []
     const materiascreado = await createMaterias(materiasduplicado)
     console.log(materiascreado)
-
+    
     const materiaPensumduplicado = eliminaDuplicados(materiaPensum)
     materiaPensum = []
     const materiaPensumcreado = await createMateriaspensun(materiaPensumduplicado)
     console.log(materiaPensumcreado)
+    
 
     const docentesduplicado = eliminaDuplicados(docentes)
     docentes = []
     const docentescreado = await createDocente(docentesduplicado)
     console.log(docentescreado)
-
     const periododuplicado = eliminaDuplicados(periodo)
     periodo = []
     const periodocreado = await createPeriodoAcademico(periododuplicado)
     console.log(periodocreado)
-
+    
     const createnotas = await createNotas(nota)
     nota = []
     console.log(createnotas);
-
+  
 
     res.json({ message: "database initialize" });
 

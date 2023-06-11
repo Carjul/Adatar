@@ -1,58 +1,22 @@
-const { Op } = require("sequelize");
-const { Estudiantes, Pensums } = require("../db");
+const { db } = require("../db");
 
 const crearstudent = async (params) => {
     try {
+        
         for (let i = 0; i < params.length; i++) {
-            const { id,
-                TipoDoc,
-                Identificacion,
-                Nombres,
-                EstadoAlumnoPrograma,
-                Semestre,
-                Direccion,
-                Ciudad,
-                Departamento,
-                TelFijo,
-                TelMovil,
-                Email,
-                Genero,
-                SemeNumero,
-                Pensum,
-                Semestres, } = params[i];
+            const { People_code_id,TipoDoc,  Identificacion,  Nombres,  EstadoAlumnoPrograma,   Semestre,  Direccion,  Ciudad,  Departamento,  TelFijo, TelMovil, Email,Genero, SemeNumero,Pensum } = params[i];
 
-            const existe = await Estudiantes.findOne({
-                where: {
-                    Identificacion: `${Identificacion}`
-                }
-            })
+            const existe = await db.query(`SELECT * FROM public."Estudiantes" WHERE "Identificacion" = $1`, [`'${Identificacion}'`])
 
-            if (!existe) {
-                const pensum = await Pensums.findOne({
-                    where: {
-                        Pensum,
-                    }
-                })
+            if (existe.rows.length === 0) {
+                const pensum = await db.query(`SELECT * FROM public."Pensums" WHERE "Pensum" = $1`, [Pensum])
 
-                const estudiante = await Estudiantes.create({
-                    people_code_id: id,
-                    TipoDoc,
-                    Identificacion: `${Identificacion}`,
-                    Nombres,
-                    EstadoAlumnoPrograma,
-                    Semestre,
-                    Direccion,
-                    Ciudad,
-                    Departamento,
-                    TelFijo: `${TelFijo}`,
-                    TelMovil: `${TelMovil}`,
-                    Email,
-                    Genero,
-                    SemeNumero: `${SemeNumero}`,
+            if (pensum.rows.length !== 0) {
 
-                })
-
-                pensum.addEstudiante(estudiante)
+                await db.query(`INSERT INTO public."Estudiantes"("TipoDoc", people_code_id, "Identificacion", "Nombres", "EstadoAlumnoPrograma", "Semestre", "Direccion", "Ciudad", "Departamento", "TelFijo", "TelMovil", "Email", "Genero", "SemeNumero", "PensumId")                   
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8,$9,$10,$11,$12,$13,$14,$15)`, [TipoDoc,People_code_id ,`${Identificacion}`, Nombres, EstadoAlumnoPrograma, Semestre, Direccion, Ciudad, Departamento,`${TelFijo}`,`${TelMovil}`, Email, Genero, `${SemeNumero}`, pensum.rows[0].id])
+            }
+             
             }
 
 
@@ -67,36 +31,4 @@ const crearstudent = async (params) => {
 
 
 module.exports = crearstudent;
-    /* 
-    try {
-        const client = new Client({
-            connectionString: `postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB}`,
-            ssl: false
-          });
-        
-            client.connect((error) => {
-            if (error) {
-              console.error('Error al conectar a la base de datos:', error);
-              return;
-            }
-            console.log('Conexión exitosa a la base de datos');
-          });
-        for (let i = 0; i < params.length; i++) {
-            const { id,TipoDoc,Identificacion,Nombres,EstadoAlumnoPrograma,Semestre,Direccion,Ciudad,Departamento,TelFijo,TelMovil,Email,Genero,SemeNumero,Pensum,} = params[i];
-          const result= await  client.query(`SELECT id FROM "Pensums"  WHERE "Pensum"=${Pensum}'`)
-            const PensumId=result.length===0? 0:result.rows[0].id
-           await client.query(`INSERT INTO "Estudiantes" (id,"TipoDoc","Identificacion","Nombres","EstadoAlumnoPrograma","Semestre","Direccion","Ciudad","Departamento","TelFijo","TelMovil","Email","Genero","SemeNumero","PensumId") VALUES (${id},'${TipoDoc}','${Identificacion}','${Nombres}','${EstadoAlumnoPrograma}','${Semestre}','${Direccion}','${Ciudad}','${Departamento}','${TelFijo}','${TelMovil}','${Email}','${Genero}','${SemeNumero}',${PensumId})`)
-        }
-        client.end((error) => {
-            if (error) {
-              console.error('Error al cerrar la conexión:', error);
-              return;
-            }
-            console.log('Conexión cerrada correctamente');
-          })
-        return "saved student";
-    } catch (error) {
-        console.log(error)
-    }
-    */
-
+   

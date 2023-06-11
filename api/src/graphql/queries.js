@@ -1,92 +1,114 @@
 const { GraphQLList } = require('graphql')
-const { Notas,Estudiantes,Pensums,Materias,Programas,Docentes, PeriodoAcademicos,MateriaPorPensums,Facultades,Users,Rols} = require('./../db');
+const { db} = require('./../db');
 const {dataUser, facultades, programas, pensums, materias,materiaPorPensums,estudiantes,docentes,periodoAcademico,notas,Roles} = require('./types');
 
 const peticion_user = {
     type: new GraphQLList(dataUser),
     async resolve() {
-        const users = await Users.findAll()
-        return users
+        const users = await db.query(
+            `SELECT * FROM public."Users" `
+        ) 
+        return users.rows
     }
 }
 
 const peticion_rol = {
     type: new GraphQLList(Roles),
     async resolve() {
-        const data = await Rols.findAll()
-        return data
+        const data = await db.query(
+            `SELECT * FROM public."Rols" `
+        ) 
+        return data.rows
     }
 }
 
 const peticion_facultad = {
     type: new GraphQLList(facultades),
     async resolve() {
-        const data = await Facultades.findAll()
-        return data
+        const data = await db.query(
+            `SELECT * FROM public."Facultades" `
+        ) 
+        return data.rows
     }
 }
 
 const peticion_programa = {
     type: new GraphQLList(programas),
     async resolve() {
-        const data = await Programas.findAll()
-        return data
+        const data = await db.query(
+            `SELECT * FROM public."Programas" `
+        ) 
+        return data.rows
     }
 }
 
 const peticion_pensum = {
     type: new GraphQLList(pensums),
     async resolve() {
-        const data = await Pensums.findAll()
-        return data
+        const data = await db.query(
+            `SELECT * FROM public."Pensums" `
+        ) 
+        return data.rows
     }
 }
 
 const peticion_materias = {
     type: new GraphQLList(materias),
     async resolve() {
-        const data = await Materias.findAll()
-        return data
+        const data = await db.query(
+            `SELECT * FROM public."Materias" `
+        )
+        return data.rows
     }
 }
 
  const peticion_materiaPorPensums = {
     type: new GraphQLList(materiaPorPensums),
     async resolve() {
-        const data = await MateriaPorPensums.findAll()
-        return data
+        const data = await db.query(
+            `SELECT * FROM public."MateriaPorPensums" `
+        ) 
+        return data.rows
     }
 }
 
 const peticion_estudiantes = {
     type: new GraphQLList(estudiantes),
     async resolve() {
-        const data = await Estudiantes.findAll()
-        return data
+        const data = await db.query(
+            `SELECT * FROM public."Estudiantes" `
+        ) 
+        return data.rows
     }
 }
  
 const peticion_docentes = {
     type: new GraphQLList(docentes),
     async resolve() {
-        const data = await Docentes.findAll()
-        return data
+        const data = await db.query(
+            `SELECT * FROM public."Docentes" `
+        )
+        return data.rows
     }  
 }
 
 const peticion_periodoAcademico = {
     type: new GraphQLList(periodoAcademico),
     async resolve() {
-        const data = await PeriodoAcademicos.findAll()
-        return data
+        const data = await db.query(
+            `SELECT * FROM public."PeriodoAcademico" `
+        ) 
+        return data.rows
     }
 }
 
 const peticion_notas = {
     type: new GraphQLList(notas),
     async resolve() {
-        const data = await Notas.findAll()
-        return data
+        const data = await db.query(
+            `SELECT * FROM public."Notas" `
+        )
+        return data.rows
     }
 } 
  

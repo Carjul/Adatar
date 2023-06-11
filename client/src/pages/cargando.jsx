@@ -45,11 +45,11 @@ useEffect(()=>{
 }
 const mostrarAlerta = (num) => {
    if(num===1){
-    Swal.fire({
+   /*  Swal.fire({
       title: 'listo',
       text: 'has iniciado sesion correctamente',
       icon:  'success',
-    });
+    }); */
 }else{
     Swal.fire({
         title: 'Advertencia',

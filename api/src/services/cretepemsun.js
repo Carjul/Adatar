@@ -1,5 +1,5 @@
-const { Op } = require("sequelize");
-const { Pensums, Programas } = require("../db");
+ 
+const { db } = require("../db");
 
 const createpemsun = async (params) => {
     try {
@@ -7,24 +7,14 @@ const createpemsun = async (params) => {
 
             const { NombrePrograma, Sede, Pensum, Semestres } = params[index];
 
-            const existe = await Pensums.findOne({
-                where: {
-                    Pensum 
+            const existe = await db.query(`SELECT * FROM public."Pensums" WHERE "Pensum" = $1`, [Pensum])
+
+            if (existe.rows.length === 0) {
+
+                const programa =await db.query(`SELECT * FROM public."Programas" WHERE "NombrePrograma" = $1 AND "Sede" = $2`, [NombrePrograma, Sede])
+                if (programa.rows.length !== 0) {
+            await db.query(`INSERT INTO public."Pensums"("Pensum", "Semestres", "ProgramaId") VALUES ($1, $2, $3) RETURNING *`, [Pensum,null, programa.rows[0].id ])
                 }
-            })
-
-            if (!existe) {
-
-                const programa = await Programas.findOne({
-                    where: {
-                        [Op.and]: [{ NombrePrograma }, { Sede }]
-                    }
-                })
-                const pensum = await Pensums.create({
-                    Pensum,
-                })
-
-                await pensum.setPrograma(programa)
             }
 
         }
