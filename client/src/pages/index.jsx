@@ -17,7 +17,10 @@ const Init = () => {
       console.log("sesion iniciada")
     }
     else if(isAuthenticated && !token){
-      navigate("/validar")
+      //esperar 5 segundos
+      setTimeout(() => {
+        navigate("/validar")
+      }, 5000);
     }
     
 

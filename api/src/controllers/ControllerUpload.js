@@ -23,48 +23,131 @@ const UploadFile = async (req, res) => {
 
     //obtener nombre de las hoja
     const hoja = excel.Sheets['Data'];
-   const {corte} = req.query
- 
+    const { corte } = req.query
+
     //convertir hoja a json
     var reporte = XLSX.utils.sheet_to_json(hoja);
 
     //elimnar exel
     await fs.unlink(req.file.path);
-  
-    if(reporte.length === 0 ){
+
+    if (reporte.length === 0) {
       res.status(500).json({ message: "nombre de la hoja incorrecto" })
-      }else {
-
-  
-    var facultad = []
-    var programas = []
-    var pensum = []
-    var estudiante = []
-    var materias = []
-    var materiaPensum = []
-    var docentes = []
-    var periodo = []
-    var nota = []
+    } else {
 
 
- 
+      var facultad = []
+      var programas = []
+      var pensum = []
+      var estudiante = []
+      var materias = []
+      var materiaPensum = []
+      var docentes = []
+      var periodo = []
+      var nota = []
 
 
-const reporte_filtrado=reporte.filter(obj => {
-  for (let key in obj) {
-    if (obj[key] === null|| obj[key]===NaN || obj[key] === undefined  || obj[key] === "null"|| obj[key] === "NULL"|| obj[key] === "undefined"|| obj[key] === '') {
-      return false;
-    }
-  }
-  return true;
-});
 
-reporte = []
+      const propiedadesNecesarias = [
+        'TipoDoc',
+        'Identificacion',
+        'people_code_id',
+        'Nombres',
+        'sede',
+        'ProgramaEstudiante',
+        'Facultad',
+        'EstadoAlumnoPrograma',
+        'Semestre',
+        'año',
+        'Periodo',
+        'Sesion',
+        'CodigoMateria',
+        'NombreMateria',
+        'Seccion',
+        'GRADE_ACTIVITY',
+        'GRADE_POINTS',
+        'ProgramaMateria',
+        'TipoMateria',
+        'DIRECCION',
+        'CIUDAD',
+        'DEPARTAMENTO',
+        'TelFijo',
+        'TelMovil',
+        'EMAIL',
+        'Genero',
+        'seme',
+        'Cog_Docente',
+        'Nom_Docente',
+        'Contar',
+        'SemNumero',
+        'Nota1',
+        'Gano',
+        'Perdio',
+        'Rango',
+        'SemMateriaNum',
+      ];
+      const propiedadesNecesarias2 = [
+        'TipoDoc',
+        'Identificacion',
+        'people_code_id',
+        'Nombres',
+        'sede',
+        'ProgramaEstudiante',
+        'Facultad',
+        'EstadoAlumnoPrograma',
+        'Semestre',
+        'año',
+        'Periodo',
+        'Sesion',
+        'CodigoMateria',
+        'NombreMateria',
+        'Seccion',
+        'GRADE_ACTIVITY',
+        'GRADE_POINTS',
+        'ProgramaMateria',
+        'TipoMateria',
+        'DIRECCION',
+        'CIUDAD',
+        'DEPARTAMENTO',
+        'TelFijo',
+        'TelMovil',
+        'EMAIL',
+        'Genero',
+        'seme',
+        'Cog_Docente',
+        'Nom_Docente',
+        'Contar',
+        'SemNumero',
+        'Nota2',
+        'Gano',
+        'Perdio',
+        'Rango',
+        'SemMateriaNum',
+      ];
+      var arrayObjetosCompletos = reporte.filter((objeto) => propiedadesNecesarias.every((propiedad) => objeto.hasOwnProperty(propiedad))
+      );
 
-     for (let i = 0; i < reporte_filtrado .length; i++) {
-      const e = reporte_filtrado [i];
+      if (arrayObjetosCompletos.length === 0) {
+        arrayObjetosCompletos = reporte.filter((objeto) => propiedadesNecesarias2.every((propiedad) => objeto.hasOwnProperty(propiedad)));
+      }
+      console.log(arrayObjetosCompletos.length)
+      /* console.log(arrayObjetosCompletos);
+      console.log(arrayObjetosCompletos.length)
+      console.log(reporte.length) */
+      const reporte_filtrado = arrayObjetosCompletos.filter(obj => {
+        for (let key in obj) {
+          if (obj[key] === null || obj[key] === NaN || obj[key] === undefined || obj[key] === "null" || obj[key] === "NULL" || obj[key] === "undefined" || obj[key] === '') {
+            return false;
+          }
+        }
+        return true;
+      });
+      reporte = []
+      console.log(reporte_filtrado.length)
+      for (let i = 0; i < reporte_filtrado.length; i++) {
+        const e = arrayObjetosCompletos[i];
 
-      
+
         facultad.push({ NombreFacultad: e.Facultad });
 
         programas.push({
@@ -78,7 +161,7 @@ reporte = []
         pensum.push({
           Pensum: e.ProgramaEstudiante,
           Semestres: e.SemMateriaNum,
-          NombrePrograma:e.ProgramaMateria,
+          NombrePrograma: e.ProgramaMateria,
           Sede: e.sede,
         });
 
@@ -131,79 +214,78 @@ reporte = []
 
         nota.push({
           GRADE_ACTIVITY: e.GRADE_ACTIVITY,
-          FINAL_GRADE: e.FINAL_GRADE? e.FINAL_GRADE : "no pertece",
+          FINAL_GRADE: e.FINAL_GRADE ? e.FINAL_GRADE : "no pertece",
           Nota: e.Nota1 ? e.Nota1 : e.Nota2,
           Gano: e.Gano,
           Perdio: parseInt(e.Perdio),
-          Rango:parseInt( e.Rango),
-          ProxNotaMin: e.ProxNotaMin? e.ProxNotaMin : "no calculado",
+          Rango: parseInt(e.Rango),
+          ProxNotaMin: e.ProxNotaMin ? e.ProxNotaMin : "no calculado",
           Seccion: e.Seccion,
           NombrePrograma: e.ProgramaMateria,
           Sede: e.sede,
-          NombreMateria: e.NombreMateria,
           CodigoMateria: e.CodigoMateria,
           Identificacion: e.Identificacion,
           Cog_Docente: e.Cog_Docente,
           Nom_Docente: e.Nom_Docente,
-          NomNotaPeriodo: corte,
           Periodo: e.Periodo,
           Año: e.año,
+          NomNotaPeriodo: corte,
+
         });
-      
+
+      }
+
+
+
+
+      const facultadrepetida = eliminaDuplicados(facultad)
+      facultad = []
+      const facultadcreada = await crearfacultad(facultadrepetida)
+      console.log(facultadcreada)
+
+      const programarepetida = eliminaDuplicados(programas)
+      programas = []
+      const programacredo = await createprograma(programarepetida)
+      console.log(programacredo)
+
+      const pensumrepetida = eliminaDuplicados(pensum)
+      pensum = []
+      const pensumcreado = await createpemsun(pensumrepetida)
+      console.log(pensumcreado)
+
+      const estudiaterepetido = eliminaDuplicados(estudiante)
+      estudiante = []
+      const estudiantecreado = await crearstudent(estudiaterepetido)
+      console.log(estudiantecreado)
+
+      const materiasduplicado = eliminaDuplicados(materias)
+      materias = []
+      const materiascreado = await createMaterias(materiasduplicado)
+      console.log(materiascreado)
+
+      const materiaPensumduplicado = eliminaDuplicados(materiaPensum)
+      materiaPensum = []
+      const materiaPensumcreado = await createMateriaspensun(materiaPensumduplicado)
+      console.log(materiaPensumcreado)
+
+
+      const docentesduplicado = eliminaDuplicados(docentes)
+      docentes = []
+      const docentescreado = await createDocente(docentesduplicado)
+      console.log(docentescreado)
+      const periododuplicado = eliminaDuplicados(periodo)
+      periodo = []
+      const periodocreado = await createPeriodoAcademico(periododuplicado)
+      console.log(periodocreado)
+
+      const createnotas = await createNotas(nota)
+      nota = []
+      console.log(createnotas);
+
+
+      res.json({ message: "database initialize" });
+
     }
-
-
-  
-
- 
-    const facultadrepetida = eliminaDuplicados(facultad)
-    facultad = []
-    const facultadcreada = await crearfacultad(facultadrepetida)
-    console.log(facultadcreada)
-
-    const programarepetida = eliminaDuplicados(programas)
-    programas = []
-    const programacredo = await createprograma(programarepetida)
-    console.log(programacredo)
-    
-    const pensumrepetida = eliminaDuplicados(pensum)
-    pensum = []
-    const pensumcreado = await createpemsun(pensumrepetida)
-    console.log(pensumcreado)
-    
-    const estudiaterepetido = eliminaDuplicados(estudiante)
-    estudiante = []
-    const estudiantecreado = await crearstudent(estudiaterepetido)
-    console.log(estudiantecreado)
-    
-    const materiasduplicado = eliminaDuplicados(materias)
-    materias = []
-    const materiascreado = await createMaterias(materiasduplicado)
-    console.log(materiascreado)
-    
-    const materiaPensumduplicado = eliminaDuplicados(materiaPensum)
-    materiaPensum = []
-    const materiaPensumcreado = await createMateriaspensun(materiaPensumduplicado)
-    console.log(materiaPensumcreado)
-    
-
-    const docentesduplicado = eliminaDuplicados(docentes)
-    docentes = []
-    const docentescreado = await createDocente(docentesduplicado)
-    console.log(docentescreado)
-    const periododuplicado = eliminaDuplicados(periodo)
-    periodo = []
-    const periodocreado = await createPeriodoAcademico(periododuplicado)
-    console.log(periodocreado)
-    
-    const createnotas = await createNotas(nota)
-    nota = []
-    console.log(createnotas);
-  
-
-    res.json({ message: "database initialize" });
-
-  }
   } catch (error) {
     res.json(error)
   }
@@ -224,3 +306,4 @@ const eliminaDuplicados = (arr) => {
 module.exports = {
   UploadFile
 }
+

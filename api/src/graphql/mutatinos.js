@@ -12,7 +12,7 @@ const update = {
     },
     async resolve(_, args) {
         const { id, RolId } = args
-        await db.query(`UPDATE Users SET "RolId"=${RolId} WHERE id=${id}`)
+        await db.query(`UPDATE "Users" SET "RolId"=${RolId} WHERE id=${id}`)
         return 'usuario actualizado'
     }
 }
@@ -24,7 +24,7 @@ const deleteuser = {
     },
     async resolve(_, args) {
         const { id } = args
-        await db.query(`DELETE FROM Users WHERE id=${id}`)
+        await db.query(`DELETE FROM "Users" WHERE id=${id}`)
         return 'usuario eliminado'
     }
 }
@@ -57,7 +57,7 @@ const delete_rol = {
     },
     async resolve(_, args) {
         const { id } = args
-        await db.query(`DELETE FROM Rols WHERE id=${id}`)
+        await db.query(`DELETE FROM  public."Rols" WHERE id=${id}`)
         return 'rol eliminado'
     }
 }
@@ -70,8 +70,8 @@ const Buscar_notas = {
     },
     async resolve(_, args) {
         const { id } = args
-        const data = await db.query(`SELECT * FROM Notas WHERE id=${id}`)
-        return data
+        const data = await db.query(`SELECT * FROM  public."Notas" WHERE id=${id}`)
+        return data.rows
     }
 
 
@@ -84,8 +84,8 @@ const notasporyear = {
     },
     async resolve(_, args) {
         const { PeriodoAcademicoId } = args
-        const data = await db.query(`SELECT * FROM notas WHERE "PeriodoAcademicoId"=${PeriodoAcademicoId}`)
-        return data
+        const data = await db.query(`SELECT * FROM  public."Notas" WHERE "PeriodoAcademicoId"=${PeriodoAcademicoId}`)
+        return data.rows
     }
 
 
@@ -98,8 +98,8 @@ const Buscar_periodoAcademico = {
     },
     async resolve(_, args) {
         const { id } = args
-        const data = await db.query(`SELECT * FROM "PeriodoAcademico" WHERE id=${id}`)
-        return data
+        const data = await db.query(`SELECT * FROM public."PeriodoAcademico" WHERE id=${id}`)
+        return data.rows
     }
 
 }
@@ -112,8 +112,8 @@ const Buscar_docentes = {
     },
     async resolve(_, args) {
         const { id } = args
-        const data = await db.query(`SELECT * FROM Docentes WHERE id=${id}`)
-        return data
+        const data = await db.query(`SELECT * FROM public."Docentes" WHERE id=${id}`)
+        return data.rows
     }
 }
 
@@ -125,8 +125,8 @@ const Buscar_estudiantes = {
     },
     async resolve(_, args) {
         const { id } = args
-        const data = await db.query(`SELECT * FROM Estudiantes WHERE id=${id}`)
-        return data
+        const data = await db.query(`SELECT * FROM public."Estudiantes" WHERE id=${id}`)
+        return data.rows
     }
 }
 
@@ -138,8 +138,8 @@ const Buscar_materiaPorPensums = {
     },
     async resolve(_, args) {
         const { id } = args
-        const data = await db.query(`SELECT * FROM "MateriaPorPensums" WHERE id=${id}`)
-        return data
+        const data = await db.query(`SELECT * FROM public."MateriaPorPensums" WHERE id=${id}`)
+        return data.rows
     }
 }
 
@@ -151,8 +151,8 @@ const Buscar_materias = {
     },
     async resolve(_, args) {
         const { id } = args
-        const data = await db.query(`SELECT * FROM Materias WHERE id=${id}`)
-        return data
+        const data = await db.query(`SELECT * FROM  public."Materias" WHERE id=${id}`)
+        return data.rows
     }
 }
 
@@ -164,8 +164,8 @@ const Buscar_pensums = {
     },
     async resolve(_, args) {
         const { id } = args
-        const data = await db.query(`SELECT * FROM Pensums WHERE id=${id}`)
-        return data
+        const data = await db.query(`SELECT * FROM  public."Pensums" WHERE id=${id}`)
+        return data.rows
     }
 }
 
@@ -177,8 +177,8 @@ const Buscar_programas = {
     },
     async resolve(_, args) {
         const { id } = args
-        const data = await db.query(`SELECT * FROM Programas WHERE id=${id}`)
-        return data
+        const data = await db.query(`SELECT * FROM  public."Programas" WHERE id=${id}`)
+        return data.rows
     }
 }
 const Buscar_programas_sede = {
@@ -189,8 +189,8 @@ const Buscar_programas_sede = {
     },
     async resolve(_, args) {
         const { Sede } = args
-        const data = await db.query(`SELECT * FROM Programas WHERE sede='${Sede}'`)
-        return data
+        const data = await db.query(`SELECT * FROM public."Programas" WHERE "Sede"=$1`,[Sede])
+        return data.rows
     }
 }
 const Buscar_facultades = {
@@ -201,8 +201,8 @@ const Buscar_facultades = {
     },
     async resolve(_, args) {
         const { id } = args
-        const data =  await db.query(`SELECT * FROM Facultades WHERE id=${id}`)
-        return data
+        const data =  await db.query(`SELECT * FROM  public."Facultades" WHERE id=${id}`)
+        return data.rows
     }
 }
 

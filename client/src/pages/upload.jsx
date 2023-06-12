@@ -77,7 +77,7 @@ const Upload = () => {
 
                     <input type="file" id='miInputFile' name="file" onChange={handlesummit} className="file-input file-input-bordered file-input-primary w-full max-w-xs" required />
                     <br />
-                    <select  className="select select-primary select-sm max-w-xs">
+                    <select  className="select select-primary select-sm max-w-xs" disabled >
                       {selectedFile === null? <option value="">Seleccione el periodo</option> :
                         <option value={selectedFile.name}>{selectedFile.name}</option>
                       }

@@ -96,7 +96,7 @@ const peticion_periodoAcademico = {
     type: new GraphQLList(periodoAcademico),
     async resolve() {
         const data = await db.query(
-            `SELECT * FROM public."PeriodoAcademico" `
+            `SELECT * FROM public."PeriodoAcademicos"`
         ) 
         return data.rows
     }
