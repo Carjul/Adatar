@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setPeriodo, setPrograma, setNota, setSede, setDocente, setEstudiante, setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotastate } from '../FeatureSlices/data';
+import { setPeriodo, setPrograma, setNota,setNota2 , setSede, setDocente, setEstudiante, setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotastate } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
 import { setUsers, setConfig } from "../FeatureSlices/users";
 import jwt_decode from "jwt-decode";
@@ -10,7 +10,6 @@ const url2 = import.meta.env.VITE_PUBLIC_SEVICE;
 
 export const getdataEst = (params) => (dispatch) => {
   axios.post(`${url2}/notas`, params).then((result) => {
-
     dispatch(setNotas_Por_Estudiante(result.data))
   }).catch(err => {
     console.log(err);
@@ -209,6 +208,28 @@ export const get_Nota_Año = (params) => (dispatch) => {
   axios.post(`${url2}/Notas_periodo`, params)
     .then((response) => {
       dispatch(setNota(response.data));
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+}
+export const get_Nota_facultad= (params) => (dispatch) => {
+
+  axios.post(`${url2}/Notas_Facultad`, params)
+    .then((response) => {
+      dispatch(setNota(response.data));
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+}
+export const get_Nota_facultades= () => (dispatch) => {
+
+  axios.get(`${url2}/Notas_Facultades`)
+    .then((response) => {
+      dispatch(setNota2(response.data));
     })
     .catch((error) => {
       console.error(error);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getNotasRango, getData, getProgramas, get_Nota_Año, getdataEst, getMaterias } from '../app/Actions/action';
+import { getNotasRango, getData, getProgramas, get_Nota_Año, getdataEst, getMaterias,get_Nota_facultades } from '../app/Actions/action';
 
 import Nav from '../components/Nav';
 import Sidebar from '../components/sidebar';
@@ -9,12 +9,13 @@ import * as echarts from 'echarts';
 
 
 const Dashboard = () => {
-  const arr = [{
-    semestre: 3,
-    pensum_id: 1,
-    periodo_academico: 1
-  }]
-  const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma, notas, notasemestre, semestres, notas_estudiantes } = useSelector(state => state.data);
+  const obj = {
+    semestre: '3',
+    periodo_academico: 21,
+    programa_id: 266,
+  }
+  const [data, setData] = React.useState(obj);
+  const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma, notasperpro2, notasemestre, semestres, notas_estudiantes } = useSelector(state => state.data);
 
 
   const dispatch = useDispatch();
@@ -23,33 +24,45 @@ const Dashboard = () => {
 
   React.useEffect(() => {
     dispatch(getData(token));
+    dispatch(get_Nota_facultades())
   }, [dispatch, token]);
 
-
+  const [NombrePro, setNombrePro] = React.useState("")
   const HandleChageP = (e) => {
-    arr[0].periodo_academico = parseInt(e.target.value)
+    setData({
+      ...data,
+      periodo_academico: parseInt(e.target.value)
+    })
     /* dispatch(get_Nota_Año({	"periodo_id":e.target.value})) */
   }
   const HandleChageS = (e) => {
     dispatch(getProgramas(e.target.value, token))
   }
   const HandleChageC = (e) => {
-    arr[0].pensum_id = parseInt(e.target.value)
-    dispatch(getNotasRango({ "pensum_id": `${e.target.value}` }))
-    dispatch(getMaterias({ "programa_id": `${e.target.value}` }))
-    dispatch(get_Nota_Año({ "programa_id": `${e.target.value}` }))
+
+    setData({
+      ...data,
+      programa_id: parseInt(e.target.value)
+    })
+    dispatch(getNotasRango({ "programa_id": e.target.value }))
+    dispatch(getMaterias({ "Pensum_id": e.target.value }))
+    dispatch(get_Nota_Año({ "programa_id": e.target.value }))
+    setNombrePro(e.target.selectedOptions[0].text)
   }
   const HandleChageE = (e) => {
-    arr[0].semestre = parseInt(e.target.value)
+    setData({
+      ...data,
+      semestre: `${e.target.value}`
+    })
     // coverir arr a json
-    dispatch(getdataEst(arr[0]))
+    dispatch(getdataEst(data))
 
 
   }
   const [graficos, setGraficos] = React.useState(0);
 
   const onclicksuma = (num) => {
-    if (graficos <3) {
+    if (graficos < 4) {
       setGraficos(graficos + num);
     }
   };
@@ -61,34 +74,90 @@ const Dashboard = () => {
   };
 
   React.useEffect(() => {
+    let dato0 = notasperpro2;
     let dato1 = notasperpro;
     let dato2 = notasmateria;
     let dato3 = notasperma;
     let dato4 = notas_estudiantes;
+
+
     if (graficos === 0) {
-      ChageChart1(dato1)
+      ChageChart0(dato0)
     }
     if (graficos === 1) {
-      ChageChart2(dato2)
+      ChageChart1(dato1)
     }
     if (graficos === 2) {
-      ChageChart3(dato3)
+      ChageChart2(dato2)
     }
     if (graficos === 3) {
+      ChageChart3(dato3)
+    }
+    if (graficos === 4) {
       ChageChart4(dato4)
     }
   })
+  const ChageChart0 = (e) => {
 
-  const ChageChart1 = (e) => {
-
-    let myChar = echarts.init(document.getElementById('main'));
+    let myChar = echarts.init(document.getElementById('main0'));
     window.addEventListener("resize", function () {
       myChar.resize();
     })
+
     var option = {
       title: {
         show: true,
-        text: 'Notas por rango',
+        text: `Notas Por Rango  `,
+        left: 'center',
+      },
+      tooltip: {
+        trigger: 'item'
+      },
+      toolbox: {
+        show: true,
+        feature: {
+          mark: { show: true },
+          dataView: { show: true, readOnly: false },
+          restore: { show: false },
+          saveAsImage: { show: true }
+        }
+      },
+      legend: {
+        orient: 'horizontal',
+        top: '90%',
+      },
+      series: [
+        {
+          type: 'pie',
+          radius: '50%',
+          data: e,
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
+        }
+      ]
+    };
+
+    option && myChar.setOption(option);
+
+
+
+  }
+  const ChageChart1 = (e) => {
+
+    let myChar = echarts.init(document.getElementById('main1'));
+    window.addEventListener("resize", function () {
+      myChar.resize();
+    })
+
+    var option = {
+      title: {
+        show: true,
+        text: `Notas Por Rango ${NombrePro} `,
         left: 'center',
       },
       tooltip: {
@@ -129,14 +198,14 @@ const Dashboard = () => {
 
   }
   const ChageChart2 = (e) => {
-    let myChart = echarts.init(document.getElementById('main1'));
+    let myChart = echarts.init(document.getElementById('main2'));
     window.addEventListener("resize", function () {
       myChart.resize();
     })
     var option = {
       title: {
         show: true,
-        text: 'Notas perdidas por materia',
+        text: `Notas Por Rango ${NombrePro}`,
         left: 'center',
       },
       tooltip: {
@@ -157,7 +226,7 @@ const Dashboard = () => {
       },
       legend: {
         orient: 'horizontal',
-        top: '95%'
+        top: '97%'
       },
       grid: {
         left: '3%',
@@ -178,7 +247,7 @@ const Dashboard = () => {
           type: 'bar',
           stack: 'total',
           label: {
-            show: false
+            show: true
           },
           emphasis: {
             focus: 'series'
@@ -190,7 +259,7 @@ const Dashboard = () => {
           type: 'bar',
           stack: 'total',
           label: {
-            show: false
+            show: true
           },
           emphasis: {
             focus: 'series'
@@ -202,7 +271,7 @@ const Dashboard = () => {
           type: 'bar',
           stack: 'total',
           label: {
-            show: false
+            show: true
           },
           emphasis: {
             focus: 'series'
@@ -214,7 +283,7 @@ const Dashboard = () => {
           type: 'bar',
           stack: 'total',
           label: {
-            show: false
+            show: true
           },
           emphasis: {
             focus: 'series'
@@ -226,7 +295,7 @@ const Dashboard = () => {
           type: 'bar',
           stack: 'total',
           label: {
-            show: false
+            show: true
           },
           emphasis: {
             focus: 'series'
@@ -238,7 +307,7 @@ const Dashboard = () => {
           type: 'bar',
           stack: 'total',
           label: {
-            show: false
+            show: true
           },
           emphasis: {
             focus: 'series'
@@ -251,20 +320,21 @@ const Dashboard = () => {
     option && myChart.setOption(option);
   }
   const ChageChart3 = (e) => {
-    let myChart = echarts.init(document.getElementById('main2'));
+    let myChart = echarts.init(document.getElementById('main3'));
     window.addEventListener("resize", function () {
       myChart.resize();
     })
     let option = {
       title: {
         show: true,
-        text: 'Materias del Semestre Académico',
+        text: `Materias del Semestre Académico 
+  ${NombrePro}`,
         left: 'center',
       },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
-          type: 'cross',
+          type: 'shadow',
           crossStyle: {
             color: '#999'
           }
@@ -283,16 +353,27 @@ const Dashboard = () => {
         orient: 'horizontal',
         top: '97%'
       },
-      xAxis: [
+      grid: {
+        left: '40%', // Ajusta el espacio izquierdo para los nombres de las materias
+        right: '2%', // Ajusta el espacio derecho para los valores
+        top: '8%', // Ajusta el espacio superior para el título
+        bottom: '5%' // Ajusta el espacio inferior para la leyenda
+      },
+      yAxis: [
         {
           type: 'category',
-          data: e?.Materia, //materias
+          data: e?.Materia, // materias
+          axisLabel: {
+            interval: 0, // Mostrar todas las etiquetas de las materias
+            rotate: 0, // No rotar las etiquetas
+            margin: 17 // Ajusta el margen entre las etiquetas y el eje vertical
+          },
           axisPointer: {
             type: 'shadow'
           }
         }
       ],
-      yAxis: [
+      xAxis: [
         {
           type: 'value'
         }
@@ -303,7 +384,7 @@ const Dashboard = () => {
           type: 'bar',
           stack: 'total',
           label: {
-            show: false
+            show: true,
           },
           tooltip: {
             valueFormatter: function (value) {
@@ -320,7 +401,8 @@ const Dashboard = () => {
           type: 'bar',
           stack: 'total',
           label: {
-            show: false
+            show: true,
+
           },
           tooltip: {
             valueFormatter: function (value) {
@@ -335,18 +417,20 @@ const Dashboard = () => {
       ]
     };
 
+
+
     option && myChart.setOption(option);
   }
   const ChageChart4 = (e) => {
 
-    let myChart = echarts.init(document.getElementById('main3'));
+    let myChart = echarts.init(document.getElementById('main4'));
     window.addEventListener("resize", function () {
       myChart.resize();
     })
     let option = {
       title: {
         show: true,
-        text: 'Numero de materias perididas estudiante',
+        text: `Numero de materias perididas estudiante - ${NombrePro}`,
         left: 'center',
       },
       dataset: {
@@ -355,6 +439,7 @@ const Dashboard = () => {
           ...e
         ]
       },
+    
       toolbox: {
         show: true,
         feature: {
@@ -364,31 +449,31 @@ const Dashboard = () => {
         }
       },
       grid: { containLabel: true },
-      xAxis: { name: 'amount' },
-      yAxis: { type: 'category' },
-      visualMap: {
-        orient: 'horizontal',
-        left: 'center',
-        min: 0,
-        max: 15,
-        text: ['High Score', 'Low Score'],
-        // Map the score column to color
-        dimension: 0,
-        inRange: {
-          color: ['#65B581', '#FFCE34', '#FD665F']
-        }
-      },
-      series: [
-        {
-          type: 'bar',
-          encode: {
-            // Map the "amount" column to X axis.
-            x: 'numero',
-            // Map the "product" column to Y axis
-            y: 'estudiantes'
-          }
-        }
-      ]
+  xAxis: { name: 'amount' },
+  yAxis: { type: 'category' },
+  visualMap: {
+    orient: 'horizontal',
+    left: 'center',
+    min: 10,
+    max: 100,
+  
+    // Map the score column to color
+    dimension: 0,
+    inRange: {
+      color: ['#65B581', '#FFCE34', '#FD665F']
+    }
+  },
+  series: [
+    {
+      type: 'bar',
+      encode: {
+        // Map the "amount" column to X axis.
+        x: 'numero',
+        // Map the "product" column to Y axis
+        y: 'estudiantes'
+      }
+    }
+  ]
     }
     myChart.setOption(option);
   }
@@ -452,24 +537,31 @@ const Dashboard = () => {
 
           <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
             <div className="card-body">
-              {graficos===0?<div id="main" style={{ width: '100%', height: '600px' }} ></div>:<></>}
-              {graficos===1?<div id="main1" style={{ width: '100%', height: '700px' }} ></div>:<></>}
-              {graficos===2?<div id="main2" style={{ width: '100%', height: '700px' }} ></div>:<></>}
-              {graficos===3?<div id="main3" style={{ width: '100%', height: '600px' }} ></div>:<></>}
-             
+              {graficos === 0 ? <div id="main0" style={{ width: '100%', height: '600px' }} ></div> : <></>}
+              {graficos === 1 ? <div id="main1" style={{ width: '100%', height: '700px' }} ></div> : <></>}
+              {graficos === 2 ? <div id="main2" style={{ width: '100%', height: '1000px' }} ></div> : <></>}
+              {graficos === 3 ? <div id="main3" style={{ width: '100%', height: '1000px' }} ></div> : <></>}
+              {graficos === 4 ? <div id="main4" style={{ width: '100%', height: '700px' }} ></div> : <></>}
+
             </div>
           </div>
 
           <br />
-           <div className='mx-auto'>
-                <div className="join">
-                  <button className="join-item btn btn-primary" onClick={() => onclickresta(1)}>«</button>
-                  <button className="join-item btn btn-primary">Grafico {graficos}</button>
-                  <button className="join-item btn btn-primary" onClick={() => onclicksuma(1)}>»</button>
-                </div>
-              </div>
-          <br/>  
-         
+          <div className="flex flex-row flex-wrap w-full justify-center items-center ">
+            <div className="flex justify-start">
+            <button className="btn btn-primary" onClick={() => onclickresta(1)}><strong>«</strong></button>
+            </div>
+            <div className="flex justify-center pl-40 pr-40 pt-5 pb-5">
+              <button className="btn btn-primary">Grafico {graficos}</button>
+            </div>
+            <div className="flex justify-end">
+
+            <button className="btn btn-primary" onClick={() => onclicksuma(1)}><strong>»</strong></button>
+            </div>
+          </div>
+
+          <br />
+
         </div>
       </div>
       <Footer />

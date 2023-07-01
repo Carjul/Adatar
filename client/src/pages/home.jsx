@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
+import {useDispatch,useSelector} from 'react-redux'
+import { setArticulos} from '../app/FeatureSlices/data/index'
 import Nav from '../components/Nav';
 import Sidebar from '../components/sidebar';
 import Footer from '../components/footer';
 
 const Home = () => {
+    const dispatch = useDispatch()
+    const articulos = useSelector(state => state.data.articulos)
     const rolId = localStorage.getItem('RolId');
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const [image, setImage] = useState(null);
     const [articles, setArticles] = useState([]);
+   
+
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -25,7 +31,10 @@ const Home = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const newArticle = { title, text, image };
-        setArticles([...articles, newArticle]);
+     
+      
+         dispatch(setArticulos(newArticle))
+      
         setTitle('');
         setText('');
         setImage(null);
@@ -42,7 +51,7 @@ const Home = () => {
                 <div className='flex flex-col items-center w-full h-1/2 z-0'>
 
                     <div className=" w-4/5 bg-base-100 shadow-xl mt-6">
-                        {articles.map((article, index) => (
+                        {articulos?.map((article, index) => (
                             <div key={index} >
                                 <div className='p-4'>
                                     <h2 className='text-2xl text-center font-bold'>{article.title}</h2>
@@ -54,6 +63,7 @@ const Home = () => {
                         ))}
                     </div>
 
+            
 
 
                     <input type="checkbox" id="my-modal" className="modal-toggle" />

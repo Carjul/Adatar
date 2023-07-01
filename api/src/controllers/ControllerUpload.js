@@ -136,7 +136,7 @@ const UploadFile = async (req, res) => {
       console.log(reporte.length) */
       const reporte_filtrado = arrayObjetosCompletos.filter(obj => {
         for (let key in obj) {
-          if (obj[key] === null || obj[key] === NaN || obj[key] === undefined || obj[key] === "null" || obj[key] === "NULL" || obj[key] === "undefined" || obj[key] === '') {
+          if (obj[key] === null || obj[key] === NaN || obj[key] === undefined || obj[key] == "null" || obj[key] == "NULL" || obj[key] == "undefined" || obj[key] === '') {
             return false;
           }
         }
@@ -216,9 +216,9 @@ const UploadFile = async (req, res) => {
           GRADE_ACTIVITY: e.GRADE_ACTIVITY,
           FINAL_GRADE: e.FINAL_GRADE ? e.FINAL_GRADE : "no pertece",
           Nota: e.Nota1 ? e.Nota1 : e.Nota2,
-          Gano: e.Gano,
+          Gano: parseInt(e.Gano),
           Perdio: parseInt(e.Perdio),
-          Rango: parseInt(e.Rango),
+          Rango: e.Rango,
           ProxNotaMin: e.ProxNotaMin ? e.ProxNotaMin : "no calculado",
           Seccion: e.Seccion,
           NombrePrograma: e.ProgramaMateria,
@@ -235,8 +235,20 @@ const UploadFile = async (req, res) => {
 
       }
 
+      const periododuplicado = eliminaDuplicados(periodo)
+      periodo = []
+      const periodocreado = await createPeriodoAcademico(periododuplicado)
+      console.log(periodocreado)
 
+      const docentesduplicado = eliminaDuplicados(docentes)
+      docentes = []
+      const docentescreado = await createDocente(docentesduplicado)
+      console.log(docentescreado)
 
+      const materiasduplicado = eliminaDuplicados(materias)
+      materias = []
+      const materiascreado = await createMaterias(materiasduplicado)
+      console.log(materiascreado)
 
       const facultadrepetida = eliminaDuplicados(facultad)
       facultad = []
@@ -258,25 +270,14 @@ const UploadFile = async (req, res) => {
       const estudiantecreado = await crearstudent(estudiaterepetido)
       console.log(estudiantecreado)
 
-      const materiasduplicado = eliminaDuplicados(materias)
-      materias = []
-      const materiascreado = await createMaterias(materiasduplicado)
-      console.log(materiascreado)
-
       const materiaPensumduplicado = eliminaDuplicados(materiaPensum)
       materiaPensum = []
       const materiaPensumcreado = await createMateriaspensun(materiaPensumduplicado)
       console.log(materiaPensumcreado)
 
 
-      const docentesduplicado = eliminaDuplicados(docentes)
-      docentes = []
-      const docentescreado = await createDocente(docentesduplicado)
-      console.log(docentescreado)
-      const periododuplicado = eliminaDuplicados(periodo)
-      periodo = []
-      const periodocreado = await createPeriodoAcademico(periododuplicado)
-      console.log(periodocreado)
+      
+     
 
       const createnotas = await createNotas(nota)
       nota = []

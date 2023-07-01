@@ -10,18 +10,28 @@ const initialState = {
     notastate: [],
     notasemestre: [],
     notasperpro: [],
+    notasperpro2: [],
     notasperma: {},//notas por materia
     semestres: [],
     notas_estudiantes: [],
     notas_del_semestre: [],
+    articulos: [],
 }
 const dataSlice = createSlice({
     name: 'data',
     initialState,
     reducers: {
+        setArticulos: (state, action) => {
+            state.articulos.push(action.payload)
+        },
         setNota: (state, action) => {
        
             state.notasperpro=action.payload
+
+        },
+        setNota2: (state, action) => {
+       
+            state.notasperpro2=action.payload
 
         },
         setPeriodo: (state, action) => {
@@ -167,7 +177,7 @@ const dataSlice = createSlice({
                 const id = elementosUnicos[j].estudiante_id;
                 const nombre = elementosUnicos[j].estudiante_nombre;
                 var data = action.payload.filter((e) => e.estudiante_id === id)
-                var arreglo = [nombre, data.length, data.length]
+                var arreglo = [nombre,data.length,data.length]
                 notas.push(arreglo)
             }
 
@@ -188,7 +198,7 @@ const dataSlice = createSlice({
 
             const resultado = Object.values(registro).map((objeto) => {
                 const elemento = objeto.elemento;
-
+                console.log(elemento);
                 return elemento;
             });
 
@@ -199,4 +209,4 @@ const dataSlice = createSlice({
 })
 
 export default dataSlice.reducer
-export const { setNotas_Por_Estudiante, setNotasperma, setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions
+export const {setArticulos,setNota2, setNotas_Por_Estudiante, setNotasperma, setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions

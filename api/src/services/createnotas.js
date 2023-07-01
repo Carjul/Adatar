@@ -2,7 +2,7 @@ const { db } = require("../db");
 
 const createNotas = async (params) => {
   try {
-    const notasGuardadas = [];
+   
 
     for (let i = 0; i < params.length; i++) {
       const {
@@ -25,12 +25,7 @@ const createNotas = async (params) => {
         NomNotaPeriodo
       } = params[i];
 
-      // Verificar si la nota ya ha sido guardada previamente
-      const notaExistente = await db.query(`SELECT * FROM public."Notas" WHERE "GRADE_ACTIVITY" = $1 AND "FINAL_GRADE" = $2 AND "Nota" = $3 AND "Seccion" = $4`, [GRADE_ACTIVITY, FINAL_GRADE, Nota, Seccion]);
-
-      if (notaExistente.rows.length !== 0) {
-        continue; // Saltar al siguiente ciclo si la nota ya existe
-      }
+     
 
       const programa = await db.query(
         'SELECT * FROM public."Programas" WHERE "NombrePrograma" = $1 AND "Sede" = $2',

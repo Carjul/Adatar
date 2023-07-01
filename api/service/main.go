@@ -18,7 +18,105 @@ func main() {
 	app.HandleFunc("/service", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Servicio iniciado"))
 	})
+	//ruta para obtener todas las notas por facultad
+	app.HandleFunc("/service/Notas_Facultades", func(w http.ResponseWriter, r *http.Request) {
 
+		query := `SELECT  COUNT(*) AS value ,n."Rango" AS name
+		FROM Public."Notas" n
+		JOIN Public."PeriodoAcademicos" pa ON pa.id = n."PeriodoAcademicoId"
+		JOIN public."Programas" p ON p.id = n."ProgramaId"
+		JOIN public."Facultades" f ON p."FacultadeId"=f.id 
+		GROUP BY n."Rango";`
+
+		rows, err := db.Query(query)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		defer rows.Close()
+
+		type Resultado struct {
+			Value string `json:"value"`
+			Name  string `json:"name"`
+		}
+
+		notas := []Resultado{}
+
+		for rows.Next() {
+			var value string
+			var name string
+
+			err = rows.Scan(&value, &name)
+			if err != nil {
+				log.Fatal(err)
+			}
+			notas = append(notas, Resultado{Value: value, Name: name})
+		}
+
+		if err := rows.Err(); err != nil {
+			log.Fatal(err)
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(notas)
+
+	}).Methods("GET")
+	//ruta para obtener notas por facultad
+	app.HandleFunc("/service/Notas_Facultad", func(w http.ResponseWriter, r *http.Request) {
+		var params struct {
+			ProgramaID string `json:"facultad_id"`
+			PeriodoID  string `json:"periodo_id"`
+		}
+
+		decoder := json.NewDecoder(r.Body)
+		defer r.Body.Close()
+		if err := decoder.Decode(&params); err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		query := `SELECT  COUNT(*) AS value ,n."Rango" AS name
+		FROM Public."Notas" n
+		JOIN Public."PeriodoAcademicos" pa ON pa.id = n."PeriodoAcademicoId"
+		JOIN public."Programas" p ON p.id = n."ProgramaId"
+		JOIN public."Facultades" f ON p."FacultadeId"=f.id 
+		WHERE f.id = $1 AND pa.id=$2
+		GROUP BY n."Rango";`
+
+		args := []interface{}{params.ProgramaID, params.PeriodoID}
+		rows, err := db.Query(query, args...)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		defer rows.Close()
+
+		type Resultado struct {
+			Value string `json:"value"`
+			Name  string `json:"name"`
+		}
+
+		notas := []Resultado{}
+
+		for rows.Next() {
+			var value string
+			var name string
+
+			err = rows.Scan(&value, &name)
+			if err != nil {
+				log.Fatal(err)
+			}
+			notas = append(notas, Resultado{Value: value, Name: name})
+		}
+
+		if err := rows.Err(); err != nil {
+			log.Fatal(err)
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(notas)
+
+	}).Methods("POST")
 	//ruta notas por peiodo academico
 	app.HandleFunc("/service/Notas_periodo", func(w http.ResponseWriter, r *http.Request) {
 		var params struct {
@@ -74,7 +172,7 @@ func main() {
 
 	app.HandleFunc("/service/Materias", func(w http.ResponseWriter, r *http.Request) {
 		var params struct {
-			ProgramaID string `json:"programa_id"`
+			PensumID string `json:"Pensum_id"`
 		}
 
 		decoder := json.NewDecoder(r.Body)
@@ -84,16 +182,15 @@ func main() {
 			return
 		}
 
-		query := `SELECT mp."MateriaId", m."NombreMateria", 
+		query := `SELECT n."MateriaId", m."NombreMateria", 
     	COUNT(CASE WHEN n."Gano" = 1 THEN 1 END) AS "Gano",
     	COUNT(CASE WHEN NOT n."Gano" = 1 THEN 1 END) AS "Perdio"
-		FROM Public."MateriaPorPensums" mp
-		JOIN Public."Materias" m ON mp."MateriaId" = m."id"
-		JOIN Public."Notas" n ON mp."MateriaId" = n."MateriaId"
-		WHERE mp."PensumId" = $1
- 		GROUP BY mp."MateriaId", m."NombreMateria";
+		FROM Public."Notas" n
+		JOIN Public."Materias" m ON n."MateriaId" = m."id"
+		WHERE n."ProgramaId"=$1
+ 		GROUP BY n."MateriaId", m."NombreMateria";
 		`
-		args := []interface{}{params.ProgramaID}
+		args := []interface{}{params.PensumID}
 		rows, err := db.Query(query, args...)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -139,7 +236,7 @@ func main() {
 	//ruta notas por rango
 	app.HandleFunc("/service/notas/rango", func(w http.ResponseWriter, r *http.Request) {
 		var params struct {
-			PensumID string `json:"pensum_id"`
+			ProgramaID string `json:"programa_id"`
 		}
 
 		decoder := json.NewDecoder(r.Body)
@@ -161,9 +258,10 @@ func main() {
 		mp."SemMateriaNum" AS Semestres
 	FROM Public."Notas" n
 	JOIN Public."MateriaPorPensums" mp ON n."MateriaId" = mp."MateriaId"
-	WHERE mp."PensumId" = $1
+	JOIN Public."Programas" p ON p.id = n."ProgramaId"
+	WHERE P.id= $1
 	ORDER BY Semestres ASC;`
-		args := []interface{}{params.PensumID}
+		args := []interface{}{params.ProgramaID}
 		rows, err := db.Query(query, args...)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -211,9 +309,9 @@ func main() {
 
 		// Leer los parámetros de la solicitud
 		var params struct {
-			Semestre         int    `json:"semestre"`
-			PensumID         int    `json:"pensum_id"`
+			Semestre         string `json:"semestre"`
 			PeriodoAcademico int    `json:"periodo_academico"`
+			ProgramaID       int    `json:"programa_id"`
 		}
 		err := json.NewDecoder(r.Body).Decode(&params)
 		if err != nil {
@@ -223,13 +321,13 @@ func main() {
 
 		// Preparar la consulta SQL con los parámetros
 		query := `
-			SELECT e.id AS estudiante_id, e."Nombres" AS estudiante_nombre, m."SemMateriaNum" AS semestre, n."Nota", n."ProxNotaMin"
-			FROM Public."Estudiantes" e
-			JOIN Public."Notas" n ON e.id = n."EstudianteId"
-			JOIN public."MateriaPorPensums" m ON n."MateriaId" = m."MateriaId" AND n."MateriaId" = m."MateriaId"
-			WHERE m."SemMateriaNum" = $1 AND n."Perdio" = 1 AND n."PeriodoAcademicoId" = $2 AND m."PensumId" = $3
+		SELECT e.id AS estudiante_id, e."Nombres" AS estudiante_nombre, m."SemMateriaNum" AS semestre, n."Nota", n."ProxNotaMin"
+		FROM Public."Estudiantes" e
+		JOIN Public."Notas" n ON e.id = n."EstudianteId"
+		JOIN public."MateriaPorPensums" m ON n."MateriaId" = m."MateriaId" AND n."MateriaId" = m."MateriaId"
+		WHERE m."SemMateriaNum"=$1 AND n."Perdio" =1 AND n."PeriodoAcademicoId"=$2 AND n."ProgramaId"=$3
 		`
-		args := []interface{}{params.Semestre, params.PeriodoAcademico, params.PensumID}
+		args := []interface{}{params.Semestre, params.PeriodoAcademico, params.ProgramaID}
 
 		// Ejecutar la consulta SQL
 		rows, err := db.Query(query, args...)
