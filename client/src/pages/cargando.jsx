@@ -17,7 +17,9 @@ useEffect(()=>{
     if(user && gmail.test(user.email)){
         dispatch(senduser({email:user.email,password:user.nickname,Avatar:user.picture,Nombre:user.name}))
         mostrarAlerta(1)
-        window.location.href = "/";
+        setTimeout(() => {
+            window.location.href = "/";
+        }, 5000)
      
 
     }else{
