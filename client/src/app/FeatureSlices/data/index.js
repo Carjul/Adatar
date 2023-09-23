@@ -26,10 +26,10 @@ const dataSlice = createSlice({
             state.Notas_por_Est = action.payload
         },
         setNotaEstG: (state, action) => {
-            const x = []
+            const x = [ ['score', 'Nota', 'Nombre']]
             for (let i = 0; i < action.payload.length; i++) {
                 const element = action.payload[i];
-                x.push({ value: element.Nota, name: element.NombreMateria })
+                x.push([(20 *parseFloat(element.Nota)) , parseFloat(element.Nota), element.NombreMateria ])
             }
             state.DataGraficoEst = x;
         },

@@ -18,67 +18,67 @@ const Home = () => {
 
     useEffect(() => {
       const data = JSON.parse(x);
-      console.log(data )
-         if (data.user.people_code_id) {
+         if (data.user?.people_code_id) {
             console.log(data )
             dispatch(getnotasEst({ people_code_id: data.user.people_code_id })) 
         } 
     }, [ x,dispatch ]) 
 
     useEffect(() => {
-        console.log(Notas_por_Est)
         if (Notas_por_Est) {
           dispatch(setNotaEstG(Notas_por_Est))
         }
     }, [Notas_por_Est,dispatch])
 
     useEffect(() => {
-        console.log(DataGraficoEst)
-    
 
-
-   
         var chartDom = document.getElementById('main');
         var myChart = echarts.init(chartDom);
         var option;
-
+        
         option = {
-            legend: {
-                top: 'bottom'
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    mark: { show: true },
-                    dataView: { show: true, readOnly: false },
-                    restore: { show: true },
-                    saveAsImage: { show: true }
-                }
-            },
-            series: [
-                {
-                    name: 'Nightingale Chart',
-                    type: 'pie',
-                    radius: [50, 250],
-                    center: ['50%', '50%'],
-                    roseType: 'area',
-                    itemStyle: {
-                        borderRadius: 8
-                    },
-                    data:DataGraficoEst? DataGraficoEst: [
-                        { value: 4.0, name: 'rose 1' },
-                        { value: 3.8, name: 'rose 2' },
-                        { value: 3.2, name: 'rose 3' },
-                        { value: 3.0, name: 'rose 4' },
-                        { value: 2.8, name: 'rose 5' },
-                        { value: 2.6, name: 'rose 6' },
-                        { value: 2.2, name: 'rose 7' },
-                        { value: 1.8, name: 'rose 8' }
-                    ]
-                }
+          dataset: {
+            source:DataGraficoEst? DataGraficoEst : [
+              ['score', 'Nota', 'Nombre'],
+              [89.3, 58212, 'Matcha Latte'],
+              [57.1, 78254, 'Milk Tea'],
+              [74.4, 41032, 'Cheese Cocoa'],
+              [50.1, 12755, 'Cheese Brownie'],
+              [89.7, 20145, 'Matcha Cocoa'],
+              [68.1, 79146, 'Tea'],
+              [19.6, 91852, 'Orange Juice'],
+              [10.6, 101852, 'Lemon Juice'],
+              [32.7, 20112, 'Walnut Brownie']
             ]
+          },
+          grid: { containLabel: true },
+          xAxis: { name: 'amount' },
+          yAxis: { type: 'category' },
+          visualMap: {
+            orient: 'horizontal',
+            left: 'center',
+            min: 10,
+            max: 100,
+            text: ['Nota Alta', 'Nota Baja'],
+            // Map the score column to color
+            dimension: 0,
+            inRange: {
+              color: ['#FD665F', '#FFCE34','#65B581' ]
+            }
+          },
+          series: [
+            {
+              type: 'bar',
+              encode: {
+                // Map the "amount" column to X axis.
+                x: 'Nota',
+                // Map the "product" column to Y axis
+                y: 'Nombre'
+              }
+            }
+          ]
         };
-
+        
         option && myChart.setOption(option);
       }, [DataGraficoEst])
 

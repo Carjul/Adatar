@@ -69,7 +69,7 @@ func main() {
 			http.Error(w, "El parámetro 'people_code_id' es obligatorio", http.StatusBadRequest)
 			return
 		}
-		query := `SELECT "Estudiantes".id,"Estudiantes"."Nombres", "Programas"."NombrePrograma","Materias"."NombreMateria","Notas"."Nota","PeriodoAcademicos"."Year","PeriodoAcademicos"."Periodo"  FROM "Estudiantes" AS e
+		queryEst := `SELECT "Estudiantes".id,"Estudiantes"."Nombres", "Programas"."NombrePrograma","Materias"."NombreMateria","Notas"."Nota","PeriodoAcademicos"."Year","PeriodoAcademicos"."Periodo"  FROM "Estudiantes" AS e
 		JOIN "Notas" ON "Notas"."EstudianteId" = e.id
 		JOIN "Materias" ON "Materias".id = "Notas"."MateriaId"
 		JOIN "Estudiantes" ON "Estudiantes".id = "Notas"."EstudianteId"
@@ -77,8 +77,15 @@ func main() {
 		JOIN "Programas" ON "Programas".id = "Notas"."ProgramaId"
 		WHERE e.people_code_id=$1 `
 
+		/* queryDocente:=`SELECT * FROM Public."Docentes" AS D 
+		JOIN public."Notas" ON "Notas"."DocenteId" = D.id
+		JOIN public."Materias" ON "Materias".id = "Notas"."MateriaId"
+		JOIN public."PeriodoAcademicos" ON "PeriodoAcademicos".id = "Notas"."PeriodoAcademicoId"
+		JOIN public."Programas" ON "Programas".id = "Notas"."ProgramaId"
+		WHERE D."Cog_Docente" = $1`  */
+
 		args := []interface{}{peopleCodeID}
-		rows, err := db.Query(query, args...)
+		rows, err := db.Query(queryEst, args...)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
