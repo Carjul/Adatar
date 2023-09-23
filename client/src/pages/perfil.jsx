@@ -41,6 +41,12 @@ const Perfil = () => {
                             {parseInt(rol) === 3 ? <div className="card-actions justify-start">
                             <div className="badge badge-outline bg-secondary">Coordinador de semestre</div>
                             </div> : ""}
+                            {parseInt(rol) === 4 ? <div className="card-actions justify-start">
+                            <div className="badge badge-outline bg-secondary">Docente</div>
+                            </div> : ""}
+                            {parseInt(rol) === 5 ? <div className="card-actions justify-start">
+                            <div className="badge badge-outline bg-secondary">Estudiante</div>
+                            </div> : ""}
                             <br />
                         </div>
                     </div>

@@ -61,6 +61,67 @@ func main() {
 		json.NewEncoder(w).Encode(notas)
 
 	}).Methods("GET")
+	app.HandleFunc("/service/datosEst", func(w http.ResponseWriter, r *http.Request) {
+		queryParams := r.URL.Query()
+		peopleCodeID := queryParams.Get("people_code_id")
+
+		if peopleCodeID == "" {
+			http.Error(w, "El parámetro 'people_code_id' es obligatorio", http.StatusBadRequest)
+			return
+		}
+		query := `SELECT "Estudiantes".id,"Estudiantes"."Nombres", "Programas"."NombrePrograma","Materias"."NombreMateria","Notas"."Nota","PeriodoAcademicos"."Year","PeriodoAcademicos"."Periodo"  FROM "Estudiantes" AS e
+		JOIN "Notas" ON "Notas"."EstudianteId" = e.id
+		JOIN "Materias" ON "Materias".id = "Notas"."MateriaId"
+		JOIN "Estudiantes" ON "Estudiantes".id = "Notas"."EstudianteId"
+		JOIN "PeriodoAcademicos" ON "PeriodoAcademicos".id = "Notas"."PeriodoAcademicoId"
+		JOIN "Programas" ON "Programas".id = "Notas"."ProgramaId"
+		WHERE e.people_code_id=$1 `
+
+		args := []interface{}{peopleCodeID}
+		rows, err := db.Query(query, args...)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		defer rows.Close()
+
+		type Resultado struct {
+			ID             string `json:"Id"`
+			Nombres        string `json:"Nombres"`
+			NombrePrograma string `json:"NombrePrograma"`
+			NombreMateria  string `json:"NombreMateria"`
+			Nota           string `json:"Nota"`
+			Year           int    `json:"Year"`
+			Periodo        string `json:"Periodo"`
+		}
+
+		notasEst := []Resultado{}
+
+		for rows.Next() {
+			var Id string
+			var Nombres string
+			var NombrePrograma string
+			var NombreMateria string
+			var Nota string
+			var Year int
+			var Periodo string
+
+			err = rows.Scan(&Id, &Nombres, &NombrePrograma, &NombreMateria, &Nota, &Year, &Periodo)
+			if err != nil {
+				log.Fatal(err)
+			}
+			notasEst = append(notasEst, Resultado{ID: Id, Nombres: Nombres, NombrePrograma: NombrePrograma, NombreMateria: NombreMateria, Nota: Nota, Year: Year, Periodo: Periodo})
+		}
+
+		if err := rows.Err(); err != nil {
+			log.Fatal(err)
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(notasEst)
+
+	}).Methods("GET")
+
 	//ruta para obtener notas por facultad
 	app.HandleFunc("/service/Notas_Facultad", func(w http.ResponseWriter, r *http.Request) {
 		var params struct {

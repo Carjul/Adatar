@@ -1,63 +1,210 @@
-import {useEffect} from 'react';
-import {useDispatch} from 'react-redux';
-import {useAuth0} from '@auth0/auth0-react';
-import {useNavigate } from "react-router-dom";
-import { senduser } from '../app/Actions/action';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useAuth0 } from '@auth0/auth0-react';
+import { useNavigate } from 'react-router-dom';
+import { senduser, register } from '../app/Actions/action';
 import Swal from 'sweetalert2';
 
+
 const Cargar = () => {
-const dispatch=useDispatch()
-const token = localStorage.getItem('token')
-let {user,logout}=useAuth0()
-const navigate = useNavigate();
-const gmail =/^[a-zA-Z]+@correo\.unicordoba\.edu\.co$/;
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const token = localStorage.getItem('token')
+    const msg = localStorage.getItem('msg')
+    let { user, logout } = useAuth0()
 
+    const gmail = /^[a-zA-Z]+@correo\.unicordoba\.edu\.co$/;
 
-useEffect(()=>{
-    if(user && gmail.test(user.email)){
-        dispatch(senduser({email:user.email,password:user.nickname,Avatar:user.picture,Nombre:user.name}))
-        mostrarAlerta(1)
-        setTimeout(() => {
-            window.location.href = "/";
-        }, 5000)
-     
+    const [cod, setCod] = useState({ codigo: '', tipoUsuario: '' });
+    const [errores, setErrores] = useState({});
+    const handleChange = (event) => {
+        const { id, value } = event.target;
+        setCod({ ...cod, [id]: value });
+    };
 
-    }else{
-    
-        mostrarAlerta(0)
-    if(!token){
-            logout({returnTo:window.location.origin})
+    const handleRadioChange = (event) => {
+        const tipoUsuario = event.target.id;
+        setCod({ ...cod, tipoUsuario });
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const erroresFormulario = validarFormulario(cod);
+
+        if (Object.keys(erroresFormulario).length === 0) {
+            const codigoFormateado = formatearCodigo(cod.codigo);
+            // Ahora puedes acceder al tipo de usuario y al código en el estado cod
+            
+            
+            dispatch(register({
+                Nombre: user.name,
+                Email: user.email,
+                Password: user.nickname,
+                Avatar: user.picture,
+                rol: cod.tipoUsuario,
+                Cod_Docente: cod.tipoUsuario === "Docente" ? codigoFormateado : "",
+                people_code_id: cod.tipoUsuario === "Estudiante" ? codigoFormateado : ""
+            }))
+           
+            //limpiar Inputs
+            setCod({ codigo: '', tipoUsuario: '' });
+           
+            console.log('Formulario válido');
+            setTimeout(() => {
+                localStorage.removeItem("msg")
+                localStorage.removeItem("token")
+                logout({ returnTo: window.location.origin })
+            }, 3000);
+
+        } else {
+            // Mostrar los errores en el formulario
+            setErrores(erroresFormulario);
+            console.log('Formulario inválido');
+            setTimeout(() => {
+                setErrores({})
+            }, 5000);
         }
+
     }
-},[])
+    useEffect(() => {
+        if (user && gmail.test(user.email)) {
+
+            dispatch(senduser({ email: user.email, password: user.nickname, Avatar: user.picture, Nombre: user.name }))
+
+            if (!msg) {
+                mostrarAlerta(1)
+                setTimeout(() => {
+                    navigate('/')
+                }, 5000)
+            }
+
+
+        } else if (!msg) {
+
+            mostrarAlerta(0)
+            if (!token) {
+                logout({ returnTo: window.location.origin })
+            }
+        }
+    }, [user, gmail, dispatch, logout, token, msg])
 
     return (
         <>
-        <div className="hero min-h-screen" id="bgi">
-        <div className="hero-overlay bg-opacity-60"></div>
-        <div className="hero-content text-center text-neutral-content">
-            <div className="max-w-md">
-            <h1 className="mb-5 text-5xl font-bold">Cargando...</h1>
-            <p className="mb-5">Espere un momento por favor...</p>
+            <div className="hero min-h-screen" id="bgi">
+                <div className="hero-overlay bg-opacity-60"></div>
+                <div className="hero-content text-center text-neutral-content">
+                    <div className="max-w-md">
+                        {msg ?
+                            <form className='flex flex-col' onSubmit={handleSubmit}>
+                                <div className='flex flex-row'>
+                                    <input
+                                        type="radio"
+                                        name="radio-2"
+                                        className="radio radio-secondary mr-2"
+                                        checked={cod.tipoUsuario === 'Docente'}
+                                        id="Docente"
+                                        onChange={handleRadioChange}
+                                    />
+                                    <label htmlFor="Docente" className='text-xl'>Docente</label>
+                                </div>
+                                <br />
+                                <div className='flex flex-row'>
+                                    <input
+                                        type="radio"
+                                        name="radio-2"
+                                        className="radio radio-secondary mr-2"
+                                        checked={cod.tipoUsuario === 'Estudiante'}
+                                        id="Estudiante"
+                                        onChange={handleRadioChange}
+                                    />
+                                    <label htmlFor="Estudiante" className='text-xl'>Estudiante</label>
+                                </div>
+
+                                {errores.tipoUsuario && <p className="text-red-500">{errores.tipoUsuario}</p>}
+                                <br />
+                                <label htmlFor="codigo" className='text-xl'>Codigo</label>
+                                <input
+                                    type="text"
+                                    id="codigo"
+                                    placeholder="Type code"
+                                    className="input input-bordered input-secondary w-full max-w-xs"
+                                    value={cod.codigo}
+                                    onChange={handleChange}
+                                />
+                                {errores.codigo && <p className="text-red-500">{errores.codigo}</p>}
+                                <input type="submit" value="Enviar" className="btn btn-secondary" />
+                            </form> :
+
+                            <div>
+                                <h1 className="mb-5 text-5xl font-bold">Cargando...</h1>
+                                <p className="mb-5">Espere un momento por favor...</p>
+                                <progress className="progress progress-warning w-56 "></progress>
+                            </div>
+
+
+                        }
+                    </div>
+                </div>
             </div>
-        </div>
-        </div>
         </>
     )
 }
-const mostrarAlerta = (num) => {
-   if(num===1){
-   /*  Swal.fire({
-      title: 'listo',
-      text: 'has iniciado sesion correctamente',
-      icon:  'success',
-    }); */
-}else{
-    Swal.fire({
-        title: 'Advertencia',
-        text: '¡Este coreo no es valido!',
-        icon: 'error',
-      });
+
+function validarFormulario(cod) {
+    const errores = {};
+
+    if (!cod.codigo) {
+        errores.codigo = 'El campo de código es obligatorio.';
+    }
+
+    if (!cod.tipoUsuario) {
+        errores.tipoUsuario = 'Debes seleccionar si es docente o estudiante.';
+    }
+
+    return errores;
 }
-  };
+
+function formatearCodigo(codigo) {
+    // Eliminar guiones y espacios en blanco
+    codigo = codigo.replace(/[-\s]/g, '');
+
+    // Si el código está vacío, devolver 'P' seguido de ceros
+    if (!codigo) {
+        return 'P000000000';
+    }
+
+    // Si el código ya comienza con 'P', devolverlo sin cambios
+    if (codigo.startsWith('P')) {
+        return codigo;
+    }
+
+    // Agregar 'P' al principio y completar con ceros si es necesario
+    const codigoFormateado = 'P' + codigo.padStart(9, '0');
+
+    return codigoFormateado;
+}
+
+const mostrarAlerta = (num) => {
+    if (num === 1) {
+        Swal.fire({
+            title: 'listo',
+            text: 'correo valido',
+            icon: 'success',
+        });
+    }
+    else if (num === 2) {
+        Swal.fire({
+            title: 'Advertencia',
+            text: '¡Este coreo no esta regitrado!',
+            icon: 'error',
+        });
+    }
+    else {
+        Swal.fire({
+            title: 'Advertencia',
+            text: '¡Este coreo no es valido!',
+            icon: 'error',
+        });
+    }
+};
 export default Cargar

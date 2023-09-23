@@ -8,7 +8,8 @@ const flash = require('connect-flash');
 require('./config/passport')
 const {isAuthenticated} = require("./helper/index")
 const { rutaUpload } = require("./routes/uploadFile")
-const routerLog = require("./routes/login")
+const {routerLog} = require("./routes/login")
+const {rutaregistro} = require("./routes/registro")
 const schema  = require("./graphql/Schema")
 
 const app = express()
@@ -24,11 +25,9 @@ app.use(flash());
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 
-app.use('/app/', routerLog)
+app.use('/app/',routerLog)
+app.use('/app/',rutaregistro)
 app.use('/app/api/v1',isAuthenticated,rutaUpload)
 app.use('/app/api/v1',isAuthenticated, graphqlHTTP({ schema, graphiql:true }));
-
-
-
 
 module.exports= app;

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setPeriodo, setPrograma, setNota,setNota2 , setSede, setDocente, setEstudiante, setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotastate } from '../FeatureSlices/data';
+import { setNotasEst, setPeriodo, setPrograma, setNota, setNota2, setSede, setDocente, setEstudiante, setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotastate } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
 import { setUsers, setConfig } from "../FeatureSlices/users";
 import jwt_decode from "jwt-decode";
@@ -28,6 +28,15 @@ export const getNotasRango = (params) => (dispatch) => {
 export const getMaterias = (params) => (dispatch) => {
   axios.post(`${url2}/Materias`, params).then((result) => {
     dispatch(setNotasperma(result.data))
+  }).catch(err => {
+    console.log(err);
+  });
+}
+export const getnotasEst = (params) => (dispatch) => {
+  console.log(params)
+  const urlgetEst = `${url2}/datosEst?` + new URLSearchParams(params).toString();
+  axios.get(urlgetEst).then((result) => {
+    dispatch(setNotasEst(result.data))
   }).catch(err => {
     console.log(err);
   });
@@ -82,10 +91,10 @@ export const getData = (token) => (dispatch) => {
       .then((response) => {
         dispatch(setPeriodo(response.data.data.peticion_periodoAcademico));
         dispatch(setSede(response.data.data.peticion_programa));
-       /*  dispatch(setMateriaPorPensum(response.data.data.peticion_materiaPorPensums));
-        dispatch(setMateria(response.data.data.peticion_materias));
-        dispatch(setPensum(response.data.data.peticion_pensum));
-        dispatch(setFacultad(response.data.data.peticion_facultad)); */
+        /*  dispatch(setMateriaPorPensum(response.data.data.peticion_materiaPorPensums));
+         dispatch(setMateria(response.data.data.peticion_materias));
+         dispatch(setPensum(response.data.data.peticion_pensum));
+         dispatch(setFacultad(response.data.data.peticion_facultad)); */
       })
       .catch((error) => {
         console.error(error);
@@ -95,10 +104,11 @@ export const getData = (token) => (dispatch) => {
   }
 }
 
-export const postFile = (obj, token,x) => (dispatch) => {
+export const postFile = (obj, token, x) => (dispatch) => {
 
   axios.post(`${url}/api/v1/upload?token=${token}&corte=${encodeURIComponent(x)}`, obj, {
-    headers: { "Content-Type": "multipart/form-data" }}
+    headers: { "Content-Type": "multipart/form-data" }
+  }
   ).then((result) => {
     dispatch(setMsg(result.data.message))
   }).catch(err => {
@@ -149,17 +159,48 @@ export const getuser = (token) => (dispatch) => {
 }
 
 export const senduser = (obj) => (dispatch) => {
+
   axios.post(`${url}/login`, obj).then((result) => {
     if (result.data.token) {
       localStorage.setItem('token', result.data.token)
       var decoded = jwt_decode(result.data.token);
+      if (decoded.user.id === 0) {
+        localStorage.setItem('msg', decoded.user.msg);
+      }
+      else {
+        const objetoJSON = JSON.stringify(decoded);
+        localStorage.setItem('userdecode', objetoJSON)
+        localStorage.setItem('id', decoded.user.id);
+        localStorage.setItem('RolId', decoded.user.RolId);
+        localStorage.setItem('Email', decoded.user.Email);
+        localStorage.setItem('Name', decoded.user.Nombre);
+        localStorage.setItem('Avatar', decoded.user.Avatar);
+      }
+
+    } else {
+      console.log('no token');
+    }
+    dispatch(setUsers(result.data))
+  }).catch(err => {
+    console.log(err);
+  });
+}
+export const register = (obj) => (dispatch) => {
+  console.log(obj)
+  axios.post(`${url}/registro`, obj).then((result) => {
+    if (result.data.token) {
+      localStorage.setItem('token', result.data.token)
+      var decoded = jwt_decode(result.data.token);
+      const objetoJSON = JSON.stringify(objetoJSON);
+      localStorage.setItem('userdecode', decoded)
       localStorage.setItem('id', decoded.user.id);
       localStorage.setItem('RolId', decoded.user.RolId);
       localStorage.setItem('Email', decoded.user.Email);
       localStorage.setItem('Name', decoded.user.Nombre);
       localStorage.setItem('Avatar', decoded.user.Avatar);
+
     } else {
-      console.log('no token');
+      console.log('ya esta registrado');
     }
     dispatch(setUsers(result.data))
   }).catch(err => {
@@ -189,7 +230,7 @@ export const deleteOneData = (id, token) => (dispatch) => {
     });
 
 }
-console.log
+
 export const updateOneData = (id, rol, token) => (dispatch) => {
   const query = `mutation{
     update(id:"${id}", RolId:"${rol}")
@@ -214,7 +255,7 @@ export const get_Nota_Año = (params) => (dispatch) => {
     });
 
 }
-export const get_Nota_facultad= (params) => (dispatch) => {
+export const get_Nota_facultad = (params) => (dispatch) => {
 
   axios.post(`${url2}/Notas_Facultad`, params)
     .then((response) => {
@@ -225,7 +266,7 @@ export const get_Nota_facultad= (params) => (dispatch) => {
     });
 
 }
-export const get_Nota_facultades= () => (dispatch) => {
+export const get_Nota_facultades = () => (dispatch) => {
 
   axios.get(`${url2}/Notas_Facultades`)
     .then((response) => {

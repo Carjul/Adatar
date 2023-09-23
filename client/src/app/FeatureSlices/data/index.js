@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-   
+
     programa: [],
     sede: [],
     periodoAcademico: [],
@@ -14,24 +14,34 @@ const initialState = {
     notasperma: {},//notas por materia
     semestres: [],
     notas_estudiantes: [],
+    Notas_por_Est: [],
+    DataGraficoEst: [],
     notas_del_semestre: [],
-    articulos: [],
 }
 const dataSlice = createSlice({
     name: 'data',
     initialState,
     reducers: {
-        setArticulos: (state, action) => {
-            state.articulos.push(action.payload)
+        setNotasEst: (state, action) => {
+            state.Notas_por_Est = action.payload
         },
+        setNotaEstG: (state, action) => {
+            const x = []
+            for (let i = 0; i < action.payload.length; i++) {
+                const element = action.payload[i];
+                x.push({ value: element.Nota, name: element.NombreMateria })
+            }
+            state.DataGraficoEst = x;
+        },
+
         setNota: (state, action) => {
-       
-            state.notasperpro=action.payload
+
+            state.notasperpro = action.payload
 
         },
         setNota2: (state, action) => {
-       
-            state.notasperpro2=action.payload
+
+            state.notasperpro2 = action.payload
 
         },
         setPeriodo: (state, action) => {
@@ -142,13 +152,13 @@ const dataSlice = createSlice({
         },
         setNotastate: (state, action) => {//datos para la tabla de estidiantes por semestre
 
-            
-           
+
+
             const semestres = action.payload.filter((e) => {
-            return e.semestres !== null
+                return e.semestres !== null
             })
 
-            
+
             const elementosUnicos = [];
             semestres.forEach(num => {
                 if (!elementosUnicos.includes(num.semestres)) {
@@ -177,7 +187,7 @@ const dataSlice = createSlice({
                 const id = elementosUnicos[j].estudiante_id;
                 const nombre = elementosUnicos[j].estudiante_nombre;
                 var data = action.payload.filter((e) => e.estudiante_id === id)
-                var arreglo = [nombre,data.length,data.length]
+                var arreglo = [nombre, data.length, data.length]
                 notas.push(arreglo)
             }
 
@@ -209,4 +219,4 @@ const dataSlice = createSlice({
 })
 
 export default dataSlice.reducer
-export const {setArticulos,setNota2, setNotas_Por_Estudiante, setNotasperma, setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions
+export const { setNotaEstG, setNotasEst, setArticulos, setNota2, setNotas_Por_Estudiante, setNotasperma, setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions
