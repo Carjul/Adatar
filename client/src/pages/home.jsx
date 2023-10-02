@@ -15,7 +15,7 @@ const Home = () => {
     
       
     var dispatch = useDispatch()
-
+/* 
     useEffect(() => {
       const data = JSON.parse(x);
          if (data.user?.people_code_id) {
@@ -29,8 +29,8 @@ const Home = () => {
           dispatch(setNotaEstG(Notas_por_Est))
         }
     }, [Notas_por_Est,dispatch])
-
-    useEffect(() => {
+ */
+   /*  useEffect(() => {
 
         var chartDom = document.getElementById('main');
         var myChart = echarts.init(chartDom);
@@ -80,7 +80,7 @@ const Home = () => {
         };
         
         option && myChart.setOption(option);
-      }, [DataGraficoEst])
+      }, [DataGraficoEst]) */
 
     return (
         <>
@@ -140,8 +140,8 @@ const Home = () => {
                     </div>
                     <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
                         <div className="card-body">
-                            <div id="main" style={{ width: '100%', height: '600px' }} ></div>
-
+                          {/*   <div id="main" style={{ width: '100%', height: '600px' }} ></div>
+ */}
                         </div>
                     </div>
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { setNotasEst, setPeriodo, setPrograma, setNota, setNota2, setSede, setDocente, setEstudiante, setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotastate } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
-import { setUsers, setConfig } from "../FeatureSlices/users";
+import { setUsers, setConfig,setRoles } from "../FeatureSlices/users";
 import jwt_decode from "jwt-decode";
 
 
@@ -116,6 +116,17 @@ export const postFile = (obj, token, x) => (dispatch) => {
   });
 
 }
+export const userUpdate = (obj) => (dispatch) => {
+  
+    axios.put(`${url}/usuario`, obj).then((result) => {
+      dispatch(setMsg(result.data.message))
+    }).catch(err => {
+      dispatch(setMsg(err.message))
+    });
+  
+}
+
+  
 
 export const getProgramas = (Sede, token) => (dispatch) => {
   const query = `mutation{
@@ -152,6 +163,21 @@ export const getuser = (token) => (dispatch) => {
   axios.post(`${url}/api/v1?token=${token}`, { query })
     .then((result) => {
       dispatch(setConfig(result.data.data.peticion_user))
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
+export const getRoles = (token) => (dispatch) => {
+  const query = `query{
+    peticion_rol{
+      id
+      rol
+    }
+        }`
+  axios.post(`${url}/api/v1?token=${token}`, { query })
+    .then((result) => {
+      dispatch(setRoles(result.data.data.peticion_rol))
     })
     .catch((err) => {
       console.log(err)

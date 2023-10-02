@@ -9,14 +9,14 @@ import * as echarts from 'echarts';
 
 
 const Dashboard = () => {
-  const obj = {
+  
+  const [data, setData] = React.useState( {
     semestre: '3',
     periodo_academico: 21,
     programa_id: 266,
-  }
-  const [data, setData] = React.useState(obj);
+  });
   const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma, notasperpro2, notasemestre, semestres, notas_estudiantes } = useSelector(state => state.data);
-
+  
 
   const dispatch = useDispatch();
   const token = localStorage.getItem('token');
@@ -45,7 +45,6 @@ const Dashboard = () => {
       programa_id: parseInt(e.target.value)
     })
     dispatch(getNotasRango({ "programa_id": e.target.value }))
-    dispatch(getMaterias({ "Pensum_id": e.target.value }))
     dispatch(get_Nota_Año({ "programa_id": e.target.value }))
     setNombrePro(e.target.selectedOptions[0].text)
   }
@@ -55,6 +54,7 @@ const Dashboard = () => {
       semestre: `${e.target.value}`
     })
     // coverir arr a json
+    dispatch(getMaterias({  "programa_id": data.programa_id, "semestre":data.semestre,}))
     dispatch(getdataEst(data))
 
 
@@ -97,6 +97,7 @@ const Dashboard = () => {
       ChageChart4(dato4)
     }
   })
+
   const ChageChart0 = (e) => {
 
     let myChar = echarts.init(document.getElementById('main0'));
@@ -143,8 +144,6 @@ const Dashboard = () => {
     };
 
     option && myChar.setOption(option);
-
-
 
   }
   const ChageChart1 = (e) => {
@@ -327,8 +326,7 @@ const Dashboard = () => {
     let option = {
       title: {
         show: true,
-        text: `Materias del Semestre Académico 
-  ${NombrePro}`,
+        text: `Materias Por Semestre Académico ${NombrePro}`,
         left: 'center',
       },
       tooltip: {
@@ -519,7 +517,7 @@ const Dashboard = () => {
 
                 <div className="px-0 py-2">
                   <select name="Estado de notas" onChange={HandleChageE} className="select select-secondary select-sm max-w-xs">
-                    <option defaultValue="1">Estudiantes por semestre</option>
+                    <option defaultValue="1">semestre</option>
                     {semestres?.map(e =>
                       <option key={e} value={e}>{e}</option>)
                     }

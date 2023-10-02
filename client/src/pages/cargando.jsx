@@ -14,8 +14,9 @@ const Cargar = () => {
     let { user, logout } = useAuth0()
 
     const gmail = /^[a-zA-Z]+@correo\.unicordoba\.edu\.co$/;
-
-    const [cod, setCod] = useState({ codigo: '', tipoUsuario: '' });
+    var logincount=0;
+    var registercount=0;
+    /* const [cod, setCod] = useState({ codigo: '', tipoUsuario: '' });
     const [errores, setErrores] = useState({});
     const handleChange = (event) => {
         const { id, value } = event.target;
@@ -36,15 +37,7 @@ const Cargar = () => {
             // Ahora puedes acceder al tipo de usuario y al código en el estado cod
             
             
-            dispatch(register({
-                Nombre: user.name,
-                Email: user.email,
-                Password: user.nickname,
-                Avatar: user.picture,
-                rol: cod.tipoUsuario,
-                Cod_Docente: cod.tipoUsuario === "Docente" ? codigoFormateado : "",
-                people_code_id: cod.tipoUsuario === "Estudiante" ? codigoFormateado : ""
-            }))
+            
            
             //limpiar Inputs
             setCod({ codigo: '', tipoUsuario: '' });
@@ -65,36 +58,53 @@ const Cargar = () => {
             }, 5000);
         }
 
-    }
+    } */
     useEffect(() => {
-        if (user && gmail.test(user.email)) {
-
-            dispatch(senduser({ email: user.email, password: user.nickname, Avatar: user.picture, Nombre: user.name }))
-
-            if (!msg) {
+        if (!msg ) {
+            if (user && gmail.test(user.email)) {
+                if (logincount===0) {
+                    dispatch(senduser({ email: user.email, password: user.nickname, Avatar: user.picture, Nombre: user.name }))
+                    logincount=logincount+1;
+                }
                 mostrarAlerta(1)
                 setTimeout(() => {
                     navigate('/')
                 }, 5000)
-            }
 
 
-        } else if (!msg) {
 
-            mostrarAlerta(0)
-            if (!token) {
-                logout({ returnTo: window.location.origin })
+            } else {
+                mostrarAlerta(0)
+                if (!token) {
+                    logout({ returnTo: window.location.origin })
+                }
             }
         }
     }, [user, gmail, dispatch, logout, token, msg])
+    useEffect(() => {
+        if (msg) {
+            if(registercount===0){
+                dispatch(register({
+                    Nombre: user.name,
+                    Email: user.email,
+                    Password: user.nickname,
+                    Avatar: user.picture,
+                    rol: 'Visitante',
+    
+                }))
+                registercount=registercount+1;
+               localStorage.removeItem("msg")
+            }
+        }
 
+    }, [msg, dispatch])
     return (
         <>
             <div className="hero min-h-screen" id="bgi">
                 <div className="hero-overlay bg-opacity-60"></div>
                 <div className="hero-content text-center text-neutral-content">
                     <div className="max-w-md">
-                        {msg ?
+                        {/* 
                             <form className='flex flex-col' onSubmit={handleSubmit}>
                                 <div className='flex flex-row'>
                                     <input
@@ -133,16 +143,16 @@ const Cargar = () => {
                                 />
                                 {errores.codigo && <p className="text-red-500">{errores.codigo}</p>}
                                 <input type="submit" value="Enviar" className="btn btn-secondary" />
-                            </form> :
+                            </form>  */}
 
-                            <div>
-                                <h1 className="mb-5 text-5xl font-bold">Cargando...</h1>
-                                <p className="mb-5">Espere un momento por favor...</p>
-                                <progress className="progress progress-warning w-56 "></progress>
-                            </div>
+                        <div>
+                            <h1 className="mb-5 text-5xl font-bold">Cargando...</h1>
+                            <p className="mb-5">Espere un momento por favor...</p>
+                            <progress className="progress progress-warning w-56 "></progress>
+                        </div>
 
 
-                        }
+
                     </div>
                 </div>
             </div>
@@ -150,7 +160,7 @@ const Cargar = () => {
     )
 }
 
-function validarFormulario(cod) {
+/* function validarFormulario(cod) {
     const errores = {};
 
     if (!cod.codigo) {
@@ -182,9 +192,10 @@ function formatearCodigo(codigo) {
     const codigoFormateado = 'P' + codigo.padStart(9, '0');
 
     return codigoFormateado;
-}
+} */
 
 const mostrarAlerta = (num) => {
+    
     if (num === 1) {
         Swal.fire({
             title: 'listo',

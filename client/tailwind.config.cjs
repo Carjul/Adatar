@@ -31,6 +31,9 @@ module.exports = {
           "warning": "#F7DE2D",
 
           "error": "#E60300",
+          
+          "micolor":"#c93d0a"
+        
         },
         Lite: {
 

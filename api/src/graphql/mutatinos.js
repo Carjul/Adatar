@@ -3,16 +3,19 @@ const { db} = require('./../db');
 const { facultades, programas, pensums, materias, materiaPorPensums, estudiantes, docentes, periodoAcademico, notas } = require('./types');
 
 
+
 const update = {
     type: GraphQLString,
     description: 'actualiza rol',
     args: {
         id: { type: GraphQLID },
-        RolId: { type: GraphQLID }
+        RolId: { type: GraphQLID },
     },
     async resolve(_, args) {
-        const { id, RolId } = args
-        await db.query(`UPDATE "Users" SET "RolId"=${RolId} WHERE id=${id}`)
+        const { id, RolId, Datos } = args
+        console.log(Datos)
+        await db.query(`UPDATE public."Users"
+        SET  "RolId"=${RolId} WHERE id=${id} `)
         return 'usuario actualizado'
     }
 }

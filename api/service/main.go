@@ -77,13 +77,6 @@ func main() {
 		JOIN "Programas" ON "Programas".id = "Notas"."ProgramaId"
 		WHERE e.people_code_id=$1 `
 
-		/* queryDocente:=`SELECT * FROM Public."Docentes" AS D 
-		JOIN public."Notas" ON "Notas"."DocenteId" = D.id
-		JOIN public."Materias" ON "Materias".id = "Notas"."MateriaId"
-		JOIN public."PeriodoAcademicos" ON "PeriodoAcademicos".id = "Notas"."PeriodoAcademicoId"
-		JOIN public."Programas" ON "Programas".id = "Notas"."ProgramaId"
-		WHERE D."Cog_Docente" = $1`  */
-
 		args := []interface{}{peopleCodeID}
 		rows, err := db.Query(queryEst, args...)
 		if err != nil {
@@ -126,6 +119,78 @@ func main() {
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(notasEst)
+
+	}).Methods("GET")
+
+	app.HandleFunc("/service/datosDoc", func(w http.ResponseWriter, r *http.Request) {
+		queryParams := r.URL.Query()
+		DocenteID := queryParams.Get("Cog_Docente")
+
+		if DocenteID == "" {
+			http.Error(w, "El parámetro Cog_Docente es obligatorio", http.StatusBadRequest)
+			return
+		}
+		queryDocente := `SELECT D."Cog_Docente",
+		D."Nom_Docente",
+		"Programas"."NombrePrograma",
+		"Materias"."NombreMateria",
+		"Notas"."Nota",
+		"PeriodoAcademicos"."Year",
+		"Notas"."EstudianteId"
+	FROM PUBLIC."Docentes" AS D
+	JOIN PUBLIC."Notas" ON "Notas"."DocenteId" = D.ID
+	JOIN PUBLIC."Materias" ON "Materias".ID = "Notas"."MateriaId"
+	JOIN PUBLIC."PeriodoAcademicos" ON "PeriodoAcademicos".ID = "Notas"."PeriodoAcademicoId"
+	JOIN PUBLIC."Programas" ON "Programas".ID = "Notas"."ProgramaId"
+	WHERE D."Cog_Docente"=$1`
+
+		args := []interface{}{DocenteID}
+
+		
+		rows, err := db.Query(queryDocente,args...)
+	 
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		defer rows.Close()
+
+		type Resultado struct {
+			Cog_Docente    string `json:"Cog_Docente"`
+			Nom_Docente    string `json:"Nombres"`
+			NombrePrograma string `json:"NombrePrograma"`
+			NombreMateria  string `json:"NombreMateria"`     
+			Nota           string `json:"Nota"`
+			Year           int    `json:"Year"`
+			EstudianteId   string `json:"Estudiante_id"`
+		}
+
+		notasDoc := []Resultado{}
+
+		for rows.Next() {
+			var Cog_Docente string
+			var Nom_Docente string
+			var NombrePrograma string
+			var NombreMateria string
+			var Nota string
+			var Year int
+			var EstudianteId string
+
+			err = rows.Scan(&Cog_Docente, &Nom_Docente, &NombrePrograma, &NombreMateria, &Nota, &Year, &EstudianteId)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			notasDoc = append(notasDoc, Resultado{Cog_Docente: Cog_Docente, Nom_Docente: Nom_Docente, NombrePrograma: NombrePrograma, NombreMateria: NombreMateria, Nota: Nota, Year: Year, EstudianteId: EstudianteId})
+
+		}
+
+		if err := rows.Err(); err != nil {
+			log.Fatal(err)
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(notasDoc)
 
 	}).Methods("GET")
 
@@ -240,9 +305,10 @@ func main() {
 
 	app.HandleFunc("/service/Materias", func(w http.ResponseWriter, r *http.Request) {
 		var params struct {
-			PensumID string `json:"Pensum_id"`
+			Programa_ID int `json:"programa_id"`
+			Semestre    string `json:"semestre"`
 		}
-
+ 
 		decoder := json.NewDecoder(r.Body)
 		defer r.Body.Close()
 		if err := decoder.Decode(&params); err != nil {
@@ -251,14 +317,15 @@ func main() {
 		}
 
 		query := `SELECT n."MateriaId", m."NombreMateria", 
-    	COUNT(CASE WHEN n."Gano" = 1 THEN 1 END) AS "Gano",
-    	COUNT(CASE WHEN NOT n."Gano" = 1 THEN 1 END) AS "Perdio"
-		FROM Public."Notas" n
-		JOIN Public."Materias" m ON n."MateriaId" = m."id"
-		WHERE n."ProgramaId"=$1
- 		GROUP BY n."MateriaId", m."NombreMateria";
+		COUNT(CASE WHEN n."Gano" = 1 THEN 1 END) AS "Gano",
+			COUNT(CASE WHEN NOT n."Gano" = 1 THEN 1 END) AS "Perdio"
+			FROM Public."Notas" n
+			JOIN Public."Materias" m ON n."MateriaId" = m."id"
+			JOIN public."MateriaPorPensums" mp ON n."MateriaId" = mp."MateriaId"
+			WHERE n."ProgramaId"=$1 AND mp."SemMateriaNum"=$2
+			 GROUP BY n."MateriaId", m."NombreMateria"
 		`
-		args := []interface{}{params.PensumID}
+		args := []interface{}{params.Programa_ID, params.Semestre}
 		rows, err := db.Query(query, args...)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)

@@ -3,13 +3,21 @@ import {createSlice} from '@reduxjs/toolkit'
 const initialState = {
     auth0data:{},
     user: {},
-    config:[]
+    config:[],
+    roles:[]
 }
 
 const userSlice = createSlice({
     name: 'users',
     initialState,
     reducers: {
+        setRoles: (state, action) => {
+            if(action.payload){
+
+                state.roles = action.payload
+            }
+
+        },
         setUsers: (state, action) => {
             if(action.payload){
 
@@ -27,4 +35,4 @@ const userSlice = createSlice({
 })
 
 export default userSlice.reducer
-export const { setUsers, setConfig,setData } = userSlice.actions
+export const { setUsers, setConfig,setData,setRoles } = userSlice.actions

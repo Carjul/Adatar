@@ -31,18 +31,7 @@ passport.use(new LocalStrategy(
             if (busqueda.rows.length !== 0) {
                 user.Password === password ? done(null, user) : done(null, false, { message: "contraseña incorrecta" })
             } else {
-                if (patron.test(email)) {
-                    const { Nombre, Avatar } = req.body
-                      /*   const ROL = await db.query(`SELECT * FROM public."Rols" WHERE "rol" = $1`, ["Admin"]);
-                        if (ROL.rows.length !== 0) {  
-                        const newUser = await db.query(`INSERT INTO public."Users"("Avatar", "Nombre", "Email", "Password", "RolId") VALUES ($1, $2, $3, $4, $5) RETURNING *`, [Avatar, Nombre, email, password, ROL.rows[0].id]);
-                    } */
-                   
-                    done(null,obj);
-
-                } else {
-                    done(null, false, { message: "el correo no pertenece a la universidad." })
-                }
+                    done(null, obj);
             }
 
         } catch (error) {

@@ -6,7 +6,7 @@ const rutaregistro = Router()
 
 rutaregistro.post('/registro', async (req, res) => {
     var newUser;
-    const { Nombre, Email, Password, Avatar, rol, Cog_Docente, people_code_id } = req.body
+    const { Nombre, Email, Password, Avatar, rol} = req.body
  
 
     const ROL = await db.query(`SELECT * FROM public."Rols" WHERE "rol" = $1`,[rol]);
@@ -14,8 +14,8 @@ rutaregistro.post('/registro', async (req, res) => {
     if (ROL.rows.length !== 0) {
         var RolId = ROL.rows[0].id
         newUser = await db.query(`INSERT INTO public."Users"(
-            "Avatar", "Nombre", "Email", "Password", "RolId", "Cog_Docente", people_code_id)
-           VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`, [Avatar, Nombre, Email, Password, RolId, Cog_Docente, people_code_id]);
+            "Avatar", "Nombre", "Email", "Password","RolId" )
+           VALUES ($1, $2, $3, $4, $5) RETURNING *`, [Avatar, Nombre, Email, Password, RolId]);
         
     } else {
         console.log("no existe el rol")

@@ -10,7 +10,8 @@ const {isAuthenticated} = require("./helper/index")
 const { rutaUpload } = require("./routes/uploadFile")
 const {routerLog} = require("./routes/login")
 const {rutaregistro} = require("./routes/registro")
-const schema  = require("./graphql/Schema")
+const schema  = require("./graphql/Schema");
+const { usuario } = require("./routes/usuario");
 
 const app = express()
  
@@ -27,7 +28,8 @@ app.use(express.json());
 
 app.use('/app/',routerLog)
 app.use('/app/',rutaregistro)
-app.use('/app/api/v1',isAuthenticated,rutaUpload)
-app.use('/app/api/v1',isAuthenticated, graphqlHTTP({ schema, graphiql:true }));
+app.use('/app/', usuario)
+app.use('/app/api/v1',rutaUpload)
+app.use('/app/api/v1', graphqlHTTP({ schema, graphiql:true }));
 
 module.exports= app;

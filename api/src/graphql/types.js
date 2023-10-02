@@ -1,4 +1,4 @@
-const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLID } = require('graphql')
+const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLID,GraphQLList} = require('graphql')
 
 const dataUser = new GraphQLObjectType({
    name: 'datauser',
@@ -19,8 +19,6 @@ const Roles = new GraphQLObjectType({
    fields: {
       id: { type: GraphQLID },
       rol: { type: GraphQLString },
-      createdAt: { type: GraphQLString },
-      updatedAt: { type: GraphQLString },
    }
 })
 
@@ -73,8 +71,6 @@ const materias = new GraphQLObjectType({
       CodigoMateria: { type: GraphQLString },
       NombreMateria: { type: GraphQLString },
       TipoMateria: { type: GraphQLString },
-      createdAt: { type: GraphQLString },
-      updatedAt: { type: GraphQLString },
    }
 })
 
