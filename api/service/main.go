@@ -17,7 +17,7 @@ func main() {
 	// Rutas
 	app.HandleFunc("/service", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Servicio iniciado"))
-	})
+	}).Methods("GET")
 	//ruta para obtener todas las notas por facultad
 	app.HandleFunc("/service/Notas_Facultades", func(w http.ResponseWriter, r *http.Request) {
 

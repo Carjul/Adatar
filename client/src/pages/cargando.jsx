@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { senduser, register } from '../app/Actions/action';
 import Swal from 'sweetalert2';
 
-
+var logincount=0;
+var registercount=0;
 const Cargar = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -14,8 +15,7 @@ const Cargar = () => {
     let { user, logout } = useAuth0()
 
     const gmail = /^[a-zA-Z]+@correo\.unicordoba\.edu\.co$/;
-    var logincount=0;
-    var registercount=0;
+   
     /* const [cod, setCod] = useState({ codigo: '', tipoUsuario: '' });
     const [errores, setErrores] = useState({});
     const handleChange = (event) => {
@@ -61,7 +61,7 @@ const Cargar = () => {
     } */
     useEffect(() => {
         if (!msg ) {
-            if (user && gmail.test(user.email)) {
+            if (user /* && gmail.test(user.email) */) {
                 if (logincount===0) {
                     dispatch(senduser({ email: user.email, password: user.nickname, Avatar: user.picture, Nombre: user.name }))
                     logincount=logincount+1;

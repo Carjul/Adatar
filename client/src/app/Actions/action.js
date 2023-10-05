@@ -217,8 +217,8 @@ export const register = (obj) => (dispatch) => {
     if (result.data.token) {
       localStorage.setItem('token', result.data.token)
       var decoded = jwt_decode(result.data.token);
-      const objetoJSON = JSON.stringify(objetoJSON);
-      localStorage.setItem('userdecode', decoded)
+      const objetoJSON = JSON.stringify(decoded);
+      localStorage.setItem('userdecode', objetoJSON)
       localStorage.setItem('id', decoded.user.id);
       localStorage.setItem('RolId', decoded.user.RolId);
       localStorage.setItem('Email', decoded.user.Email);

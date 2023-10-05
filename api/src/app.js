@@ -25,11 +25,11 @@ app.use(cors())
 app.use(flash());
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
-
-app.use('/app/',routerLog)
-app.use('/app/',rutaregistro)
+     
+app.use('/app/',routerLog)    
+app.use('/app/',rutaregistro) 
 app.use('/app/', usuario)
-app.use('/app/api/v1',rutaUpload)
-app.use('/app/api/v1', graphqlHTTP({ schema, graphiql:true }));
-
-module.exports= app;
+app.use('/app/api/v1',isAuthenticated, rutaUpload)
+app.use('/app/api/v1',isAuthenticated, graphqlHTTP({ schema, graphiql:true }));   
+  
+module.exports= app;  

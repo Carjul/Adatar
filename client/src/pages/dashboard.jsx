@@ -17,10 +17,8 @@ const Dashboard = () => {
   });
   const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma, notasperpro2, notasemestre, semestres, notas_estudiantes } = useSelector(state => state.data);
   
-
   const dispatch = useDispatch();
   const token = localStorage.getItem('token');
-
 
   React.useEffect(() => {
     dispatch(getData(token));

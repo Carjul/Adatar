@@ -11,14 +11,15 @@ const Init = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-
+    
+    if (isAuthenticated && !token) {
+      navigate("/validar")
+  }
     if (msg==="Login incorrecto") {
       console.log(msg)
       navigate("/validar")
     }
-    if (isAuthenticated && !token) {
-        navigate("/validar")
-    }
+   
 
 
   }, [isAuthenticated, token, msg])
