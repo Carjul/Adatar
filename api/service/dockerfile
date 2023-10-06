@@ -1,5 +1,5 @@
 
-FROM golang:latest
+FROM golang:alpine3.18
 # Copia los archivos necesarios para la aplicación
 RUN mkdir -p /go/src/app
 WORKDIR /go/src/app
