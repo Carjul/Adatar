@@ -112,7 +112,8 @@ export const postFile = (obj, token, x) => (dispatch) => {
   ).then((result) => {
     dispatch(setMsg(result.data.message))
   }).catch(err => {
-    dispatch(setMsg(err.message))
+      dispatch(setMsg(err.message))
+ 
   });
 
 }
@@ -158,6 +159,7 @@ export const getuser = (token) => (dispatch) => {
       Email
       Password
       RolId
+      Datos
     }
         }`
   axios.post(`${url}/api/v1?token=${token}`, { query })

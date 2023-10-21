@@ -1,7 +1,6 @@
 const XLSX = require("xlsx");
 const fs = require('fs-extra');
 
-
 const createprograma = require("../services/creasteprograma");
 const crearfacultad = require("../services/createfacultad");
 const createpemsun = require("../services/cretepemsun");
@@ -12,12 +11,8 @@ const createPeriodoAcademico = require("../services/createperiodoacademico");
 const createMateriaspensun = require("../services/createmateriasporpensum");
 const createNotas = require("../services/createnotas");
 
-
-
-
 const UploadFile = async (req, res) => {
   try {
-
     //leer excel
     const excel = XLSX.readFile(req.file.path);
 
@@ -35,19 +30,7 @@ const UploadFile = async (req, res) => {
       res.status(500).json({ message: "nombre de la hoja incorrecto" })
     } else {
 
-
-      var facultad = []
-      var programas = []
-      var pensum = []
-      var estudiante = []
-      var materias = []
-      var materiaPensum = []
-      var docentes = []
-      var periodo = []
-      var nota = []
-
-
-
+  
       const propiedadesNecesarias = [
         'TipoDoc',
         'Identificacion',
@@ -131,10 +114,8 @@ const UploadFile = async (req, res) => {
         arrayObjetosCompletos = reporte.filter((objeto) => propiedadesNecesarias2.every((propiedad) => objeto.hasOwnProperty(propiedad)));
       }
       console.log(arrayObjetosCompletos.length)
-      /* console.log(arrayObjetosCompletos);
-      console.log(arrayObjetosCompletos.length)
-      console.log(reporte.length) */
-      const reporte_filtrado = arrayObjetosCompletos.filter(obj => {
+  
+      /* const reporte_filtrado = arrayObjetosCompletos.filter(obj => {
         for (let key in obj) {
           if (obj[key] === null || obj[key] === NaN || obj[key] === undefined || obj[key] == "null" || obj[key] == "NULL" || obj[key] == "undefined" || obj[key] === '') {
             return false;
@@ -143,30 +124,21 @@ const UploadFile = async (req, res) => {
         return true;
       });
       reporte = []
-      console.log(reporte_filtrado.length)
-      for (let i = 0; i < reporte_filtrado.length; i++) {
+
+      console.log(reporte_filtrado.length) */
+     
+      const data = [];
+
+      for (let i = 0; i < arrayObjetosCompletos.length; i++) {
         const e = arrayObjetosCompletos[i];
-
-
-        facultad.push({ NombreFacultad: e.Facultad });
-
-        programas.push({
+      
+        data.push({
+          NombreFacultad: e.Facultad,
           NombrePrograma: e.ProgramaMateria,
           Sede: e.sede,
           Sesion: e.Sesion,
-          NombreFacultad: e.Facultad,
-        });
-
-
-        pensum.push({
           Pensum: e.ProgramaEstudiante,
           Semestres: e.SemMateriaNum,
-          NombrePrograma: e.ProgramaMateria,
-          Sede: e.sede,
-        });
-
-
-        estudiante.push({
           People_code_id: e.people_code_id,
           TipoDoc: e.TipoDoc,
           Identificacion: e.Identificacion,
@@ -180,39 +152,17 @@ const UploadFile = async (req, res) => {
           TelMovil: e.TelMovil,
           Email: e.EMAIL,
           Genero: e.Genero,
-          SemeNumero: e.SemMateriaNum,
-          Pensum: e.ProgramaEstudiante
-        });
-
-        materias.push({
+          SemeNumero: e.SemNumero,
           NombreMateria: e.NombreMateria,
           CodigoMateria: e.CodigoMateria,
           TipoMateria: e.TipoMateria,
-        })
-
-
-        materiaPensum.push({
-          NombreMateria: e.NombreMateria,
-          CodigoMateria: e.CodigoMateria,
-          Pensum: e.ProgramaEstudiante,
-          Semestres: e.SemMateriaNum,
           SemMateriaNum: e.SemMateriaNum,
-          Seme: e.seme
-        })
-
-        docentes.push({
+          Seme: e.seme,
           Cog_Docente: e.Cog_Docente,
           Nom_Docente: e.Nom_Docente,
-        })
-
-        periodo.push({
           Periodo: e.Periodo,
           Año: e.año,
-          NomNotaPeriodo: corte
-        })
-
-
-        nota.push({
+          NomNotaPeriodo: corte,
           GRADE_ACTIVITY: e.GRADE_ACTIVITY,
           FINAL_GRADE: e.FINAL_GRADE ? e.FINAL_GRADE : "no pertece",
           Nota: e.Nota1 ? e.Nota1 : e.Nota2,
@@ -221,88 +171,44 @@ const UploadFile = async (req, res) => {
           Rango: e.Rango,
           ProxNotaMin: e.ProxNotaMin ? e.ProxNotaMin : "no calculado",
           Seccion: e.Seccion,
-          NombrePrograma: e.ProgramaMateria,
-          Sede: e.sede,
-          CodigoMateria: e.CodigoMateria,
-          Identificacion: e.Identificacion,
-          Cog_Docente: e.Cog_Docente,
-          Nom_Docente: e.Nom_Docente,
-          Periodo: e.Periodo,
-          Año: e.año,
-          NomNotaPeriodo: corte,
-
         });
-
       }
 
-      const periododuplicado = eliminaDuplicados(periodo)
-      periodo = []
-      const periodocreado = await createPeriodoAcademico(periododuplicado)
+      const periodocreado = await createPeriodoAcademico(data)
       console.log(periodocreado)
 
-      const docentesduplicado = eliminaDuplicados(docentes)
-      docentes = []
-      const docentescreado = await createDocente(docentesduplicado)
+      const docentescreado = await createDocente(data)
       console.log(docentescreado)
 
-      const materiasduplicado = eliminaDuplicados(materias)
-      materias = []
-      const materiascreado = await createMaterias(materiasduplicado)
+      const materiascreado = await createMaterias(data)
       console.log(materiascreado)
 
-      const facultadrepetida = eliminaDuplicados(facultad)
-      facultad = []
-      const facultadcreada = await crearfacultad(facultadrepetida)
+      const facultadcreada = await crearfacultad(data)
       console.log(facultadcreada)
 
-      const programarepetida = eliminaDuplicados(programas)
-      programas = []
-      const programacredo = await createprograma(programarepetida)
+      const programacredo = await createprograma(data)
       console.log(programacredo)
 
-      const pensumrepetida = eliminaDuplicados(pensum)
-      pensum = []
-      const pensumcreado = await createpemsun(pensumrepetida)
+      const pensumcreado = await createpemsun(data)
       console.log(pensumcreado)
 
-      const estudiaterepetido = eliminaDuplicados(estudiante)
-      estudiante = []
-      const estudiantecreado = await crearstudent(estudiaterepetido)
+      const estudiantecreado = await crearstudent(data)
       console.log(estudiantecreado)
 
-      const materiaPensumduplicado = eliminaDuplicados(materiaPensum)
-      materiaPensum = []
-      const materiaPensumcreado = await createMateriaspensun(materiaPensumduplicado)
+      const materiaPensumcreado = await createMateriaspensun(data)
       console.log(materiaPensumcreado)
 
-
-      
-     
-
-      const createnotas = await createNotas(nota)
-      nota = []
+      const createnotas = await createNotas(data)
       console.log(createnotas);
 
+      data = []
 
-      res.json({ message: "database initialize" });
-
+      res.json({ message: "File Saved" });
     }
   } catch (error) {
     res.json(error)
   }
 }
-
-
-const eliminaDuplicados = (arr) => {
-
-  const arrMap = arr.map(elemento => {
-    return [JSON.stringify(elemento), elemento]
-  });
-
-  return [...new Map(arrMap).values()];
-}
-
-
 
 module.exports = {
   UploadFile

@@ -15,30 +15,30 @@ const Upload = () => {
   const token = localStorage.getItem('token')
   const [obj, setObj] = useState({});
   var [selectedFile, setSelectedFile] = useState(null);
-  const handlesummit = (e) => {  
+  const handlesummit = (e) => {
     const texto = e.target.files[0].name
     const textoRecortadoSubstring = texto.substring(0, texto.indexOf('.'))
-    
-    setSelectedFile({
+
+    const newSelectedFile = {
       name: textoRecortadoSubstring
-    }); 
-  
+    };
+
+    setSelectedFile(newSelectedFile);
     setObj({
       ...obj,
       [e.target.name]: e.target.files[0]
     });
-    
   }
 
-  if (swich && message) {
-    dispatch(setSwich(false))
-  }
   useEffect(() => {
     setTimeout(() => {
       dispatch(setMsg(""))
     }, 50000)
+    if (swich && message) {
+      dispatch(setSwich(false))
+    }
 
-  }, [message, dispatch])
+  }, [message, swich, dispatch])
 
   return (
     <>
@@ -72,19 +72,20 @@ const Upload = () => {
                     e.preventDefault();
                     dispatch(postFile(obj, token, selectedFile.name))
                     dispatch(setSwich(true))
-                    selectedFile.name=""
+                    setSelectedFile(null);
+                    document.getElementById('miInputFile').value = '';
                   }} className="form-control">
 
                     <input type="file" id='miInputFile' name="file" onChange={handlesummit} className="file-input file-input-bordered file-input-primary w-full max-w-xs" required />
                     <br />
-                    <select  className="select select-primary select-sm max-w-xs" disabled >
-                      {selectedFile === null? <option value="">Nombre del Periodo</option> :
+                    <select className="select select-primary select-sm max-w-xs" disabled >
+                      {selectedFile === null ? <option value="">Nombre del Periodo</option> :
                         <option value={selectedFile.name}>{selectedFile.name}</option>
                       }
                     </select>
 
                     <br />
-                     <button type="submit" className="btn btn-primary" >Enviar</button>
+                    <button type="submit" className="btn btn-primary" disabled={!selectedFile}>Enviar</button>
 
                   </form>
                 </div>

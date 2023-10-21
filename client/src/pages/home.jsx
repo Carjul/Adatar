@@ -36,11 +36,6 @@ const Home = () => {
         periodo_academico: 0,
         programa_id: parseInt(obj?.Programa)
       })
-      if(data.user.Datos){
-          setNombrePro(
-          data.user.Datos[0].programa
-          )
-        }
 
     }
   }, [x, dispatch, token])
@@ -263,6 +258,13 @@ const Home = () => {
     </div>
   </div>
 ):null}
+{u.user?.RolId === 1 ? (
+ <div className="flex flex-col items-center w-full h-1/2 z-0">
+ <div className="card card-compact w-4/5 bg-base-100 shadow-xl mt-6">
+  bienvendo a la vista de administrador
+  </div>
+  </div>
+) :null}
       </div>
       <Footer />
     </>

@@ -10,6 +10,7 @@ const dataUser = new GraphQLObjectType({
       Password: { type: GraphQLString },
       Avatar: { type: GraphQLString },
       RolId: { type: GraphQLID }, 
+      Datos: { type: new GraphQLList(GraphQLString) },
    }
 })
 

@@ -15,9 +15,11 @@ func main() {
 	app := mux.NewRouter()
 
 	// Rutas
-	app.HandleFunc("/service", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Servicio iniciado"))
-	}).Methods("GET")
+	app.HandleFunc("/service", func(w http.ResponseWriter, r *http.Request) { w.Write([]byte("Servicio iniciado")) }).Methods("GET")
+
+	// Ruta para subir archivos
+	app.HandleFunc("/service/upload", uploadFileHandler).Methods("POST")
+
 	//ruta para obtener todas las notas por facultad
 	app.HandleFunc("/service/Notas_Facultades", func(w http.ResponseWriter, r *http.Request) {
 
@@ -61,6 +63,7 @@ func main() {
 		json.NewEncoder(w).Encode(notas)
 
 	}).Methods("GET")
+
 	app.HandleFunc("/service/datosEst", func(w http.ResponseWriter, r *http.Request) {
 		queryParams := r.URL.Query()
 		peopleCodeID := queryParams.Get("people_code_id")
@@ -146,9 +149,8 @@ func main() {
 
 		args := []interface{}{DocenteID}
 
-		
-		rows, err := db.Query(queryDocente,args...)
-	 
+		rows, err := db.Query(queryDocente, args...)
+
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -159,7 +161,7 @@ func main() {
 			Cog_Docente    string `json:"Cog_Docente"`
 			Nom_Docente    string `json:"Nombres"`
 			NombrePrograma string `json:"NombrePrograma"`
-			NombreMateria  string `json:"NombreMateria"`     
+			NombreMateria  string `json:"NombreMateria"`
 			Nota           string `json:"Nota"`
 			Year           int    `json:"Year"`
 			EstudianteId   string `json:"Estudiante_id"`
@@ -305,10 +307,10 @@ func main() {
 
 	app.HandleFunc("/service/Materias", func(w http.ResponseWriter, r *http.Request) {
 		var params struct {
-			Programa_ID int `json:"programa_id"`
+			Programa_ID int    `json:"programa_id"`
 			Semestre    string `json:"semestre"`
 		}
- 
+
 		decoder := json.NewDecoder(r.Body)
 		defer r.Body.Close()
 		if err := decoder.Decode(&params); err != nil {
