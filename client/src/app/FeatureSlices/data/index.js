@@ -25,10 +25,10 @@ const dataSlice = createSlice({
             state.Notas_por_Est = action.payload
         },
         setNotaEstG: (state, action) => {
-            const x = [['score', 'Nota', 'Nombre']]
+            const x = [ ['score', 'Nota', 'Nombre']]
             for (let i = 0; i < action.payload.length; i++) {
                 const element = action.payload[i];
-                x.push([(20 * parseFloat(element.Nota)), parseFloat(element.Nota), element.NombreMateria])
+                x.push([(20 *parseFloat(element.Nota)) , parseFloat(element.Nota), element.NombreMateria ])
             }
             state.DataGraficoEst = x;
         },
@@ -150,11 +150,23 @@ const dataSlice = createSlice({
 
         },
         setNotastate: (state, action) => {//datos para la tabla de estidiantes por semestre
-            let arr = []
-            action.payload.forEach((element) => {
-                arr.push(element.semestre)
+
+
+
+            const semestres = action.payload.filter((e) => {
+                return e.semestres !== null
             })
-            state.semestres= arr
+
+
+            const elementosUnicos = [];
+            semestres.forEach(num => {
+                if (!elementosUnicos.includes(num.semestres)) {
+                    elementosUnicos.push(num.semestres);
+                }
+            })
+
+            state.semestres = elementosUnicos.sort()
+
 
         },
         setNotas_Por_Estudiante: (state, action) => {
@@ -203,8 +215,6 @@ const dataSlice = createSlice({
 
     }
 })
-
-
 
 export default dataSlice.reducer
 export const { setNotaEstG, setNotasEst, setArticulos, setNota2, setNotas_Por_Estudiante, setNotasperma, setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions

@@ -35,7 +35,7 @@ const Dashboard = () => {
   const HandleChageC = (e) => {
 
     data.programa_id= parseInt(e.target.value)
-    dispatch(getSemestres({ "programa_id": e.target.value}))
+    /* dispatch(getSemestres({ "programa_id": e.target.value})) */
     dispatch(getNotasRango({ "programa_id": e.target.value, "periodo_academico":data.periodo_academico}))
     dispatch(get_Nota_Año({ "programa_id": e.target.value, "periodo_academico":data.periodo_academico}))
     setNombrePro(e.target.selectedOptions[0].text)

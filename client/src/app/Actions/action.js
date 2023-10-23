@@ -19,6 +19,7 @@ export const getdataEst = (params) => (dispatch) => {
 export const getNotasRango = (params) => (dispatch) => {
   axios.post(`${url2}/notas/rango`, params).then((result) => {
     dispatch(setNotasmateria(result.data))
+    dispatch(setNotastate(result.data))
   }).catch(err => {
     console.log(err);
   });
