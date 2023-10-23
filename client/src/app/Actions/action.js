@@ -19,6 +19,13 @@ export const getdataEst = (params) => (dispatch) => {
 export const getNotasRango = (params) => (dispatch) => {
   axios.post(`${url2}/notas/rango`, params).then((result) => {
     dispatch(setNotasmateria(result.data))
+  }).catch(err => {
+    console.log(err);
+  });
+}
+
+export const getSemestres = (params) => (dispatch) => {
+  axios.post(`${url2}/semestres`, params).then((result) => {
     dispatch(setNotastate(result.data))
   }).catch(err => {
     console.log(err);
@@ -33,7 +40,6 @@ export const getMaterias = (params) => (dispatch) => {
   });
 }
 export const getnotasEst = (params) => (dispatch) => {
-  console.log(params)
   const urlgetEst = `${url2}/datosEst?` + new URLSearchParams(params).toString();
   axios.get(urlgetEst).then((result) => {
     dispatch(setNotasEst(result.data))
@@ -91,10 +97,7 @@ export const getData = (token) => (dispatch) => {
       .then((response) => {
         dispatch(setPeriodo(response.data.data.peticion_periodoAcademico));
         dispatch(setSede(response.data.data.peticion_programa));
-        /*  dispatch(setMateriaPorPensum(response.data.data.peticion_materiaPorPensums));
-         dispatch(setMateria(response.data.data.peticion_materias));
-         dispatch(setPensum(response.data.data.peticion_pensum));
-         dispatch(setFacultad(response.data.data.peticion_facultad)); */
+      
       })
       .catch((error) => {
         console.error(error);
@@ -105,7 +108,6 @@ export const getData = (token) => (dispatch) => {
 }
 
 export const postFile = (obj, token, x) => (dispatch) => {
-
   axios.post(`${url}/api/v1/upload?token=${token}&corte=${encodeURIComponent(x)}`, obj, {
     headers: { "Content-Type": "multipart/form-data" }
   }
@@ -118,7 +120,6 @@ export const postFile = (obj, token, x) => (dispatch) => {
 
 }
 export const userUpdate = (obj) => (dispatch) => {
-  
     axios.put(`${url}/usuario`, obj).then((result) => {
       dispatch(setMsg(result.data.message))
     }).catch(err => {
@@ -294,15 +295,15 @@ export const get_Nota_facultad = (params) => (dispatch) => {
     });
 
 }
-export const get_Nota_facultades = () => (dispatch) => {
+export const get_Nota_facultades = (params) => (dispatch) => {
 
-  axios.get(`${url2}/Notas_Facultades`)
+   axios.get(`${url2}/Notas_Facultades?NomNotaPeriodo=${params}`)
     .then((response) => {
       dispatch(setNota2(response.data));
     })
     .catch((error) => {
       console.error(error);
-    });
+    }); 
 
 }
 export const getDataperson = (token) => (dispatch) => {

@@ -1,20 +1,20 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getNotasRango, getData, getProgramas, get_Nota_Año, getdataEst, getMaterias,get_Nota_facultades } from '../app/Actions/action';
+import { getNotasRango,getSemestres, getData, getProgramas, get_Nota_Año, getdataEst, getMaterias,get_Nota_facultades } from '../app/Actions/action';
 
 import Nav from '../components/Nav';
 import Sidebar from '../components/sidebar';
 import Footer from '../components/footer';
 import * as echarts from 'echarts';
 
-
+const data = {
+  semestre:"",
+  periodo_academico:null,
+  programa_id:null,
+};
 const Dashboard = () => {
   
-  const [data, setData] = React.useState( {
-    semestre: '3',
-    periodo_academico: 21,
-    programa_id: 266,
-  });
+ 
   const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma, notasperpro2, notasemestre, semestres, notas_estudiantes } = useSelector(state => state.data);
   
   const dispatch = useDispatch();
@@ -22,40 +22,28 @@ const Dashboard = () => {
 
   React.useEffect(() => {
     dispatch(getData(token));
-    dispatch(get_Nota_facultades())
   }, [dispatch, token]);
 
   const [NombrePro, setNombrePro] = React.useState("")
   const HandleChageP = (e) => {
-    setData({
-      ...data,
-      periodo_academico: parseInt(e.target.value)
-    })
-    /* dispatch(get_Nota_Año({	"periodo_id":e.target.value})) */
+    data.periodo_academico= parseInt(e.target.value)
+    dispatch(get_Nota_facultades(e.target.selectedOptions[0].text))
   }
   const HandleChageS = (e) => {
     dispatch(getProgramas(e.target.value, token))
   }
   const HandleChageC = (e) => {
 
-    setData({
-      ...data,
-      programa_id: parseInt(e.target.value)
-    })
-    dispatch(getNotasRango({ "programa_id": e.target.value }))
-    dispatch(get_Nota_Año({ "programa_id": e.target.value }))
+    data.programa_id= parseInt(e.target.value)
+    dispatch(getSemestres({ "programa_id": e.target.value}))
+    dispatch(getNotasRango({ "programa_id": e.target.value, "periodo_academico":data.periodo_academico}))
+    dispatch(get_Nota_Año({ "programa_id": e.target.value, "periodo_academico":data.periodo_academico}))
     setNombrePro(e.target.selectedOptions[0].text)
   }
   const HandleChageE = (e) => {
-    setData({
-      ...data,
-      semestre: `${e.target.value}`
-    })
-    // coverir arr a json
-    dispatch(getMaterias({  "programa_id": data.programa_id, "semestre":data.semestre,}))
+   data.semestre= e.target.selectedOptions[0].text
+    dispatch(getMaterias({"programa_id": data.programa_id, "semestre":data.semestre, "periodo_academico":data.periodo_academico}))
     dispatch(getdataEst(data))
-
-
   }
   const [graficos, setGraficos] = React.useState(0);
 
@@ -106,7 +94,7 @@ const Dashboard = () => {
     var option = {
       title: {
         show: true,
-        text: `Notas Por Rango  `,
+        text: `Porcentaje General de Notas por Rango`,
         left: 'center',
       },
       tooltip: {
@@ -202,7 +190,7 @@ const Dashboard = () => {
     var option = {
       title: {
         show: true,
-        text: `Notas Por Rango ${NombrePro}`,
+        text: `Notas Por Semestre ${NombrePro}`,
         left: 'center',
       },
       tooltip: {
@@ -244,7 +232,7 @@ const Dashboard = () => {
           type: 'bar',
           stack: 'total',
           label: {
-            show: true
+            show: false
           },
           emphasis: {
             focus: 'series'
@@ -256,7 +244,7 @@ const Dashboard = () => {
           type: 'bar',
           stack: 'total',
           label: {
-            show: true
+            show: false
           },
           emphasis: {
             focus: 'series'
@@ -268,7 +256,7 @@ const Dashboard = () => {
           type: 'bar',
           stack: 'total',
           label: {
-            show: true
+            show: false
           },
           emphasis: {
             focus: 'series'
@@ -280,7 +268,7 @@ const Dashboard = () => {
           type: 'bar',
           stack: 'total',
           label: {
-            show: true
+            show: false
           },
           emphasis: {
             focus: 'series'
@@ -292,7 +280,7 @@ const Dashboard = () => {
           type: 'bar',
           stack: 'total',
           label: {
-            show: true
+            show: false
           },
           emphasis: {
             focus: 'series'
@@ -304,7 +292,7 @@ const Dashboard = () => {
           type: 'bar',
           stack: 'total',
           label: {
-            show: true
+            show: false
           },
           emphasis: {
             focus: 'series'
@@ -324,7 +312,7 @@ const Dashboard = () => {
     let option = {
       title: {
         show: true,
-        text: `Materias Por Semestre Académico ${NombrePro}`,
+        text: `Notas Por Materia ${NombrePro}`,
         left: 'center',
       },
       tooltip: {
@@ -490,7 +478,7 @@ const Dashboard = () => {
                   <select name="Periodo academico" onChange={HandleChageP} className="select select-secondary select-sm max-w-xs">
                     <option defaultValue="0">Periodo Academico</option>
                     {periodoAcademico?.map(e =>
-                      <option key={e.id} value={e.id}>{e.Year} {e.Periodo} {e.NomNotaPeriodo}</option>
+                      <option key={e.id} value={e.id}>{e.NomNotaPeriodo}</option>
                     )}
                   </select>
                 </div>
