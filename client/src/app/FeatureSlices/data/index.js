@@ -16,11 +16,15 @@ const initialState = {
     Notas_por_Est: [],
     DataGraficoEst: [],
     notas_del_semestre: [],
+    programatemp:[]
 }
 const dataSlice = createSlice({
     name: 'data',
     initialState,
     reducers: {
+        setProgramatemp: (state, action) => {
+            state.programatemp = action.payload
+        },
         setNotasEst: (state, action) => {
             state.Notas_por_Est = action.payload
         },
@@ -220,4 +224,4 @@ const dataSlice = createSlice({
 })
 
 export default dataSlice.reducer
-export const { setNotaEstG, setSemestate, setNotasEst, setArticulos, setNota2, setNotas_Por_Estudiante, setNotasperma, setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions
+export const { setProgramatemp,setNotaEstG, setSemestate, setNotasEst, setArticulos, setNota2, setNotas_Por_Estudiante, setNotasperma, setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions

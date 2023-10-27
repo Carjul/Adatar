@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setNotasEst, setSemestate, setPeriodo, setPrograma, setNota, setNota2, setSede, setDocente, setEstudiante, setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotastate } from '../FeatureSlices/data';
+import { setProgramatemp,setNotasEst, setSemestate, setPeriodo, setPrograma, setNota, setNota2, setSede, setDocente, setEstudiante, setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotastate } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
 import { setUsers, setConfig,setRoles } from "../FeatureSlices/users";
 import jwt_decode from "jwt-decode";
@@ -154,6 +154,22 @@ export const getProgramas = (Sede, token) => (dispatch) => {
   axios.post(`${url}/api/v1?token=${token}`, { query })
     .then((res) => {
       dispatch(setPrograma(res.data.data.Buscar_programas_sede))
+    })
+    .catch(err => {
+      dispatch(setMsg(err.message))
+    });
+}
+
+export const getPrograma = (params, token) =>(dispatch) =>{
+  const query = `mutation{
+    Buscar_programas(id:${params}){
+     NombrePrograma
+   }
+   }`
+
+ axios.post(`${url}/api/v1?token=${token}`, { query })
+    .then((res) => {
+      dispatch(setProgramatemp(res.data.data.Buscar_programas))
     })
     .catch(err => {
       dispatch(setMsg(err.message))

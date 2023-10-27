@@ -3,7 +3,7 @@ import Sidebar from '../components/sidebar';
 import Footer from '../components/footer';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {  getMaterias, getData, getdataEst } from '../app/Actions/action'
+import {  getMaterias, getData, getdataEst,getPrograma } from '../app/Actions/action'
 import * as echarts from 'echarts';
 
 
@@ -15,12 +15,10 @@ const data = {
 
 const Home = () => {
   const token = localStorage.getItem('token');
-  const { notasperma, notas_estudiantes, periodoAcademico } = useSelector(state => state.data);
+  const { notasperma, notas_estudiantes, periodoAcademico,programatemp } = useSelector(state => state.data);
   var x = localStorage.getItem('userdecode')
   var u = JSON.parse(x)
-
-  const [NombrePro, setNombrePro] = useState("")
-
+  
   const [obj, setobj] = useState({})
   var dispatch = useDispatch()
   useEffect(() => {
@@ -28,6 +26,7 @@ const Home = () => {
     const datau = JSON.parse(x);
     if (datau.user) {
       let obju = JSON.parse(datau.user.Datos)
+      dispatch(getPrograma(obju.Programa,token))
       setobj(obju)
       }
   }, [x, dispatch, token])
@@ -49,7 +48,7 @@ const Home = () => {
     let option = {
       title: {
         show: true,
-        text: `Materias Por Semestre Académico ${NombrePro}`,
+        text: `Materias Por Semestre Académico ${programatemp[0]?.NombrePrograma}`,
         left: 'center',
       },
       tooltip: {
@@ -151,7 +150,7 @@ const Home = () => {
     let option = {
       title: {
         show: true,
-        text: `Numero de materias perididas estudiante - ${NombrePro}`,
+        text: `Numero de materias perididas estudiantes de ${obj?.Semestres}to semestre`,
         left: 'center',
       },
       dataset: {

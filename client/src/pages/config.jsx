@@ -101,7 +101,6 @@ const Config = () => {
                                 <tr>
                                     <th className="p-4">Avatar</th>
                                     <th className="p-4">Nombre</th>
-                                    <th className="p-4">Correo</th>
                                     <th className="p-4">Rol</th>
                                     <th className="p-4">Cambiar Rol</th>
                                     <th className="p-4">Eliminar Usurio</th>
@@ -118,7 +117,6 @@ const Config = () => {
                                             </label>
                                         </td>
                                         <td className="p-2">{e.Nombre}</td>
-                                        <td className="p-2">{e.Email}</td>
                                         <td className="p-2">
                                             {parseInt(e.RolId) === 1 ? <div className="card-actions justify-start">
                                                 <div className="badge badge-outline bg-success">Administrador</div>
@@ -156,8 +154,6 @@ const Config = () => {
                                 <tr>
                                     <th className="p-4">Avatar</th>
                                     <th className="p-4">Nombre</th>
-                                    <th className="p-4">Correo</th>
-                                    <th className="p-4">Rol</th>
                                     <th className="p-4">asignar programa</th>
                                     <th className="p-4">asignar Semestre</th>
                                 </tr>
@@ -173,15 +169,8 @@ const Config = () => {
                                             </label>
                                         </td>
                                         <td className="p-2">{i.Nombre}</td>
-                                        <td className="p-2">{i.Email}</td>
-                                        <td className="p-2">
 
-                                            {parseInt(i.RolId) === 3 ? <div className="card-actions justify-start">
-                                                <div className="badge badge-outline bg-secondary">Coordinador de semestre</div>
-                                            </div> : ""}
-
-
-                                        </td>
+                        
                                         <td className='p-2'>
                                             <div>
                                                 <select onChange={(el) => {

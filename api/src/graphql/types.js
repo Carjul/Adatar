@@ -42,10 +42,7 @@ const programas = new GraphQLObjectType({
       NombrePrograma: { type: GraphQLString },
       Sede: { type: GraphQLString },
       Sesion: { type: GraphQLString },
-      createdAt: { type: GraphQLString },
-      updatedAt: { type: GraphQLString },
       FacultadeId: { type: GraphQLID },
-
    }
 
 })

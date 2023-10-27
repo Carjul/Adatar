@@ -37,4 +37,4 @@ services:
 # docker run -p 5432:5432 --name database -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=12345 -e POSTGRES_DB=adatar -d postgres
 # docker inspect database
 # docker run -p 3004:3001 --name api -e DB_USER=admin -e DB_PASSWORD=12345 -e DB_HOST=54.159.45.14 -e DB=adatar PORT=3001 -v "$PWD":"/usr/src/api" -d <NAME IMAGEN>
-# docker run -p 3000:3000 --name next-app -d 
+# docker run -p 3001:3001 --name adatar-app -v "$PWD":"/usr/src/app" -d client

@@ -173,7 +173,7 @@ const Buscar_pensums = {
 }
 
 const Buscar_programas = {
-    type: programas,
+    type: new GraphQLList(programas),
     description: 'buscar programas',
     args: {
         id: { type: GraphQLID },
@@ -209,4 +209,4 @@ const Buscar_facultades = {
     }
 }
 
-module.exports = { create_rol,delete_rol,Buscar_programas_sede, update, deleteuser, Buscar_notas, Buscar_periodoAcademico, Buscar_docentes, Buscar_estudiantes, Buscar_materiaPorPensums, Buscar_materias, Buscar_pensums, Buscar_programas, Buscar_facultades, notasporyear }
+module.exports = { create_rol,delete_rol,Buscar_programas_sede,Buscar_programas, update, deleteuser, Buscar_notas, Buscar_periodoAcademico, Buscar_docentes, Buscar_estudiantes, Buscar_materiaPorPensums, Buscar_materias, Buscar_pensums, Buscar_facultades, notasporyear }
