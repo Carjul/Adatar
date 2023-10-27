@@ -3,8 +3,7 @@ import Sidebar from '../components/sidebar';
 import Footer from '../components/footer';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getnotasEst, getMaterias, getData, getdataEst } from '../app/Actions/action'
-import { setNotaEstG } from '../app/FeatureSlices/data'
+import {  getMaterias, getData, getdataEst } from '../app/Actions/action'
 import * as echarts from 'echarts';
 
 
@@ -16,7 +15,6 @@ const data = {
 
 const Home = () => {
   const token = localStorage.getItem('token');
-  var { Notas_por_Est, DataGraficoEst } = useSelector(state => state.data)
   const { notasperma, notas_estudiantes, periodoAcademico } = useSelector(state => state.data);
   var x = localStorage.getItem('userdecode')
   var u = JSON.parse(x)
@@ -253,9 +251,24 @@ const Home = () => {
         {u.user?.RolId === 1 ? (
           <div className="flex flex-col items-center w-full h-1/2 z-0">
             <div className="card card-compact w-4/5 bg-base-100 shadow-xl mt-6">
-              bienvendo a la vista de administrador
+              <div id="bginv">
+
+              Bienvendo a la vista de administrador
+              </div>
             </div>
           </div>
+        ) : null}
+        {u.user?.RolId === 6 ? (
+           <div className="card card-compact w-4/5  bg-base-100 shadow-xl mx-auto">
+           <div className="card-body">
+               <div id="bginv">
+               Bienvendo a la vista visitante, Favor comunicarse con los administradores para acceder al sistema.
+               </div>
+             </div>
+           </div>
+         
+
+         
         ) : null}
       </div>
       <Footer />

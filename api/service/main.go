@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"database/sql"
 
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
@@ -265,7 +266,7 @@ func main() {
 	app.HandleFunc("/service/Notas_periodo", func(w http.ResponseWriter, r *http.Request) {
 		var params struct {
 			ProgramaID string `json:"programa_id"`
-			Periodo     int `json:"periodo_academico"`
+			Periodo    int    `json:"periodo_academico"`
 		}
 
 		decoder := json.NewDecoder(r.Body)
@@ -320,7 +321,7 @@ func main() {
 		var params struct {
 			Programa_ID int    `json:"programa_id"`
 			Semestre    string `json:"semestre"`
-			Periodo     int `json:"periodo_academico"`
+			Periodo     int    `json:"periodo_academico"`
 		}
 
 		decoder := json.NewDecoder(r.Body)
@@ -405,19 +406,20 @@ func main() {
 			return
 		}
 		defer rows.Close()
-		type Resultado struct {
-			Semestre string `json:"semestre"`
-		}
-		semestres := []Resultado{}
+
+		semestres := make([]string, 0)
 
 		for rows.Next() {
-			var semestre string
+			var semestre sql.NullString
 
 			err = rows.Scan(&semestre)
 			if err != nil {
 				log.Fatal(err)
 			}
-			semestres = append(semestres, Resultado{Semestre: semestre})
+			
+			if semestre.Valid {
+				semestres = append(semestres, semestre.String)
+			}
 		}
 
 		if err = rows.Err(); err != nil {
@@ -438,7 +440,7 @@ func main() {
 	app.HandleFunc("/service/notas/rango", func(w http.ResponseWriter, r *http.Request) {
 		var params struct {
 			ProgramaID string `json:"programa_id"`
-			Periodo     int `json:"periodo_academico"`
+			Periodo    int    `json:"periodo_academico"`
 		}
 
 		decoder := json.NewDecoder(r.Body)

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setNotasEst, setPeriodo, setPrograma, setNota, setNota2, setSede, setDocente, setEstudiante, setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotastate } from '../FeatureSlices/data';
+import { setNotasEst, setSemestate, setPeriodo, setPrograma, setNota, setNota2, setSede, setDocente, setEstudiante, setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotastate } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
 import { setUsers, setConfig,setRoles } from "../FeatureSlices/users";
 import jwt_decode from "jwt-decode";
@@ -27,7 +27,7 @@ export const getNotasRango = (params) => (dispatch) => {
 
 export const getSemestres = (params) => (dispatch) => {
   axios.post(`${url2}/semestres`, params).then((result) => {
-    dispatch(setNotastate(result.data))
+    dispatch(setSemestate(result.data))
   }).catch(err => {
     console.log(err);
   });
@@ -127,6 +127,14 @@ export const userUpdate = (obj) => (dispatch) => {
       dispatch(setMsg(err.message))
     });
   
+}
+export const userDeleteData = (obj) => (dispatch) => {
+  axios.put(`${url}/ElminarDataUsuario`, obj).then((result) => {
+    dispatch(setMsg(result.data.message))
+  }).catch(err => {
+    dispatch(setMsg(err.message))
+  });
+
 }
 
   
@@ -339,7 +347,6 @@ export const getDataperson = (token) => (dispatch) => {
       .then(res => {
         dispatch(setDocente(res.data.data.peticion_docentes))
         dispatch(setEstudiante(res.data.data.peticion_estudiantes))
-
       })
   } catch (error) {
     console.log(error)

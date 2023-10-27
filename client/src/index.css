@@ -16,3 +16,12 @@
 #gif{
     background-image: url('./assets/loading-2.gif');
 }
+#bginv{
+  margin-top: 20%;
+  height: 100vh;
+  font-size: x-large;
+  font-weight: bold;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  text-align: center;
+
+}

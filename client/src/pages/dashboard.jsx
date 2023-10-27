@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getNotasRango,getSemestres, getData, getProgramas, get_Nota_Año, getdataEst, getMaterias,get_Nota_facultades } from '../app/Actions/action';
+import { getNotasRango, getData, getProgramas, get_Nota_Año, getdataEst, getMaterias,get_Nota_facultades } from '../app/Actions/action';
 
 import Nav from '../components/Nav';
 import Sidebar from '../components/sidebar';
@@ -14,8 +14,7 @@ const data = {
 };
 const Dashboard = () => {
   
- 
-  const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma, notasperpro2, notasemestre, semestres, notas_estudiantes } = useSelector(state => state.data);
+  const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma, notasperpro2, semestres, notas_estudiantes } = useSelector(state => state.data);
   
   const dispatch = useDispatch();
   const token = localStorage.getItem('token');
@@ -35,7 +34,6 @@ const Dashboard = () => {
   const HandleChageC = (e) => {
 
     data.programa_id= parseInt(e.target.value)
-    /* dispatch(getSemestres({ "programa_id": e.target.value})) */
     dispatch(getNotasRango({ "programa_id": e.target.value, "periodo_academico":data.periodo_academico}))
     dispatch(get_Nota_Año({ "programa_id": e.target.value, "periodo_academico":data.periodo_academico}))
     setNombrePro(e.target.selectedOptions[0].text)

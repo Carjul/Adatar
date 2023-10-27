@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Sidebar from '../components/sidebar';
 import Footer from '../components/footer';
 import { useEffect, useRef } from 'react';
-import { getuser, deleteOneData, updateOneData, getRoles, getProgramas, getNotasRango, userUpdate } from '../app/Actions/action';
+import { getuser, deleteOneData, updateOneData, getRoles, getProgramas, getSemestres, userUpdate,userDeleteData } from '../app/Actions/action';
 import { setMsg } from '../app/FeatureSlices/MsgApi';
 
 
@@ -52,11 +52,8 @@ const Config = () => {
             const currentButtonEl = buttonEl.current;
             const handleClick = () => {
                 dispatch(deleteOneData(id, token))
-
             };
             currentButtonEl.addEventListener('click', handleClick);
-
-
         }, [id]);
 
         return <button className="btn btn-outline btn-error" ref={buttonEl}>Eliminar</button>;
@@ -64,7 +61,6 @@ const Config = () => {
     function Formupdate({ id }) {
         const handlechange = (e) => {
             dispatch(updateOneData(id, e.target.value, token));
-
         }
         return (
             <div>
@@ -99,6 +95,7 @@ const Config = () => {
                         </div>
                     </div> : ""}
                     <div className='table-responsive'>
+                    <h2 className='text-xl'>Asignar Roles</h2>
                         <table className="table table-striped table-hover table-bordered mt-10 ">
                             <thead >
                                 <tr>
@@ -150,7 +147,9 @@ const Config = () => {
                             </tbody>
                         </table>
                     </div>
+                    <br />
                     <div className="table-responsive">
+                        <h2 className='text-xl'>Asignar Semestre</h2>
 
                         <table className="table table-striped table-hover table-bordered mt-10 ">
                             <thead >
@@ -187,7 +186,7 @@ const Config = () => {
                                             <div>
                                                 <select onChange={(el) => {
                                                     dispatch(updateOneData(i.id, el.target.value, token));
-                                                    dispatch(getNotasRango({ "programa_id": el.target.value }))
+                                                    dispatch(getSemestres({ "programa_id": el.target.value }))
                                                     Data.id = i.id
                                                     Data.Datos[0].Programa = el.target.value
                                                 }} className="select select-primary select-sm ">
@@ -197,8 +196,6 @@ const Config = () => {
                                                             return <option key={e.id} value={e.id}>{e.NombrePrograma}</option>;
                                                         } else if (JSON.parse(i.Datos[0]).Programa === e.id) {
                                                             return <option key={e.id} defaultValue={e.id}>{e.NombrePrograma}</option>;
-                                                        } else {
-                                                            <option key={e.id} defaultChecked>Programas</option>
                                                         }
                                                     }
                                                     )}
@@ -215,7 +212,7 @@ const Config = () => {
                                                         <option key={e} value={e}>{e}</option>)
                                                     }
                                                 </select>
-
+                                                {i.Datos !== null ? <button className="btn btn-outline btn-error ml-4" onClick={()=>dispatch(userDeleteData({id:i.id}))}>x</button> : ""}
                                             </div>
                                         </td>
                                     </tr>

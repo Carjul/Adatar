@@ -20,8 +20,6 @@ const Init = () => {
       navigate("/validar")
     }
    
-
-
   }, [isAuthenticated, token, msg])
 
 
