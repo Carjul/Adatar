@@ -12,10 +12,12 @@ const data = {
   periodo_academico:null,
   programa_id:null,
 };
+
+
 const Dashboard = () => {
   
   const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma, notasperpro2, semestres, notas_estudiantes } = useSelector(state => state.data);
-  
+  const { graficos } = useSelector(state => state.intruptor);
   const dispatch = useDispatch();
   const token = localStorage.getItem('token');
 
@@ -43,19 +45,9 @@ const Dashboard = () => {
     dispatch(getMaterias({"programa_id": data.programa_id, "semestre":data.semestre, "periodo_academico":data.periodo_academico}))
     dispatch(getdataEst(data))
   }
-  const [graficos, setGraficos] = React.useState(0);
+  
 
-  const onclicksuma = (num) => {
-    if (graficos < 4) {
-      setGraficos(graficos + num);
-    }
-  };
-
-  const onclickresta = (num) => {
-    if (graficos > 0) {
-      setGraficos(graficos - num);
-    }
-  };
+  
 
   React.useEffect(() => {
     let dato0 = notasperpro2;
@@ -65,26 +57,26 @@ const Dashboard = () => {
     let dato4 = notas_estudiantes;
 
 
-    if (graficos === 0) {
+    if (graficos === 1) {
       ChageChart0(dato0)
     }
-    if (graficos === 1) {
+    if (graficos === 2) {
       ChageChart1(dato1)
     }
-    if (graficos === 2) {
+    if (graficos === 3) {
       ChageChart2(dato2)
     }
-    if (graficos === 3) {
+    if (graficos === 4) {
       ChageChart3(dato3)
     }
-    if (graficos === 4) {
+    if (graficos === 5) {
       ChageChart4(dato4)
     }
   })
 
   const ChageChart0 = (e) => {
 
-    let myChar = echarts.init(document.getElementById('main0'));
+    let myChar = echarts.init(document.getElementById('main0'),null,{ renderer:'svg'});
     window.addEventListener("resize", function () {
       myChar.resize();
     })
@@ -132,7 +124,7 @@ const Dashboard = () => {
   }
   const ChageChart1 = (e) => {
 
-    let myChar = echarts.init(document.getElementById('main1'));
+    let myChar = echarts.init(document.getElementById('main1'),null,{ renderer:'svg'});
     window.addEventListener("resize", function () {
       myChar.resize();
     })
@@ -181,7 +173,7 @@ const Dashboard = () => {
 
   }
   const ChageChart2 = (e) => {
-    let myChart = echarts.init(document.getElementById('main2'));
+    let myChart = echarts.init(document.getElementById('main2'),null,{ renderer:'svg'});
     window.addEventListener("resize", function () {
       myChart.resize();
     })
@@ -303,7 +295,7 @@ const Dashboard = () => {
     option && myChart.setOption(option);
   }
   const ChageChart3 = (e) => {
-    let myChart = echarts.init(document.getElementById('main3'));
+    let myChart = echarts.init(document.getElementById('main3'),null,{ renderer:'svg'});
     window.addEventListener("resize", function () {
       myChart.resize();
     })
@@ -405,7 +397,7 @@ const Dashboard = () => {
   }
   const ChageChart4 = (e) => {
 
-    let myChart = echarts.init(document.getElementById('main4'));
+    let myChart = echarts.init(document.getElementById('main4'),null,{ renderer:'svg'});
     window.addEventListener("resize", function () {
       myChart.resize();
     })
@@ -519,26 +511,12 @@ const Dashboard = () => {
 
           <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
             <div className="card-body">
-              {graficos === 0 ? <div id="main0" style={{ width: '100%', height: '600px' }} ></div> : <></>}
-              {graficos === 1 ? <div id="main1" style={{ width: '100%', height: '700px' }} ></div> : <></>}
-              {graficos === 2 ? <div id="main2" style={{ width: '100%', height: '1000px' }} ></div> : <></>}
-              {graficos === 3 ? <div id="main3" style={{ width: '100%', height: '1000px' }} ></div> : <></>}
-              {graficos === 4 ? <div id="main4" style={{ width: '100%', height: '700px' }} ></div> : <></>}
+              {graficos === 1 ? <div id="main0" style={{ width: '100%', height: '700px' }} ></div> : <></>}
+              {graficos === 2 ? <div id="main1" style={{ width: '100%', height: '700px' }} ></div> : <></>}
+              {graficos === 3 ? <div id="main2" style={{ width: '100%', height: '1000px' }} ></div> : <></>}
+              {graficos === 4 ? <div id="main3" style={{ width: '100%', height: '1000px' }} ></div> : <></>}
+              {graficos === 5 ? <div id="main4" style={{ width: '100%', height: '700px' }} ></div> : <></>}
 
-            </div>
-          </div>
-
-          <br />
-          <div className="flex flex-row flex-wrap w-full justify-center items-center ">
-            <div className="flex justify-start">
-            <button className="btn btn-primary" onClick={() => onclickresta(1)}><strong>«</strong></button>
-            </div>
-            <div className="flex justify-center pl-40 pr-40 pt-5 pb-5">
-              <button className="btn btn-primary">Grafico {graficos}</button>
-            </div>
-            <div className="flex justify-end">
-
-            <button className="btn btn-primary" onClick={() => onclicksuma(1)}><strong>»</strong></button>
             </div>
           </div>
 
