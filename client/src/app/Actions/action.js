@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setProgramatemp,setNotasEst, setSemestate, setPeriodo, setPrograma, setNota, setNota2, setSede, setDocente, setEstudiante, setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotastate } from '../FeatureSlices/data';
+import { setDocentesMateria,setEstudiantes,setEstMaterias ,setProgramatemp ,setNotasEst, setSemestate, setPeriodo, setPrograma, setNota, setNota2, setSede, setDocente, setEstudiante, setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotastate } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
 import { setUsers, setConfig,setRoles } from "../FeatureSlices/users";
 import jwt_decode from "jwt-decode";
@@ -11,6 +11,13 @@ const url2 = import.meta.env.VITE_PUBLIC_SEVICE;
 export const getdataEst = (params) => (dispatch) => {
   axios.post(`${url2}/notas`, params).then((result) => {
     dispatch(setNotas_Por_Estudiante(result.data))
+  }).catch(err => {
+    console.log(err);
+  });
+}
+export const EstMateria= (params) => (dispatch) => {
+  axios.post(`${url2}/EstMateria`, params).then((result) => {
+    dispatch(setEstMaterias(result.data))
   }).catch(err => {
     console.log(err);
   });
@@ -44,6 +51,21 @@ export const getnotasEst = (params) => (dispatch) => {
   const urlgetEst = `${url2}/datosEst?` + new URLSearchParams(params).toString();
   axios.get(urlgetEst).then((result) => {
     dispatch(setNotasEst(result.data))
+  }).catch(err => {
+    console.log(err);
+  });
+}
+
+export const getEstudiante = (params) => (dispatch) => {
+  axios.get(`${url2}/DataEst/${params}`).then((result) => {
+    dispatch(setEstudiantes(result.data))
+  }).catch(err => {
+    console.log(err);
+  });
+}
+export const getMateriaDocente = (params) => (dispatch) => {
+  axios.get(`${url2}/MateriaDocente/${params}`).then((result) => {
+    dispatch(setDocentesMateria(result.data))
   }).catch(err => {
     console.log(err);
   });

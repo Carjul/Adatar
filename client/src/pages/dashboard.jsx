@@ -331,7 +331,7 @@ const Dashboard = () => {
         left: '40%', // Ajusta el espacio izquierdo para los nombres de las materias
         right: '2%', // Ajusta el espacio derecho para los valores
         top: '8%', // Ajusta el espacio superior para el título
-        bottom: '5%' // Ajusta el espacio inferior para la leyenda
+        bottom: '10%' // Ajusta el espacio inferior para la leyenda
       },
       yAxis: [
         {
@@ -404,7 +404,7 @@ const Dashboard = () => {
     let option = {
       title: {
         show: true,
-        text: `Numero de materias perididas estudiante - ${NombrePro}`,
+        text:  `Numero de materias perididas estudiante - ${NombrePro}`,
         left: 'center',
       },
       dataset: {
@@ -413,7 +413,7 @@ const Dashboard = () => {
           ...e
         ]
       },
-    
+
       toolbox: {
         show: true,
         feature: {
@@ -423,31 +423,40 @@ const Dashboard = () => {
         }
       },
       grid: { containLabel: true },
-  xAxis: { name: 'amount' },
-  yAxis: { type: 'category' },
-  visualMap: {
-    orient: 'horizontal',
-    left: 'center',
-    min: 10,
-    max: 100,
-  
-    // Map the score column to color
-    dimension: 0,
-    inRange: {
-      color: ['#65B581', '#FFCE34', '#FD665F']
-    }
+      xAxis: { name: 'Cantidad',
+      type: 'value', 
+      interval: 1,   
   },
-  series: [
-    {
-      type: 'bar',
-      encode: {
-        // Map the "amount" column to X axis.
-        x: 'numero',
-        // Map the "product" column to Y axis
-        y: 'estudiantes'
-      }
-    }
-  ]
+      yAxis: { type: 'category' },
+      visualMap: {
+        orient: 'horizontal',
+        left: 'center',
+        min: 10,
+        max: 100,
+
+        // Map the score column to color
+        dimension: 0,
+        inRange: {
+          color: ['#65B581', '#FFCE34', '#FD665F']
+        }
+      },
+      series: [
+        {
+          type: 'bar',
+          encode: {
+            // Map the "amount" column to X axis.
+            x: 'numero',
+            // Map the "product" column to Y axis
+            y: 'estudiantes'
+          }
+        }
+      ],
+      dataZoom: [
+        {
+          type: 'slider',
+          yAxisIndex: 0,  // Indica que afecta al eje Y
+        }
+      ]
     }
     myChart.setOption(option);
   }

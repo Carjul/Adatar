@@ -16,23 +16,55 @@ const initialState = {
     Notas_por_Est: [],
     DataGraficoEst: [],
     notas_del_semestre: [],
-    programatemp:[]
+    programatemp: [],
+    EstMaterias: [],
+    estudiante:{},
+    docentesMateria: {},
 }
 const dataSlice = createSlice({
     name: 'data',
     initialState,
     reducers: {
+        setEstudiantes: (state, action) => {
+            state.estudiante = action.payload
+        },
+        setDocentesMateria: (state, action) => {
+            state.docentesMateria = action.payload
+        },
         setProgramatemp: (state, action) => {
             state.programatemp = action.payload
+        },
+        setEstMaterias: (state, action) => {
+            const result = [];
+            const students = {};
+
+            action.payload.forEach((item) => {
+                const { identificacion, nombres, materia, cod_materia } = item;
+
+                if (!students[identificacion]) {
+                    // Si el estudiante no está en el objeto de estudiantes, lo agregamos.
+                    students[identificacion] = {
+                        identificacion,
+                        nombres,
+                        materias: []
+                    };
+                    result.push(students[identificacion]);
+                }
+
+                // Agregamos la materia al estudiante correspondiente.
+                students[identificacion].materias.push({ materia, cod_materia });
+            });
+
+            state.EstMaterias = result;
         },
         setNotasEst: (state, action) => {
             state.Notas_por_Est = action.payload
         },
         setNotaEstG: (state, action) => {
-            const x = [ ['score', 'Nota', 'Nombre']]
+            const x = [['score', 'Nota', 'Nombre']]
             for (let i = 0; i < action.payload.length; i++) {
                 const element = action.payload[i];
-                x.push([(20 *parseFloat(element.Nota)) , parseFloat(element.Nota), element.NombreMateria ])
+                x.push([(20 * parseFloat(element.Nota)), parseFloat(element.Nota), element.NombreMateria])
             }
             state.DataGraficoEst = x;
         },
@@ -224,4 +256,4 @@ const dataSlice = createSlice({
 })
 
 export default dataSlice.reducer
-export const { setProgramatemp,setNotaEstG, setSemestate, setNotasEst, setArticulos, setNota2, setNotas_Por_Estudiante, setNotasperma, setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions
+export const { setEstudiantes,setDocentesMateria,setEstMaterias ,setProgramatemp, setNotaEstG, setSemestate, setNotasEst, setArticulos, setNota2, setNotas_Por_Estudiante, setNotasperma, setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions
