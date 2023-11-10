@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setDocentesMateria,setEstudiantes,setEstMaterias ,setProgramatemp ,setNotasEst, setSemestate, setPeriodo, setPrograma, setNota, setNota2, setSede, setDocente, setEstudiante, setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotastate } from '../FeatureSlices/data';
+import { setDocentesMateria,setEstudiantes,setEstMaterias ,setProgramatemp ,setNotasEst, setSemestate, setPeriodo, setPrograma, setNota, setNota2, setSede, setDocente, setEstudiante, setEstSemestre,setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotastate } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
 import { setUsers, setConfig,setRoles } from "../FeatureSlices/users";
 import jwt_decode from "jwt-decode";
@@ -11,6 +11,13 @@ const url2 = import.meta.env.VITE_PUBLIC_SEVICE;
 export const getdataEst = (params) => (dispatch) => {
   axios.post(`${url2}/notas`, params).then((result) => {
     dispatch(setNotas_Por_Estudiante(result.data))
+  }).catch(err => {
+    console.log(err);
+  });
+}
+export const getdataEstSem = (params) => (dispatch) => {
+  axios.post(`${url2}/EstSemestres`, params).then((result) => {
+    dispatch(setEstSemestre(result.data))
   }).catch(err => {
     console.log(err);
   });

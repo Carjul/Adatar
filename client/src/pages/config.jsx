@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Sidebar from '../components/sidebar';
 import Footer from '../components/footer';
 import { useEffect, useRef } from 'react';
-import { getuser, deleteOneData, updateOneData, getRoles, getProgramas, getSemestres, userUpdate,userDeleteData } from '../app/Actions/action';
+import { getuser, deleteOneData, updateOneData, getRoles, getProgramas, getSemestres, userUpdate, userDeleteData } from '../app/Actions/action';
 import { setMsg } from '../app/FeatureSlices/MsgApi';
 
 
@@ -94,126 +94,146 @@ const Config = () => {
                             <span>Usuario eliminado</span>
                         </div>
                     </div> : ""}
-                    <div className='table-responsive'>
+
                     <h2 className='text-xl'>Asignar Roles</h2>
-                        <table className="table table-striped table-hover table-bordered mt-10 ">
-                            <thead >
-                                <tr>
-                                    <th className="p-4">Avatar</th>
-                                    <th className="p-4">Nombre</th>
-                                    <th className="p-4">Rol</th>
-                                    <th className="p-4">Cambiar Rol</th>
-                                    <th className="p-4">Eliminar Usurio</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {user?.map(e =>
-                                    <tr key={e.id} >
-                                        <td className="p-2">
-                                            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                                                <div className="w-10 rounded-full">
-                                                    <img src={`${e.Avatar}`} alt="Avatar" width={40} height={50} />
-                                                </div>
-                                            </label>
-                                        </td>
-                                        <td className="p-2">{e.Nombre}</td>
-                                        <td className="p-2">
-                                            {parseInt(e.RolId) === 1 ? <div className="card-actions justify-start">
-                                                <div className="badge badge-outline bg-success">Administrador</div>
-                                            </div> : ""}
-                                            {parseInt(e.RolId) === 2 ? <div className="card-actions justify-start">
-                                                <div className="badge badge-outline bg-info">Directivo</div>
-                                            </div> : ""}
-                                            {parseInt(e.RolId) === 3 ? <div className="card-actions justify-start">
-                                                <div className="badge badge-outline bg-secondary">Coordinador de semestre</div>
-                                            </div> : ""}
-                                            {parseInt(e.RolId) === 4 ? <div className="card-actions justify-start">
-                                                <div className="badge badge-outline bg-primary">Docente</div>
-                                            </div> : ""}
-                                            {parseInt(e.RolId) === 5 ? <div className="card-actions justify-start">
-                                                <div className="badge badge-outline bg-accent">Estudiante</div>
-                                            </div> : ""}
-                                            {parseInt(e.RolId) === 6 ? <div className="card-actions justify-start">
-                                                <div className="badge badge-outline bg-error">Visitante</div>
-                                            </div> : ""}
 
-                                        </td>
-                                        <td className="p-2"><Formupdate id={e.id} /></td>
-                                        <td className="p-2"><MyButton id={e.id} /></td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
+                    <div className="flex flex-col">
+                        <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                            <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                                <div className="overflow-hidden">
+                                    <table className="min-w-full text-center text-sm font-light">
+                                        <thead className="border-b font-medium dark:border-neutral-500">
+                                            <tr>
+                                                <th scope="col" className="px-6 py-2">Avatar</th>
+                                                <th scope="col" className="px-6 py-2">Nombre</th>
+                                                <th scope="col" className="px-6 py-2">Rol</th>
+                                                <th scope="col" className="px-6 py-2">Cambiar Rol</th>
+                                                <th scope="col" className="px-6 py-2">Eliminar Usurio</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            {user?.map(e =>
+                                                <tr key={e.id} className="border-b dark:border-neutral-500">
+                                                    <td className="whitespace-nowrap px-6 py-2">
+                                                        <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                                                            <div className="w-10 rounded-full">
+                                                                <img src={`${e.Avatar}`} alt="Avatar" width={40} height={50} />
+                                                            </div>
+                                                        </label>
+                                                    </td>
+                                                    <td className="whitespace-nowrap px-6 py-2">{e.Nombre}</td>
+                                                    <td className="whitespace-nowrap px-6 py-2">
+                                                        {parseInt(e.RolId) === 1 ? <div className="card-actions justify-start">
+                                                            <div className="badge badge-outline bg-success">Administrador</div>
+                                                        </div> : ""}
+                                                        {parseInt(e.RolId) === 2 ? <div className="card-actions justify-start">
+                                                            <div className="badge badge-outline bg-info">Directivo</div>
+                                                        </div> : ""}
+                                                        {parseInt(e.RolId) === 3 ? <div className="card-actions justify-start">
+                                                            <div className="badge badge-outline bg-secondary">Coordinador de semestre</div>
+                                                        </div> : ""}
+                                                        {parseInt(e.RolId) === 4 ? <div className="card-actions justify-start">
+                                                            <div className="badge badge-outline bg-primary">Docente</div>
+                                                        </div> : ""}
+                                                        {parseInt(e.RolId) === 5 ? <div className="card-actions justify-start">
+                                                            <div className="badge badge-outline bg-accent">Estudiante</div>
+                                                        </div> : ""}
+                                                        {parseInt(e.RolId) === 6 ? <div className="card-actions justify-start">
+                                                            <div className="badge badge-outline bg-error">Visitante</div>
+                                                        </div> : ""}
+
+                                                    </td>
+                                                    <td className="whitespace-nowrap px-6 py-2"><Formupdate id={e.id} /></td>
+                                                    <td className="whitespace-nowrap px-6 py-2"><MyButton id={e.id} /></td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+
+
                     <br />
-                    <div className="table-responsive">
-                        <h2 className='text-xl'>Asignar Semestre</h2>
 
-                        <table className="table table-striped table-hover table-bordered mt-10 ">
-                            <thead >
-                                <tr>
-                                    <th className="p-4">Avatar</th>
-                                    <th className="p-4">Nombre</th>
-                                    <th className="p-4">asignar programa</th>
-                                    <th className="p-4">asignar Semestre</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {coordinador?.map(i =>
-                                    <tr key={i.id} >
-                                        <td className="p-2">
-                                            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                                                <div className="w-10 rounded-full">
-                                                    <img src={`${i.Avatar}`} alt="Avatar" width={40} height={50} />
-                                                </div>
-                                            </label>
-                                        </td>
-                                        <td className="p-2">{i.Nombre}</td>
+                    <h2 className='text-xl'>Asignar Semestre</h2>
 
-                        
-                                        <td className='p-2'>
-                                            <div>
-                                                <select onChange={(el) => {
-                                                    dispatch(updateOneData(i.id, el.target.value, token));
-                                                    dispatch(getSemestres({ "programa_id": el.target.value }))
-                                                    Data.id = i.id
-                                                    Data.Datos[0].Programa = el.target.value
-                                                }} className="select select-primary select-sm ">
+                    <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                            <div className="overflow-hidden">
+                                <table className="min-w-full text-center text-sm font-light">
+                                    <thead className="border-b font-medium dark:border-neutral-500">
+                                        <tr>
+                                            <th className="p-4">Avatar</th>
+                                            <th className="p-4">Nombre</th>
+                                            <th className="p-4">asignar programa</th>
+                                            <th className="p-4">asignar Semestre</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {coordinador?.map(i =>
+                                            <tr key={i.id} className="border-b dark:border-neutral-500">
+                                                <td className="p-2">
+                                                    <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                                                        <div className="w-10 rounded-full">
+                                                            <img src={`${i.Avatar}`} alt="Avatar" width={40} height={50} />
+                                                        </div>
+                                                    </label>
+                                                </td>
+                                                <td className="p-2">{i.Nombre}</td>
 
-                                                    {programa?.map(e => {
-                                                        if (i.Datos === null) {
-                                                            return <option key={e.id} value={e.id}>{e.NombrePrograma}</option>;
-                                                        } else if (JSON.parse(i.Datos[0]).Programa === e.id) {
-                                                            return <option key={e.id} defaultValue={e.id}>{e.NombrePrograma}</option>;
-                                                        }
-                                                    }
-                                                    )}
 
-                                                </select>
+                                                <td className='p-2'>
+                                                    <div>
+                                                        <select onChange={(el) => {
+                                                            dispatch(updateOneData(i.id, el.target.value, token));
+                                                            dispatch(getSemestres({ "programa_id": el.target.value }))
+                                                            Data.id = i.id
+                                                            Data.Datos[0].Programa = el.target.value
+                                                        }} className="select select-primary select-sm ">
 
-                                            </div>
-                                        </td>
-                                        <td className='p-2'>
-                                            <div>
-                                                <select onChange={handlechanges} className="select select-primary select-sm ">
-                                                    {i.Datos === null ? <option defaultValue={"1"}>Semestres</option> : <option defaultValue={JSON.parse(i.Datos[0]).Semestres}>{JSON.parse(i.Datos[0]).Semestres}</option>}
-                                                    {semestres?.map(e =>
-                                                        <option key={e} value={e}>{e}</option>)
-                                                    }
-                                                </select>
-                                                {i.Datos !== null ? <button className="btn btn-outline btn-error ml-4" onClick={()=>dispatch(userDeleteData({id:i.id}))}>x</button> : ""}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
+                                                            {programa?.map(e => {
+                                                                if (i.Datos === null) {
+                                                                    return <option key={e.id} value={e.id}>{e.NombrePrograma}</option>;
+                                                                } else if (JSON.parse(i.Datos[0]).Programa === e.id) {
+                                                                    return <option key={e.id} defaultValue={e.id}>{e.NombrePrograma}</option>;
+                                                                }
+                                                            }
+                                                            )}
+
+                                                        </select>
+
+                                                    </div>
+                                                </td>
+                                                <td className='p-2'>
+                                                    <div>
+                                                        <select onChange={handlechanges} className="select select-primary select-sm ">
+                                                            {i.Datos === null ? <option defaultValue={"1"}>Semestres</option> : <option defaultValue={JSON.parse(i.Datos[0]).Semestres}>{JSON.parse(i.Datos[0]).Semestres}</option>}
+                                                            {semestres?.map(e =>
+                                                                <option key={e} value={e}>{e}</option>)
+                                                            }
+                                                        </select>
+                                                        {i.Datos !== null ? <button className="btn btn-outline btn-error ml-4" onClick={() => dispatch(userDeleteData({ id: i.id }))}>x</button> : ""}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                        </div>
+
                     </div>
-
 
                 </div>
-
             </div>
+
+
             <Footer />
         </>
     )

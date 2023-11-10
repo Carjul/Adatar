@@ -1,11 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@media (max-width: 900px) {
-    .table-responsive {
-      overflow-x: auto;
-    }
-  }
+
 #sidebar{
     height: 50rem;
 }

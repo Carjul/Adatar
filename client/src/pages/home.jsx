@@ -1,9 +1,10 @@
 import Nav from '../components/Nav';
 import Sidebar from '../components/sidebar';
 import Footer from '../components/footer';
+import { Datatable, initTE } from 'tw-elements';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMaterias, getData, getdataEst, EstMateria, getEstudiante, getMateriaDocente } from '../app/Actions/action'
+import { getMaterias, getData, getdataEstSem, EstMateria, getEstudiante, getMateriaDocente } from '../app/Actions/action'
 import * as echarts from 'echarts';
 
 
@@ -15,7 +16,7 @@ const data = {
 
 const Home = () => {
   const token = localStorage.getItem('token');
-  const { notasperma, notas_estudiantes, periodoAcademico, EstMaterias, docentesMateria, estudiante } = useSelector(state => state.data);
+  const { notasperma, EstSemestre, periodoAcademico, EstMaterias, docentesMateria, estudiante } = useSelector(state => state.data);
   var x = localStorage.getItem('userdecode')
   var u = JSON.parse(x)
 
@@ -26,21 +27,29 @@ const Home = () => {
     const datau = JSON.parse(x);
     if (datau.user) {
       let obju = JSON.parse(datau.user.Datos)
-      /*  if(obju.Programa){
-        dispatch(getPrograma(obju?.Programa,token))
-       } */
       setobj(obju)
     }
   }, [x, dispatch, token])
 
+  
+    const [currentPage, setCurrentPage] = useState(1);
+  
+    const indexOfLastItem = currentPage * 10;
+    const indexOfFirstItem = indexOfLastItem - 10;
+    const currentItems = EstSemestre?.slice(indexOfFirstItem, indexOfLastItem);
+  
+    const totalPages = Math.ceil(EstSemestre?.length / 10);
+  
+    const handleChangePage = (page) => {
+      setCurrentPage(page);
+    };
+
   useEffect(() => {
     if (u.user.RolId === 3) {
       let dato1 = notasperma;
-      let dato2 = notas_estudiantes;
       ChageChart3(dato1)
-      ChageChart4(dato2)
     }
-  }, [notasperma, notas_estudiantes])
+  }, [notasperma])
 
   const ChageChart3 = (e) => {
     let myChart = echarts.init(document.getElementById('main3'));
@@ -143,73 +152,6 @@ const Home = () => {
 
     option && myChart.setOption(option);
   }
-  const ChageChart4 = (e) => {
-
-    let myChart = echarts.init(document.getElementById('main4'));
-    window.addEventListener("resize", function () {
-      myChart.resize();
-    })
-    let option = {
-      title: {
-        show: true,
-        text: `Numero de materias perididas estudiante`,
-        left: 'center',
-      },
-      dataset: {
-        source: [
-          ['estudiantes', 'score', 'numero'],
-          ...e
-        ]
-      },
-
-      toolbox: {
-        show: true,
-        feature: {
-          dataView: { show: true, readOnly: false, title: 'Datos' },
-          restore: { show: false },
-          saveAsImage: { show: true }
-        }
-      },
-      grid: { containLabel: true },
-      xAxis: {
-        name: 'Cantidad',
-        type: 'value',
-        interval: 1,
-      },
-      yAxis: { type: 'category' },
-      visualMap: {
-        orient: 'horizontal',
-        left: 'center',
-        min: 10,
-        max: 100,
-
-        // Map the score column to color
-        dimension: 0,
-        inRange: {
-          color: ['#65B581', '#FFCE34', '#FD665F']
-        }
-      },
-      series: [
-        {
-          type: 'bar',
-          encode: {
-            // Map the "amount" column to X axis.
-            x: 'numero',
-            // Map the "product" column to Y axis
-            y: 'estudiantes'
-          }
-        }
-      ],
-      dataZoom: [
-        {
-          type: 'slider',
-          yAxisIndex: 0,  // Indica que afecta al eje Y
-        }
-      ]
-
-    }
-    myChart.setOption(option);
-  }
 
 
   return (
@@ -232,7 +174,7 @@ const Home = () => {
                         data.semestre = obj?.Semestres
                         data.periodo_academico = parseInt(e.target.value)
                         data.programa_id = parseInt(obj?.Programa)
-                        dispatch(getdataEst(data));
+                        dispatch(getdataEstSem(data));
                         dispatch(EstMateria(data))
                       }}
                     >
@@ -254,13 +196,62 @@ const Home = () => {
               </div>
             </div>
             <br />
-            <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
+
+
+            <div className="card card-compact w-4/5 bg-base-100 shadow-xl ">
               <div className="card-body">
-                <div id="main4" style={{ width: '100%', height: '800px' }}></div>
+            <div className="flex flex-col">
+              <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                  <div className="overflow-hidden">
+                    <table className="min-w-full text-center text-sm font-light p-10">
+                      <thead className="border font-medium dark:border-neutral-500">
+                        <tr className='bg-base-300'>
+                          <th scope="col" className="px-6 py-4">Nombres</th>
+                          <th scope="col" className="px-6 py-4">Perdio</th>
+                          <th scope="col" className="px-6 py-4">Gano</th>
+                          <th scope="col" className="px-6 py-4">Cantidad Materias</th>
+                          <th scope="col" className="px-6 py-4">Porcentaje Perdida</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {currentItems?.map((item) => (
+                        <tr className="border dark:border-neutral-500">
+                          <td className="px-6 py-4 font-medium">{item?.nombres} </td>
+                          <td className="px-6 py-4 font-medium"> {item?.perdio} </td>
+                          <td className="px-6 py-4 font-medium">{item?.gano}</td>
+                          <td className="px-6 py-4 font-medium">{item?.cantidad_materias}</td>
+                          <td className="px-6 py-4 font-medium">{item?.porcentaje_perdida}%</td>
+                        </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                    <div className="flex justify-center mt-4">
+              <nav className="flex items-center space-x-3">
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <button
+                    key={index + 1}
+                    onClick={() => handleChangePage(index + 1)}
+                    className={`px-3 py-1 focus:outline-none ${
+                      currentPage === index + 1
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-gray-200 text-gray-800'
+                    }`}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+              </nav>
+            </div>
+                  </div>
+                </div>
               </div>
             </div>
+            </div>
+            </div>
+
             <br />
-            <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
+           {/*  <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
               <div className="card-body">
                 <div className="flex flex-col">
                   <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -280,11 +271,11 @@ const Home = () => {
                           <tbody>
                             {Array.isArray(EstMaterias) && EstMaterias.map((item) => (
                               <tr className="border-b dark:border-neutral-500" key={item.identificacion}>
-                                <label htmlFor="my_modal_6" ><td className="whitespace-nowrap px-6 py-4 font-medium" onClick={() => dispatch(getEstudiante(item.identificacion))}>{item.nombres}</td></label>
+                                <label htmlFor="my_modal_6" ><td className="px-6 py-4 font-medium" onClick={() => dispatch(getEstudiante(item.identificacion))}>{item.nombres}</td></label>
 
-                                <td className="whitespace-nowrap px-6 py-4">
+                                <td className="px-6 py-4">
                                   {Array.isArray(item.materias) && item.materias.map((materia) => (
-                                   <label htmlFor="my_modal_7"><p onClick={() => dispatch(getMateriaDocente(materia.cod_materia))} key={materia.cod_materia}>{materia.materia}</p></label> 
+                                    <label htmlFor="my_modal_7"><p onClick={() => dispatch(getMateriaDocente(materia.cod_materia))} key={materia.cod_materia}>{materia.materia}</p></label>
 
                                   ))}
                                 </td>
@@ -300,7 +291,7 @@ const Home = () => {
                 </div>
 
               </div>
-            </div>
+            </div> */}
             <br />
           </div>
         ) : null}
@@ -357,7 +348,7 @@ const Home = () => {
           </div>
         </div>
 
-        
+
       </div>
       <Footer />
     </>

@@ -584,6 +584,87 @@ func main() {
 
 	}).Methods("POST")
 
+	app.HandleFunc("/service/EstSemestres", func(w http.ResponseWriter, r *http.Request) {
+		var params struct {
+			Semestre         string `json:"semestre"`
+			PeriodoAcademico int    `json:"periodo_academico"`
+			ProgramaID       int    `json:"programa_id"`
+		}
+		err := json.NewDecoder(r.Body).Decode(&params)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		query := `
+			SELECT 
+			E."Nombres",
+			COUNT(CASE WHEN NOT N."Gano" = 1 THEN 1 END) AS "Perdio",
+			COUNT(CASE WHEN N."Gano" = 1 THEN 1 END) AS "Gano",
+			COUNT(N."Nota") AS "CantidadMaterias",
+			CASE 
+				WHEN COUNT(N."Nota") > 0 THEN 
+					ROUND((COUNT(CASE WHEN NOT N."Gano" = 1 THEN 1 END) * 100.0) / COUNT(N."Nota"))
+				ELSE
+					0
+			END AS "PorcentajePerdida"
+			FROM PUBLIC."Notas" N
+			JOIN PUBLIC."Estudiantes" E ON E.ID = N."EstudianteId"
+			WHERE N."PeriodoAcademicoId" =$1 AND N."ProgramaId" =$2 AND E."SemeNumero" =$3
+			GROUP BY E."Nombres"
+			ORDER BY  "Perdio" DESC
+		`
+		args := []interface{}{params.PeriodoAcademico, params.ProgramaID, params.Semestre}
+
+		// Ejecutar la consulta SQL
+		rows, err := db.Query(query, args...)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		defer rows.Close()
+
+		type Resultado struct {
+			Nombres           string `json:"nombres"`
+			Perdio            int    `json:"perdio"`
+			Gano              int    `json:"gano"`
+			CatidadMaterias   int    `json:"cantidad_materias"`
+			PorcentajePerdida int    `json:"porcentaje_perdida"`
+		}
+
+		estudiantes := []Resultado{}
+
+		for rows.Next() {
+			var nombres string
+			var perdio int
+			var gano int
+			var cantidad_materias int
+			var porcentaje_perdida int
+
+			err = rows.Scan(&nombres, &perdio, &gano, &cantidad_materias, &porcentaje_perdida)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			estudiante := Resultado{
+				Nombres:           nombres,
+				Perdio:            perdio,
+				Gano:              gano,
+				CatidadMaterias:   cantidad_materias,
+				PorcentajePerdida: porcentaje_perdida,
+			}
+
+			estudiantes = append(estudiantes, estudiante)
+		}
+		estudianteJSON, err := json.Marshal(estudiantes)
+		if err != nil {
+			log.Fatal(err)
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(estudianteJSON)
+
+	}).Methods("POST")
+
 	app.HandleFunc("/service/EstMateria", func(w http.ResponseWriter, r *http.Request) {
 
 		// Leer los parámetros de la solicitud
