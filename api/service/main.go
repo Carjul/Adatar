@@ -682,16 +682,18 @@ func main() {
 		// Preparar la consulta SQL con los parámetros
 		query := `
 		SELECT 
-    E."Identificacion",
-    E."Nombres",
-    M."NombreMateria",
-    M."CodigoMateria"
-FROM PUBLIC."Notas" N
-JOIN PUBLIC."Docentes" D ON D.ID = N."DocenteId"
-JOIN PUBLIC."Estudiantes" E ON E.ID = N."EstudianteId"
-JOIN PUBLIC."Materias" M ON M.ID = N."MateriaId"
-JOIN public."MateriaPorPensums" ma ON N."MateriaId" = ma."MateriaId" AND N."MateriaId" = ma."MateriaId"
-WHERE  N."Perdio" = 1  AND N."PeriodoAcademicoId"=$1 AND N."ProgramaId"=$2 AND ma."SemMateriaNum"=$3;
+		E."Identificacion",
+		E."Nombres",
+		M."CodigoMateria",
+		M."NombreMateria" AS Materia, 
+		"MateriaPorPensums"."SemMateriaNum" AS Semestre,
+		N."Nota"
+		FROM PUBLIC."Notas" N
+		JOIN PUBLIC."Estudiantes" E ON E.ID = N."EstudianteId"
+		JOIN PUBLIC."Materias" M ON M.ID = N."MateriaId"
+		JOIN public."Pensums" ON "Pensums".id = E."PensumId"
+		JOIN public."MateriaPorPensums" ON "MateriaPorPensums"."MateriaId" = M.id AND "MateriaPorPensums"."PensumId" = "Pensums".id
+		WHERE N."PeriodoAcademicoId"=$1 AND N."ProgramaId"=$2 AND E."SemeNumero"=$3;
 		`
 		args := []interface{}{params.PeriodoAcademico, params.ProgramaID, params.Semestre}
 
@@ -707,8 +709,10 @@ WHERE  N."Perdio" = 1  AND N."PeriodoAcademicoId"=$1 AND N."ProgramaId"=$2 AND m
 		type Resultado struct {
 			Identificacion string `json:"identificacion"`
 			Nombres        string `json:"nombres"`
-			Materia        string `json:"materia"`
 			CodMateria     string `json:"cod_materia"`
+			Materia        string `json:"materia"`
+			Semestre       string `json:"semestre"`
+			Nota           string `json:"nota"`
 		}
 		estudiantes := []Resultado{}
 
@@ -717,8 +721,10 @@ WHERE  N."Perdio" = 1  AND N."PeriodoAcademicoId"=$1 AND N."ProgramaId"=$2 AND m
 			var nombres string
 			var materia string
 			var codmateria string
+			var semestre string
+			var nota string
 
-			err = rows.Scan(&identificacion, &nombres, &materia, &codmateria)
+			err = rows.Scan(&identificacion, &nombres, &codmateria, &materia, &semestre, &nota)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -728,6 +734,8 @@ WHERE  N."Perdio" = 1  AND N."PeriodoAcademicoId"=$1 AND N."ProgramaId"=$2 AND m
 				Nombres:        nombres,
 				Materia:        materia,
 				CodMateria:     codmateria,
+				Semestre:       semestre,
+				Nota:           nota,
 			}
 
 			estudiantes = append(estudiantes, estudiante)

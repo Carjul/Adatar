@@ -1,7 +1,6 @@
 import Nav from '../components/Nav';
 import Sidebar from '../components/sidebar';
 import Footer from '../components/footer';
-import { Datatable, initTE } from 'tw-elements';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMaterias, getData, getdataEstSem, EstMateria, getEstudiante, getMateriaDocente } from '../app/Actions/action'
@@ -31,18 +30,39 @@ const Home = () => {
     }
   }, [x, dispatch, token])
 
+  //tabla de estudiantes por semestre
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastItem = currentPage * 10;
+  const indexOfFirstItem = indexOfLastItem - 10;
+  const currentItems = EstSemestre?.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(EstSemestre?.length / 10);
+
+  const handleChangePage = (page) => {
+    setCurrentPage(page);
+  };
   
-    const [currentPage, setCurrentPage] = useState(1);
+/* //busqueda 
+ const [searchTerm, setSearchTerm] = useState('');
   
-    const indexOfLastItem = currentPage * 10;
-    const indexOfFirstItem = indexOfLastItem - 10;
-    const currentItems = EstSemestre?.slice(indexOfFirstItem, indexOfLastItem);
-  
-    const totalPages = Math.ceil(EstSemestre?.length / 10);
-  
-    const handleChangePage = (page) => {
-      setCurrentPage(page);
-    };
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredItems = EstMaterias?.filter((item) => {
+    return (
+      item.nombres.toLowerCase().includes(searchTerm.toLowerCase())
+
+    )
+  }) */
+
+ 
+  //buscar y colocar a la otra tabla
+  const [estudianteMat, setEstudianteMat] = useState([])
+  const findEstInMaterias = (Nombre) => {
+    let obj = EstMaterias?.find((item) => item.nombres === Nombre)
+    setEstudianteMat([obj])
+  }
 
   useEffect(() => {
     if (u.user.RolId === 3) {
@@ -200,90 +220,118 @@ const Home = () => {
 
             <div className="card card-compact w-4/5 bg-base-100 shadow-xl ">
               <div className="card-body">
-            <div className="flex flex-col">
-              <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-                  <div className="overflow-hidden">
-                    <table className="min-w-full text-center text-sm font-light p-10">
-                      <thead className="border font-medium dark:border-neutral-500">
-                        <tr className='bg-base-300'>
-                          <th scope="col" className="px-6 py-4">Nombres</th>
-                          <th scope="col" className="px-6 py-4">Perdio</th>
-                          <th scope="col" className="px-6 py-4">Gano</th>
-                          <th scope="col" className="px-6 py-4">Cantidad Materias</th>
-                          <th scope="col" className="px-6 py-4">Porcentaje Perdida</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      {currentItems?.map((item) => (
-                        <tr className="border dark:border-neutral-500">
-                          <td className="px-6 py-4 font-medium">{item?.nombres} </td>
-                          <td className="px-6 py-4 font-medium"> {item?.perdio} </td>
-                          <td className="px-6 py-4 font-medium">{item?.gano}</td>
-                          <td className="px-6 py-4 font-medium">{item?.cantidad_materias}</td>
-                          <td className="px-6 py-4 font-medium">{item?.porcentaje_perdida}%</td>
-                        </tr>
-                          ))}
-                      </tbody>
-                    </table>
-                    <div className="flex justify-center mt-4">
-              <nav className="flex items-center space-x-3">
-                {Array.from({ length: totalPages }, (_, index) => (
-                  <button
-                    key={index + 1}
-                    onClick={() => handleChangePage(index + 1)}
-                    className={`px-3 py-1 focus:outline-none ${
-                      currentPage === index + 1
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-gray-200 text-gray-800'
-                    }`}
-                  >
-                    {index + 1}
-                  </button>
-                ))}
-              </nav>
-            </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            </div>
-            </div>
-
-            <br />
-           {/*  <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
-              <div className="card-body">
                 <div className="flex flex-col">
                   <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                       <div className="overflow-hidden">
-                        <table className="min-w-full text-center text-sm font-light">
-                          <thead className="border-b font-medium dark:border-neutral-500">
-                            <tr>
-                              <th scope="col" className="px-6 py-4">
-                                Estudiante
-                              </th>
-                              <th scope="col" className="px-6 py-4">
-                                Materias
-                              </th>
+                      
+                        <table className="min-w-full text-center text-sm font-light p-10">
+                          <thead className="border font-medium dark:border-neutral-500">
+                            <tr className='bg-accent-focus'>
+                              <th scope="col" className="px-6 py-4">Nombres</th>
+                              <th scope="col" className="px-6 py-4">Perdio</th>
+                              <th scope="col" className="px-6 py-4">Gano</th>
+                              <th scope="col" className="px-6 py-4">Cantidad Materias</th>
+                              <th scope="col" className="px-6 py-4">Porcentaje Perdida</th>
                             </tr>
                           </thead>
                           <tbody>
-                            {Array.isArray(EstMaterias) && EstMaterias.map((item) => (
-                              <tr className="border-b dark:border-neutral-500" key={item.identificacion}>
-                                <label htmlFor="my_modal_6" ><td className="px-6 py-4 font-medium" onClick={() => dispatch(getEstudiante(item.identificacion))}>{item.nombres}</td></label>
-
-                                <td className="px-6 py-4">
-                                  {Array.isArray(item.materias) && item.materias.map((materia) => (
-                                    <label htmlFor="my_modal_7"><p onClick={() => dispatch(getMateriaDocente(materia.cod_materia))} key={materia.cod_materia}>{materia.materia}</p></label>
-
-                                  ))}
-                                </td>
+                            {currentItems?.map((item) => (
+                              <tr className="border dark:border-neutral-500 bg-green-100" onClick={() => findEstInMaterias(item?.nombres)}>
+                                <td className="px-6 py-4 font-medium">{item?.nombres} </td>
+                                <td className="px-6 py-4 font-medium text-red-500"> {item?.perdio} </td>
+                                <td className="px-6 py-4 font-medium">{item?.gano}</td>
+                                <td className="px-6 py-4 font-medium">{item?.cantidad_materias}</td>
+                                <td className="px-6 py-4 font-medium">{item?.porcentaje_perdida}%</td>
                               </tr>
                             ))}
                           </tbody>
                         </table>
+                        <div className="flex justify-center mt-4">
+                          <nav className="flex items-center space-x-3">
+                            {Array.from({ length: totalPages }, (_, index) => (
+                              <button
+                                key={index + 1}
+                                onClick={() => handleChangePage(index + 1)}
+                                className={`px-3 py-1 focus:outline-none ${currentPage === index + 1
+                                  ? 'bg-blue-500 text-white'
+                                  : 'bg-gray-200 text-gray-800'
+                                  }`}
+                              >
+                                {index + 1}
+                              </button>
+                            ))}
+                          </nav>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
+            <br />
+            <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
+              <div className="card-body">
+                <div className="flex flex-col">
+
+                  <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                      <div className="overflow-hidden">
+                       {/*  <div className="flex mb-5 justify-start">
+
+                          <input
+                            type="text"
+                            id="search2"
+                            name="search"
+                            value={searchTerm}
+                            onChange={handleSearch}
+                            placeholder="Buscar" className="input input-bordered input-sm w-full max-w-xs"
+                          />
+                        </div> */}
+                        {Array.isArray(estudianteMat) && estudianteMat.map((item) => (
+                          <table className="min-w-full text-center text-sm font-light">
+                            <thead className="border font-medium dark:border-neutral-500">
+                              <tr key={item.identificacion} className='bg-accent-focus'>
+                                <th>Estudiante:</th>
+                                <label htmlFor="my_modal_6" ><th scope="col" className="px-6 py-4" onClick={() => dispatch(getEstudiante(item.identificacion))}>{item.nombres}</th></label>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <thead className="border font-medium dark:border-neutral-500">
+                              <tr className='bg-accent-focus'>
+                                <th scope="col" className="px-6 py-4">
+                                  Materias
+                                </th>
+                                <th scope="col" className="px-6 py-4">
+                                  SemMatNum
+                                </th>
+                                <th scope="col" className="px-6 py-4">
+                                  Nota
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {Array.isArray(item.materias) && item.materias.map((materia) => (
+                                <tr className="border dark:border-neutral-500 bg-green-100" >
+
+                                  <td className="px-6 py-4">
+                                    <label htmlFor="my_modal_7"><p onClick={() => dispatch(getMateriaDocente(materia.cod_materia))} key={materia.cod_materia}>{materia.materia}</p></label>
+                                  </td>
+                                  <td className="px-6 py-4">
+                                    {materia.semestre}
+                                  </td>
+
+                                  <td className="px-6 py-4">
+                                    {materia.nota}
+                                  </td>
+                                </tr>
+                              ))}
+
+                            </tbody>
+                          </table>
+                        ))}
+                       
 
                       </div>
                     </div>
@@ -291,7 +339,7 @@ const Home = () => {
                 </div>
 
               </div>
-            </div> */}
+            </div>
             <br />
           </div>
         ) : null}
@@ -340,7 +388,7 @@ const Home = () => {
             <p className="py-4"> <h4>Nombre:</h4>{docentesMateria?.NombreMateria}</p>
             <p className="py-4"><h4>Tipo:</h4>{docentesMateria?.TipoMateria}</p>
             <p className="py-4"><h4>Docente:</h4>{docentesMateria?.Nom_Docente}</p>
-            <p className="py-4"><h4>Codigo Docente:</h4>Telefono:{docentesMateria?.Cog_Docente}</p>
+            <p className="py-4"><h4>Codigo Docente:</h4>{docentesMateria?.Cog_Docente}</p>
 
             <div className="modal-action">
               <label htmlFor="my_modal_7" className="btn">Close!</label>

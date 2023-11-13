@@ -40,7 +40,7 @@ const dataSlice = createSlice({
             const students = {};
 
             action.payload.forEach((item) => {
-                const { identificacion, nombres, materia, cod_materia } = item;
+                const { identificacion, nombres, materia, cod_materia, semestre,nota } = item;
 
                 if (!students[identificacion]) {
                     // Si el estudiante no está en el objeto de estudiantes, lo agregamos.
@@ -53,7 +53,7 @@ const dataSlice = createSlice({
                 }
 
                 // Agregamos la materia al estudiante correspondiente.
-                students[identificacion].materias.push({ materia, cod_materia });
+                students[identificacion].materias.push({ cod_materia,materia,semestre,nota });
             });
 
             state.EstMaterias = result;
