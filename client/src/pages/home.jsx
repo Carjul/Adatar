@@ -3,7 +3,7 @@ import Sidebar from '../components/sidebar';
 import Footer from '../components/footer';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMaterias, getData, getdataEstSem, EstMateria, getEstudiante, getMateriaDocente } from '../app/Actions/action'
+import { getMaterias, getData, getdataEstSem, EstMateria } from '../app/Actions/action'
 import * as echarts from 'echarts';
 
 
@@ -14,8 +14,15 @@ const data = {
 }
 
 const Home = () => {
+
+  const [Pagina, setPagina] = useState({
+    pagina1: true,
+    pagina2: false,
+    pagina3: false,
+  })
+
   const token = localStorage.getItem('token');
-  const { notasperma, EstSemestre, periodoAcademico, EstMaterias, docentesMateria, estudiante } = useSelector(state => state.data);
+  const { notasperma, EstSemestre, periodoAcademico, EstMaterias } = useSelector(state => state.data);
   var x = localStorage.getItem('userdecode')
   var u = JSON.parse(x)
 
@@ -41,22 +48,26 @@ const Home = () => {
   const handleChangePage = (page) => {
     setCurrentPage(page);
   };
-  
-/* //busqueda 
- const [searchTerm, setSearchTerm] = useState('');
-  
+
+  //busqueda 
+  const [searchTerm, setSearchTerm] = useState('');
+
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredItems = EstMaterias?.filter((item) => {
-    return (
-      item.nombres.toLowerCase().includes(searchTerm.toLowerCase())
+  useEffect(() => {
+    const filteredItems = EstMaterias?.filter((item) => {
+      return (
+        item.nombres.toLowerCase().includes(searchTerm.toLowerCase()) && searchTerm !== ''
 
-    )
-  }) */
+      )
+    })
+    setEstudianteMat(filteredItems);
+  }, [EstMaterias, searchTerm]);
 
- 
+
+
   //buscar y colocar a la otra tabla
   const [estudianteMat, setEstudianteMat] = useState([])
   const findEstInMaterias = (Nombre) => {
@@ -67,9 +78,9 @@ const Home = () => {
   useEffect(() => {
     if (u.user.RolId === 3) {
       let dato1 = notasperma;
-      ChageChart3(dato1)
+      if (Pagina.pagina1 === true && Pagina.pagina2 === false && Pagina.pagina3 === false) ChageChart3(dato1)
     }
-  }, [notasperma])
+  }, [notasperma, Pagina.pagina1])
 
   const ChageChart3 = (e) => {
     let myChart = echarts.init(document.getElementById('main3'));
@@ -179,14 +190,18 @@ const Home = () => {
       <Nav />
       <div className='flex flex-row justify-content-around'>
         <Sidebar props={1} />
-
-        {u.user?.RolId === 3 ? (
+        {u.user?.RolId === 3 ? ( 
           <div className="flex flex-col items-center w-full h-1/2 z-0">
             <div className="card card-compact w-4/5 bg-base-100 shadow-xl mt-6">
-              <h2 className="card-title mx-auto mt-5">Filtros</h2>
               <div className="card-body flex flex-row">
-                <div className="flex flex-row flex-wrap p-1 mx-auto">
-                  <div className="px-0 py-2">
+                <div className="flex flex-col flex-wrap items-center p-1 mx-auto">
+                  <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box ">
+                    <li className={` ${Pagina.pagina1 ? 'bg-primary' : ''}`}><a onClick={() => setPagina({ pagina1: true, pagina2: false, pagina3: false, })}>Graf Materias</a></li>
+                    <li className={` ${Pagina.pagina2 ? 'bg-primary' : ''}`}><a onClick={() => setPagina({ pagina1: false, pagina2: true, pagina3: false, })}>Estudiantes Sem</a></li>
+                    <li className={` ${Pagina.pagina3 ? 'bg-primary' : ''}`}><a onClick={() => setPagina({ pagina1: false, pagina2: false, pagina3: true, })}>Reporte Estudiante</a></li>
+                  </ul>   
+                  {Pagina.pagina3 === false ? <div className="px-0 py-2">
+                    {/* <h2 className="card-title mx-auto mt-5">Periodos</h2> */}
                     <select className="select select-secondary select-sm max-w-xs"
                       onChange={(e) => {
                         data.periodo_academico = parseInt(e.target.value)
@@ -205,141 +220,172 @@ const Home = () => {
                         </option>
                       ))}
                     </select>
-                  </div>
+                  </div> : null}
                 </div>
               </div>
             </div>
-            <div className="w-4/5 bg-base-100 shadow-xl mt-6"></div>
-            <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
-              <div className="card-body">
-                <div id="main3" style={{ width: '100%', height: '600px' }}></div>
-              </div>
-            </div>
+
             <br />
 
+            {Pagina.pagina1 === true && Pagina.pagina2 === false && Pagina.pagina3 === false ?
+              <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
+                <div className="card-body">
+                  <div id="main3" style={{ width: '100%', height: '600px' }}></div>
+                </div>
+              </div>
 
-            <div className="card card-compact w-4/5 bg-base-100 shadow-xl ">
-              <div className="card-body">
-                <div className="flex flex-col">
-                  <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-                      <div className="overflow-hidden">
-                      
-                        <table className="min-w-full text-center text-sm font-light p-10">
-                          <thead className="border font-medium dark:border-neutral-500">
-                            <tr className='bg-accent-focus'>
-                              <th scope="col" className="px-6 py-4">Nombres</th>
-                              <th scope="col" className="px-6 py-4">Perdio</th>
-                              <th scope="col" className="px-6 py-4">Gano</th>
-                              <th scope="col" className="px-6 py-4">Cantidad Materias</th>
-                              <th scope="col" className="px-6 py-4">Porcentaje Perdida</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {currentItems?.map((item) => (
-                              <tr className="border dark:border-neutral-500 bg-green-100" onClick={() => findEstInMaterias(item?.nombres)}>
-                                <td className="px-6 py-4 font-medium">{item?.nombres} </td>
-                                <td className="px-6 py-4 font-medium text-red-500"> {item?.perdio} </td>
-                                <td className="px-6 py-4 font-medium">{item?.gano}</td>
-                                <td className="px-6 py-4 font-medium">{item?.cantidad_materias}</td>
-                                <td className="px-6 py-4 font-medium">{item?.porcentaje_perdida}%</td>
+              : null}
+            {Pagina.pagina1 === false && Pagina.pagina2 === true && Pagina.pagina3 === false ?
+              <div className="card card-compact w-4/5 bg-base-100 shadow-xl ">
+                <div className="card-body">
+                  <div className="flex flex-col">
+                    <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                      <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                        <div className="overflow-hidden">
+
+                          <table className="min-w-full text-center text-sm font-light p-10">
+                            <thead className="border font-medium dark:border-neutral-500">
+                              <tr className='bg-accent-focus'>
+                                <th scope="col" className="px-6 py-4">Nombres</th>
+                                <th scope="col" className="px-6 py-4">Perdio</th>
+                                <th scope="col" className="px-6 py-4">Gano</th>
+                                <th scope="col" className="px-6 py-4">Cantidad Materias</th>
+                                <th scope="col" className="px-6 py-4">Porcentaje Perdida</th>
                               </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                        <div className="flex justify-center mt-4">
-                          <nav className="flex items-center space-x-3">
-                            {Array.from({ length: totalPages }, (_, index) => (
-                              <button
-                                key={index + 1}
-                                onClick={() => handleChangePage(index + 1)}
-                                className={`px-3 py-1 focus:outline-none ${currentPage === index + 1
-                                  ? 'bg-blue-500 text-white'
-                                  : 'bg-gray-200 text-gray-800'
-                                  }`}
-                              >
-                                {index + 1}
-                              </button>
-                            ))}
-                          </nav>
+                            </thead>
+                            <tbody>
+                              {currentItems?.map((item) => (
+                                <tr className="border dark:border-neutral-500 bg-green-100" onClick={() => { findEstInMaterias(item?.nombres), setPagina({ pagina1: false, pagina2: false, pagina3: true, }) }} key={item.identificacion}>
+                                  <td className="px-6 py-4 font-medium">{item?.nombres} </td>
+                                  <td className="px-6 py-4 font-medium text-red-500"> {item?.perdio} </td>
+                                  <td className="px-6 py-4 font-medium">{item?.gano}</td>
+                                  <td className="px-6 py-4 font-medium">{item?.cantidad_materias}</td>
+                                  <td className="px-6 py-4 font-medium">{item?.porcentaje_perdida}%</td>
+
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                          <div className="flex justify-center mt-4">
+                            <nav className="flex items-center space-x-3">
+                              {Array.from({ length: totalPages }, (_, index) => (
+                                <button
+                                  key={index + 1}
+                                  onClick={() => handleChangePage(index + 1)}
+                                  className={`px-3 py-1 focus:outline-none ${currentPage === index + 1
+                                    ? 'bg-blue-500 text-white'
+                                    : 'bg-gray-200 text-gray-800'
+                                    }`}
+                                >
+                                  {index + 1}
+                                </button>
+                              ))}
+                            </nav>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+              : null}
 
-            <br />
-            <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
-              <div className="card-body">
-                <div className="flex flex-col">
+            {Pagina.pagina1 === false && Pagina.pagina2 === false && Pagina.pagina3 === true ?
+              <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
+                <div className="card-body">
+                  <div className="flex flex-col">
 
-                  <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-                      <div className="overflow-hidden">
-                       {/*  <div className="flex mb-5 justify-start">
+                    <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                      <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                        <div className="overflow-hidden">
+                          <div className="flex mb-5 justify-start">
 
-                          <input
-                            type="text"
-                            id="search2"
-                            name="search"
-                            value={searchTerm}
-                            onChange={handleSearch}
-                            placeholder="Buscar" className="input input-bordered input-sm w-full max-w-xs"
-                          />
-                        </div> */}
-                        {Array.isArray(estudianteMat) && estudianteMat.map((item) => (
-                          <table className="min-w-full text-center text-sm font-light">
-                            <thead className="border font-medium dark:border-neutral-500">
-                              <tr key={item.identificacion} className='bg-accent-focus'>
-                                <th>Estudiante:</th>
-                                <label htmlFor="my_modal_6" ><th scope="col" className="px-6 py-4" onClick={() => dispatch(getEstudiante(item.identificacion))}>{item.nombres}</th></label>
-                                <th></th>
-                              </tr>
-                            </thead>
-                            <thead className="border font-medium dark:border-neutral-500">
-                              <tr className='bg-accent-focus'>
-                                <th scope="col" className="px-6 py-4">
-                                  Materias
-                                </th>
-                                <th scope="col" className="px-6 py-4">
-                                  SemMatNum
-                                </th>
-                                <th scope="col" className="px-6 py-4">
-                                  Nota
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {Array.isArray(item.materias) && item.materias.map((materia) => (
-                                <tr className="border dark:border-neutral-500 bg-green-100" >
-
-                                  <td className="px-6 py-4">
-                                    <label htmlFor="my_modal_7"><p onClick={() => dispatch(getMateriaDocente(materia.cod_materia))} key={materia.cod_materia}>{materia.materia}</p></label>
-                                  </td>
-                                  <td className="px-6 py-4">
-                                    {materia.semestre}
-                                  </td>
-
-                                  <td className="px-6 py-4">
-                                    {materia.nota}
-                                  </td>
+                            <input
+                              type="text"
+                              id="search2"
+                              name="search"
+                              value={searchTerm}
+                              onChange={handleSearch}
+                              placeholder="Buscar" className="input input-bordered input-sm w-full max-w-xs"
+                            />
+                          </div>
+                          {Array.isArray(estudianteMat) && estudianteMat.map((item) => (
+                            <table className="min-w-full text-center text-sm font-light">
+                              <thead className="border font-medium dark:border-neutral-500">
+                                <tr key={item.identificacion} className='bg-accent-focus'>
+                                  <th>Estudiante:</th>
+                                  <th scope="col" className="px-6 py-4">
+                                    <div className="collapse bg-accent-focus">
+                                      <input type="checkbox" />
+                                      <div className="collapse-title">
+                                        {item.nombres}
+                                      </div>
+                                      <div className="collapse-content"> 
+                                        <p>Codigo: {item?.people_code_id}</p>
+                                        <p>Correo: {item?.email}</p>
+                                        <p>Telefono: {item?.tel_fijo}</p>
+                                        <p>Celular: {item?.tel_movil}</p>
+                                        <p>Direccion: {item?.direccion}</p>
+                                      </div>
+                                    </div>
+                                  </th>
+                                  <th></th>
                                 </tr>
-                              ))}
+                              </thead>
+                              <thead className="border font-medium dark:border-neutral-500">
+                                <tr className='bg-accent-focus'>
+                                  <th scope="col" className="px-6 py-4">
+                                    Materias
+                                  </th>
+                                  <th scope="col" className="px-6 py-4">
+                                    SemMatNum
+                                  </th>
+                                  <th scope="col" className="px-6 py-4">
+                                    Nota
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {Array.isArray(item.materias) && item.materias.map((materia) => (
+                                  <tr className="border dark:border-neutral-500 bg-green-100" key={materia.cod_materia}>
+                                    <td className="px-6 py-4">
+                                    <div className="collapse  bg-green-100">
+                                      <input type="checkbox" />
+                                      <div className="collapse-title">
+                                          {materia?.materia}
+                                        </div>
+                                        <div className="collapse-content">
+                                          <p>Codigo: {materia?.cod_materia}</p>
+                                          <p>Tipo: {materia?.tipo_materia}</p>
+                                          <p>Docente: {materia?.nom_docente}</p>
+                                          <p>Codigo Docente: {materia?.cog_docente}</p>
+                                        </div>
+                                      </div>
+                                      <p ></p>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                      {materia.semestre}
+                                    </td>
 
-                            </tbody>
-                          </table>
-                        ))}
-                       
+                                    <td className={`px-6 py-4 ${materia.nota < 3?'text-red-500':''}`}>
+                                      {materia.nota}
+                                    </td>
+                                  </tr>
+                                ))}
 
+                              </tbody>
+                            </table>
+                          ))}
+
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
 
+                  </div>
+
+                </div>
               </div>
-            </div>
+              : null}
             <br />
           </div>
         ) : null}
@@ -363,39 +409,6 @@ const Home = () => {
           </div>
 
         ) : null}
-
-        <input type="checkbox" id="my_modal_6" className="modal-toggle" />
-        <div className="modal">
-          <div className="modal-box">
-            <h3 className="font-bold text-lg">Datos Estudiante</h3>
-            <p className="py-4"><h4>Codigo:</h4> {estudiante?.people_code_id}</p>
-            <p className="py-4"> <h4>Identificacion:</h4>{estudiante?.Identificacion}</p>
-            <p className="py-4"><h4>Nombres:</h4>{estudiante?.Nombres}</p>
-            <p className="py-4"><h4>Correo:</h4>{estudiante?.Email}</p>
-            <p className="py-4"><h4>Telefono:</h4>Telefono:{estudiante?.TelFijo}</p>
-            <p className="py-4"><h4>Celular:</h4>{estudiante?.TelMovil}</p>
-            <p className="py-4"><h4>Direccion:</h4>{estudiante?.Direccion}</p>
-            <div className="modal-action">
-              <label htmlFor="my_modal_6" className="btn">Close</label>
-            </div>
-          </div>
-        </div>
-        <input type="checkbox" id="my_modal_7" className="modal-toggle" />
-        <div className="modal">
-          <div className="modal-box">
-            <h3 className="font-bold text-lg">Datos Materia</h3>
-            <p className="py-4"><h4>Codigo:</h4> {docentesMateria?.CodigoMateria}</p>
-            <p className="py-4"> <h4>Nombre:</h4>{docentesMateria?.NombreMateria}</p>
-            <p className="py-4"><h4>Tipo:</h4>{docentesMateria?.TipoMateria}</p>
-            <p className="py-4"><h4>Docente:</h4>{docentesMateria?.Nom_Docente}</p>
-            <p className="py-4"><h4>Codigo Docente:</h4>{docentesMateria?.Cog_Docente}</p>
-
-            <div className="modal-action">
-              <label htmlFor="my_modal_7" className="btn">Close!</label>
-            </div>
-          </div>
-        </div>
-
 
       </div>
       <Footer />

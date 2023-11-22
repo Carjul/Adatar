@@ -19,19 +19,13 @@ const initialState = {
     programatemp: [],
     EstMaterias: [],
     EstSemestre: [],
-    estudiante:{},
-    docentesMateria: {},
+
 }
 const dataSlice = createSlice({
     name: 'data',
     initialState,
     reducers: {
-        setEstudiantes: (state, action) => {
-            state.estudiante = action.payload
-        },
-        setDocentesMateria: (state, action) => {
-            state.docentesMateria = action.payload
-        },
+      
         setProgramatemp: (state, action) => {
             state.programatemp = action.payload
         },
@@ -40,20 +34,38 @@ const dataSlice = createSlice({
             const students = {};
 
             action.payload.forEach((item) => {
-                const { identificacion, nombres, materia, cod_materia, semestre,nota } = item;
+                const { identificacion,
+                    people_code_id,
+                    nombres,
+                    email,
+                    tel_movil,
+                    tel_fijo,
+                    direccion,
+                    cod_materia,
+                    materia,
+                    tipo_materia,
+                    cog_docente,
+                    nom_docente,
+                    semestre,
+                    nota, } = item;
 
                 if (!students[identificacion]) {
                     // Si el estudiante no está en el objeto de estudiantes, lo agregamos.
                     students[identificacion] = {
                         identificacion,
+                        people_code_id,
                         nombres,
+                        email,
+                        tel_movil,
+                        tel_fijo,
+                        direccion,
                         materias: []
                     };
                     result.push(students[identificacion]);
                 }
 
                 // Agregamos la materia al estudiante correspondiente.
-                students[identificacion].materias.push({ cod_materia,materia,semestre,nota });
+                students[identificacion].materias.push({ cod_materia, materia,tipo_materia,cog_docente, nom_docente, semestre, nota });
             });
 
             state.EstMaterias = result;
@@ -260,4 +272,4 @@ const dataSlice = createSlice({
 })
 
 export default dataSlice.reducer
-export const { setEstSemestre,setEstudiantes,setDocentesMateria,setEstMaterias ,setProgramatemp, setNotaEstG, setSemestate, setNotasEst, setArticulos, setNota2, setNotas_Por_Estudiante, setNotasperma, setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions
+export const { setEstSemestre, setEstMaterias, setProgramatemp, setNotaEstG, setSemestate, setNotasEst, setArticulos, setNota2, setNotas_Por_Estudiante, setNotasperma, setNotasmateria, setNotastate, setNota, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions

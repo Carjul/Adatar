@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setDocentesMateria,setEstudiantes,setEstMaterias ,setProgramatemp ,setNotasEst, setSemestate, setPeriodo, setPrograma, setNota, setNota2, setSede, setDocente, setEstudiante, setEstSemestre,setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotastate } from '../FeatureSlices/data';
+import { setEstMaterias ,setProgramatemp ,setNotasEst, setSemestate, setPeriodo, setPrograma, setNota, setNota2, setSede, setDocente, setEstudiante, setEstSemestre,setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotastate } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
 import { setUsers, setConfig,setRoles } from "../FeatureSlices/users";
 import jwt_decode from "jwt-decode";
@@ -63,20 +63,6 @@ export const getnotasEst = (params) => (dispatch) => {
   });
 }
 
-export const getEstudiante = (params) => (dispatch) => {
-  axios.get(`${url2}/DataEst/${params}`).then((result) => {
-    dispatch(setEstudiantes(result.data))
-  }).catch(err => {
-    console.log(err);
-  });
-}
-export const getMateriaDocente = (params) => (dispatch) => {
-  axios.get(`${url2}/MateriaDocente/${params}`).then((result) => {
-    dispatch(setDocentesMateria(result.data))
-  }).catch(err => {
-    console.log(err);
-  });
-}
 
 export const getData = (token) => (dispatch) => {
   try {

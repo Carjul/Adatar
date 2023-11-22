@@ -597,6 +597,7 @@ func main() {
 		}
 		query := `
 			SELECT 
+			E."Identificacion",
 			E."Nombres",
 			COUNT(CASE WHEN NOT N."Gano" = 1 THEN 1 END) AS "Perdio",
 			COUNT(CASE WHEN N."Gano" = 1 THEN 1 END) AS "Gano",
@@ -610,8 +611,8 @@ func main() {
 			FROM PUBLIC."Notas" N
 			JOIN PUBLIC."Estudiantes" E ON E.ID = N."EstudianteId"
 			WHERE N."PeriodoAcademicoId" =$1 AND N."ProgramaId" =$2 AND E."SemeNumero" =$3
-			GROUP BY E."Nombres"
-			ORDER BY  "Perdio" DESC
+			GROUP BY E."Identificacion",E."Nombres"
+			ORDER BY  "PorcentajePerdida" DESC
 		`
 		args := []interface{}{params.PeriodoAcademico, params.ProgramaID, params.Semestre}
 
@@ -624,6 +625,7 @@ func main() {
 		defer rows.Close()
 
 		type Resultado struct {
+			Identificacion    string `json:"identificacion"`
 			Nombres           string `json:"nombres"`
 			Perdio            int    `json:"perdio"`
 			Gano              int    `json:"gano"`
@@ -634,18 +636,20 @@ func main() {
 		estudiantes := []Resultado{}
 
 		for rows.Next() {
+			var identificacion string
 			var nombres string
 			var perdio int
 			var gano int
 			var cantidad_materias int
 			var porcentaje_perdida int
 
-			err = rows.Scan(&nombres, &perdio, &gano, &cantidad_materias, &porcentaje_perdida)
+			err = rows.Scan(&identificacion, &nombres, &perdio, &gano, &cantidad_materias, &porcentaje_perdida)
 			if err != nil {
 				log.Fatal(err)
 			}
 
 			estudiante := Resultado{
+				Identificacion:    identificacion,
 				Nombres:           nombres,
 				Perdio:            perdio,
 				Gano:              gano,
@@ -683,14 +687,23 @@ func main() {
 		query := `
 		SELECT 
 		E."Identificacion",
+		E."people_code_id",
 		E."Nombres",
+		E."Email",
+		E."TelMovil",
+		E."TelFijo",
+		E."Direccion",
 		M."CodigoMateria",
 		M."NombreMateria" AS Materia, 
+		M."TipoMateria",
+		D."Cog_Docente",
+	    D."Nom_Docente",
 		"MateriaPorPensums"."SemMateriaNum" AS Semestre,
 		N."Nota"
 		FROM PUBLIC."Notas" N
 		JOIN PUBLIC."Estudiantes" E ON E.ID = N."EstudianteId"
 		JOIN PUBLIC."Materias" M ON M.ID = N."MateriaId"
+		JOIN PUBLIC."Docentes" D ON D.id = N."DocenteId"
 		JOIN public."Pensums" ON "Pensums".id = E."PensumId"
 		JOIN public."MateriaPorPensums" ON "MateriaPorPensums"."MateriaId" = M.id AND "MateriaPorPensums"."PensumId" = "Pensums".id
 		WHERE N."PeriodoAcademicoId"=$1 AND N."ProgramaId"=$2 AND E."SemeNumero"=$3;
@@ -708,9 +721,17 @@ func main() {
 		// Crear una estructura para almacenar los resultados
 		type Resultado struct {
 			Identificacion string `json:"identificacion"`
+			PeopleCodeID   string `json:"people_code_id"`
 			Nombres        string `json:"nombres"`
+			Email          string `json:"email"`
+			TelMovil       string `json:"tel_movil"`
+			TelFijo        string `json:"tel_fijo"`
+			Direccion      string `json:"direccion"`
 			CodMateria     string `json:"cod_materia"`
 			Materia        string `json:"materia"`
+			TipoMateria    string `json:"tipo_materia"`
+			CogDocente     string `json:"cog_docente"`
+			NomDocente     string `json:"nom_docente"`
 			Semestre       string `json:"semestre"`
 			Nota           string `json:"nota"`
 		}
@@ -718,22 +739,38 @@ func main() {
 
 		for rows.Next() {
 			var identificacion string
+			var people_code_id string
 			var nombres string
+			var email string
+			var tel_movil string
+			var tel_fijo string
+			var direccion string
 			var materia string
 			var codmateria string
+			var tipo_materia string
+			var cog_docente string
+			var nom_docente string
 			var semestre string
 			var nota string
 
-			err = rows.Scan(&identificacion, &nombres, &codmateria, &materia, &semestre, &nota)
+			err = rows.Scan(&identificacion, &people_code_id, &nombres, &email, &tel_movil, &tel_fijo, &direccion, &codmateria, &materia, &tipo_materia, &cog_docente, &nom_docente, &semestre, &nota)
 			if err != nil {
 				log.Fatal(err)
 			}
 
 			estudiante := Resultado{
 				Identificacion: identificacion,
+				PeopleCodeID:   people_code_id,
 				Nombres:        nombres,
-				Materia:        materia,
+				Email:          email,
+				TelMovil:       tel_movil,
+				TelFijo:        tel_fijo,
+				Direccion:      direccion,
 				CodMateria:     codmateria,
+				Materia:        materia,
+				TipoMateria:    tipo_materia,
+				CogDocente:     cog_docente,
+				NomDocente:     nom_docente,
 				Semestre:       semestre,
 				Nota:           nota,
 			}
@@ -750,7 +787,7 @@ func main() {
 
 	}).Methods("POST")
 
-	app.HandleFunc("/service/MateriaDocente/{CodigoMateria}", func(w http.ResponseWriter, r *http.Request) {
+	/* app.HandleFunc("/service/MateriaDocente/{CodigoMateria}", func(w http.ResponseWriter, r *http.Request) {
 		type Resultado struct {
 			CogDocente    string `json:"Cog_Docente"`
 			NomDocente    string `json:"Nom_Docente"`
@@ -876,7 +913,7 @@ func main() {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		w.Write(estudianteInfoJSON)
-	}).Methods("GET")
+	}).Methods("GET") */
 
 	// Configurar el middleware CORS
 	c := cors.New(cors.Options{
