@@ -10,15 +10,19 @@ const Init = () => {
   const token = localStorage.getItem('token')
   const navigate = useNavigate();
 
+  addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+     localStorage.clear()
+      logout({ returnTo: window.location.origin });
+    }
+  }) 
   useEffect(() => {
     
     if (isAuthenticated && !token) {
       navigate("/validar")
-  }
-    if (msg==="Login incorrecto") {
-      console.log(msg)
+  } else if (msg==="Login incorrecto") {
       navigate("/validar")
-    }
+  }
    
   }, [isAuthenticated, token, msg])
 

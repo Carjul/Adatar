@@ -46,7 +46,7 @@ export default function Nav() {
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
 
-              <img src={value} alt="Avatar" width={40} height={50}  />
+              <img src={value} alt="Avatar" loading="lazy" width={40} height={50}  />
 
 
 

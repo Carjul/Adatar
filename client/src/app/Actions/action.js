@@ -226,10 +226,11 @@ export const getRoles = (token) => (dispatch) => {
       console.log(err)
     })
 }
-
+var contarlog=0;
 export const senduser = (obj) => (dispatch) => {
-
-  axios.post(`${url}/login`, obj).then((result) => {
+contarlog=contarlog+ obj.contar;
+if (contarlog === 1) {
+  axios.post(`${url}/login`, obj.user).then((result) => {
     if (result.data.token) {
       localStorage.setItem('token', result.data.token)
       var decoded = jwt_decode(result.data.token);
@@ -254,27 +255,32 @@ export const senduser = (obj) => (dispatch) => {
     console.log(err);
   });
 }
+}
+var contar=0;
 export const register = (obj) => (dispatch) => {
-  console.log(obj)
-  axios.post(`${url}/registro`, obj).then((result) => {
-    if (result.data.token) {
-      localStorage.setItem('token', result.data.token)
-      var decoded = jwt_decode(result.data.token);
-      const objetoJSON = JSON.stringify(decoded);
-      localStorage.setItem('userdecode', objetoJSON)
-      localStorage.setItem('id', decoded.user.id);
-      localStorage.setItem('RolId', decoded.user.RolId);
-      localStorage.setItem('Email', decoded.user.Email);
-      localStorage.setItem('Name', decoded.user.Nombre);
-      localStorage.setItem('Avatar', decoded.user.Avatar);
-
-    } else {
-      console.log('ya esta registrado');
-    }
-    dispatch(setUsers(result.data))
-  }).catch(err => {
-    console.log(err);
-  });
+  contar=contar+ obj.contar;
+  if (contar === 1) {
+    axios.post(`${url}/registro`, obj.user).then((result) => {
+      if (result.data.token) {
+        localStorage.setItem('token', result.data.token)
+        var decoded = jwt_decode(result.data.token);
+        const objetoJSON = JSON.stringify(decoded);
+        localStorage.setItem('userdecode', objetoJSON)
+        localStorage.setItem('id', decoded.user.id);
+        localStorage.setItem('RolId', decoded.user.RolId);
+        localStorage.setItem('Email', decoded.user.Email);
+        localStorage.setItem('Name', decoded.user.Nombre);
+        localStorage.setItem('Avatar', decoded.user.Avatar);
+  
+      } else {
+        console.log('ya esta registrado');
+      }
+      dispatch(setUsers(result.data))
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+  
 }
 
 export const exit = () => {

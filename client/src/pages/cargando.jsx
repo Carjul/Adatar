@@ -18,12 +18,11 @@ const Cargar = () => {
     useEffect(() => {
         if (!msg) {
           if (user /* && gmail.test(user.email) */ && !sentUser) {
-            dispatch(senduser({ email: user.email, password: user.nickname, Avatar: user.picture, Nombre: user.name }));
+            localStorage.removeItem('token');
+            dispatch(senduser({contar:1, user :{ email: user.email, password: user.nickname, Avatar: user.picture, Nombre: user.name }}));
             setSentUser(true);
-            mostrarAlerta(1);
-            setTimeout(() => {
-              navigate('/');
-            }, 5000);
+            mostrarAlerta(1, navigate);
+           
           } else if (!sentUser) {
             mostrarAlerta(2);
             logout({ returnTo: window.location.origin });
@@ -38,19 +37,16 @@ const Cargar = () => {
           localStorage.removeItem('msg');
           localStorage.removeItem('token');
           dispatch(
-            register({
+            register({contar:1, user :{
               Nombre: user.name,
               Email: user.email,
               Password: user.nickname,
               Avatar: user.picture,
               rol: 'Visitante',
-            })
+            }})
           );
           setSentRegister(true);
-            mostrarAlerta(1);
-          setTimeout(() => {
-            navigate('/');
-          }, 5000);
+            mostrarAlerta(1, navigate);
         }
       }, [msg, dispatch, user, sentRegister]);
     return (
@@ -75,13 +71,15 @@ const Cargar = () => {
 
 
 
-const mostrarAlerta = (num) => {
+const mostrarAlerta = (num,nav) => {
 
     if (num === 1) {
         Swal.fire({
             title: 'listo',
             text: 'correo valido',
             icon: 'success',
+        }).then(() => {
+            nav('/');
         });
     }
     else if (num === 2) {

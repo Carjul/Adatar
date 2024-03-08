@@ -222,7 +222,7 @@ const Dashboard = () => {
           type: 'bar',
           stack: 'total',
           label: {
-            show: false
+            show: true
           },
           emphasis: {
             focus: 'series'
@@ -234,7 +234,7 @@ const Dashboard = () => {
           type: 'bar',
           stack: 'total',
           label: {
-            show: false
+            show: true
           },
           emphasis: {
             focus: 'series'
@@ -246,7 +246,7 @@ const Dashboard = () => {
           type: 'bar',
           stack: 'total',
           label: {
-            show: false
+            show: true
           },
           emphasis: {
             focus: 'series'
@@ -258,7 +258,7 @@ const Dashboard = () => {
           type: 'bar',
           stack: 'total',
           label: {
-            show: false
+            show: true
           },
           emphasis: {
             focus: 'series'
@@ -270,7 +270,7 @@ const Dashboard = () => {
           type: 'bar',
           stack: 'total',
           label: {
-            show: false
+            show: true
           },
           emphasis: {
             focus: 'series'
@@ -282,7 +282,7 @@ const Dashboard = () => {
           type: 'bar',
           stack: 'total',
           label: {
-            show: false
+            show: true
           },
           emphasis: {
             focus: 'series'

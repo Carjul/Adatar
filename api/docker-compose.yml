@@ -38,3 +38,4 @@ services:
 # docker inspect database
 # docker run -p 3004:3001 --name api -e DB_USER=admin -e DB_PASSWORD=12345 -e DB_HOST=3.82.20.168 -e DB=adatar e- PORT=3001 -v "$PWD":"/usr/src/api" -d <NAME IMAGEN>
 # docker run -p 3001:3001 --name adatar-app -v "$PWD":"/usr/src/app" -d client
+#docker run -p 8000:8000 --name go-api -v "$PWD":"/go/src/app" -d go-api
