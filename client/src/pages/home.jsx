@@ -1,6 +1,6 @@
 import Nav from '../components/Nav';
 import Sidebar from '../components/sidebar';
-import DocxGenerator from '../components/createDoc';
+ 
 
 import Footer from '../components/footer';
 import { useEffect, useState } from 'react';
@@ -243,7 +243,7 @@ const Home = () => {
             </div>
 
             <br />
-           <DocxGenerator />
+        
             {Pagina.pagina1 === true && Pagina.pagina2 === false && Pagina.pagina3 === false ?
               <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
                 <div className="card-body">
