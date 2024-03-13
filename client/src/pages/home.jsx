@@ -1,5 +1,7 @@
 import Nav from '../components/Nav';
 import Sidebar from '../components/sidebar';
+import DocxGenerator from '../components/createDoc';
+
 import Footer from '../components/footer';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -56,6 +58,7 @@ const Home = () => {
     setSearchTerm(e.target.value);
   };
 
+  
   useEffect(() => {
     const filteredItems = EstMaterias?.filter((item) => {
       return (
@@ -74,6 +77,7 @@ const Home = () => {
     let obj = EstMaterias?.find((item) => item.nombres === Nombre)
     setEstudianteMat([obj])
   }
+
 
   useEffect(() => {
     if (u.user.RolId === 3) {
@@ -184,7 +188,18 @@ const Home = () => {
     option && myChart.setOption(option);
   }
 
+  useEffect(() => {
+    
+    data.periodo_academico = parseInt("25")
 
+    dispatch(getMaterias({ "programa_id": parseInt(obj?.Programa), "semestre": obj?.Semestres, "periodo_academico": parseInt("25") }))
+    data.semestre = obj?.Semestres
+    data.periodo_academico = parseInt("25")
+    data.programa_id = parseInt(obj?.Programa)
+    dispatch(getdataEstSem(data));
+    dispatch(EstMateria(data))
+  
+  },[periodoAcademico])
   return (
     <>
       <Nav />
@@ -203,8 +218,10 @@ const Home = () => {
                   {Pagina.pagina3 === false ? <div className="px-0 py-2">
                     {/* <h2 className="card-title mx-auto mt-5">Periodos</h2> */}
                     <select className="select select-secondary select-sm max-w-xs"
+                    id="SelectData"
                       onChange={(e) => {
                         data.periodo_academico = parseInt(e.target.value)
+
                         dispatch(getMaterias({ "programa_id": parseInt(obj?.Programa), "semestre": obj?.Semestres, "periodo_academico": parseInt(e.target.value) }))
                         data.semestre = obj?.Semestres
                         data.periodo_academico = parseInt(e.target.value)
@@ -226,7 +243,7 @@ const Home = () => {
             </div>
 
             <br />
-
+           <DocxGenerator />
             {Pagina.pagina1 === true && Pagina.pagina2 === false && Pagina.pagina3 === false ?
               <div className="card card-compact w-4/5 bg-base-100 shadow-xl">
                 <div className="card-body">
