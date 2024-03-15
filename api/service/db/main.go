@@ -8,8 +8,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var num int = 0
-
 func InitDB() *sql.DB {
 
 	user := os.Getenv("DB_USER")
@@ -28,9 +26,8 @@ func InitDB() *sql.DB {
 	if err != nil {
 		log.Println("No se pudo establecer conexión con la base de datos:", err)
 	}
-	if num == 0 {
-		log.Println("base de datos" + " " + DB_NAME + " " + "conectada con éxito")
-		num++
-	}
+
+	log.Println("base de datos" + " " + DB_NAME + " " + "conectada con éxito")
+
 	return Db
 }

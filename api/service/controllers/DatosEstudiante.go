@@ -4,12 +4,10 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-
-	"github.com/Carjul/api_rest_go/db"
 )
 
 func Datos_Estudiante(w http.ResponseWriter, r *http.Request) {
-	Database := db.InitDB()
+	
 	queryParams := r.URL.Query()
 	peopleCodeID := queryParams.Get("people_code_id")
 
@@ -71,7 +69,7 @@ func Datos_Estudiante(w http.ResponseWriter, r *http.Request) {
 }
 
 func Semestre_Estudiante(w http.ResponseWriter, r *http.Request) {
-	Database := db.InitDB()
+	
 	var params struct {
 		Semestre         string `json:"semestre"`
 		PeriodoAcademico int    `json:"periodo_academico"`
@@ -157,7 +155,6 @@ func Semestre_Estudiante(w http.ResponseWriter, r *http.Request) {
 }
 
 func Materia_Estudiantes(w http.ResponseWriter, r *http.Request) {
-	Database := db.InitDB()
 	// Leer los parámetros de la solicitud
 	var params struct {
 		Semestre         string `json:"semestre"`

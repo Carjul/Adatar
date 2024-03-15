@@ -4,12 +4,10 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-
-	"github.com/Carjul/api_rest_go/db"
 )
 
 func DataDocente(w http.ResponseWriter, r *http.Request) {
-	Database := db.InitDB()
+	
 	queryParams := r.URL.Query()
 	DocenteID := queryParams.Get("Cog_Docente")
 

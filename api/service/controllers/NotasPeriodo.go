@@ -4,12 +4,10 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-
-	"github.com/Carjul/api_rest_go/db"
 )
 
 func NotasPeriodo(w http.ResponseWriter, r *http.Request) {
-	Database := db.InitDB()
+
 	var params struct {
 		ProgramaID string `json:"programa_id"`
 		Periodo    int    `json:"periodo_academico"`

@@ -5,11 +5,10 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Carjul/api_rest_go/db"
 )
 
 func Notas_facultades(w http.ResponseWriter, r *http.Request) {
-	Database := db.InitDB()
+
 	queryParam := r.URL.Query()
 	periodo := queryParam.Get("NomNotaPeriodo")
 
@@ -62,7 +61,6 @@ func Notas_facultades(w http.ResponseWriter, r *http.Request) {
 }
 
 func Notas_facultad(w http.ResponseWriter, r *http.Request) {
-	Database := db.InitDB()
 
 	var params struct {
 		ProgramaID string `json:"facultad_id"`

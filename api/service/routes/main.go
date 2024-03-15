@@ -1,11 +1,14 @@
 package routes
 
 import (
+	"database/sql"
+
 	"github.com/Carjul/api_rest_go/controllers"
 	"github.com/gorilla/mux"
 )
 
-func Routes(app *mux.Router) {
+func Routes(app *mux.Router, Database *sql.DB) {
+	controllers.Database = Database
 	app.HandleFunc("/service", controllers.Init).Methods("GET")
 	app.HandleFunc("/service/upload", controllers.UploadFileHandler).Methods("POST")
 	app.HandleFunc("/service/notas", controllers.GetNotas).Methods("POST")

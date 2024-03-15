@@ -4,12 +4,10 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-
-	"github.com/Carjul/api_rest_go/db"
 )
 
 func GetMaterias(w http.ResponseWriter, r *http.Request) {
-	Database := db.InitDB()
+
 	var params struct {
 		Programa_ID int    `json:"programa_id"`
 		Semestre    string `json:"semestre"`

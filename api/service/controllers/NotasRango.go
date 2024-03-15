@@ -4,12 +4,10 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-
-	"github.com/Carjul/api_rest_go/db"
 )
 
 func Nota_Rango(w http.ResponseWriter, r *http.Request) {
-	database := db.InitDB()
+
 	var params struct {
 		ProgramaID string `json:"programa_id"`
 		Periodo    int    `json:"periodo_academico"`
@@ -40,7 +38,7 @@ WHERE P.id= $1 AND pa.id= $2
 ORDER BY Semestres ASC;`
 	args := []interface{}{params.ProgramaID, params.Periodo}
 
-	rows, err := database.Query(query, args...)
+	rows, err := Database.Query(query, args...)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

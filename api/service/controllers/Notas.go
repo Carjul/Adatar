@@ -1,15 +1,16 @@
 package controllers
 
 import (
+	"database/sql"
 	"encoding/json"
 	"log"
 	"net/http"
-
-	"github.com/Carjul/api_rest_go/db"
 )
 
+var Database *sql.DB
+
 func GetNotas(w http.ResponseWriter, r *http.Request) {
-	database := db.InitDB()
+
 	// Leer los parámetros de la solicitud
 	var params struct {
 		Semestre         string `json:"semestre"`
@@ -33,7 +34,7 @@ func GetNotas(w http.ResponseWriter, r *http.Request) {
 	args := []interface{}{params.Semestre, params.PeriodoAcademico, params.ProgramaID}
 
 	// Ejecutar la consulta SQL
-	rows, err := database.Query(query, args...)
+	rows, err := Database.Query(query, args...)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

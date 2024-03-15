@@ -12,6 +12,7 @@ import (
 	"github.com/rs/cors"
 )
 
+
 func main() {
 	loadEnv()
 	Database := db.InitDB()
@@ -20,7 +21,7 @@ func main() {
 	app := mux.NewRouter()
 
 	// Rutas
-	routes.Routes(app)
+	routes.Routes(app, Database)
 
 	// Configurar el middleware CORS
 	c := cors.New(cors.Options{
@@ -33,8 +34,12 @@ func main() {
 	router := c.Handler(app)
 
 	// Iniciar el servidor HTTP
-	http.ListenAndServe(":8000", router)
-	log.Println("Servidor iniciado en el puerto 8000")
+	err := http.ListenAndServe(":8000", router)
+	if err != nil {
+		log.Fatal("Error al iniciar el servidor:", err)
+	} else {
+		log.Println("Servidor iniciado en el puerto 8000")
+	}
 
 	/* app.HandleFunc("/service/MateriaDocente/{CodigoMateria}", func(w http.ResponseWriter, r *http.Request) {
 		type Resultado struct {
