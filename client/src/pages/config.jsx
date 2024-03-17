@@ -5,12 +5,16 @@ import Footer from '../components/footer';
 import { useEffect, useRef } from 'react';
 import { getuser, deleteOneData, updateOneData, getRoles, getProgramas, getSemestres, userUpdate, userDeleteData } from '../app/Actions/action';
 import { setMsg } from '../app/FeatureSlices/MsgApi';
-
+/* import { io } from "socket.io-client"; */
 
 
 const Data = { id: "", Datos: [{ Programa: "", Semestres: "" }] }
 
 const Config = () => {
+   /*  const socket = io('http://localhost:3004'); */
+    const xmsg = () => {
+      /*   socket.emit('message', "hola") */
+    }
     const { message } = useSelector(state => state.msg);
     const { config } = useSelector(state => state.token);
     const { roles } = useSelector(state => state.token);
@@ -160,7 +164,7 @@ const Config = () => {
                     <br />
 
                     <h2 className='text-xl'>Asignar Semestre</h2>
-
+                    <button onClick={xmsg}>socket.io</button>
                     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                             <div className="overflow-hidden">

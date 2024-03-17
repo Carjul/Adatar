@@ -1,14 +1,18 @@
 const express = require('express')
 const path = require("path")
+const { CreateDocx } = require('../config/modify')
 
 const routerdes = express.Router()
 
 
 
 routerdes.get('/descargar-docx', (req, res) => {
-    const docxFilePath = path.join('/workspaces/Adatar/api/src/public/Informe.docx');
+  CreateDocx()
+  const docxFilePath = path.join(__dirname,'../public/Informe.docx')
+ 
     res.download(docxFilePath);
-  });
+
+});
 
 
 

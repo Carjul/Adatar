@@ -3,8 +3,8 @@ const { db} = require("../db");
 
 const createMateriaspensun = async (params) => {
     try {
-        for (let i = 0; i < params.length; i++) {
-            const { NombreMateria, CodigoMateria, Pensum, SemMateriaNum, Seme } = params[i];
+        
+            const { NombreMateria, CodigoMateria, Pensum, SemMateriaNum, Seme } = params;
 
             const pensum = await db.query(`SELECT * FROM public."Pensums" WHERE "Pensum" = $1`, [Pensum]);
             const materia = await db.query(`SELECT * FROM public."Materias" WHERE "NombreMateria" = $1 AND "CodigoMateria" = $2`, [NombreMateria, CodigoMateria]);
@@ -21,10 +21,9 @@ const createMateriaspensun = async (params) => {
                         [SemMateriaNum, Seme, pensum.rows[0].id, materia.rows[0].id]
                     );
                 }
-            }
         }
 
-        return "Saved Materiasporpensum";
+      
     } catch (error) {
         console.log(error);
     }

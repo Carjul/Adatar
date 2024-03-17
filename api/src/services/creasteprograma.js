@@ -2,8 +2,8 @@ const { db} = require('../db');
 
 const createprograma = async (params) => {
      try {
-          for (let i = 0; i < params.length; i++) {
-     const { NombrePrograma, Sede, Sesion, NombreFacultad } = params[i]
+         
+     const { NombrePrograma, Sede, Sesion, NombreFacultad } = params
          
      const existe = await db.query(`SELECT * FROM public."Programas" WHERE "NombrePrograma" = $1 AND "Sede" = $2`, [NombrePrograma, Sede])
 
@@ -14,8 +14,7 @@ const createprograma = async (params) => {
           await db.query(`INSERT INTO public."Programas"("NombrePrograma", "Sede", "Sesion", "FacultadeId") VALUES ($1, $2, $3, $4)`, [NombrePrograma, Sede, Sesion, facultad_id2]);
      }
 }
-          }
-          return "saved programas";
+
      } catch (error) {
           console.log(error)
      }

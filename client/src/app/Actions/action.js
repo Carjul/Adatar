@@ -8,6 +8,30 @@ import jwt_decode from "jwt-decode";
 const url = import.meta.env.VITE_PUBLIC_API;
 const url2 = import.meta.env.VITE_PUBLIC_SEVICE;
 
+export const getdocx = (params) => (dispatch) => {
+console.log(params);
+  fetch(`${url}/descargar-docx`)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Error al descargar el archivo');
+    }
+    return response.blob();
+  })
+  .then(blob => {
+    // Crear un enlace temporal para descargar el archivo
+    const url = window.URL.createObjectURL(new Blob([blob]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'nombre-del-archivo.docx');
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode.removeChild(link);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
+
 export const getdataEst = (params) => (dispatch) => {
   axios.post(`${url2}/notas`, params).then((result) => {
     dispatch(setNotas_Por_Estudiante(result.data))

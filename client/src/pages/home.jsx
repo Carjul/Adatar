@@ -3,9 +3,9 @@ import Sidebar from '../components/sidebar';
 import Footer from '../components/footer';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMaterias, getData, getdataEstSem, EstMateria, get_Nota_Año } from '../app/Actions/action'
+import { getMaterias, getData, getdataEstSem, EstMateria, get_Nota_Año, getdocx } from '../app/Actions/action'
 import * as echarts from 'echarts';
-
+import { LuFileDown } from "react-icons/lu";
 
 const data = {
   semestre: '0',
@@ -23,7 +23,11 @@ const Documento = {
 const Home = () => {
 
 
-  
+  const clickDown = () => {
+
+    dispatch(getdocx(Documento))
+
+  }
 
   const [Pagina, setPagina] = useState({
     pagina0: true,
@@ -278,7 +282,7 @@ const Home = () => {
     data.programa_id = parseInt(obj?.Programa)
 
 
-    dispatch(get_Nota_Año({ "programa_id": data.programa_id, "periodo_academico":data.periodo_academico }))
+    dispatch(get_Nota_Año({ "programa_id": data.programa_id, "periodo_academico":"25"}))
     dispatch(getMaterias({ "programa_id": parseInt(obj?.Programa), "semestre": obj?.Semestres, "periodo_academico": parseInt("25") }))
     dispatch(getdataEstSem(data));
     /*  dispatch(EstMateria(data))  */
@@ -348,6 +352,7 @@ const Home = () => {
               <div className="card card-compact w-4/5 bg-base-100 shadow-xl ">
                 <div className="card-body">
                   <div className="flex flex-col">
+                  <button onClick={clickDown}><LuFileDown /></button>
                     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                       <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                         <div className="overflow-hidden">

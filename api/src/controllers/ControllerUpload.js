@@ -30,7 +30,7 @@ const UploadFile = async (req, res) => {
       res.status(500).json({ message: "nombre de la hoja incorrecto" })
     } else {
 
-  
+
       const propiedadesNecesarias = [
         'TipoDoc',
         'Identificacion',
@@ -114,10 +114,10 @@ const UploadFile = async (req, res) => {
         arrayObjetosCompletos = reporte.filter((objeto) => propiedadesNecesarias2.every((propiedad) => objeto.hasOwnProperty(propiedad)));
       }
       console.log(arrayObjetosCompletos.length)
-  
-      /* const reporte_filtrado = arrayObjetosCompletos.filter(obj => {
+
+      const reporte_filtrado = arrayObjetosCompletos.filter(obj => {
         for (let key in obj) {
-          if (obj[key] === null || obj[key] === NaN || obj[key] === undefined || obj[key] == "null" || obj[key] == "NULL" || obj[key] == "undefined" || obj[key] === '') {
+          if (obj[key] === null || obj[key] === NaN || obj[key] === undefined || obj[key] == "null" || obj[key] == "NULL" || obj[key] == "undefined" || obj[key] === "" || obj[key] === "NaN") {
             return false;
           }
         }
@@ -125,83 +125,103 @@ const UploadFile = async (req, res) => {
       });
       reporte = []
 
-      console.log(reporte_filtrado.length) */
-     
-      const data = [];
+      console.log(reporte_filtrado.length)
 
-      for (let i = 0; i < arrayObjetosCompletos.length; i++) {
-        const e = arrayObjetosCompletos[i];
-      
-        data.push({
-          NombreFacultad: e.Facultad,
+      /* const data = []; */
+
+      for (let i = 0; i < reporte_filtrado.length; i++) {
+        const e = reporte_filtrado[i];
+
+        /*  data.push({
+           NombrePrograma: e.ProgramaMateria,
+           Sede: e.sede,
+           Sesion: e.Sesion,
+           NombreFacultad: e.Facultad,
+           Semestres: e.SemMateriaNum,
+           People_code_id: e.people_code_id,
+           TipoDoc: e.TipoDoc,
+           Identificacion: e.Identificacion,
+           Nombres: e.Nombres,
+           EstadoAlumnoPrograma: e.EstadoAlumnoPrograma,
+           Semestre: e.Semestre,
+           Direccion: e.DIRECCION,
+           Ciudad: e.CIUDAD,
+           Departamento: e.DEPARTAMENTO,
+           TelFijo: e.TelFijo,
+           TelMovil: e.TelMovil,
+           Email: e.EMAIL,
+           Genero: e.Genero,
+           SemeNumero: e.SemNumero,
+           Pensum: e.ProgramaEstudiante,
+           NombreMateria: e.NombreMateria,
+           CodigoMateria: e.CodigoMateria,
+           TipoMateria: e.TipoMateria,
+           SemMateriaNum: e.SemMateriaNum,
+           Seme: e.seme,
+           Cog_Docente: e.Cog_Docente,
+           Nom_Docente: e.Nom_Docente,
+           Periodo: e.Periodo,
+           Año: e.año,
+           NomNotaPeriodo: corte,
+           GRADE_ACTIVITY: e.GRADE_ACTIVITY,
+           FINAL_GRADE: e.FINAL_GRADE ? e.FINAL_GRADE : "no pertece",
+           Nota: e.Nota1 ? e.Nota1 : e.Nota2,
+           Gano: parseInt(e.Gano),
+           Perdio: parseInt(e.Perdio),
+           Rango: e.Rango,
+           ProxNotaMin: e.ProxNotaMin ? e.ProxNotaMin : "no calculado",
+           Seccion: e.Seccion,
+         }); */
+        await createPeriodoAcademico({ Año: e.año, Periodo: e.Periodo, NomNotaPeriodo: corte, })
+
+
+        await createDocente({ Cog_Docente: e.Cog_Docente, Nom_Docente: e.Nom_Docente })
+
+
+        await createMaterias({ CodigoMateria: e.CodigoMateria, NombreMateria: e.NombreMateria, TipoMateria: e.TipoMateria, })
+
+
+        await crearfacultad({ NombreFacultad: e.Facultad })
+
+
+        await createprograma({ NombrePrograma: e.ProgramaMateria, Sede: e.sede, Sesion: e.Sesion, NombreFacultad: e.Facultad, })
+
+
+        await createpemsun({ NombrePrograma: e.ProgramaMateria, Sede: e.sede, Pensum: e.ProgramaEstudiante, Semestres: e.SemMateriaNum, })
+
+
+        await crearstudent({ People_code_id: e.people_code_id, TipoDoc: e.TipoDoc, Identificacion: e.Identificacion, Nombres: e.Nombres, EstadoAlumnoPrograma: e.EstadoAlumnoPrograma, Semestre: e.Semestre, Direccion: e.DIRECCION, Ciudad: e.CIUDAD, Departamento: e.DEPARTAMENTO, TelFijo: e.TelFijo, TelMovil: e.TelMovil, Email: e.EMAIL, Genero: e.Genero, SemeNumero: e.SemNumero, Pensum: e.ProgramaEstudiante, })
+
+
+
+        await createMateriaspensun({ NombreMateria: e.NombreMateria, CodigoMateria: e.CodigoMateria, Pensum: e.ProgramaEstudiante, SemMateriaNum: e.SemMateriaNum, Seme: e.seme })
+
+
+        await createNotas({
+          GRADE_ACTIVITY: e.GRADE_ACTIVITY,
+          FINAL_GRADE: e.FINAL_GRADE ? e.FINAL_GRADE : "no pertece",
+          Nota: e.Nota1 ? e.Nota1 : e.Nota2,
+          Gano: parseInt(e.Gano) === NaN || parseInt(e.Gano) === 'NaN' ? 0 : parseInt(e.Gano),
+          Perdio: parseInt(e.Perdio) === NaN || parseInt(e.Perdio) === 'NaN' ? 0 : parseInt(e.Perdio),
+          Rango: e.Rango,
+          ProxNotaMin: e.ProxNotaMin ? e.ProxNotaMin : "no calculado",
+          Seccion: e.Seccion,
           NombrePrograma: e.ProgramaMateria,
           Sede: e.sede,
-          Sesion: e.Sesion,
-          Pensum: e.ProgramaEstudiante,
-          Semestres: e.SemMateriaNum,
-          People_code_id: e.people_code_id,
-          TipoDoc: e.TipoDoc,
-          Identificacion: e.Identificacion,
-          Nombres: e.Nombres,
-          EstadoAlumnoPrograma: e.EstadoAlumnoPrograma,
-          Semestre: e.Semestre,
-          Direccion: e.DIRECCION,
-          Ciudad: e.CIUDAD,
-          Departamento: e.DEPARTAMENTO,
-          TelFijo: e.TelFijo,
-          TelMovil: e.TelMovil,
-          Email: e.EMAIL,
-          Genero: e.Genero,
-          SemeNumero: e.SemNumero,
-          NombreMateria: e.NombreMateria,
           CodigoMateria: e.CodigoMateria,
-          TipoMateria: e.TipoMateria,
-          SemMateriaNum: e.SemMateriaNum,
-          Seme: e.seme,
+          Identificacion: e.Identificacion,
           Cog_Docente: e.Cog_Docente,
           Nom_Docente: e.Nom_Docente,
           Periodo: e.Periodo,
           Año: e.año,
           NomNotaPeriodo: corte,
-          GRADE_ACTIVITY: e.GRADE_ACTIVITY,
-          FINAL_GRADE: e.FINAL_GRADE ? e.FINAL_GRADE : "no pertece",
-          Nota: e.Nota1 ? e.Nota1 : e.Nota2,
-          Gano: parseInt(e.Gano),
-          Perdio: parseInt(e.Perdio),
-          Rango: e.Rango,
-          ProxNotaMin: e.ProxNotaMin ? e.ProxNotaMin : "no calculado",
-          Seccion: e.Seccion,
-        });
+        })
+
       }
+      console.log('termino')
 
-      const periodocreado = await createPeriodoAcademico(data)
-      console.log(periodocreado)
 
-      const docentescreado = await createDocente(data)
-      console.log(docentescreado)
-
-      const materiascreado = await createMaterias(data)
-      console.log(materiascreado)
-
-      const facultadcreada = await crearfacultad(data)
-      console.log(facultadcreada)
-
-      const programacredo = await createprograma(data)
-      console.log(programacredo)
-
-      const pensumcreado = await createpemsun(data)
-      console.log(pensumcreado)
-
-      const estudiantecreado = await crearstudent(data)
-      console.log(estudiantecreado)
-
-      const materiaPensumcreado = await createMateriaspensun(data)
-      console.log(materiaPensumcreado)
-
-      const createnotas = await createNotas(data)
-      console.log(createnotas);
-
-      data = []
+      /*  data = [] */
 
       res.json({ message: "File Saved" });
     }

@@ -3,7 +3,7 @@ const { db } = require("../db");
 const createNotas = async (params) => {
   try {
    
-    for (let i = 0; i < params.length; i++) {
+
       const {
         GRADE_ACTIVITY,
         FINAL_GRADE,
@@ -22,7 +22,7 @@ const createNotas = async (params) => {
         Periodo,
         Año,
         NomNotaPeriodo
-      } = params[i];
+      } = params;
 
     
       const programa = await db.query(
@@ -110,9 +110,8 @@ const createNotas = async (params) => {
         );
         }
       }
-    }
+    
 
-    return "Saved Notas";
   } catch (error) {
     console.log(error);
     return "Ocurrió un error al guardar las notas";
