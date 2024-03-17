@@ -12,7 +12,6 @@ import (
 	"github.com/rs/cors"
 )
 
-
 func main() {
 	loadEnv()
 	Database := db.InitDB()

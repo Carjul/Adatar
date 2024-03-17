@@ -17,7 +17,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@gmail.com
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:
-      - 80:80
+      - 4321:80
 
   api:
     build: ./api
@@ -34,8 +34,6 @@ services:
     restart: always
     ports:
       - 3001:3001
-    volumes:
-      - ./client:/usr/src/app
     depends_on:
       - db
 
@@ -48,3 +46,6 @@ services:
       - ./service:/go/src/app
     depends_on:
       - db
+
+
+    #  que se reflejen en los contenedores, puedes usar el comando docker-compose up --build para
