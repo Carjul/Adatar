@@ -2,19 +2,31 @@ import Nav from '../components/Nav';
 import { useSelector, useDispatch } from 'react-redux';
 import Sidebar from '../components/sidebar';
 import Footer from '../components/footer';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef ,useState} from 'react';
 import { getuser, deleteOneData, updateOneData, getRoles, getProgramas, getSemestres, userUpdate, userDeleteData } from '../app/Actions/action';
 import { setMsg } from '../app/FeatureSlices/MsgApi';
-/* import { io } from "socket.io-client"; */
+import { io } from "socket.io-client"; 
 
+/* const socket = io('http://localhost:3004/');  */
 
 const Data = { id: "", Datos: [{ Programa: "", Semestres: "" }] }
 
 const Config = () => {
-   /*  const socket = io('http://localhost:3004'); */
-    const xmsg = () => {
-      /*   socket.emit('message', "hola") */
-    }
+  
+     /* const [messages, setMessages] = useState([]);
+
+    useEffect(() => {
+      socket.on('message', (msg) => {
+        setMessages([...messages, msg]);
+      });
+      console.log(messages);
+      return () => socket.disconnect(); 
+    }, [messages]); 
+    
+    const sendMessage = () => {
+        socket.emit('message', 'Hello there from React.');
+      };
+    */
     const { message } = useSelector(state => state.msg);
     const { config } = useSelector(state => state.token);
     const { roles } = useSelector(state => state.token);
@@ -164,7 +176,7 @@ const Config = () => {
                     <br />
 
                     <h2 className='text-xl'>Asignar Semestre</h2>
-                    <button onClick={xmsg}>socket.io</button>
+                   {/*  <button className='btn btn-outline btn-error' onClick={()=>sendMessage()}>socket.io</button> */}
                     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                             <div className="overflow-hidden">

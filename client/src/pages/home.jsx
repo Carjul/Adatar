@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getMaterias, getData, getdataEstSem, EstMateria, get_Nota_Año, getdocx } from '../app/Actions/action'
 import * as echarts from 'echarts';
 import { LuFileDown } from "react-icons/lu";
+import DocxEditor from '../components/docCreate';
 
 const data = {
   semestre: '0',
@@ -20,6 +21,8 @@ const Documento = {
   Estudiantes: [],
 
 }
+var defaultOptionValue; 
+
 const Home = () => {
 
 
@@ -57,7 +60,7 @@ const Home = () => {
   const indexOfLastItem = currentPage * 10;
   const indexOfFirstItem = indexOfLastItem - 10;
   const currentItems = EstSemestre?.slice(indexOfFirstItem, indexOfLastItem);
- Documento.Estudiantes = currentItems
+  Documento.Estudiantes = currentItems
 
   const totalPages = Math.ceil(EstSemestre?.length / 10);
 
@@ -97,12 +100,12 @@ const Home = () => {
     if (u.user.RolId === 3) {
       let dato0 = notasperpro;
       let dato1 = notasperma;
-      if(Pagina.pagina0 === false && Pagina.pagina1 === false && Pagina.pagina2 === false && Pagina.pagina3 === true) console.log(Documento)
+      if (Pagina.pagina0 === false && Pagina.pagina1 === false && Pagina.pagina2 === false && Pagina.pagina3 === true) console.log(Documento)
       if (Pagina.pagina0 === true && Pagina.pagina1 === false && Pagina.pagina2 === false && Pagina.pagina3 === false) ChageChart1(dato0)
       if (Pagina.pagina0 === false && Pagina.pagina1 === true && Pagina.pagina2 === false && Pagina.pagina3 === false) ChageChart3(dato1)
 
     }
-  }, [notasperpro, notasperma, Pagina.pagina1,Pagina.pagina0,Pagina.pagina3])
+  }, [notasperpro, notasperma, Pagina.pagina1, Pagina.pagina0, Pagina.pagina3])
   const ChageChart1 = (e) => {
 
     let myChar = echarts.init(document.getElementById('main1'), null, { renderer: 'svg' });
@@ -140,7 +143,7 @@ const Home = () => {
           radius: '50%',
           data: e,
           label: {
-            formatter: '{d}%', 
+            formatter: '{d}%',
           },
           emphasis: {
             itemStyle: {
@@ -156,11 +159,11 @@ const Home = () => {
       type: 'svg',
       width: 500,
       height: 400,
-   };
-   
+    };
 
-   const svgDataUrl = myChar.getSvgDataURL(options);
-  Documento.ImagenPie = svgDataUrl
+
+    const svgDataUrl = myChar.getSvgDataURL(options);
+    Documento.ImagenPie = svgDataUrl
 
     option && myChar.setOption(option);
 
@@ -267,25 +270,29 @@ const Home = () => {
       type: 'svg',
       width: 500,
       height: 400,
-   };
+    };
     const svgDataUrl = myChart.getSvgDataURL(options);
-   /*  console.log("-__-",svgDataUrl) */
-      Documento.ImagenBar = svgDataUrl
+    /*  console.log("-__-",svgDataUrl) */
+    Documento.ImagenBar = svgDataUrl
 
     option && myChart.setOption(option);
   }
 
   useEffect(() => {
 
-    data.periodo_academico = parseInt("25")
+    
+
+    data.periodo_academico = parseInt("27")
     data.semestre = obj?.Semestres
     data.programa_id = parseInt(obj?.Programa)
 
 
-    dispatch(get_Nota_Año({ "programa_id": data.programa_id, "periodo_academico":"25"}))
-    dispatch(getMaterias({ "programa_id": parseInt(obj?.Programa), "semestre": obj?.Semestres, "periodo_academico": parseInt("25") }))
+    dispatch(get_Nota_Año({ "programa_id": data.programa_id.toString(), "periodo_academico": data.periodo_academico }))
+    dispatch(getMaterias({ "programa_id": data.programa_id, "semestre": obj?.Semestres, "periodo_academico": data.periodo_academico }))
     dispatch(getdataEstSem(data));
-    /*  dispatch(EstMateria(data))  */
+    dispatch(EstMateria(data))
+  
+
   }, [periodoAcademico])
   return (
     <>
@@ -294,6 +301,7 @@ const Home = () => {
         <Sidebar props={1} />
         {u.user?.RolId === 3 ? (
           <div className="flex flex-col items-center w-full h-1/2 z-0">
+            <DocxEditor />
             <div className="card card-compact w-4/5 bg-base-100 shadow-xl mt-6">
               <div className="card-body flex flex-row">
                 <div className="flex flex-col flex-wrap items-center p-1 mx-auto">
@@ -311,19 +319,21 @@ const Home = () => {
                         data.semestre = obj?.Semestres
                         data.periodo_academico = parseInt(e.target.value)
                         data.programa_id = parseInt(obj?.Programa)
-                        dispatch(get_Nota_Año({ "programa_id": data.programa_id.toString(), "periodo_academico":data.periodo_academico }))
+                        dispatch(get_Nota_Año({ "programa_id": data.programa_id.toString(), "periodo_academico": data.periodo_academico }))
                         dispatch(getMaterias({ "programa_id": data.programa_id, "semestre": data.semestre, "periodo_academico": data.periodo_academico }))
                         dispatch(getdataEstSem(data));
                         dispatch(EstMateria(data))
                       }}
-                    >
-                      <option defaultValue="0">Periodo Academico</option>
-                      {periodoAcademico?.map((e) => (
-                        <option key={e.id} value={e.id}>
-                          {e.Year} {e.Periodo} {e.NomNotaPeriodo}
-                        </option>
-                      ))}
-                    </select>
+            
+                    > {periodoAcademico?.length === 0 && (
+                      <option value="0">Periodo Academico</option>
+                    )}
+                    {periodoAcademico?.map((e) => (
+                      <option key={e.id} value={e.id}>
+                        {e.Year} {e.Periodo} {e.NomNotaPeriodo}
+                      </option>
+                    ))}
+</select>
                   </div> : null}
                 </div>
               </div>
@@ -352,7 +362,7 @@ const Home = () => {
               <div className="card card-compact w-4/5 bg-base-100 shadow-xl ">
                 <div className="card-body">
                   <div className="flex flex-col">
-                  <button onClick={clickDown}><LuFileDown /></button>
+                    
                     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                       <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                         <div className="overflow-hidden">
@@ -369,7 +379,7 @@ const Home = () => {
                             </thead>
                             <tbody>
                               {currentItems?.map((item) => (
-                                <tr className="border dark:border-neutral-500 bg-green-100" onClick={() => { findEstInMaterias(item?.nombres), setPagina({ pagina0:false, pagina1:false, pagina2:false, pagina3: true, }) }} key={item.identificacion}>
+                                <tr className="border dark:border-neutral-500 bg-green-100" onClick={() => { findEstInMaterias(item?.nombres), setPagina({ pagina0: false, pagina1: false, pagina2: false, pagina3: true, }) }} key={item.identificacion}>
                                   <td className="px-6 py-4 font-medium">{item?.nombres} </td>
                                   <td className="px-6 py-4 font-medium text-red-500"> {item?.perdio} </td>
                                   <td className="px-6 py-4 font-medium">{item?.gano}</td>

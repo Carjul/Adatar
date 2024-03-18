@@ -6,15 +6,11 @@ import Home from './pages/home'
 import Perfil from './pages/perfil'
 import Upload from './pages/upload'
 import Cargar from './pages/cargando'
-import { useEffect } from 'react'
+import AppDoc from './components/docCreate'
  
 
 function App() {
-/* var token;
- useEffect(()=>{
-  token = localStorage.getItem('token')
- },[token]) 
- */
+
   return (
     <>
       <Routes>
@@ -25,6 +21,9 @@ function App() {
         <Route path="/perfil" element={ <Perfil /> } />
         <Route path="/upload" element={ <Upload /> } />
         <Route path="/dashboard" element={ <Dashboard /> } />
+        <Route path="/docx" element={ <AppDoc /> } />
+
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>
   )

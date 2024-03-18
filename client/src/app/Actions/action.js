@@ -250,10 +250,9 @@ export const getRoles = (token) => (dispatch) => {
       console.log(err)
     })
 }
-var contarlog=0;
+
 export const senduser = (obj) => (dispatch) => {
-contarlog=contarlog+ obj.contar;
-if (contarlog === 1) {
+
   axios.post(`${url}/login`, obj.user).then((result) => {
     if (result.data.token) {
       localStorage.setItem('token', result.data.token)
@@ -279,11 +278,11 @@ if (contarlog === 1) {
     console.log(err);
   });
 }
-}
-var contar=0;
+
+
 export const register = (obj) => (dispatch) => {
-  contar=contar+ obj.contar;
-  if (contar === 1) {
+  
+  
     axios.post(`${url}/registro`, obj.user).then((result) => {
       if (result.data.token) {
         localStorage.setItem('token', result.data.token)
@@ -303,7 +302,7 @@ export const register = (obj) => (dispatch) => {
     }).catch(err => {
       console.log(err);
     });
-  }
+  
   
 }
 
