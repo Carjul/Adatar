@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getMaterias, getData, getdataEstSem, EstMateria, get_Nota_Año, getdocx } from '../app/Actions/action'
 import * as echarts from 'echarts';
 import { LuFileDown } from "react-icons/lu";
-import DocxEditor from '../components/docCreate';
+import AppDoc from '../components/docCreate';
+
 
 const data = {
   semestre: '0',
@@ -21,14 +22,21 @@ const Documento = {
   Estudiantes: [],
 
 }
-var defaultOptionValue; 
 
+function createSvgBlob(svgDataUrl) {
+  const parts = svgDataUrl.split(';base64,');
+  const contentType = parts[0].split(':')[1];
+  const svgBase64 = parts[1];
+  const svgBlob = new Blob([atob(svgBase64)], { type: contentType });
+  // Save the blob as an SVG file
+  saveAs(svgBlob, 'my-chart.svg'); // Replace with your desired filename
+}
 const Home = () => {
 
 
   const clickDown = () => {
-
-    dispatch(getdocx(Documento))
+    createSvgBlob( Documento.ImagenPie)
+   /*  dispatch(getdocx(Documento)) */
 
   }
 
@@ -100,11 +108,16 @@ const Home = () => {
     if (u.user.RolId === 3) {
       let dato0 = notasperpro;
       let dato1 = notasperma;
-      if (Pagina.pagina0 === false && Pagina.pagina1 === false && Pagina.pagina2 === false && Pagina.pagina3 === true) console.log(Documento)
-      if (Pagina.pagina0 === true && Pagina.pagina1 === false && Pagina.pagina2 === false && Pagina.pagina3 === false) ChageChart1(dato0)
-      if (Pagina.pagina0 === false && Pagina.pagina1 === true && Pagina.pagina2 === false && Pagina.pagina3 === false) ChageChart3(dato1)
+      if (Pagina.pagina0 === false && Pagina.pagina1 === false && Pagina.pagina2 === false && Pagina.pagina3 === true) {console.log(Documento)}
+      if (Pagina.pagina0 === true && Pagina.pagina1 === false && Pagina.pagina2 === false && Pagina.pagina3 === false) {
+        ChageChart1(dato0)
+      }
+      if (Pagina.pagina0 === false && Pagina.pagina1 === true && Pagina.pagina2 === false && Pagina.pagina3 === false) {
+        ChageChart3(dato1)
+      }
 
     }
+   
   }, [notasperpro, notasperma, Pagina.pagina1, Pagina.pagina0, Pagina.pagina3])
   const ChageChart1 = (e) => {
 
@@ -163,11 +176,9 @@ const Home = () => {
 
 
     const svgDataUrl = myChar.getSvgDataURL(options);
-    Documento.ImagenPie = svgDataUrl
-
+   
     option && myChar.setOption(option);
-
-
+    Documento.ImagenPie = svgDataUrl
 
   }
   const ChageChart3 = (e) => {
@@ -266,21 +277,21 @@ const Home = () => {
         }
       ]
     };
-    var options = {
-      type: 'svg',
-      width: 500,
-      height: 400,
-    };
-    const svgDataUrl = myChart.getSvgDataURL(options);
-    /*  console.log("-__-",svgDataUrl) */
-    Documento.ImagenBar = svgDataUrl
 
+/*
+  
+    
+*/ 
+
+const svgDataUrl = myChart.getDom().getElementsByTagName('svg')[0].outerHTML
+
+console.log(svgDataUrl)
+Documento.ImagenBar = svgDataUrl
     option && myChart.setOption(option);
+
   }
 
   useEffect(() => {
-
-    
 
     data.periodo_academico = parseInt("27")
     data.semestre = obj?.Semestres
@@ -291,7 +302,7 @@ const Home = () => {
     dispatch(getMaterias({ "programa_id": data.programa_id, "semestre": obj?.Semestres, "periodo_academico": data.periodo_academico }))
     dispatch(getdataEstSem(data));
     dispatch(EstMateria(data))
-  
+
 
   }, [periodoAcademico])
   return (
@@ -301,7 +312,7 @@ const Home = () => {
         <Sidebar props={1} />
         {u.user?.RolId === 3 ? (
           <div className="flex flex-col items-center w-full h-1/2 z-0">
-            <DocxEditor />
+
             <div className="card card-compact w-4/5 bg-base-100 shadow-xl mt-6">
               <div className="card-body flex flex-row">
                 <div className="flex flex-col flex-wrap items-center p-1 mx-auto">
@@ -324,16 +335,16 @@ const Home = () => {
                         dispatch(getdataEstSem(data));
                         dispatch(EstMateria(data))
                       }}
-            
+
                     > {periodoAcademico?.length === 0 && (
                       <option value="0">Periodo Academico</option>
                     )}
-                    {periodoAcademico?.map((e) => (
-                      <option key={e.id} value={e.id}>
-                        {e.Year} {e.Periodo} {e.NomNotaPeriodo}
-                      </option>
-                    ))}
-</select>
+                      {periodoAcademico?.map((e) => (
+                        <option key={e.id} value={e.id}>
+                          {e.Year} {e.Periodo} {e.NomNotaPeriodo}
+                        </option>
+                      ))}
+                    </select>
                   </div> : null}
                 </div>
               </div>
@@ -362,7 +373,8 @@ const Home = () => {
               <div className="card card-compact w-4/5 bg-base-100 shadow-xl ">
                 <div className="card-body">
                   <div className="flex flex-col">
-                    
+                    <AppDoc />
+                    <button onClick={clickDown}>x</button>
                     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                       <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                         <div className="overflow-hidden">
@@ -406,6 +418,8 @@ const Home = () => {
                               ))}
                             </nav>
                           </div>
+                          <img src={Documento.ImagenPie} alt="" />
+                          {Documento.ImagenBar}
                         </div>
                       </div>
                     </div>

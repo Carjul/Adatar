@@ -1,7 +1,5 @@
 const express=require( "express")
 const {graphqlHTTP}= require('express-graphql')
-const { Server } = require('socket.io');
-const { createServer } = require('node:http');
 const cors = require("cors")
 const morgan = require("morgan")
 const path = require("path")
@@ -19,8 +17,6 @@ const { usuario } = require("./routes/usuario");
 
 const app = express();
 
-const server = createServer(app);
-const io = new Server(server);
 
 app.set('port', process.env.PORT)
 app.use(express.static(path.join(__dirname, './public')));
@@ -41,9 +37,5 @@ app.use('/app/', routerdes)
 app.use('/app/api/v1',isAuthenticated, rutaUpload)
 app.use('/app/api/v1',isAuthenticated, graphqlHTTP({ schema, graphiql:true }));   
   
-io.on('connection', (socket) => {  
-    socket.on('message', (msg) => {
-    console.log('message: ' + msg);
-  });});
 
-module.exports= app;  
+module.exports= {app};  

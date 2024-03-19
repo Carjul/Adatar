@@ -9,15 +9,23 @@ const url = import.meta.env.VITE_PUBLIC_API;
 const url2 = import.meta.env.VITE_PUBLIC_SEVICE;
 
 export const getdocx = (params) => (dispatch) => {
-console.log(params);
-  fetch(`${url}/descargar-docx`)
+
+  fetch(`${url}/descargar-docx`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: JSON.stringify(params)
+  
+  })
   .then(response => {
     if (!response.ok) {
       throw new Error('Error al descargar el archivo');
     }
-    return response.blob();
+    return console.log(response)
   })
-  .then(blob => {
+  /* .then(blob => {
     // Crear un enlace temporal para descargar el archivo
     const url = window.URL.createObjectURL(new Blob([blob]));
     const link = document.createElement('a');
@@ -29,8 +37,8 @@ console.log(params);
   })
   .catch(error => {
     console.error('Error:', error);
-  });
-}
+  });*/
+} 
 
 export const getdataEst = (params) => (dispatch) => {
   axios.post(`${url2}/notas`, params).then((result) => {

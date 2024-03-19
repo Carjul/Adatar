@@ -6,12 +6,15 @@ const routerdes = express.Router()
 
 
 
-routerdes.get('/descargar-docx', (req, res) => {
-  CreateDocx()
+routerdes.post('/descargar-docx', (req, res) => {
+  const {body} = req
+console.log(body)
+   CreateDocx(body)
+    /*
   const docxFilePath = path.join(__dirname,'../public/Informe.docx')
  
-    res.download(docxFilePath);
-
+    res.download(docxFilePath); */
+res.send('hola')
 });
 
 

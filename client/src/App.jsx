@@ -21,8 +21,7 @@ function App() {
         <Route path="/perfil" element={ <Perfil /> } />
         <Route path="/upload" element={ <Upload /> } />
         <Route path="/dashboard" element={ <Dashboard /> } />
-        <Route path="/docx" element={ <AppDoc /> } />
-
+        <Route path="/docx" element={<AppDoc/>}/>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>
