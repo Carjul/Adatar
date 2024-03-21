@@ -1,4 +1,3 @@
-import axios from "axios";
 import { setEstMaterias ,setProgramatemp ,setNotasEst, setSemestate, setPeriodo, setPrograma, setNota, setNota2, setSede, setDocente, setEstudiante, setEstSemestre,setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotastate } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
 import { setUsers, setConfig,setRoles } from "../FeatureSlices/users";
@@ -8,8 +7,9 @@ import jwt_decode from "jwt-decode";
 const url = import.meta.env.VITE_PUBLIC_API;
 const url2 = import.meta.env.VITE_PUBLIC_SEVICE;
 
-export const getdocx = (params) => (dispatch) => {
+import axios from "axios";
 
+export const getdocx = (params) => (dispatch) => {
   fetch(`${url}/descargar-docx`, {
     method: 'POST',
     headers: {
@@ -17,28 +17,28 @@ export const getdocx = (params) => (dispatch) => {
       'Accept': 'application/json',
     },
     body: JSON.stringify(params)
-  
   })
   .then(response => {
     if (!response.ok) {
       throw new Error('Error al descargar el archivo');
     }
-    return console.log(response)
+    return response.blob(); // Convertir la respuesta a un objeto Blob
   })
   .then(blob => {
     // Crear un enlace temporal para descargar el archivo
-    const url = window.URL.createObjectURL(new Blob([blob]));
+    const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
     link.setAttribute('download', 'Reporte.docx');
     document.body.appendChild(link);
     link.click();
-    link.parentNode.removeChild(link);
+    document.body.removeChild(link); // Eliminar el enlace después de la descarga
   })
   .catch(error => {
     console.error('Error:', error);
   });
-} 
+}
+
 
 export const getdataEst = (params) => (dispatch) => {
   axios.post(`${url2}/notas`, params).then((result) => {
