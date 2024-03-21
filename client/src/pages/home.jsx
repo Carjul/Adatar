@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getMaterias, getData, getdataEstSem, EstMateria, get_Nota_Año, getdocx } from '../app/Actions/action'
 import * as echarts from 'echarts';
 import { LuFileDown } from "react-icons/lu";
-import AppDoc from '../components/docCreate';
+
 
 
 const data = {
@@ -23,20 +23,11 @@ const Documento = {
 
 }
 
-function createSvgBlob(svgDataUrl) {
-  const parts = svgDataUrl.split(';base64,');
-  const contentType = parts[0].split(':')[1];
-  const svgBase64 = parts[1];
-  const svgBlob = new Blob([atob(svgBase64)], { type: contentType });
-  // Save the blob as an SVG file
-  saveAs(svgBlob, 'my-chart.svg'); // Replace with your desired filename
-}
 const Home = () => {
 
 
   const clickDown = () => {
-    createSvgBlob( Documento.ImagenPie)
-   /*  dispatch(getdocx(Documento)) */
+    dispatch(getdocx(Documento)) 
 
   }
 
@@ -56,6 +47,7 @@ const Home = () => {
   var dispatch = useDispatch()
   useEffect(() => {
     dispatch(getData(token));
+    
     const datau = JSON.parse(x);
     if (datau.user) {
       let obju = JSON.parse(datau.user.Datos)
@@ -108,17 +100,18 @@ const Home = () => {
     if (u.user.RolId === 3) {
       let dato0 = notasperpro;
       let dato1 = notasperma;
-      if (Pagina.pagina0 === false && Pagina.pagina1 === false && Pagina.pagina2 === false && Pagina.pagina3 === true) {console.log(Documento)}
+     
+      if (Pagina.pagina0 === false && Pagina.pagina1 === false && Pagina.pagina2 === true && Pagina.pagina3 === false) {console.log(Documento)}
       if (Pagina.pagina0 === true && Pagina.pagina1 === false && Pagina.pagina2 === false && Pagina.pagina3 === false) {
-        ChageChart1(dato0)
+        Documento.ImagenPie = ChageChart1(dato0)
       }
       if (Pagina.pagina0 === false && Pagina.pagina1 === true && Pagina.pagina2 === false && Pagina.pagina3 === false) {
-        ChageChart3(dato1)
+        Documento.ImagenBar= ChageChart3(dato1)
       }
 
     }
    
-  }, [notasperpro, notasperma, Pagina.pagina1, Pagina.pagina0, Pagina.pagina3])
+  }, [notasperpro, notasperma, Pagina.pagina1, Pagina.pagina0, Pagina.pagina3,Documento])
   const ChageChart1 = (e) => {
 
     let myChar = echarts.init(document.getElementById('main1'), null, { renderer: 'svg' });
@@ -168,17 +161,13 @@ const Home = () => {
         }
       ]
     };
-    var options = {
-      type: 'svg',
-      width: 500,
-      height: 400,
-    };
 
 
-    const svgDataUrl = myChar.getSvgDataURL(options);
+    const svgDataUrl = myChar.getDom().getElementsByTagName('svg')[0].outerHTML
    
     option && myChar.setOption(option);
-    Documento.ImagenPie = svgDataUrl
+    
+    return svgDataUrl
 
   }
   const ChageChart3 = (e) => {
@@ -285,9 +274,9 @@ const Home = () => {
 
 const svgDataUrl = myChart.getDom().getElementsByTagName('svg')[0].outerHTML
 
-console.log(svgDataUrl)
-Documento.ImagenBar = svgDataUrl
-    option && myChart.setOption(option);
+option && myChart.setOption(option);
+
+return svgDataUrl
 
   }
 
@@ -323,8 +312,8 @@ Documento.ImagenBar = svgDataUrl
                     <li className={` ${Pagina.pagina3 ? 'bg-primary' : ''}`}><a onClick={() => setPagina({ pagina0: false, pagina1: false, pagina2: false, pagina3: true, })}>Reporte Estudiante</a></li>
                   </ul>
                   {Pagina.pagina3 === false ? <div className="px-0 py-2">
-
-                    <select className="select select-secondary select-sm max-w-xs"
+                  
+                    <select className="select select-ghost w-full max-w-xs"
                       id="SelectData"
                       onChange={(e) => {
                         data.semestre = obj?.Semestres
@@ -336,9 +325,8 @@ Documento.ImagenBar = svgDataUrl
                         dispatch(EstMateria(data))
                       }}
 
-                    > {periodoAcademico?.length === 0 && (
-                      <option value="0">Periodo Academico</option>
-                    )}
+                    > 
+                    <option disabled selected>Periodo Academico</option>
                       {periodoAcademico?.map((e) => (
                         <option key={e.id} value={e.id}>
                           {e.Year} {e.Periodo} {e.NomNotaPeriodo}
@@ -373,8 +361,8 @@ Documento.ImagenBar = svgDataUrl
               <div className="card card-compact w-4/5 bg-base-100 shadow-xl ">
                 <div className="card-body">
                   <div className="flex flex-col">
-                    <AppDoc />
-                    <button onClick={clickDown}>x</button>
+                  
+                    <button onClick={clickDown}><LuFileDown /></button>
                     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                       <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                         <div className="overflow-hidden">
@@ -418,8 +406,6 @@ Documento.ImagenBar = svgDataUrl
                               ))}
                             </nav>
                           </div>
-                          <img src={Documento.ImagenPie} alt="" />
-                          {Documento.ImagenBar}
                         </div>
                       </div>
                     </div>

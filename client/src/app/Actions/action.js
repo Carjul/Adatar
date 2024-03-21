@@ -25,19 +25,19 @@ export const getdocx = (params) => (dispatch) => {
     }
     return console.log(response)
   })
-  /* .then(blob => {
+  .then(blob => {
     // Crear un enlace temporal para descargar el archivo
     const url = window.URL.createObjectURL(new Blob([blob]));
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', 'nombre-del-archivo.docx');
+    link.setAttribute('download', 'Reporte.docx');
     document.body.appendChild(link);
     link.click();
     link.parentNode.removeChild(link);
   })
   .catch(error => {
     console.error('Error:', error);
-  });*/
+  });
 } 
 
 export const getdataEst = (params) => (dispatch) => {

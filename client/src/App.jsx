@@ -6,7 +6,7 @@ import Home from './pages/home'
 import Perfil from './pages/perfil'
 import Upload from './pages/upload'
 import Cargar from './pages/cargando'
-import AppDoc from './components/docCreate'
+
  
 
 function App() {
@@ -21,7 +21,6 @@ function App() {
         <Route path="/perfil" element={ <Perfil /> } />
         <Route path="/upload" element={ <Upload /> } />
         <Route path="/dashboard" element={ <Dashboard /> } />
-        <Route path="/docx" element={<AppDoc/>}/>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>
