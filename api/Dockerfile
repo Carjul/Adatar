@@ -1,4 +1,4 @@
-FROM node:18.11
+FROM node:20.11.1
 
 RUN mkdir -p /usr/src/api
 
