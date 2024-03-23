@@ -59,7 +59,7 @@ export default function Nav() {
           <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52 ">
 
             <li>
-              <button onClick={click} className="hover:bg-secondary">Cerrar sesión<span><MdLogout /></span></button>
+              <button onClick={click} className="hover:bg-primary">Cerrar sesión<span><MdLogout /></span></button>
 
             </li>
 

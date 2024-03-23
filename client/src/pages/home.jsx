@@ -112,6 +112,7 @@ const Home = () => {
     }
    
   }, [notasperpro, notasperma, Pagina.pagina1, Pagina.pagina0, Pagina.pagina3,Documento])
+
   const ChageChart1 = (e) => {
 
     let myChar = echarts.init(document.getElementById('main1'), null, { renderer: 'svg' });
@@ -133,10 +134,9 @@ const Home = () => {
       toolbox: {
         show: true,
         feature: {
-          mark: { show: true },
-          dataView: { show: true, readOnly: false },
+          dataView: { show: false, readOnly: false },
           restore: { show: false },
-          saveAsImage: { show: true }
+          saveAsImage: { show: true  }
         }
       },
       legend: {
@@ -192,8 +192,7 @@ const Home = () => {
       },
       toolbox: {
         feature: {
-          magicType: { show: true, type: ['line', 'bar'] },
-          dataView: { show: true, readOnly: false },
+          dataView: { show: false, readOnly: false },
           restore: { show: false },
           saveAsImage: { show: true }
         }
@@ -280,20 +279,20 @@ return svgDataUrl
 
   }
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    data.periodo_academico = parseInt("27")
-    data.semestre = obj?.Semestres
-    data.programa_id = parseInt(obj?.Programa)
-
-
-    dispatch(get_Nota_Año({ "programa_id": data.programa_id.toString(), "periodo_academico": data.periodo_academico }))
-    dispatch(getMaterias({ "programa_id": data.programa_id, "semestre": obj?.Semestres, "periodo_academico": data.periodo_academico }))
-    dispatch(getdataEstSem(data));
-    dispatch(EstMateria(data))
+  //   data.periodo_academico = parseInt("27")
+  //   data.semestre = obj?.Semestres
+  //   data.programa_id = parseInt(obj?.Programa)
 
 
-  }, [periodoAcademico])
+  //   dispatch(get_Nota_Año({ "programa_id": data.programa_id.toString(), "periodo_academico": data.periodo_academico }))
+  //   dispatch(getMaterias({ "programa_id": data.programa_id, "semestre": obj?.Semestres, "periodo_academico": data.periodo_academico }))
+  //   dispatch(getdataEstSem(data));
+  //   dispatch(EstMateria(data))
+
+
+  // }, [periodoAcademico])
   return (
     <>
       <Nav />
@@ -326,7 +325,7 @@ return svgDataUrl
                       }}
 
                     > 
-                    <option disabled selected>Periodo Academico</option>
+                    <option disabled defaultValue={0}>Periodo Academico</option>
                       {periodoAcademico?.map((e) => (
                         <option key={e.id} value={e.id}>
                           {e.Year} {e.Periodo} {e.NomNotaPeriodo}
@@ -362,7 +361,7 @@ return svgDataUrl
                 <div className="card-body">
                   <div className="flex flex-col">
                   
-                    <button onClick={clickDown}><LuFileDown /></button>
+                    <button className="btn btn-info w-1/6" onClick={clickDown}><LuFileDown /></button>
                     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                       <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                         <div className="overflow-hidden">

@@ -470,11 +470,11 @@ const Dashboard = () => {
         <div className="flex flex-col items-center w-full h-auto z-0" >
 
           <div className="card card-compact w-4/5 bg-base-100 shadow-xl mt-6">
-            <h2 className="card-title mx-auto mt-5">Filtros</h2>
+            {/* <h2 className="card-title mx-auto mt-5">Filtros</h2> */}
             <div className="card-body flex flex-row">
               <div className='flex flex-row flex-wrap p-1 mx-auto '>
                 <div className="px-0 py-2">
-                  <select name="Periodo academico" onChange={HandleChageP} className="select select-secondary select-sm max-w-xs">
+                  <select name="Periodo academico" onChange={HandleChageP} className="select select-info select-sm max-w-xs">
                     <option defaultValue="0">Periodo Academico</option>
                     {periodoAcademico?.map(e =>
                       <option key={e.id} value={e.id}>{e.NomNotaPeriodo}</option>
@@ -482,7 +482,7 @@ const Dashboard = () => {
                   </select>
                 </div>
                 <div className="px-0 py-2">
-                  <select name="Sede" onChange={HandleChageS} className="select select-secondary select-sm max-w-xs">
+                  <select name="Sede" onChange={HandleChageS} className="select select-info select-sm max-w-xs">
                     <option defaultValue="0">Sede</option>
                     {sede?.map((e, i) =>
                       <option key={i} value={e}>{e}</option>
@@ -492,7 +492,7 @@ const Dashboard = () => {
                 </div>
 
                 <div className="px-0 py-2">
-                  <select name="Programa" onChange={HandleChageC} className="select select-secondary select-sm w-a max-w-xs">
+                  <select name="Programa" onChange={HandleChageC} className="select select-info select-sm w-a max-w-xs">
                     <option defaultValue="0">Carrera</option>
                     {programa?.map(e =>
                       <option key={e.id} value={e.id}>{e.NombrePrograma}</option>
@@ -501,7 +501,7 @@ const Dashboard = () => {
                 </div>
 
                 <div className="px-0 py-2">
-                  <select name="Estado de notas" onChange={HandleChageE} className="select select-secondary select-sm max-w-xs">
+                  <select name="Estado de notas" onChange={HandleChageE} className="select select-info select-sm max-w-xs">
                     <option defaultValue="1">semestre</option>
                     {semestres?.map(e =>
                       <option key={e} value={e}>{e}</option>)
