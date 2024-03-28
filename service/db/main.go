@@ -25,9 +25,9 @@ func InitDB() *sql.DB {
 	err = Db.Ping()
 	if err != nil {
 		log.Println("No se pudo establecer conexión con la base de datos:", err)
+	} else {
+		log.Println("base de datos" + " " + DB_NAME + " " + "conectada con éxito")
 	}
-
-	log.Println("base de datos" + " " + DB_NAME + " " + "conectada con éxito")
 
 	return Db
 }

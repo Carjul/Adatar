@@ -27,7 +27,7 @@ const Home = () => {
 
 
   const clickDown = () => {
-    dispatch(getdocx(Documento)) 
+    dispatch(getdocx(Documento))
 
   }
 
@@ -47,7 +47,7 @@ const Home = () => {
   var dispatch = useDispatch()
   useEffect(() => {
     dispatch(getData(token));
-    
+
     const datau = JSON.parse(x);
     if (datau.user) {
       let obju = JSON.parse(datau.user.Datos)
@@ -100,22 +100,22 @@ const Home = () => {
     if (u.user.RolId === 3) {
       let dato0 = notasperpro;
       let dato1 = notasperma;
-     
-      if (Pagina.pagina0 === false && Pagina.pagina1 === false && Pagina.pagina2 === true && Pagina.pagina3 === false) {console.log(Documento)}
+
+      if (Pagina.pagina0 === false && Pagina.pagina1 === false && Pagina.pagina2 === true && Pagina.pagina3 === false) { console.log(Documento) }
       if (Pagina.pagina0 === true && Pagina.pagina1 === false && Pagina.pagina2 === false && Pagina.pagina3 === false) {
-        Documento.ImagenPie = ChageChart1(dato0)
+        ChageChart1(dato0)
       }
       if (Pagina.pagina0 === false && Pagina.pagina1 === true && Pagina.pagina2 === false && Pagina.pagina3 === false) {
-        Documento.ImagenBar= ChageChart3(dato1)
+        ChageChart3(dato1)
       }
 
     }
-   
-  }, [notasperpro, notasperma, Pagina.pagina1, Pagina.pagina0, Pagina.pagina3,Documento])
+
+  }, [notasperpro, notasperma, Pagina.pagina1, Pagina.pagina0, Pagina.pagina3, Documento])
 
   const ChageChart1 = (e) => {
 
-    let myChar = echarts.init(document.getElementById('main1'), null, { renderer: 'svg' });
+    let myChar = echarts.init(document.getElementById('main1'));
     window.addEventListener("resize", function () {
       myChar.resize();
     })
@@ -136,7 +136,7 @@ const Home = () => {
         feature: {
           dataView: { show: false, readOnly: false },
           restore: { show: false },
-          saveAsImage: { show: true  }
+          saveAsImage: { show: true }
         }
       },
       legend: {
@@ -163,15 +163,26 @@ const Home = () => {
     };
 
 
-    const svgDataUrl = myChar.getDom().getElementsByTagName('svg')[0].outerHTML
-   
+
+
     option && myChar.setOption(option);
-    
-    return svgDataUrl
+
+    setTimeout(() => {
+      Documento.ImagenPie = myChar.getConnectedDataURL({
+        backgroundColor: '#fff',
+        pixelRatio: 1,
+        excludeComponents: ['toolbox'],
+        type: 'png',
+        quality: 80
+      });
+
+    }, 1000)
+
+
 
   }
   const ChageChart3 = (e) => {
-    let myChart = echarts.init(document.getElementById('main3'), null, { renderer: 'svg' });
+    let myChart = echarts.init(document.getElementById('main3'));
     window.addEventListener("resize", function () {
       myChart.resize();
     })
@@ -266,17 +277,20 @@ const Home = () => {
       ]
     };
 
-/*
-  
-    
-*/ 
 
-const svgDataUrl = myChart.getDom().getElementsByTagName('svg')[0].outerHTML
 
-option && myChart.setOption(option);
+    option && myChart.setOption(option);
 
-return svgDataUrl
+    setTimeout(() => {
+      Documento.ImagenBar = myChart.getConnectedDataURL({
+        backgroundColor: '#fff',
+        pixelRatio: 1,
+        excludeComponents: ['toolbox'],
+        type: 'png',
+        quality: 80
+      });
 
+    }, 1000);
   }
 
   // useEffect(() => {
@@ -311,7 +325,7 @@ return svgDataUrl
                     <li className={` ${Pagina.pagina3 ? 'bg-primary' : ''}`}><a onClick={() => setPagina({ pagina0: false, pagina1: false, pagina2: false, pagina3: true, })}>Reporte Estudiante</a></li>
                   </ul>
                   {Pagina.pagina3 === false ? <div className="px-0 py-2">
-                  
+
                     <select className="select select-ghost w-full max-w-xs"
                       id="SelectData"
                       onChange={(e) => {
@@ -324,8 +338,8 @@ return svgDataUrl
                         dispatch(EstMateria(data))
                       }}
 
-                    > 
-                    <option disabled defaultValue={0}>Periodo Academico</option>
+                    >
+                      <option disabled defaultValue={0}>Periodo Academico</option>
                       {periodoAcademico?.map((e) => (
                         <option key={e.id} value={e.id}>
                           {e.Year} {e.Periodo} {e.NomNotaPeriodo}
@@ -360,7 +374,7 @@ return svgDataUrl
               <div className="card card-compact w-4/5 bg-base-100 shadow-xl ">
                 <div className="card-body">
                   <div className="flex flex-col">
-                  
+
                     <button className="btn btn-info w-1/6" onClick={clickDown}><LuFileDown /></button>
                     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                       <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
