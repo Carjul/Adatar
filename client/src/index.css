@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#sidebar{
+    height: 50rem;
+}
+
+
+
+#bgi{
+    background-image: url('./assets/img.jpg');
+}
+#gif{
+    background-image: url('./assets/loading-2.gif');
+}
+#bginv{
+  margin-top: 20%;
+  height: 100vh;
+  font-size: x-large;
+  font-weight: bold;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  text-align: center;
+
+}

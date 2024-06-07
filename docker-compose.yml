@@ -1,0 +1,57 @@
+version: "3.9"
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: adatar
+    ports:
+      - 5432:5432
+    logging:
+      driver: none
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - 4321:80
+    logging:
+      driver: none
+
+  api:
+    build: ./api
+    restart: always
+    ports:
+      - 3004:3001
+    volumes:
+      - ./api:/usr/src/api
+    depends_on:
+      - db
+
+  client:
+    build: ./client
+    restart: always
+    ports:
+      - 3001:3001
+    volumes:  
+      - ./client:/usr/src/app
+    depends_on:
+      - db
+
+  service:
+    build: ./service
+    restart: always
+    ports:
+      - 8000:8000
+    volumes:
+      - ./service:/go/src/app
+    depends_on:
+      - db
+
+
+    #  que se reflejen en los contenedores, puedes usar el comando docker-compose up --build para
