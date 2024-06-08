@@ -475,9 +475,9 @@ const Dashboard = () => {
           <div className="card card-compact w-4/5 bg-base-100 shadow-xl mt-6 items-center"  >
             {/* <h2 className="card-title mx-auto mt-5">Filtros</h2> */}
             <div className="card-body">
-              <div className='flex flex-row flex-wrap  w-full'>
+              <div className='flex-row flex-wrap w-auto w-full'>
 
-                <select name="Periodo academico" onChange={HandleChageP} className="select select-info w-4/6 select-sm max-w-xs">
+                <select name="Periodo academico" onChange={HandleChageP} className="select select-ghost w-auto max-w-xs m-2">
                   <option defaultValue="0">Periodo Academico</option>
                   {periodoAcademico?.map(e =>
                     <option key={e.id} value={e.id}>{e.NomNotaPeriodo}</option>
@@ -485,7 +485,7 @@ const Dashboard = () => {
                 </select>
 
 
-                <select name="Sede" onChange={HandleChageS} className="select select-info w-4/6  select-sm max-w-xs">
+                <select name="Sede" onChange={HandleChageS} className="select select-ghost w-auto max-w-xs m-2">
                   <option defaultValue="0">Sede</option>
                   {sede?.map((e, i) =>
                     <option key={i} value={e}>{e}</option>
@@ -495,14 +495,14 @@ const Dashboard = () => {
 
 
 
-                <select name="Programa" onChange={HandleChageC} className="select select-info w-4/6 select-sm w-a max-w-xs">
+                <select name="Programa" onChange={HandleChageC} className="select select-ghost w-auto max-w-xs m-2">
                   <option defaultValue="0">Carrera</option>
                   {programa?.map(e =>
                     <option key={e.id} value={e.id}>{e.NombrePrograma}</option>
                   )}
                 </select>
 
-                <select name="Estado de notas" onChange={HandleChageE} className="select select-info w-4/6 select-sm max-w-xs">
+                <select name="Estado de notas" onChange={HandleChageE} className="select select-ghost w-auto max-w-xs m-2">
                   <option defaultValue="1">Semestre</option>
                   {semestres?.map(e =>
                     <option key={e} value={e}>{e}</option>)

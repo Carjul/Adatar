@@ -120,9 +120,9 @@ const Sidebar = (number) => {
     }
     if (rol === '2') {
         return (
-            <div className="nav z-10 bg-base-200 border-r border-base-300" >
+            <div className="nav z-10 bg-base-200 border-r border-base-300 w-auto" >
                 <div className="flex-1 ">
-                    <div id="sidebar" className="flex  overflow-hidden  flex-col flex-grow justify-content-start mt-5">
+                    <div id="sidebar" className="flex  overflow-hidden  flex-col flex-grow justify-content-start mt-5 h-100">
                         <ul>
                             <li>{props === 1 ? <Link className="inline-flex items-center w-full px-5 py-2 mt-1 text-xl text-bg-base-100 transition duration-500 ease-in-out transform rounded-lg bg-primary focus:shadow-outline hover:bg-base-300" to={"/home"}>
                                 < MdOutlineHome />

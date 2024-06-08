@@ -25,7 +25,7 @@ const Documento = {
 
 
 const Home = () => {
-  
+
   const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
   const clickDown = async () => {
@@ -412,56 +412,59 @@ const Home = () => {
     <>
       <Nav />
       <div className='flex flex-row justify-content-around'>
-    {navState === 'menu' && <Sidebar props={1} /> }
-    
+        {navState === 'menu' && <Sidebar props={1} />}
+
         {u.user?.RolId === 3 || u.user?.RolId === 2 ? (
           <div className="flex flex-col items-center w-full h-1/2 z-0">
 
             <div className="card card-compact w-4/5 bg-base-100 shadow-xl mt-6">
               <div className="card-body flex-row">
                 <div className="flex flex-col flex-wrap items-center p-1 mx-auto ">
-                  <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded  ">
-                    <li className={` ${Pagina.pagina0 ? 'bg-primary rounded-lg' : ''}`}><a onClick={() => setPagina({ pagina0: true, pagina1: false, pagina2: false, pagina3: false, })}>G. Notas</a></li>
-                    <li className={` ${Pagina.pagina1 ? 'bg-primary rounded-lg' : ''}`}><a onClick={() => setPagina({ pagina0: false, pagina1: true, pagina2: false, pagina3: false, })}>G. Materias</a></li>
-                    <li className={` ${Pagina.pagina2 ? 'bg-primary rounded-lg' : ''}`}><a onClick={() => setPagina({ pagina0: false, pagina1: false, pagina2: true, pagina3: false, })}>Estudiantes</a></li>
-                    <li className={` ${Pagina.pagina3 ? 'bg-primary rounded-lg' : ''}`}><a onClick={() => setPagina({ pagina0: false, pagina1: false, pagina2: false, pagina3: true, })}>Detalle estudiante</a></li>
-                  </ul>
+                  <div className="join join-vertical lg:join-horizontal">
+                    <button className={` ${Pagina.pagina0 ? 'btn join-item bg-primary rounded-lg' : 'btn join-item'}`} onClick={() => setPagina({ pagina0: true, pagina1: false, pagina2: false, pagina3: false, })}>G. Notas</button>
+                    <button className={` ${Pagina.pagina1 ? 'btn join-item bg-primary rounded-lg' : 'btn join-item '}`} onClick={() => setPagina({ pagina0: false, pagina1: true, pagina2: false, pagina3: false, })}>G. Materias</button>
+                    <button className={` ${Pagina.pagina2 ? 'btn join-item bg-primary rounded-lg' : 'btn join-item '}`} onClick={() => setPagina({ pagina0: false, pagina1: false, pagina2: true, pagina3: false, })}>Estudiantes</button>
+                    <button className={` ${Pagina.pagina3 ? 'btn join-item bg-primary rounded-lg' : 'btn join-item '}`} onClick={() => setPagina({ pagina0: false, pagina1: false, pagina2: false, pagina3: true, })}>Detalle estudiante</button>
+                  </div>
                   <br />
-                  {Pagina.pagina3 === false && <div className='px-auto'>
-                    <select className="select select-ghost w-4/6 max-w-xs"
-                      id="SelectData"
-                      onChange={(e) => {
-                        const selectedOptionText = e.target.options[e.target.selectedIndex].text;
-                        Documento.periodo_academico = `${selectedOptionText} - Semestre ${obj?.Semestres}`;
-                        data.semestre = obj?.Semestres
-                        data.periodo_academico = parseInt(e.target.value)
-                        data.programa_id = parseInt(obj?.Programa)
-                        dispatch(get_Nota_Sem({ "programa_id": data.programa_id.toString(), "semestre": obj?.Semestres, "periodo_academico": data.periodo_academico }))
-                        dispatch(getMaterias({ "programa_id": data.programa_id, "semestre": data.semestre, "periodo_academico": data.periodo_academico }))
-                        dispatch(getdataEstSem(data));
-                        dispatch(EstMateria(data));
-                      }}
+                  <div className='flex flex-row flex-wrap mx-auto'>
+
+                    {Pagina.pagina3 === false && <div className='px-auto'>
+                      <select className="select select-ghost w-4/6 max-w-xs"
+                        id="SelectData"
+                        onChange={(e) => {
+                          const selectedOptionText = e.target.options[e.target.selectedIndex].text;
+                          Documento.periodo_academico = `${selectedOptionText} - Semestre ${obj?.Semestres}`;
+                          data.semestre = obj?.Semestres
+                          data.periodo_academico = parseInt(e.target.value)
+                          data.programa_id = parseInt(obj?.Programa)
+                          dispatch(get_Nota_Sem({ "programa_id": data.programa_id.toString(), "semestre": obj?.Semestres, "periodo_academico": data.periodo_academico }))
+                          dispatch(getMaterias({ "programa_id": data.programa_id, "semestre": data.semestre, "periodo_academico": data.periodo_academico }))
+                          dispatch(getdataEstSem(data));
+                          dispatch(EstMateria(data));
+                        }}
 
 
-                    >
-                      <option defaultValue={0}>Periodo academico</option>
-                      {periodoAcademico?.map((e) => (
-                        <option key={e.id} value={e.id}>
-                          {e.NomNotaPeriodo}
-                        </option>
-                      ))}
-                    </select>
-                  </div>}
-                  <br />
-                  {Pagina.pagina2 && (
-                    loadDowloadDoc === true ? (
-                      <span><img src={gif} alt="loading .." width={'40px'} height={'30px'} /></span>
-                    ) : (
-                      <button className='btn btn-info' onClick={clickDown}>
-                        <SiMicrosoftword />
-                      </button>
-                    )
-                  )}
+                      >
+                        <option defaultValue={0}>Periodo academico</option>
+                        {periodoAcademico?.map((e) => (
+                          <option key={e.id} value={e.id}>
+                            {e.NomNotaPeriodo}
+                          </option>
+                        ))}
+                      </select>
+                    </div>}
+                    
+                    {Pagina.pagina2 && (loadDowloadDoc === true ? (
+                        <span><img src={gif} alt="loading .." width={'40px'} height={'30px'} /></span>
+                      ) : (
+                        <button className='btn btn-info' onClick={clickDown}>
+                          <SiMicrosoftword />
+                        </button>
+                      )
+                    )}
+                  </div>
+
                 </div>
               </div>
             </div>
