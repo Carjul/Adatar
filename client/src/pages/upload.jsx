@@ -5,6 +5,7 @@ import { postFile } from '../app/Actions/action';
 import Footer from '../components/footer'
 import { useDispatch, useSelector } from 'react-redux'
 import { setMsg, setSwich } from '../app/FeatureSlices/MsgApi';
+import Swal from 'sweetalert2';
 
 
 
@@ -15,20 +16,23 @@ const Upload = () => {
   const { navState } = useSelector(state => state.tema);
   const token = localStorage.getItem('token')
   const [obj, setObj] = useState({});
-  var [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  
   const handlesummit = (e) => {
-    const texto = e.target.files[0].name
-    const textoRecortadoSubstring = texto.substring(0, texto.indexOf('.'))
-
-    const newSelectedFile = {
-      name: textoRecortadoSubstring
-    };
-
-    setSelectedFile(newSelectedFile);
-    setObj({
-      ...obj,
-      [e.target.name]: e.target.files[0]
-    });
+    const newSelectedFile = e.target.files[0];
+    if (newSelectedFile.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+      setSelectedFile(newSelectedFile);
+      setObj({ ...obj, [e.target.name]: newSelectedFile });
+    }
+    else {
+      Swal.fire({
+        title: 'Advertencia',
+        text: 'Solo se permiten archivos de Excel',
+        icon: 'error',
+        button: false,
+        timer: 2000
+      }).then(() => setSelectedFile(null))
+    }
   }
 
   useEffect(() => {
@@ -64,27 +68,35 @@ const Upload = () => {
 
           {swich ?
             <div className="hero min-h-screen" id='gif'></div> :
-            <div>
+            <div className='flex mx-auto'>
 
-              <div className="flex-1 card w-auto bg-base-100 shadow-xl mt-10">
-                <div className="card-body items-center text-center">
-                  <h2 className="card-title">Subir Archivo</h2>
+              <div className="flex-1 card w-3/4 items-center bg-base-100 shadow-xl mt-10 mb-20">
+                <div className="card-body flex  items-center text-center">
+                  <h2 className="card-title">Subir Reporte ADATAR</h2>
                   <form onSubmit={e => {
                     e.preventDefault();
                     dispatch(postFile(obj, token, selectedFile.name))
                     dispatch(setSwich(true))
                     setSelectedFile(null);
                     document.getElementById('miInputFile').value = '';
-                  }} className="form-control">
+                  }} className="form-control mt-5">
 
-                    <input type="file" id='miInputFile' name="file" onChange={handlesummit} className="file-input file-input-bordered file-input-primary w-full max-w-xs" required />
+                    <input type="file" id='miInputFile' name="file" onChange={handlesummit} className="file-input file-input-bordered file-input-primary w-full max-w-xs mx-auto" required />
                     <br />
-                    <select className="select select-primary select-sm max-w-xs" disabled >
+                    {selectedFile != null && <div class="flex flex-col mt-4 mx-auto w-full items-center">
+
+                      <p class="flex flew-wrap text-gray-700"> {selectedFile?.name}</p>
+                      <br />
+                      <p class="flex flew-wrap text-gray-700"> Size {selectedFile?.size} bytes</p>
+
+                    </div>
+                    }
+                    {/* <select className="select select-primary select-sm max-w-xs" disabled >
                       {selectedFile === null ? <option value="">Nombre del Periodo</option> :
                         <option value={selectedFile.name}>{selectedFile.name}</option>
                       }
                     </select>
-
+ */}
                     <br />
                     <button type="submit" className="btn btn-primary" disabled={!selectedFile}>Enviar</button>
 

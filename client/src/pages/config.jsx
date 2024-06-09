@@ -108,8 +108,8 @@ const Config = () => {
                                         <thead className="border-b font-medium dark:border-neutral-500">
                                             <tr>
                                                 <th scope="col" className="px-6 py-2">Avatar</th>
-                                                <th scope="col" className="px-6 py-2">Nombre</th>
-                                                <th scope="col" className="px-6 py-2">Rol</th>
+                                                <th scope="col" className="px-6 py-2 hidden md:flex md:flex-shrink-0">Nombre</th>
+                                                <th scope="col" className="px-6 py-2 hidden md:flex md:flex-shrink-0">Rol</th>
                                                 <th scope="col" className="px-6 py-2">Cambiar Rol</th>
                                                 <th scope="col" className="px-6 py-2">Eliminar Usurio</th>
                                             </tr>
@@ -125,8 +125,8 @@ const Config = () => {
                                                             </div>
                                                         </label>
                                                     </td>
-                                                    <td className="whitespace-nowrap px-6 py-2">{e.Nombre}</td>
-                                                    <td className="whitespace-nowrap px-6 py-2">
+                                                    <td className="whitespace-nowrap px-6 py-2 hidden md:flex md:flex-shrink-0">{e.Nombre}</td>
+                                                    <td className="whitespace-nowrap px-6 py-2 hidden md:flex md:flex-shrink-0">
                                                         {parseInt(e.RolId) === 1 ? <div className="card-actions justify-start">
                                                             <div className="badge badge-outline bg-success">Administrador</div>
                                                         </div> : ""}
@@ -159,33 +159,35 @@ const Config = () => {
                     </div>
                     <br />
 
-                    <h2 className='text-xl'>Asignar Semestre</h2>
+                    <h2 className='text-xl'>Asignar Semestre Y Programa</h2>
                     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8 mb-20">
                         <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                             <div className="overflow-hidden">
-                                <table className="min-w-full text-center text-sm font-light">
+                                <table className="min-w-full text-center text-sm font-light ">
                                     <thead className="border-b font-medium dark:border-neutral-500">
                                         <tr>
-                                            <th className="p-4">Avatar</th>
-                                            <th className="p-4">Nombre</th>
-                                            <th className="p-4">asignar programa</th>
-                                            <th className="p-4">asignar Semestre</th>
+                                            <th className="p-1">Avatar</th>
+                                            <th className="p-1 hidden md:flex md:flex-shrink-0">Nombre</th>
+                                            <th className="p-1">Asignar </th>
+                                            <th className="p-1">Asignar </th>
+                                            <th className="p-1">Delete</th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {coordinador?.map(i =>
                                             <tr key={i.id} className="border-b dark:border-neutral-500">
-                                                <td className="p-2">
+                                                <td className="p-1">
                                                     <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                                                         <div className="w-10 rounded-full">
                                                             <img src={`${i.Avatar}`} alt="Avatar" width={40} height={50} />
                                                         </div>
                                                     </label>
                                                 </td>
-                                                <td className="p-2">{i.Nombre}</td>
+                                                <td className="p-1 hidden md:flex md:flex-shrink-0">{i.Nombre}</td>
 
 
-                                                <td className='p-2'>
+                                                <td className='p-1'>
                                                     <div>
                                                         <select onChange={(el) => {
                                                             dispatch(updateOneData(i.id, el.target.value, token));
@@ -208,16 +210,20 @@ const Config = () => {
 
                                                     </div>
                                                 </td>
-                                                <td className='p-2'>
+                                                <td className='p-1'>
                                                     <div>
                                                         <select onChange={handlechanges} className="select select-primary select-sm ">
                                                             {i.Datos === null ? <option defaultValue={"1"}>Semestres</option> : <option defaultValue={JSON.parse(i.Datos[0]).Semestres}>{JSON.parse(i.Datos[0]).Semestres}</option>}
-                                                            {semestres?.map(e =>
+                                                            {i.RolId === "3" && semestres?.map(e =>
                                                                 <option key={e} value={e}>{e}</option>)
                                                             }
+                                                        { i.RolId === "2" && <option key={0} value={0}>all</option>}
                                                         </select>
-                                                        {i.Datos !== null ? <button className="btn btn-outline btn-error ml-4" onClick={() => dispatch(userDeleteData({ id: i.id }))}>x</button> : ""}
                                                     </div>
+                                                </td>
+                                                <td className='p-1'>
+                                                {i.Datos !== null ? <button className="btn btn-outline btn-error ml-4" onClick={() => dispatch(userDeleteData({ id: i.id }))}>x</button> : ""}
+
                                                 </td>
                                             </tr>
                                         )}

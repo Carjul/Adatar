@@ -21,7 +21,7 @@ const Documento = {
   ImagenBar: '',
   Estudiantes: [],
 }
-
+ const sem = [1,2,3,4,5,6,7,8,9,10]
 
 
 const Home = () => {
@@ -379,7 +379,7 @@ const Home = () => {
 
     }, 1000);
   }
-
+ const [estadoDirectivo, setestadoDirectivo] = useState(false)
 
   useEffect(() => {
     if (periodoAcademico && periodoAcademico.length > 0) {
@@ -389,8 +389,14 @@ const Home = () => {
         Documento.periodo_academico = `${maxIdObject.NomNotaPeriodo} - Semestre ${obj?.Semestres}`;
       }
 
+      if(obj?.Semestres == '0'){
+        data.semestre = "1";
+        setestadoDirectivo(true)
+        obj.Semestres = "1";
+      }else{
+        data.semestre = obj?.Semestres;
+      }
       data.periodo_academico = parseInt(maxIdObject?.id);
-      data.semestre = obj?.Semestres;
       data.programa_id = parseInt(obj?.Programa);
 
       dispatch(get_Nota_Sem({
@@ -433,7 +439,7 @@ const Home = () => {
                       <select className="select select-ghost w-4/6 max-w-xs"
                         id="SelectData"
                         onChange={(e) => {
-                          const selectedOptionText = e.target.options[e.target.selectedIndex].text;
+                          const selectedOptionText = e.target.options[e.target.selectedIndex].text;   
                           Documento.periodo_academico = `${selectedOptionText} - Semestre ${obj?.Semestres}`;
                           data.semestre = obj?.Semestres
                           data.periodo_academico = parseInt(e.target.value)
@@ -447,14 +453,38 @@ const Home = () => {
 
                       >
                         <option defaultValue={0}>Periodo academico</option>
-                        {periodoAcademico?.map((e) => (
+                        {Array.isArray(periodoAcademico) && periodoAcademico?.map((e) => (
                           <option key={e.id} value={e.id}>
                             {e.NomNotaPeriodo}
                           </option>
                         ))}
                       </select>
                     </div>}
-                    
+                    {Pagina.pagina3 === false && estadoDirectivo && <div className='px-auto'>
+                      <select className="select select-ghost w-4/6 max-w-xs"
+                        id="SelectData"
+                        onChange={(e) => {
+                          
+                          let valor = e.target.value;
+                          data.semestre = valor;
+                          obj.Semestres = valor;
+                          dispatch(get_Nota_Sem({ "programa_id": data.programa_id.toString(), "semestre": obj?.Semestres, "periodo_academico": data.periodo_academico }))
+                          dispatch(getMaterias({ "programa_id": data.programa_id, "semestre": data.semestre, "periodo_academico": data.periodo_academico }))
+                          dispatch(getdataEstSem(data));
+                          dispatch(EstMateria(data));
+                        }}
+
+
+                      >
+                        <option defaultValue={0}>Semestre</option>
+                        {sem.map(e=> (
+                          <option key={e} value={e}>
+                            {e}
+                          </option>
+                        ))}
+                      </select>
+                    </div>}
+
                     {Pagina.pagina2 && (loadDowloadDoc === true ? (
                         <span><img src={gif} alt="loading .." width={'40px'} height={'30px'} /></span>
                       ) : (

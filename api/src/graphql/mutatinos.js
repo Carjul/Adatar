@@ -13,7 +13,7 @@ const update = {
     },
     async resolve(_, args) {
         const { id, RolId, Datos } = args
-        console.log(Datos)
+        console.log("---",Datos)
         await db.query(`UPDATE public."Users"
         SET  "RolId"=${RolId} WHERE id=${id} `)
         return 'usuario actualizado'
