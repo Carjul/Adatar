@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getNotasRango, getData, getProgramas, get_Nota_Año, getdataEst, getMaterias, get_Nota_facultades } from '../app/Actions/action';
+import { getNotasRango, getData, getProgramas, get_Nota_Año, getdataEst, getMateriasDash, get_Nota_facultades } from '../app/Actions/action';
 
 import Nav from '../components/Nav';
 import Sidebar from '../components/sidebar';
@@ -16,7 +16,7 @@ const data = {
 
 const Dashboard = () => {
 
-  const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma, notasperpro2, semestres, notas_estudiantes } = useSelector(state => state.data);
+  const { programa, periodoAcademico, sede, notasperpro, notasmateria, notasperma2, notasperpro2, semestres, notas_estudiantes } = useSelector(state => state.data);
   const { graficos } = useSelector(state => state.interuptor);
   const { navState } = useSelector(state => state.tema);
 
@@ -44,7 +44,7 @@ const Dashboard = () => {
   }
   const HandleChageE = (e) => {
     data.semestre = e.target.selectedOptions[0].text
-    dispatch(getMaterias({ "programa_id": data.programa_id, "semestre": data.semestre, "periodo_academico": data.periodo_academico }))
+    dispatch(getMateriasDash({ "programa_id": data.programa_id, "semestre": data.semestre, "periodo_academico": data.periodo_academico }))
     dispatch(getdataEst(data))
   }
 
@@ -55,7 +55,7 @@ const Dashboard = () => {
     let dato0 = notasperpro2;
     let dato1 = notasperpro;
     let dato2 = notasmateria;
-    let dato3 = notasperma;
+    let dato3 = notasperma2;
     let dato4 = notas_estudiantes;
 
 

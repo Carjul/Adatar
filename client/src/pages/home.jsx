@@ -23,6 +23,9 @@ const Documento = {
 }
  const sem = [1,2,3,4,5,6,7,8,9,10]
 
+ function removeDuplicates(arr) {
+  return [...new Set(arr)];
+}
 
 const Home = () => {
 
@@ -68,7 +71,7 @@ const Home = () => {
   var x = localStorage.getItem('userdecode')
   var u = JSON.parse(x)
 
-
+const [selectedOptionText, setSelectedOptionText] = useState('')
 
   useEffect(() => {
 
@@ -386,13 +389,16 @@ const Home = () => {
       const maxIdObject = periodoAcademico.reduce((max, obj) => (obj.id > max.id ? obj : max), periodoAcademico[0]);
 
       if (maxIdObject) {
-        Documento.periodo_academico = `${maxIdObject.NomNotaPeriodo} - Semestre ${obj?.Semestres}`;
+        setSelectedOptionText(maxIdObject.NomNotaPeriodo);
+        Documento.periodo_academico = `${selectedOptionText} - Semestre ${obj?.Semestres}`;
       }
-
-      if(obj?.Semestres == '0'){
+      
+       
+      if(obj?.Semestres === '0'){
         data.semestre = "1";
         setestadoDirectivo(true)
         obj.Semestres = "1";
+
       }else{
         data.semestre = obj?.Semestres;
       }
@@ -411,6 +417,7 @@ const Home = () => {
       }));
       dispatch(getdataEstSem(data));
       dispatch(EstMateria(data));
+      
     }
   }, [periodoAcademico]);
 
@@ -437,9 +444,9 @@ const Home = () => {
 
                     {Pagina.pagina3 === false && <div className='px-auto'>
                       <select className="select select-ghost w-4/6 max-w-xs"
-                        id="SelectData"
+                        id="SelectData1"
                         onChange={(e) => {
-                          const selectedOptionText = e.target.options[e.target.selectedIndex].text;   
+                          setSelectedOptionText(e.target.options[e.target.selectedIndex].text)
                           Documento.periodo_academico = `${selectedOptionText} - Semestre ${obj?.Semestres}`;
                           data.semestre = obj?.Semestres
                           data.periodo_academico = parseInt(e.target.value)
@@ -461,11 +468,13 @@ const Home = () => {
                       </select>
                     </div>}
                     {Pagina.pagina3 === false && estadoDirectivo && <div className='px-auto'>
-                      <select className="select select-ghost w-4/6 max-w-xs"
+                      <select className="select select-ghost w-5/6 max-w-xs"
                         id="SelectData"
                         onChange={(e) => {
-                          
                           let valor = e.target.value;
+                          Documento.periodo_academico = `${selectedOptionText} - Semestre ${valor}`;
+                          Documento.ImagenPie ='';
+                          Documento.ImagenBar = '';
                           data.semestre = valor;
                           obj.Semestres = valor;
                           dispatch(get_Nota_Sem({ "programa_id": data.programa_id.toString(), "semestre": obj?.Semestres, "periodo_academico": data.periodo_academico }))
@@ -476,7 +485,7 @@ const Home = () => {
 
 
                       >
-                        <option defaultValue={0}>Semestre</option>
+                        <option className='w-auto' defaultValue={0}>Semestre</option>
                         {sem.map(e=> (
                           <option key={e} value={e}>
                             {e}
@@ -639,7 +648,7 @@ const Home = () => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {Array.isArray(item.materias) && item.materias.map((materia) => (
+                                {Array.isArray(item.materias) && removeDuplicates(item.materias)?.map((materia) => (
                                   <tr className="border dark:border-neutral-500 bg-green-100" key={materia.cod_materia}>
                                     <td className="px-6 py-4">
                                       <div className="collapse collapse-arrow bg-green-100">

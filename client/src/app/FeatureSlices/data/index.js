@@ -12,6 +12,7 @@ const initialState = {
     notasperpro: [],
     notasperpro2: [],
     notasperma: {},//notas por materia
+    notasperma2: {},//notas por materia2
     semestres: [],
     notas_estudiantes: [],
     Notas_por_Est: [],
@@ -115,6 +116,30 @@ const dataSlice = createSlice({
                 notas_por_materia.Perdio.push(element.perdio)
             }
             state.notasperma = notas_por_materia
+        },
+        setSede: (state, action) => {
+            var sedes = []
+            action.payload?.forEach(e => {
+                sedes.push(e.Sede)
+            });
+            state.sede = sedes.filter((item, index) => {
+                return sedes.indexOf(item) === index;
+            })
+        },
+        setNotasperma2: (state, action) => {
+            const notas_por_materia = {
+                Materia: [],
+                Gano: [],
+                Perdio: [],
+            }
+
+            for (let i = 0; i < action.payload.length; i++) {
+                const element = action.payload[i];
+                notas_por_materia.Materia.push(element.nombre)
+                notas_por_materia.Gano.push(element.gano)
+                notas_por_materia.Perdio.push(element.perdio)
+            }
+            state.notasperma2 = notas_por_materia
         },
         setSede: (state, action) => {
             var sedes = []
@@ -278,4 +303,4 @@ const dataSlice = createSlice({
 })
 
 export default dataSlice.reducer
-export const { setEstSemestre, setEstMaterias, setProgramatemp, setNotaEstG, setSemestate, setNotasEst, setArticulos, setNota2, setNotas_Por_Estudiante, setNotasperma, setNotasmateria, setNotastate, setNota, setNotaSem, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions
+export const { setEstSemestre, setEstMaterias, setProgramatemp, setNotaEstG, setSemestate, setNotasEst, setArticulos, setNota2, setNotas_Por_Estudiante, setNotasperma, setNotasperma2, setNotasmateria, setNotastate, setNota, setNotaSem, setPeriodo, setPrograma, setDocente, setEstudiante, setMateriaPorPensum, setSede, setMateria, setPensum, setFacultad } = dataSlice.actions

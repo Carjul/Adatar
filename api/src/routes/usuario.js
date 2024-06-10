@@ -23,8 +23,18 @@ usuario.put('/ElminarDataUsuario', async (req, res) => {
         res.json({ msg: "Datos de usuario eliminado" })
     }
 }
-)
 
+)
+usuario.get('/usuario/:id', async (req, res) => {
+    const { id } = req.params
+
+    if (!id) {
+        res.status(404).json({ msg: "error" })
+    } else {
+        const user = await db.query(`SELECT * FROM public."Users" WHERE "id" = $1`, [id]);
+        res.json(user.rows[0])
+    }
+})
 
 module.exports = {
     usuario

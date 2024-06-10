@@ -1,4 +1,4 @@
-import { setEstMaterias, setProgramatemp, setNotasEst, setNotaSem, setSemestate, setPeriodo, setPrograma, setNota, setNota2, setSede, setDocente, setEstudiante, setEstSemestre, setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotastate } from '../FeatureSlices/data';
+import { setEstMaterias, setProgramatemp, setNotasEst, setNotaSem, setSemestate, setPeriodo, setPrograma, setNota, setNota2, setSede, setDocente, setEstudiante, setEstSemestre, setNotas_Por_Estudiante, setNotasmateria, setNotasperma, setNotasperma2, setNotastate } from '../FeatureSlices/data';
 import { setMsg } from "../FeatureSlices/MsgApi";
 import { setLoadDownload } from "../FeatureSlices/interuptor/suiche"
 import { setUsers, setConfig,setRoles } from "../FeatureSlices/users";
@@ -82,7 +82,13 @@ export const getSemestres = (params) => (dispatch) => {
     console.log(err);
   });
 }
-
+export const getMateriasDash = (params) => (dispatch) => {
+  axios.post(`${url2}/Materias`, params).then((result) => {
+    dispatch(setNotasperma2(result.data))
+  }).catch(err => {
+    console.log(err);
+  });
+}
 export const getMaterias = (params) => (dispatch) => {
   axios.post(`${url2}/Materias`, params).then((result) => {
     dispatch(setNotasperma(result.data))
@@ -225,6 +231,27 @@ export const getPrograma = (params, token) =>(dispatch) =>{
     .catch(err => {
       dispatch(setMsg(err.message))
     });
+}
+
+export const getUserLog = (id) => {
+  
+ axios.get(`${url}/usuario/${id}`).then((result) => {
+  
+    if(result.data){
+      const objetoJSON = JSON.stringify({user:result.data});
+      localStorage.setItem('userdecode', objetoJSON);
+      localStorage.setItem('Avatar', result.data.Avatar);
+      localStorage.setItem('Nombre', result.data.Nombre);
+      localStorage.setItem('Email', result.data.Email);
+      localStorage.setItem('RolId', result.data.RolId);
+      localStorage.setItem('id', result.data.id);
+
+    }
+    location.reload()
+  }).catch(err => {
+    console.log(err);
+  });
+
 }
 
 export const getuser = (token) => (dispatch) => {
