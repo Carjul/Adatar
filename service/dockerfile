@@ -4,7 +4,8 @@ FROM golang:alpine3.18
 RUN mkdir -p /go/src/app
 WORKDIR /go/src/app
 COPY . .
+RUN go install github.com/air-verse/air@latest
 RUN go mod tidy
 VOLUME [ "/go/src/app" ]
 EXPOSE 8000
-CMD ["go run ."]
+CMD ["air"  "-c", ".air.toml"]
