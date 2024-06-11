@@ -2,6 +2,7 @@ node_modules
 *.log*
 .nuxt
 .nitro
+service\api_rest_go.exe
 .cache
 .output
 .env
