@@ -1,18 +1,11 @@
 
 FROM golang:alpine3.18
-# Copia los archivos necesarios para la aplicación
+
 RUN mkdir -p /go/src/app
 WORKDIR /go/src/app
 COPY . .
-
-
-
 RUN go mod tidy
-RUN go build .
-
-
+RUN go build o- api_rest_go.exe
 VOLUME [ "/go/src/app" ]
-
 EXPOSE 8000
-
-CMD ["api_rest_go.exe"]
+CMD ["./api_rest_go.exe"]
