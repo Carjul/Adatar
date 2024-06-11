@@ -4,8 +4,7 @@ FROM golang:alpine3.18
 RUN mkdir -p /go/src/app
 WORKDIR /go/src/app
 COPY . .
-RUN go mod tidy
-RUN go build .
+RUN go mod install
 VOLUME [ "/go/src/app" ]
 EXPOSE 8000
-CMD ["./api_rest_go.exe"]
+CMD ["go run ."]
