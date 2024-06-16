@@ -21,7 +21,7 @@ Asegúrate de tener instalados los siguientes programas:
 
 ## Configuración
 
-### 1. Clonar el repositorio
+###  Clone el repositorio, add .env and run.
 
 ```bash
 git clone <URL-del-repositorio>
