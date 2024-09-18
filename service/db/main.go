@@ -2,7 +2,6 @@ package db
 
 import (
 	"database/sql"
-	"io/ioutil"
 	"log"
 	"os"
 
@@ -30,15 +29,10 @@ func InitDB() *sql.DB {
 		log.Println("Base de datos " + DB_NAME + " conectada con éxito")
 	}
 
-	// Verificar si las tablas existen y crearlas si no
-	createTablesIfNotExist(Db)
-
-	// Inser initial data
-	insertInitialData(Db)
-
 	return Db
 }
 
+/*
 func insertInitialData(db *sql.DB) {
 	// Sentencia SQL para insertar los roles y el usuario inicial
 	query := `
@@ -79,8 +73,8 @@ func createTablesIfNotExist(Db *sql.DB) {
 	for _, table := range tables {
 		var exists bool
 		query := `SELECT EXISTS (
-			SELECT FROM information_schema.tables 
-			WHERE table_schema = 'public' 
+			SELECT FROM information_schema.tables
+			WHERE table_schema = 'public'
 			AND table_name = $1
 		);`
 
@@ -116,3 +110,4 @@ func createTablesIfNotExist(Db *sql.DB) {
 		}
 	}
 }
+*/
