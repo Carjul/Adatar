@@ -31,10 +31,10 @@ func InitDB() *sql.DB {
 	}
 
 	// Verificar si las tablas existen y crearlas si no
-	createTablesIfNotExist(Db)
+	//	createTablesIfNotExist(Db)
 
 	// Inser initial data
-	insertInitialData(Db)
+	//	insertInitialData(Db)
 
 	return Db
 }
@@ -52,8 +52,7 @@ func insertInitialData(db *sql.DB) {
 		(6, 'Visitante')
 		ON CONFLICT (id) DO NOTHING;
 
-		-- Insertar un usuario con RolId 1 (Administrador)
-		INSERT INTO Users (id, avatar, Nombre, password, email, RolId) VALUES
+		INSERT INTO Users (id, Avatar, Nombre, Password, Email, RolId) VALUES
 		(1, 'https://lh3.googleusercontent.com/a/ACg8ocIWLEt0bdA6AXvNFm_EV4HlU6nhruO_7R5OPnfSuV2LOaL3qwyd=s288-c-no', 'Carlos Julian', 'cramosgonzales', 'cramosgonzales@correo.unicordoba.edu.co', 1)
 		ON CONFLICT (id) DO NOTHING;
 	`
@@ -90,14 +89,14 @@ func createTablesIfNotExist(Db *sql.DB) {
 			log.Println("Error al verificar si la tabla existe:", err)
 			return
 		}
- 
+
 		if !exists {
 			log.Println("Tabla", table, "no encontrada, creando tablas...")
-			dir, err := os.Getwd() 
+			dir, err := os.Getwd()
 			if err != nil {
 				log.Println("Error obteniendo el directorio actual:", err)
 			}
-			// Leer el archivo adatar.sql 
+			// Leer el archivo adatar.sql
 			sqlFile, err := ioutil.ReadFile(dir + "/db/adatar.sql")
 			if err != nil {
 				log.Println("Error al leer el archivo SQL:", err)

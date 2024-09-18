@@ -14,7 +14,12 @@ const schema  = require("./graphql/Schema");
 const { usuario } = require("./routes/usuario");
 
 const app = express();
-
+app.use(cors(
+    {
+        origin: "*",
+        credentials: true
+    }
+));
 app.set('port', process.env.PORT)
 app.use(session({secret: "secret",resave: true,saveUninitialized: true,}));
 app.use(passport.initialize());
@@ -28,7 +33,6 @@ app.use('/app/', usuario)
 app.use('/app/', routerdes)
 app.use('/app/api/v1',isAuthenticated, rutaUpload)
 app.use('/app/api/v1',isAuthenticated, graphqlHTTP({ schema, graphiql:true }));   
-app.use(cors());
   
 
 module.exports= {app};  

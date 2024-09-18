@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS public.PeriodoAcademicos (
     id SERIAL PRIMARY KEY,
     Year integer,
     Periodo character varying(255),
-    NomNotePeriodico character varying(255)
+    NomNotaPeriodo character varying(255)
 );
 
 -- Tabla: Docentes (no tiene claves foráneas)
