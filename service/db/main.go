@@ -31,10 +31,10 @@ func InitDB() *sql.DB {
 	}
 
 	// Verificar si las tablas existen y crearlas si no
-	//	createTablesIfNotExist(Db)
+	createTablesIfNotExist(Db)
 
 	// Inser initial data
-	//	insertInitialData(Db)
+	insertInitialData(Db)
 
 	return Db
 }
