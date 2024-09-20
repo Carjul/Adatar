@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"io/ioutil"
 	"log"
 	"os"
 
@@ -29,16 +30,43 @@ func InitDB() *sql.DB {
 		log.Println("Base de datos " + DB_NAME + " conectada con éxito")
 	}
 
+	// Restaurar base de datos desde el archivo SQL
+	restoreDatabase(Db)
+	// Insertar datos iniciales}
+	insertInitialData(Db)
+
 	return Db
 }
 
-/*
+func restoreDatabase(Db *sql.DB) {
+	dir, err := os.Getwd()
+	if err != nil {
+		log.Println("Error obteniendo el directorio actual:", err)
+		return
+	}
+
+	// Leer el archivo SQL
+	sqlFile, err := ioutil.ReadFile(dir + "/db/adatar.sql")
+	if err != nil {
+		log.Println("Error al leer el archivo SQL:", err)
+		return
+	}
+
+	// Ejecutar las consultas del archivo SQL
+	_, err = Db.Exec(string(sqlFile))
+	if err != nil {
+		log.Println("Error al ejecutar el SQL:", err)
+	} else {
+		log.Println("Base de datos restaurada con éxito desde el archivo SQL.")
+	}
+}
+
 func insertInitialData(db *sql.DB) {
 	// Sentencia SQL para insertar los roles y el usuario inicial
 	query := `
 		-- Insertar roles en la tabla Rols
-		INSERT INTO Rols (id, rol) VALUES
-		(1, 'Administrador'),
+		INSERT INTO public."Rols" (id, rol) VALUES
+		(1, 'Admin'),
 		(2, 'Directivo'),
 		(3, 'Coordinador de semestre'),
 		(4, 'Docente'),
@@ -46,7 +74,7 @@ func insertInitialData(db *sql.DB) {
 		(6, 'Visitante')
 		ON CONFLICT (id) DO NOTHING;
 
-		INSERT INTO Users (id, Avatar, Nombre, Password, Email, RolId) VALUES
+		INSERT INTO public."Users" (id, "Avatar", "Nombre", "Password", "Email", "RolId") VALUES
 		(1, 'https://lh3.googleusercontent.com/a/ACg8ocIWLEt0bdA6AXvNFm_EV4HlU6nhruO_7R5OPnfSuV2LOaL3qwyd=s288-c-no', 'Carlos Julian', 'cramosgonzales', 'cramosgonzales@correo.unicordoba.edu.co', 1)
 		ON CONFLICT (id) DO NOTHING;
 	`
@@ -59,55 +87,3 @@ func insertInitialData(db *sql.DB) {
 		log.Println("Datos iniciales insertados correctamente.")
 	}
 }
-
-// Función para crear tablas si no existen
-func createTablesIfNotExist(Db *sql.DB) {
-	// Lista de tablas a verificar
-	tables := []string{"Rols", "Users", "Facultades", "Programas", "Pensums", "Materias",
-		"MateriaPorPensums",
-		"Docentes",
-		"Estudiantes",
-		"PeriodoAcademicos",
-		"Notas"}
-
-	for _, table := range tables {
-		var exists bool
-		query := `SELECT EXISTS (
-			SELECT FROM information_schema.tables
-			WHERE table_schema = 'public'
-			AND table_name = $1
-		);`
-
-		err := Db.QueryRow(query, table).Scan(&exists)
-		if err != nil {
-			log.Println("Error al verificar si la tabla existe:", err)
-			return
-		}
-
-		if !exists {
-			log.Println("Tabla", table, "no encontrada, creando tablas...")
-			dir, err := os.Getwd()
-			if err != nil {
-				log.Println("Error obteniendo el directorio actual:", err)
-			}
-			// Leer el archivo adatar.sql
-			sqlFile, err := ioutil.ReadFile(dir + "/db/adatar.sql")
-			if err != nil {
-				log.Println("Error al leer el archivo SQL:", err)
-				return
-			}
-
-			// Ejecutar las consultas del archivo SQL
-			_, err = Db.Exec(string(sqlFile))
-			if err != nil {
-				log.Println("Error al ejecutar el SQL:", err)
-			} else {
-				log.Println("Tablas creadas con éxito")
-			}
-			break // Salir del bucle después de crear las tablas, evita creación redundante
-		} else {
-			log.Println("La tabla", table, "ya existe")
-		}
-	}
-}
-*/
