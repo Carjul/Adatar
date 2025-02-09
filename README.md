@@ -2,11 +2,10 @@
 
 ## Descripción
 
-El trabajo se enfoca en la evolución del sistema ADATAR, una herramienta de la Universidad de Córdoba para la identificación de estudiantes en riesgo académico. Esta aplicación web utiliza Docker Compose para levantar múltiples servicios, incluyendo aplicaciones en Go, Node.js y React Vite, además de una base de datos PostgreSQL y pgAdmin4.
+El trabajo se enfoca en la evolución del sistema ADATAR, una herramienta de la Universidad de Córdoba para la identificación de estudiantes en riesgo académico. Esta aplicación web utiliza Docker Compose para levantar, Node.js y React Vite, además de una base de datos PostgreSQL y pgAdmin4.
 
 ## Estructura del Proyecto
 
-- **Go App**: Corre en el puerto `8000`
 - **Node.js REST API**: Corre en el puerto `3001`
 - **React Vite App**: Corre en el puerto `3004`
 - **PostgreSQL**: Base de datos para la aplicación `5432`
@@ -24,11 +23,12 @@ Asegúrate de tener instalados los siguientes programas:
 ###  Clone el repositorio, add .env and run.
 
 ```bash
-git clone <URL-del-repositorio>
-cd <nombre-del-repositorio>
+git clone https://github.com/Carjul/Adatar.git
+cd Adatar
+
 #create .env en cada directorio raiz corespondiente.
 
-# Node.js API
+# Node.js ./api
 DB_USER=postgres
 DB_PASSWORD=12345
 DB_HOST=localhost
@@ -36,15 +36,8 @@ DB=adatar
 DB_PORT=5432
 PORT=3004
 
-#go service
-DB_USER=postgres
-DB_PASSWORD=12345
-DB_HOST=localhost
-DB=adatar
-
-# React Vite App client
+# React Vite App ./client
 VITE_PUBLIC_API=http://localhost:3004/app
-VITE_PUBLIC_SEVICE=http://localhost:8000/service
 #auth0 credenciales
 VITE_PUBLIC_DOMAIN=""
 VITE_PUBLIC_CLIENT_ID=""
