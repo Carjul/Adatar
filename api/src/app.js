@@ -16,7 +16,12 @@ const { usuario } = require("./routes/usuario");
 const {routerService}=require("./routes/service")
 
 const app = express();
-
+app.use(cors(
+    {
+        origin: "*",
+        credentials: true
+    }
+));
 app.set('port', process.env.PORT)
 app.use(cors());
 app.use(session({secret: "secret",resave: true,saveUninitialized: true,}));

@@ -93,7 +93,7 @@ const [selectedOptionText, setSelectedOptionText] = useState('')
     dispatch(getData(token));
 
     const datau = JSON.parse(x);
-    if (datau.user) {
+    if (datau.user.Datos) {
       let obju = JSON.parse(datau.user.Datos)
       setobj(obju)
     }
