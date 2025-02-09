@@ -1,6 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const { db } = require('../db')
+const { db } = require('../db/db.js')
 
 
 // const patron = /^[a-zA-Z]+@correo\.unicordoba\.edu\.co$/;

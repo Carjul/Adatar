@@ -9,3 +9,4 @@ service\api_rest_go.exe
 dist
 service/tmp
 .vscode/settings.json
+.vs

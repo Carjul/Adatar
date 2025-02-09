@@ -15,4 +15,4 @@ EXPOSE 3001
 
 VOLUME [ "/usr/src/api" ]
 
-CMD [ "npm","run","dev" ]
+CMD [ "npm","start" ]

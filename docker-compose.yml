@@ -34,13 +34,4 @@ services:
     depends_on:
       - service
 
-  service:
-    build: ./service
-    restart: always
-    ports:
-      - 8000:8000
-    volumes:
-      - ./service:/go/src/app
-    depends_on:
-      - db
     #  que se reflejen en los contenedores, puedes usar el comando docker-compose up --build para

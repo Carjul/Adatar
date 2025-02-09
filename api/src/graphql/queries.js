@@ -1,5 +1,5 @@
 const { GraphQLList } = require('graphql')
-const { db} = require('./../db');
+const { db} = require('./../db/db.js');
 const {dataUser, facultades, programas, pensums, materias,materiaPorPensums,estudiantes,docentes,periodoAcademico,notas,Roles} = require('./types');
 
 const peticion_user = {

@@ -1,5 +1,5 @@
 const e = require("connect-flash");
-const {db } = require("../db");
+const {db } = require("../db/db.js");
 
 const createMaterias= async(params)=>{
     try {

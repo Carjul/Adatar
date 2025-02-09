@@ -6,7 +6,7 @@ import jwt_decode from "jwt-decode";
 
 
 const url = import.meta.env.VITE_PUBLIC_API;
-const url2 = import.meta.env.VITE_PUBLIC_SEVICE;
+
 
 import axios from "axios";
 
@@ -45,21 +45,21 @@ export const getdocx = (params) => (dispatch) => {
 
 
 export const getdataEst = (params) => (dispatch) => {
-  axios.post(`${url2}/notas`, params).then((result) => {
+  axios.post(`${url}/notas`, params).then((result) => {
     dispatch(setNotas_Por_Estudiante(result.data))
   }).catch(err => {
     console.log(err);
   });
 }
 export const getdataEstSem = (params) => (dispatch) => {
-  axios.post(`${url2}/EstSemestres`, params).then((result) => {
+  axios.post(`${url}/EstSemestres`, params).then((result) => {
     dispatch(setEstSemestre(result.data))
   }).catch(err => {
     console.log(err);
   });
 }
 export const EstMateria= (params) => (dispatch) => {
-  axios.post(`${url2}/EstMateria`, params).then((result) => {
+  axios.post(`${url}/EstMateria`, params).then((result) => {
     dispatch(setEstMaterias(result.data))
   }).catch(err => {
     console.log(err);
@@ -67,7 +67,7 @@ export const EstMateria= (params) => (dispatch) => {
 }
 
 export const getNotasRango = (params) => (dispatch) => {
-  axios.post(`${url2}/notas/rango`, params).then((result) => {
+  axios.post(`${url}/notas/rango`, params).then((result) => {
     dispatch(setNotasmateria(result.data))
     dispatch(setNotastate(result.data))
   }).catch(err => {
@@ -76,28 +76,28 @@ export const getNotasRango = (params) => (dispatch) => {
 }
 
 export const getSemestres = (params) => (dispatch) => {
-  axios.post(`${url2}/semestres`, params).then((result) => {
+  axios.post(`${url}/semestres`, params).then((result) => {
     dispatch(setSemestate(result.data))
   }).catch(err => {
     console.log(err);
   });
 }
 export const getMateriasDash = (params) => (dispatch) => {
-  axios.post(`${url2}/Materias`, params).then((result) => {
+  axios.post(`${url}/Materias`, params).then((result) => {
     dispatch(setNotasperma2(result.data))
   }).catch(err => {
     console.log(err);
   });
 }
 export const getMaterias = (params) => (dispatch) => {
-  axios.post(`${url2}/Materias`, params).then((result) => {
+  axios.post(`${url}/Materias`, params).then((result) => {
     dispatch(setNotasperma(result.data))
   }).catch(err => {
     console.log(err);
   });
 }
 export const getnotasEst = (params) => (dispatch) => {
-  const urlgetEst = `${url2}/datosEst?` + new URLSearchParams(params).toString();
+  const urlgetEst = `${url}/datosEst?` + new URLSearchParams(params).toString();
   axios.get(urlgetEst).then((result) => {
     dispatch(setNotasEst(result.data))
   }).catch(err => {
@@ -372,7 +372,7 @@ export const updateOneData = (id, rol, token) => (dispatch) => {
 }
 export const get_Nota_Año = (params) => (dispatch) => {
 
-  axios.post(`${url2}/Notas_periodo`, params)
+  axios.post(`${url}/Notas_periodo`, params)
     .then((response) => {
       dispatch(setNota(response.data));
     })
@@ -383,7 +383,7 @@ export const get_Nota_Año = (params) => (dispatch) => {
 }
 export const get_Nota_Sem = (params) => (dispatch) => {
 
-  axios.post(`${url2}/Notas_periodo_sem`, params)
+  axios.post(`${url}/Notas_periodo_sem`, params)
     .then((response) => {
       dispatch(setNotaSem(response.data));
     })
@@ -394,7 +394,7 @@ export const get_Nota_Sem = (params) => (dispatch) => {
 }
 export const get_Nota_facultad = (params) => (dispatch) => {
 
-  axios.post(`${url2}/Notas_Facultad`, params)
+  axios.post(`${url}/Notas_Facultad`, params)
     .then((response) => {
       dispatch(setNota(response.data));
     })
@@ -405,7 +405,7 @@ export const get_Nota_facultad = (params) => (dispatch) => {
 }
 export const get_Nota_facultades = (params) => (dispatch) => {
 
-   axios.get(`${url2}/Notas_Facultades?NomNotaPeriodo=${params}`)
+   axios.get(`${url}/Notas_Facultades?NomNotaPeriodo=${params}`)
     .then((response) => {
       dispatch(setNota2(response.data));
     })
