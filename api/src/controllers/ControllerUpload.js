@@ -23,8 +23,7 @@ const UploadFile = async (req, res) => {
     //convertir hoja a json
     var reporte = XLSX.utils.sheet_to_json(hoja);
 
-    //elimnar exel
-    await fs.unlink(req.file.path);
+  
 
     if (reporte.length === 0) {
       res.status(500).json({ message: "nombre de la hoja incorrecto" })
@@ -180,11 +179,12 @@ const UploadFile = async (req, res) => {
       }
       console.log('termino')
 
-
-      /*  data = [] */
-
       res.json({ message: "File Saved" });
     }
+
+      //elimnar exel
+      await fs.unlink(req.file.path);
+
   } catch (error) {
     res.json(error)
   }
